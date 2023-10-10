@@ -1,0 +1,49 @@
+[
+    {
+        "category": "design gráfico",
+        "description": "",
+        "table": [
+            {
+                "service": "criação de marca",
+                "description": "",
+                "value": 1320
+            },
+            {
+                "service": "manual de uso da marca",
+                "description": "",
+                "value": 3960
+            },
+            {
+                "service": "re-design da marca",
+                "description": "",
+                "value": 1320
+            }
+        ]
+    },
+    {
+        "category": "mídia eletrônica",
+        "description": "",
+        "table": [
+            {
+                "service": "comercio eletrônico",
+                "description": "",
+                "value": 3960
+            },
+            {
+                "service": "landing page",
+                "description": "",
+                "value": 1320
+            },
+            {
+                "service": "Padrão gráfico para mídias sociais",
+                "description": "",
+                "value": 2640
+            },
+            {
+                "service": "site",
+                "description": "",
+                "value": 3960
+            }
+        ]
+    }
+]

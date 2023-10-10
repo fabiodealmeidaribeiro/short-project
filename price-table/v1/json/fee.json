@@ -1,0 +1,32 @@
+[
+    {
+        "service": "coordenador",
+        "description": "",
+        "value": 7920
+    },
+    {
+        "service": "sênior",
+        "description": "",
+        "value": 6600
+    },
+    {
+        "service": "pleno",
+        "description": "",
+        "value": 5280
+    },
+    {
+        "service": "júnior",
+        "description": "",
+        "value": 3960
+    },
+    {
+        "service": "trainee",
+        "description": "",
+        "value": 2640
+    },
+    {
+        "service": "estágiário",
+        "description": "",
+        "value": 1320
+    }
+]

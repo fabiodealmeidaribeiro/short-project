@@ -1,0 +1,212 @@
+[
+    {
+        "address": [],
+        "describe": "",
+        "name": "Centro de Psicologia Aplicada",
+        "note": [],
+        "telephone": [
+            "1121661160",
+            "1120904518",
+            "1937764001"
+        ],
+        "triage": [],
+        "value": []
+    },
+    {
+        "address": [
+            "R. Piauí, 181 - Higienópolis, São Paulo - SP, 02327-135"
+        ],
+        "describe": "Campus Higienópolis",
+        "name": "Atendimento Psicológico Mackenzie",
+        "note": [],
+        "telephone": [
+            "1121148343"
+        ],
+        "triage": [],
+        "value": []
+    },
+    {
+        "address": [
+            "Av. Paulista, 2378 - Bela Vista, São Paulo - SP, 01310-300"
+        ],
+        "describe": "",
+        "name": "Atendimento Psicológico Paróquia São Luís Gonzaga",
+        "note": [
+            "Até 12 sessões, gratuitas ou a preço simbólico."
+        ],
+        "telephone": [
+            "1132315954"
+        ],
+        "triage": [
+            {
+                "dia": "Quinta-Feira",
+                "de": "9:00",
+                "ate": "18:00"
+            }
+        ],
+        "value": []
+    },
+    {
+        "address": [
+            "R. Cel. Artur Godói, 157 - Vila Mariana, São Paulo - SP, 04018-050",
+            "Av. Paulista, 2202 - Cj. 63 – 6º andar - Bela Vista, São Paulo - SP, 01310-300"
+        ],
+        "describe": "Sindicato dos Psicanalistas do Estado de SP",
+        "name": "Sinpesp",
+        "note": [],
+        "telephone": [
+            "11963314881"
+        ],
+        "triage": [],
+        "value": [
+            10.00
+        ]
+    },
+    {
+        "address": "R. Galvão Bueno, 724 - Liberdade, São Paulo - SP, 01506-000",
+        "describe": "Clínica de Psicologia da Universidade Cruzeiro do Sul",
+        "name": "NEAP",
+        "note": [
+            "Ligar para realizar agendamento."
+        ],
+        "telephone": [
+            "1122974442"
+        ],
+        "triage": [],
+        "value": []
+    },
+    {
+        "address": [
+            "Av. Interlagos, 1329 - Jardim Umuarama, São Paulo - SP, 04661-100"
+        ],
+        "describe": "Universidade Ibirapuera",
+        "name": "Clínica de Psicologia",
+        "note": [
+            "Ligar para realizar agendamento."
+        ],
+        "telephone": [
+            "1156947961"
+        ],
+        "triage": [],
+        "value": []
+    },
+    {
+        "address": [
+            "R. Min. Godói, 1484 - Perdizes, São Paulo - SP, 05015-001"
+        ],
+        "describe": "Clínica Psicológica do Instituto Sedes Sapientiae",
+        "name": "",
+        "note": [
+            "Ligar para realizar agendamento."
+        ],
+        "telephone": [
+            "1138662735"
+        ],
+        "triage": [],
+        "value": [
+            50
+        ]
+    },
+    {
+        "address": [
+            "Av. Professor Mello Moraes, 1721 - Butantã, São Paulo - SP, 05508-030"
+        ],
+        "describe": "Serviço de Aconselhamento Psicológico",
+        "name": "SAP",
+        "note": [
+            "Ligar para realizar agendamento."
+        ],
+        "telephone": [
+            "1130914172"
+        ],
+        "triage": [],
+        "value": []
+    },
+    {
+        "address": [
+            "R. Humberto I, 295 - Vila Mariana, São Paulo - SP, 04018-030"
+        ],
+        "describe": "",
+        "name": "INTEGRA",
+        "note": [
+            "Ligar para realizar agendamento."
+        ],
+        "telephone": [
+            "1150832923"
+        ],
+        "triage": [],
+        "value": [
+            80,
+            120
+        ]
+    },
+    {
+        "address": [
+            "Rua Bartira, 1294 - Perdizes, São Paulo - SP, 05009-000"
+        ],
+        "describe": "",
+        "name": "Centro Paradigma",
+        "note": [
+            "Ligar para realizar agendamento.",
+            "Gratuito para Crianças."
+        ],
+        "telephone": [
+            "1136722200"
+        ],
+        "triage": [],
+        "value": [
+            45
+        ]
+    },
+    {
+        "address": [
+            "R. Maria Cândida, 1813 - Vila Guilherme, São Paulo - SP, 02071-013"
+        ],
+        "describe": "Clínica de Psicologia",
+        "name": "UNIBAN",
+        "note": [
+            "Ligar para realizar agendamento."
+        ],
+        "telephone": [
+            "1129679035",
+            "1146372000"
+        ],
+        "triage": [],
+        "value": []
+    },
+    {
+        "address": [],
+        "describe": "Campus Santo Amaro e Liberdade",
+        "name": "Clínica de Psicologia FMU",
+        "note": [
+            "Pagamento mensal."
+        ],
+        "telephone": [
+            "1133466217",
+            "1133466216"
+        ],
+        "triage": [],
+        "value": [
+            30
+        ]
+    },
+    {
+        "address": [
+            "R. Frei Gaspar, 131 - Mooca, São Paulo - SP, 03164-100"
+        ],
+        "describe": "Atendimento psicológico e outras especialidades à preço simbólico",
+        "name": "Anhembi Morumbi - Centro Integrado de Saúde",
+        "note": [
+            "Ligar para realizar agendamento."
+        ],
+        "telephone": [
+            "1127904561",
+            "1127904562"
+        ],
+        "triage": [],
+        "value": [
+            10,
+            40
+        ]
+    }
+]
