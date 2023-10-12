@@ -6,13 +6,7 @@ TextTemplate += ' Culpa incididunt fugiat tempor non id commodo. Officia irure e
 TextTemplate += ' Aliquip Lorem Lorem Lorem ad occaecat nostrud occaecat Lorem aliqua deserunt occaecat sit irure do. Deserunt ad commodo laborum eu. Irure amet ea in consectetur ad aute. Enim do amet incididunt labore eiusmod eu tempor. Quis consequat deserunt commodo reprehenderit ut nostrud qui id eiusmod mollit nulla in proident. Aliquip nostrud in reprehenderit adipisicing ullamco incididunt nisi eiusmod qui aute magna reprehenderit.';
 TextTemplate += ' Excepteur non nulla Lorem duis minim occaecat officia. Lorem aliqua consectetur do velit velit nulla proident tempor adipisicing est consequat minim enim. Aliquip aliquip adipisicing sint voluptate. Enim tempor cupidatat magna nulla elit velit. Deserunt culpa nulla reprehenderit do commodo amet labore ullamco irure aliquip adipisicing aliqua cupidatat voluptate. Do dolore ipsum fugiat est voluptate nulla ipsum dolor sunt dolore deserunt veniam aute. Qui pariatur sint culpa culpa ea deserunt duis.';
 
-const BoxRadius = {
-    'border-radius' : '2.5rem',
-    // 'border-radius' : '0.625rem',
-};
-
 const BoxShadow = {
-    // 'box-shadow' : '1px 1px 1px rgba(0, 0, 0, .5)',
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };
 
@@ -20,22 +14,43 @@ const TextShadow = {
     'text-shadow' : 'rgba(0, 0, 0, .5) 1px 1px 1px',
 };
 
+const Button = 3;
+
+const Margin = 1;
+
 export const SetElement = {
     background : {
         class : [
             'align-items-center',
             'bg-secondary',
-            'd-flex',
             'h-100',
             'justify-content-center',
             'position-fixed',
             'w-100',
         ],
         style : {
+            display : 'none',
             left : 0,
+            opacity : 0,
             top : 0,
-            'z-index' : 9999,
+            'z-index' : - 1,
         },
+    },
+    border : {
+        class : [
+            'align-items-center',
+            'bg-light',
+            'd-flex',
+            'justify-content-center',
+            'overflow-hidden',
+            'position-relative',
+        ],
+        style : {
+            border : '1px solid rgba(0, 0, 0, .125)',
+            'border-radius' : (Button + Margin / 2) + 'rem',
+            ...BoxShadow,
+        },
+        margin : (Margin) + 'rem',
     },
     container : {
         class : [
@@ -47,11 +62,9 @@ export const SetElement = {
             'position-relative',
         ],
         style : {
-            border : '1px solid rgba(0, 0, 0, .125)',
-            ...BoxRadius,
-            ...BoxShadow,
+            'border-radius' : (Button - Margin + Margin / 2) + 'rem',
         },
-        margin : '3rem',
+        margin : (Margin) + 'rem',
     },
     inner : {
         class : [
@@ -86,7 +99,7 @@ export const SetElement = {
         style : {
             'background-position' : 'center',
             'background-size' : 'cover',
-            'padding' : '2.5rem',
+            'padding' : (Button - Margin + Margin / 2) + 'rem',
         },
     },
     title : {
@@ -114,18 +127,18 @@ export const SetElement = {
             'rounded-circle',
         ],
         style : {
-            height : '3rem',
-            width : '3rem',
+            height : (Button) + 'rem',
+            width : (Button) + 'rem',
             ...BoxShadow,
         },
-        margin : '1rem',
+        margin : (Margin) + 'rem',
     },
     ico : {
         class : [
             'text-white',
         ],
         style : {
-            'font-size' : '1.5rem',
+            'font-size' : (Button / 2) + 'rem',
         },
     },
 };

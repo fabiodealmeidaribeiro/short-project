@@ -15,6 +15,8 @@ export const Validator = {
     String : output => !(output === false || output === null || output === undefined || output === '') && typeof output === 'string',
 };
 
+export const OnlyNumber = output => parseFloat(output.replace('px', '').replace('rem', ''));
+
 export const AddRemoveClass = (output = {}) => {
     const Proper = {
         classes : 'classes' in output ? (Validator['Array'](output['classes']) ? output['classes'] : []) : [],
@@ -72,7 +74,7 @@ export const SetAttribute = (output = {}) => {
     };
 };
 
-export const DefineImageBody = (output = {}) => {
+export const SetContentBody = (output = {}) => {
     const Array = [ 1, 1.33, 1.85, 2.35 ];
     const Proper = {
         id : 'id' in output ? (output['id'] ? output['id'] : '') : '',
@@ -80,7 +82,8 @@ export const DefineImageBody = (output = {}) => {
         width : 'width' in output ? (output['width'] ? output['width'] : Array[0]) : Array[0],
     };
     document.querySelectorAll(Proper['id']).forEach(element => {
-        if (element) element['style']['height'] = Math.floor(Proper['height'] * element['clientWidth'] / Proper['width']) + 'px';
+        if (element)
+            element['style']['height'] = Math.floor(Proper['height'] * element['clientWidth'] / Proper['width']) + 'px';
     });
 };
 

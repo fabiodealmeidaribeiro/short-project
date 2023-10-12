@@ -145,21 +145,21 @@ export const SocialNetwork = () => {
                 }
             });
             document.querySelector('body').appendChild(Array[i]).appendChild(Icon);
-            [ 'mouseover', 'mouseenter' ].map(event => {
-                Array[i].addEventListener(event, () => {
+            [ 'mouseover', 'mouseenter' ].map(index => {
+                Array[i].addEventListener(index, event => {
                     Array[i]['classList'].add(...Attribute[i]['hover']);
                     Array[i]['classList'].remove(...[ 'bg-secondary' ]);
                     Array[i]['style']['cursor'] = 'pointer';
                 });
             });
-            [ 'mouseleave', 'mouseout' ].map(event => {
-                Array[i].addEventListener(event, () => {
+            [ 'mouseleave', 'mouseout' ].map(index => {
+                Array[i].addEventListener(index, event => {
                     Array[i]['classList'].add(...[ 'bg-secondary' ]);
                     Array[i]['classList'].remove(...Attribute[i]['hover']);
                     Array[i]['style']['cursor'] = 'default';
                 });
             });
-            Array[i].addEventListener('click', () => {
+            Array[i].addEventListener('click', event => {
                 Attribute[i]['function']();
                 switch (Attribute[i]['id']) {
                     case 'btn-arrow':
