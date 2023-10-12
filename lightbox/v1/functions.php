@@ -57,7 +57,8 @@
                                 $is_return .= '<div class=\'photo-filter\'></div>';
                                 $is_return .= '<div class=\'photo-caption\'>';
                                     $is_return .= '<h1>' . 'Viva Hostel Design.' . '</h1>';
-                                    $is_return .= '<p>' . 'O melhor da Vila Madalena em elegância e conforto.' . '</p>';
+                                    $is_return .= '<h2>' . 'O melhor da Vila Madalena em elegância e conforto.' . '</h2>';
+                                    $is_return .= '<p>' . 'Consequat deserunt dolor quis ad nisi consectetur ipsum qui exercitation occaecat officia laborum.' . '</p>';
                                 $is_return .= '</div>';
                             $is_return .= '</div>';
                         endif;

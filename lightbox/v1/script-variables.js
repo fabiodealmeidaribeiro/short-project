@@ -110,8 +110,18 @@ export const SetElement = {
             ...TextShadow,
         },
     },
+    subtitle : {
+        class : [
+            'fs-3',
+            'text-white',
+        ],
+        style : {
+            ...TextShadow,
+        },
+    },
     description : {
         class : [
+            'fst-italic',
             'text-white',
         ],
         style : {
