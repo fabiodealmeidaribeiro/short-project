@@ -4,7 +4,7 @@ import {
     Validator,
 } from './script-main.js';
 import {
-    SetElement,
+    SetStyle,
     TextTemplate,
 } from './script-variables.js';
 export const SocialNetwork = () => {
@@ -37,7 +37,6 @@ export const SocialNetwork = () => {
                 ],
             },
             id : 'btn-instagram',
-            
         },
         {
             function : () => {
@@ -116,57 +115,59 @@ export const SocialNetwork = () => {
             id : 'btn-arrow',
         },
     ];
-    if (Attribute['length']) {
-        Attribute.reverse();
-        for (let i = 0; i < Attribute['length']; i++) {
-            Array[i] = CreateElement();
-            SetAttribute({ element : Array[i], attribute : 'id', value : Attribute[i]['id'] });
-            SetAttribute({ element : Array[i], attribute : 'class', value : [
-                    ...SetElement['button']['class'],
-                    'bg-secondary',
-                    'd-lg-flex',
-                    'd-none',
-                ]
-            });
-            SetAttribute({ element : Array[i], attribute : 'style', value : {
-                    ...SetElement['button']['style'],
-                    bottom : 'calc(' + SetElement['button']['margin'] + ' + ' + '(' + i + '*' + '(' + SetElement['button']['margin'] +  '/' + 2 + ')' + ')' + ' + ' + i + '*' + SetElement['button']['style']['height'] + ')',
-                    right : SetElement['button']['margin'],
-                }
-            });
-            const Icon = CreateElement({ element : 'i' });
-            SetAttribute({ element : Icon, attribute : 'class', value : [
-                    ...SetElement['ico']['class'],
-                    ...Attribute[i]['ico']['class'],
-                ]
-            });
-            SetAttribute({ element : Icon, attribute : 'style', value : {
-                    ...SetElement['ico']['style'],
-                }
-            });
-            document.querySelector('body').appendChild(Array[i]).appendChild(Icon);
-            [ 'mouseover', 'mouseenter' ].map(index => {
-                Array[i].addEventListener(index, event => {
-                    Array[i]['classList'].add(...Attribute[i]['hover']);
-                    Array[i]['classList'].remove(...[ 'bg-secondary' ]);
-                    Array[i]['style']['cursor'] = 'pointer';
+    if (Attribute) {
+        if (Attribute['length']) {
+            Attribute.reverse();
+            for (let i = 0; i < Attribute['length']; i++) {
+                Array[i] = CreateElement();
+                SetAttribute({ element : Array[i], attribute : 'id', value : Attribute[i]['id'] });
+                SetAttribute({ element : Array[i], attribute : 'class', value : [
+                        ...SetStyle['button']['class'],
+                        'bg-secondary',
+                        'd-lg-flex',
+                        'd-none',
+                    ],
                 });
-            });
-            [ 'mouseleave', 'mouseout' ].map(index => {
-                Array[i].addEventListener(index, event => {
-                    Array[i]['classList'].add(...[ 'bg-secondary' ]);
-                    Array[i]['classList'].remove(...Attribute[i]['hover']);
-                    Array[i]['style']['cursor'] = 'default';
+                SetAttribute({ element : Array[i], attribute : 'style', value : {
+                        ...SetStyle['button']['style'],
+                        bottom : 'calc(' + SetStyle['button']['margin'] + ' + ' + '(' + i + '*' + '(' + SetStyle['button']['margin'] +  '/' + 2 + ')' + ')' + ' + ' + i + '*' + SetStyle['button']['style']['height'] + ')',
+                        right : SetStyle['button']['margin'],
+                    },
                 });
-            });
-            Array[i].addEventListener('click', event => {
-                Attribute[i]['function']();
-                switch (Attribute[i]['id']) {
-                    case 'btn-arrow':
-                        Array[i]['classList'].toggle(...[ 'rotate' ]);
-                    break;
-                };
-            });
+                const Icon = CreateElement({ element : 'i' });
+                SetAttribute({ element : Icon, attribute : 'class', value : [
+                        ...Attribute[i]['ico']['class'],
+                        ...SetStyle['ico']['class'],
+                    ],
+                });
+                SetAttribute({ element : Icon, attribute : 'style', value : {
+                        ...SetStyle['ico']['style'],
+                    },
+                });
+                document.querySelector('body').appendChild(Array[i]).appendChild(Icon);
+                [ 'mouseover', 'mouseenter' ].map(index => {
+                    Array[i].addEventListener(index, event => {
+                        Array[i]['classList'].add(...Attribute[i]['hover']);
+                        Array[i]['classList'].remove('bg-secondary');
+                        Array[i]['style']['cursor'] = 'pointer';
+                    });
+                });
+                [ 'mouseleave', 'mouseout' ].map(index => {
+                    Array[i].addEventListener(index, event => {
+                        Array[i]['classList'].add('bg-secondary');
+                        Array[i]['classList'].remove(...Attribute[i]['hover']);
+                        Array[i]['style']['cursor'] = 'default';
+                    });
+                });
+                Array[i].addEventListener('click', event => {
+                    Attribute[i]['function']();
+                    switch (Attribute[i]['id']) {
+                        case 'btn-arrow' :
+                            Array[i]['classList'].toggle('rotate');
+                        break;
+                    };
+                });
+            };
         };
     };
 };

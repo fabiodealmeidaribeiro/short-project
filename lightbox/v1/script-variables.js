@@ -5,20 +5,15 @@ TextTemplate += ' Laborum mollit ut in ad fugiat sit sunt cillum in fugiat offic
 TextTemplate += ' Culpa incididunt fugiat tempor non id commodo. Officia irure exercitation dolor sunt ullamco anim excepteur. Mollit nisi velit ut mollit. Quis tempor reprehenderit duis id id esse dolore commodo sint labore.';
 TextTemplate += ' Aliquip Lorem Lorem Lorem ad occaecat nostrud occaecat Lorem aliqua deserunt occaecat sit irure do. Deserunt ad commodo laborum eu. Irure amet ea in consectetur ad aute. Enim do amet incididunt labore eiusmod eu tempor. Quis consequat deserunt commodo reprehenderit ut nostrud qui id eiusmod mollit nulla in proident. Aliquip nostrud in reprehenderit adipisicing ullamco incididunt nisi eiusmod qui aute magna reprehenderit.';
 TextTemplate += ' Excepteur non nulla Lorem duis minim occaecat officia. Lorem aliqua consectetur do velit velit nulla proident tempor adipisicing est consequat minim enim. Aliquip aliquip adipisicing sint voluptate. Enim tempor cupidatat magna nulla elit velit. Deserunt culpa nulla reprehenderit do commodo amet labore ullamco irure aliquip adipisicing aliqua cupidatat voluptate. Do dolore ipsum fugiat est voluptate nulla ipsum dolor sunt dolore deserunt veniam aute. Qui pariatur sint culpa culpa ea deserunt duis.';
-
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };
-
 const TextShadow = {
     'text-shadow' : 'rgba(0, 0, 0, .5) 1px 1px 1px',
 };
-
 const Button = 3;
-
 const Margin = 1;
-
-export const SetElement = {
+export const SetStyle = {
     background : {
         class : [
             'align-items-center',
@@ -64,7 +59,7 @@ export const SetElement = {
         style : {
             'border-radius' : (Button - Margin + Margin / 2) + 'rem',
         },
-        margin : (Margin) + 'rem',
+        margin : Margin + 'rem',
     },
     inner : {
         class : [
@@ -104,6 +99,8 @@ export const SetElement = {
     },
     title : {
         class : [
+            'text-lg-start',
+            'text-center',
             'text-white',
         ],
         style : {
@@ -113,6 +110,8 @@ export const SetElement = {
     subtitle : {
         class : [
             'fs-3',
+            'text-lg-start',
+            'text-center',
             'text-white',
         ],
         style : {
@@ -122,6 +121,8 @@ export const SetElement = {
     description : {
         class : [
             'fst-italic',
+            'text-lg-start',
+            'text-center',
             'text-white',
         ],
         style : {
@@ -137,11 +138,11 @@ export const SetElement = {
             'rounded-circle',
         ],
         style : {
-            height : (Button) + 'rem',
-            width : (Button) + 'rem',
+            height : Button + 'rem',
+            width : Button + 'rem',
             ...BoxShadow,
         },
-        margin : (Margin) + 'rem',
+        margin : Margin + 'rem',
     },
     ico : {
         class : [

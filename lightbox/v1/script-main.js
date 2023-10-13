@@ -1,7 +1,3 @@
-import {
-    SetElement,
-} from './script-variables.js';
-
 export const Validator = {
     Array : output => !(output === false || output === null || output === undefined || output['length'] === 0) && typeof output === 'object' && Array.isArray(output),
     Boolean : output => !(output === null || output === undefined) && typeof output === 'boolean',
@@ -18,9 +14,8 @@ export const Validator = {
     Object : output => !(output === false || output === null || output === undefined || output['length'] === 0) && typeof output === 'object' && !Array.isArray(output) && Object.keys(output)['length'] !== 0,
     String : output => !(output === false || output === null || output === undefined || output === '') && typeof output === 'string',
 };
-
 export const OnlyNumber = output => parseFloat(output.replace('px', '').replace('rem', ''));
-
+export const TransitionRunning = (output) => getComputedStyle(output)['transition'] === 'running';
 export const AddRemoveClass = (output = {}) => {
     const Proper = {
         classes : 'classes' in output ? (Validator['Array'](output['classes']) ? output['classes'] : []) : [],
@@ -37,7 +32,6 @@ export const AddRemoveClass = (output = {}) => {
         };
     };
 };
-
 export const CreateElement = (output = {}) => {
     const Proper = {
         element : 'element' in output ? (Validator['String'](output['element']) ? output['element'] : 'div') : 'div',
@@ -49,7 +43,6 @@ export const CreateElement = (output = {}) => {
     };
     return Result;
 };
-
 export const SetAttribute = (output = {}) => {
     let Proper = {
         attribute : 'attribute' in output ? (Validator['String'](output['attribute']) ? output['attribute'] : [ undefined ]) : [ undefined ],
@@ -77,55 +70,3 @@ export const SetAttribute = (output = {}) => {
         Proper['element'].setAttributeNode(Proper['attribute']);
     };
 };
-
-export const SetContentBody = (output = {}) => {
-    const Array = [ 1, 1.33, 1.85, 2.35 ];
-    const Proper = {
-        id : 'id' in output ? (output['id'] ? output['id'] : '') : '',
-        height : 1,
-        width : 'width' in output ? (output['width'] ? output['width'] : Array[0]) : Array[0],
-    };
-    document.querySelectorAll(Proper['id']).forEach(Element => {
-        if (Element) {
-            Element['style']['height'] = Math.floor(Proper['height'] * Element['clientWidth'] / Proper['width']) + 'px';
-            const Caption = Element.querySelector('.photo-caption');
-            if (Caption) {
-                const Title = Caption.querySelector('h1');
-                if (Title) {
-                    SetAttribute({ element : Title, attribute : 'class', value : [
-                            ...SetElement['title']['class'],
-                        ],
-                    });
-                    SetAttribute({ element : Title, attribute : 'style', value : {
-                            ...SetElement['title']['style'],
-                        },
-                    });
-                };
-                const Subtitle = Caption.querySelector('h2');
-                if (Subtitle) {
-                    SetAttribute({ element : Subtitle, attribute : 'class', value : [
-                            ...SetElement['subtitle']['class'],
-                        ],
-                    });
-                    SetAttribute({ element : Subtitle, attribute : 'style', value : {
-                            ...SetElement['subtitle']['style'],
-                        },
-                    });
-                };
-                const Description = Caption.querySelector('p');
-                if (Description) {
-                    SetAttribute({ element : Description, attribute : 'class', value : [
-                            ...SetElement['description']['class'],
-                        ],
-                    });
-                    SetAttribute({ element : Description, attribute : 'style', value : {
-                            ...SetElement['description']['style'],
-                        },
-                    });
-                };
-            };
-        };
-    });
-};
-
-export const TransitionRunning = (output) => getComputedStyle(output)['transition'] === 'running';

@@ -68,5 +68,4 @@
         endif;
         return $is_return;
     };
-
 ?>

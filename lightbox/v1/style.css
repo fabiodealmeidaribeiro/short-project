@@ -64,6 +64,7 @@ h6
 
 .photo-content:hover .photo-picture
 {
+    cursor : pointer;
     -moz-transform : scale(1.5);
     -ms-transform : scale(1.5);
     -o-transform : scale(1.5);
