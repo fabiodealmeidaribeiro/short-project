@@ -3,6 +3,7 @@ import {
 } from './script-lightbox-container.js';
 import {
     SetAttribute,
+    TransitionRunning,
 } from './script-main.js';
 import {
     SocialNetwork,
@@ -59,7 +60,13 @@ const SetContentBody = (output = {}) => {
         };
     });
 };
-const Elements = document.querySelectorAll('.photo-content');
+const Background = () => {
+    const Selector = document.querySelector('#background');
+    Selector['style']['display'] = 'flex';
+    Selector['style']['zIndex'] = 9999;
+    if (!TransitionRunning(Selector))
+        Selector['style']['opacity'] = 1;
+};
 const Transform = {
     highlight : (Element) => {
         if (Element.querySelector('.photo-filter'))
@@ -74,19 +81,22 @@ const Transform = {
             Element.querySelector('.photo-caption')['style']['opacity'] = 0;
     },
 };
+const Content = document.querySelectorAll('.photo-content');
 document.addEventListener("DOMContentLoaded", () => {
-    SetContentBody({ id : '.photo-content' });
     SocialNetwork();
     LightboxContainer({ current : 1 });
-    let Number = 0;
-    Transform['highlight'](Elements[Number]);
+    SetContentBody({ id : '.photo-content' });
+    var Number = 0;
+    Transform['highlight'](Content[Number]);
+    Content[Number].focus();
     document.addEventListener('keydown', Event => {
         if (Event['key'] === 'ArrowLeft') {
             document['body']['style']['pointerEvents'] = 'none';
-            const CurrentContent = Elements[Number];
-            const PrevContent = CurrentContent.previousElementSibling;
-            if (CurrentContent) Transform['downlight'](CurrentContent);
-            if (PrevContent) Transform['highlight'](PrevContent);
+            const Current = Content[Number];
+            const Prev = Current['previousElementSibling'];
+            Transform['downlight'](Current);
+            Transform['highlight'](Prev);
+            Prev.focus();
             Number--;
             Event.stopPropagation();
             Event.preventDefault();
@@ -95,57 +105,72 @@ document.addEventListener("DOMContentLoaded", () => {
     document.addEventListener('keydown', Event => {
         if (Event['key'] === 'ArrowRight') {
             document['body']['style']['pointerEvents'] = 'none';
-            const CurrentContent = Elements[Number];
-            const NextContent = CurrentContent.nextElementSibling;
-            if (CurrentContent) Transform['downlight'](CurrentContent);
-            if (NextContent) Transform['highlight'](NextContent);
+            const Current = Content[Number];
+            const Next = Current['nextElementSibling'];
+            Transform['downlight'](Current);
+            Transform['highlight'](Next);
+            Next.focus();
             Number++;
             Event.stopPropagation();
             Event.preventDefault();
         };
     });
-    document.addEventListener('keyup', Event => {
-        if (Event['key'] === 'ArrowLeft') {
-            document['body']['style']['pointerEvents'] = 'auto';
-            Event.stopPropagation();
-            Event.preventDefault();
-        };
-    });
-    document.addEventListener('keyup', Event => {
-        if (Event['key'] === 'ArrowRight') {
-            document['body']['style']['pointerEvents'] = 'auto';
-            Event.stopPropagation();
-            Event.preventDefault();
-        };
-    });
-    Elements.forEach(Element => {
-        if (Element) {
-            [ 'mouseover', 'mouseenter' ].map(Index => {
-                Element.addEventListener(Index, Event => {
-                    Transform['highlight'](Element);
-                    Element['style']['cursor'] = 'pointer';
-                    Event.stopPropagation();
-                    Event.preventDefault();
-                });
-            });
-            [ 'mouseleave', 'mouseout' ].map(Index => {
-                Element.addEventListener(Index, Event => {
-                    Transform['downlight'](Element);
-                    Element['style']['cursor'] = 'default';
-                    Event.stopPropagation();
-                    Event.preventDefault();
-                });
-            });
-            Element.addEventListener('click', Event => {
-                document.querySelector('#background')['style']['display'] = 'flex';
-                document.querySelector('#background')['style']['zIndex'] = 9999;
-                document.querySelector('#background')['style']['opacity'] = 1;
+    const ArrayKey = [ 'ArrowLeft', 'ArrowRight' ];
+    for (let i = 0; i < ArrayKey['length']; i++) {
+        document.addEventListener('keyup', Event => {
+            if (Event['key'] === ArrayKey[i]) {
+                document['body']['style']['pointerEvents'] = 'auto';
+                Event.stopPropagation();
+                Event.preventDefault();
+            };
+        });
+    };
+    Content.forEach((Element, i) => {
+        [ 'mouseleave', 'mouseout' ].map(Index => {
+            Element.addEventListener(Index, Event => {
+                Element['style']['cursor'] = 'default';
                 Event.stopPropagation();
                 Event.preventDefault();
             });
+        });
+        [ 'mouseover', 'mouseenter' ].map(Index => {
+            Element.addEventListener(Index, Event => {
+                Element['style']['cursor'] = 'pointer';
+                Content.forEach(Content => Transform['downlight'](Content));
+                Transform['highlight'](Element);
+                Element.focus();
+                Number = i;
+                Event.stopPropagation();
+                Event.preventDefault();
+            });
+        });
+        Element.addEventListener('click', Event => {
+            Background();
+            Event.stopPropagation();
+            Event.preventDefault();
+        });Element.addEventListener('focus', Event => {
+            const body = document.querySelector('body');
+            const coordenadas = Element.getBoundibody();
+            const posicao = coordenadas.top - body.scrollTop;
+            body.scrollTop = posicao;
+        });
+        
+    });
+    document.addEventListener('keydown', Event => {
+        if (Event['key'] === 'Enter') {
+            Background();
+            Event.stopPropagation();
+            Event.preventDefault();
         };
     });
+
+
+
+
+
 });
+
+
 window.addEventListener('resize', () => {
     SetContentBody({ id : '.photo-content' });
 });
