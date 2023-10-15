@@ -60,7 +60,7 @@ const SetContentBody = (output = {}) => {
         };
     });
 };
-const Background = () => {
+const LightboxContainerShow = () => {
     const Selector = document.querySelector('#background');
     Selector['style']['display'] = 'flex';
     Selector['style']['zIndex'] = 9999;
@@ -69,16 +69,24 @@ const Background = () => {
 };
 const Transform = {
     highlight : (Element) => {
-        if (Element.querySelector('.photo-filter'))
-            Element.querySelector('.photo-filter')['style']['opacity'] = 'calc(1 / 100 * 75)';
-        if (Element.querySelector('.photo-caption'))
-            Element.querySelector('.photo-caption')['style']['opacity'] = 1;
+        if (Element) {
+            if (Element.querySelector('.photo-filter')) {
+                Element.querySelector('.photo-filter')['style']['opacity'] = 'calc(1 / 100 * 75)';
+            };
+            if (Element.querySelector('.photo-caption')) {
+                Element.querySelector('.photo-caption')['style']['opacity'] = 1;
+            };
+        };
     },
     downlight : (Element) => {
-        if (Element.querySelector('.photo-filter'))
-            Element.querySelector('.photo-filter')['style']['opacity'] = 0;
-        if (Element.querySelector('.photo-caption'))
-            Element.querySelector('.photo-caption')['style']['opacity'] = 0;
+        if (Element) {
+            if (Element.querySelector('.photo-filter')) {
+                Element.querySelector('.photo-filter')['style']['opacity'] = 0;
+            };
+            if (Element.querySelector('.photo-caption')) {
+                Element.querySelector('.photo-caption')['style']['opacity'] = 0;
+            };
+        };
     },
 };
 const Content = document.querySelectorAll('.photo-content');
@@ -88,37 +96,41 @@ document.addEventListener("DOMContentLoaded", () => {
     SetContentBody({ id : '.photo-content' });
     var Number = 0;
     Transform['highlight'](Content[Number]);
-    Content[Number].focus();
-    document.addEventListener('keydown', Event => {
-        if (Event['key'] === 'ArrowLeft') {
-            document['body']['style']['pointerEvents'] = 'none';
-            const Current = Content[Number];
-            const Prev = Current['previousElementSibling'];
-            Transform['downlight'](Current);
-            Transform['highlight'](Prev);
-            Prev.focus();
-            Number--;
-            Event.stopPropagation();
-            Event.preventDefault();
-        };
-    });
-    document.addEventListener('keydown', Event => {
-        if (Event['key'] === 'ArrowRight') {
-            document['body']['style']['pointerEvents'] = 'none';
-            const Current = Content[Number];
-            const Next = Current['nextElementSibling'];
-            Transform['downlight'](Current);
-            Transform['highlight'](Next);
-            Next.focus();
-            Number++;
-            Event.stopPropagation();
-            Event.preventDefault();
-        };
-    });
-    const ArrayKey = [ 'ArrowLeft', 'ArrowRight' ];
-    for (let i = 0; i < ArrayKey['length']; i++) {
+    const Array = [
+        {
+            key : 'ArrowLeft',
+            sibling : 'previousElementSibling',
+            number : (- 1),
+        },
+        {
+            key : 'ArrowRight',
+            sibling : 'nextElementSibling',
+            number : (+ 1),
+        },
+    ];
+    for (let i = 0; i < Array['length']; i++) {
+        document.addEventListener('keydown', Event => {
+            if (Event['key'] === Array[i]['key']) {
+                document['body']['style']['pointerEvents'] = 'none';
+
+                if (Number < 1) Number = 0;
+                if (Number > Content['length'] - 1) Number = Content['length'];
+
+                const Current = Content[Number];
+                const Highlight = Content[Number][Array[i]['sibling']];
+                
+                if (Highlight) {
+                    Transform['downlight'](Current);
+                    Transform['highlight'](Highlight);
+                    Highlight.scrollIntoView({ behavior : 'smooth' });
+                };
+                Number = Number + Array[i]['number'];
+                Event.stopPropagation();
+                Event.preventDefault();
+            };
+        });
         document.addEventListener('keyup', Event => {
-            if (Event['key'] === ArrayKey[i]) {
+            if (Event['key'] === Array[i]['key']) {
                 document['body']['style']['pointerEvents'] = 'auto';
                 Event.stopPropagation();
                 Event.preventDefault();
@@ -138,39 +150,19 @@ document.addEventListener("DOMContentLoaded", () => {
                 Element['style']['cursor'] = 'pointer';
                 Content.forEach(Content => Transform['downlight'](Content));
                 Transform['highlight'](Element);
-                Element.focus();
                 Number = i;
                 Event.stopPropagation();
                 Event.preventDefault();
             });
         });
         Element.addEventListener('click', Event => {
-            Background();
+            LightboxContainerShow();
             Event.stopPropagation();
             Event.preventDefault();
-        });Element.addEventListener('focus', Event => {
-            const body = document.querySelector('body');
-            const coordenadas = Element.getBoundibody();
-            const posicao = coordenadas.top - body.scrollTop;
-            body.scrollTop = posicao;
         });
-        
     });
-    document.addEventListener('keydown', Event => {
-        if (Event['key'] === 'Enter') {
-            Background();
-            Event.stopPropagation();
-            Event.preventDefault();
-        };
-    });
-
-
-
-
-
+    console.log(Number);
 });
-
-
 window.addEventListener('resize', () => {
     SetContentBody({ id : '.photo-content' });
 });

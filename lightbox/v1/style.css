@@ -72,6 +72,12 @@ h6
     transform : scale(1.5);
 }
 
+.photo-content,
+.photo-background
+{
+    overflow : hidden;
+}
+
 .photo-background,
 .photo-picture,
 .photo-filter,
@@ -82,11 +88,6 @@ h6
     position : absolute;
     top : 0;
     width : 100%;
-}
-
-.photo-background
-{
-    overflow : hidden;
 }
 
 .photo-picture
