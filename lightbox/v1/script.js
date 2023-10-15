@@ -96,45 +96,36 @@ document.addEventListener("DOMContentLoaded", () => {
     SetContentBody({ id : '.photo-content' });
     var Number = 0;
     Transform['highlight'](Content[Number]);
-    const Array = [
-        {
-            key : 'ArrowLeft',
-            sibling : 'previousElementSibling',
-            number : (- 1),
-        },
-        {
-            key : 'ArrowRight',
-            sibling : 'nextElementSibling',
-            number : (+ 1),
-        },
-    ];
-    for (let i = 0; i < Array['length']; i++) {
+    const Array = (output = 0) => {
+        return [
+            {
+                key : 'ArrowLeft',
+                sibling : 'previousElementSibling',
+                number : output < 1 ? 0 : - 1,
+            },
+            {
+                key : 'ArrowRight',
+                sibling : 'nextElementSibling',
+                number : output > Content['length'] - 2 ? 0 : + 1,
+            },
+        ];
+    };
+    for (let i = 0; i < Array()['length']; i++) {
         document.addEventListener('keydown', Event => {
-            if (Event['key'] === Array[i]['key']) {
+            if (Event['key'] === Array()[i]['key']) {
                 document['body']['style']['pointerEvents'] = 'none';
-
-                if (Number < 1) Number = 0;
-                if (Number > Content['length'] - 1) Number = Content['length'];
-
-                const Current = Content[Number];
-                const Highlight = Content[Number][Array[i]['sibling']];
-                
-                if (Highlight) {
-                    Transform['downlight'](Current);
-                    Transform['highlight'](Highlight);
-                    Highlight.scrollIntoView({ behavior : 'smooth' });
-                };
-                Number = Number + Array[i]['number'];
+                Transform['downlight'](Content[Number]);
+                Transform['highlight'](Content[Number][Array()[i]['sibling']]);
+                Content[Number][Array()[i]['sibling']].scrollIntoView({ behavior : 'smooth' });
+                Number = Number + Array(Number)[i]['number'];
                 Event.stopPropagation();
                 Event.preventDefault();
             };
         });
-        document.addEventListener('keyup', Event => {
-            if (Event['key'] === Array[i]['key']) {
-                document['body']['style']['pointerEvents'] = 'auto';
-                Event.stopPropagation();
-                Event.preventDefault();
-            };
+        document.addEventListener('mousemove', Event => {
+            document['body']['style']['pointerEvents'] = 'auto';
+            Event.stopPropagation();
+            Event.preventDefault();
         });
     };
     Content.forEach((Element, i) => {
@@ -161,7 +152,9 @@ document.addEventListener("DOMContentLoaded", () => {
             Event.preventDefault();
         });
     });
-    console.log(Number);
+
+
+
 });
 window.addEventListener('resize', () => {
     SetContentBody({ id : '.photo-content' });

@@ -96,8 +96,8 @@ export const SocialNetwork = () => {
         },
         {
             function : () => {
-                if (document.querySelector('#btn-arrow')['classList'].contains('rotate'))
-                    document['documentElement']['scrollTop'] = 0;
+                if (document.querySelector('#btn-arrow')['classList'].contains('rotate'))   
+                    window.scrollTo(0, 0);
                 if (!document.querySelector('#btn-arrow')['classList'].contains('rotate'))
                     window.scrollTo(0, document['body']['scrollHeight']);
             },
@@ -143,21 +143,35 @@ export const SocialNetwork = () => {
                     },
                 });
                 document.querySelector('body').appendChild(Array[i]).appendChild(Icon);
-                [ 'mouseover', 'mouseenter' ].map(index => {
-                    Array[i].addEventListener(index, event => {
+                [ 'mouseover', 'mouseenter' ].map(Index => {
+                    Array[i].addEventListener(Index, Event => {
+                        Array[i]['style']['cursor'] = 'pointer';
                         Array[i]['classList'].add(...Attribute[i]['hover']);
                         Array[i]['classList'].remove('bg-secondary');
-                        Array[i]['style']['cursor'] = 'pointer';
+                        Event.stopPropagation();
+                        Event.preventDefault();
                     });
                 });
-                [ 'mouseleave', 'mouseout' ].map(index => {
-                    Array[i].addEventListener(index, event => {
+                [ 'mouseleave', 'mouseout' ].map(Index => {
+                    Array[i].addEventListener(Index, Event => {
+                        Array[i]['style']['cursor'] = 'default';
                         Array[i]['classList'].add('bg-secondary');
                         Array[i]['classList'].remove(...Attribute[i]['hover']);
-                        Array[i]['style']['cursor'] = 'default';
+                        Event.stopPropagation();
+                        Event.preventDefault();
                     });
                 });
-                Array[i].addEventListener('click', event => {
+                document.addEventListener('keydown', Event => {
+                    Array[i]['classList'].add('bg-secondary');
+                    Array[i]['classList'].remove(...Attribute[i]['hover']);
+                    if (Event['key'] === (i + 1).toString()) {
+                        Array[i]['classList'].add(...Attribute[i]['hover']);
+                        Array[i]['classList'].remove('bg-secondary');
+                    };
+                    Event.stopPropagation();
+                    Event.preventDefault();
+                });
+                Array[i].addEventListener('click', Event => {
                     Attribute[i]['function']();
                     switch (Attribute[i]['id']) {
                         case 'btn-arrow' :

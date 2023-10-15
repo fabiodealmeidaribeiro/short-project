@@ -22,16 +22,20 @@ document.querySelectorAll('.photo-content').forEach((element, index) => {
     : [ undefined ];
     Picture = Picture ? {
         height : Picture.getAttribute('data-height') ? Picture.getAttribute('data-height') : [ undefined ],
-        id : (index).toString(),
-        index : Picture.getAttribute('data-index') ? Picture.getAttribute('data-index') : [ undefined ],
         url : Picture.getAttribute('data-url') ? Picture.getAttribute('data-url') : [ undefined ],
         width : Picture.getAttribute('data-width') ? Picture.getAttribute('data-width') : [ undefined ],
     } : { };
     let Caption = element.querySelector('.photo-caption') ? element.querySelector('.photo-caption') : [ undefined ];
     Caption = Caption ? {
-        title : Caption.querySelector('h1') ? Caption.querySelector('h1')['innerText'] : [ undefined ],
-        subtitle : Caption.querySelector('h2') ? Caption.querySelector('h2')['innerText'] : [ undefined ],
-        description : Caption.querySelector('p') ? Caption.querySelector('p')['innerText'] : [ undefined ],
+        title : Caption.querySelector('h1')
+        ? (Caption.querySelector('h1')['innerText'] ? Caption.querySelector('h1')['innerText'] : [ undefined ])
+        : [ undefined ],
+        subtitle : Caption.querySelector('h2')
+        ? (Caption.querySelector('h2')['innerText'] ? Caption.querySelector('h2')['innerText'] : [ undefined ])
+        : [ undefined ],
+        description : Caption.querySelector('p')
+        ? (Caption.querySelector('p')['innerText'] ? Caption.querySelector('p')['innerText'] : [ undefined ])
+        : [ undefined ],
     } : { };
     Attribute.push({
         title : Caption['title'],
@@ -127,41 +131,47 @@ export const LightboxContainer = (Output = {}) => {
             });
             SetAttribute({ element : Picture[i], attribute : 'style', value : {
                     ...SetStyle['picture']['style'],
-                    'background-image' : 'url(\'' + Attribute[i]['url'] + '\')',
+                    ...Attribute[i]['url'] ? { 'background-image' : 'url(\'' + Attribute[i]['url'] + '\')' } : { 'background-color' : 'white' },
                     width : Attribute[i]['width'],
                 },
             });
             document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]);
-            const Title = CreateElement({ element : 'h1', textnode : Attribute[i]['title'] });
-            SetAttribute({ element : Title, attribute : 'class', value : [
-                    ...SetStyle['title']['class'],
-                ],
-            });
-            SetAttribute({ element : Title, attribute : 'style', value : {
-                    ...SetStyle['title']['style'],
-                },
-            });
-            document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Title);
-            const Subtitle = CreateElement({ element : 'h2', textnode : Attribute[i]['subtitle'] });
-            SetAttribute({ element : Subtitle, attribute : 'class', value : [
-                    ...SetStyle['subtitle']['class'],
-                ],
-            });
-            SetAttribute({ element : Subtitle, attribute : 'style', value : {
-                    ...SetStyle['subtitle']['style'],
-                },
-            });
-            document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Subtitle);
-            const Description = CreateElement({ element : 'p', textnode : Attribute[i]['description'] });
-            SetAttribute({ element : Description, attribute : 'class', value : [
-                    ...SetStyle['description']['class'],
-                ],
-            });
-            SetAttribute({ element : Description, attribute : 'style', value : {
-                    ...SetStyle['description']['style'],
-                },
-            });
-            document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Description);
+            if (Attribute[i]['title']) {
+                const Title = CreateElement({ element : 'h1', textnode : Attribute[i]['title'] });
+                SetAttribute({ element : Title, attribute : 'class', value : [
+                        ...SetStyle['title']['class'],
+                    ],
+                });
+                SetAttribute({ element : Title, attribute : 'style', value : {
+                        ...SetStyle['title']['style'],
+                    },
+                });
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Title);
+            };
+            if (Attribute[i]['subtitle']) {
+                const Subtitle = CreateElement({ element : 'h2', textnode : Attribute[i]['subtitle'] });
+                SetAttribute({ element : Subtitle, attribute : 'class', value : [
+                        ...SetStyle['subtitle']['class'],
+                    ],
+                });
+                SetAttribute({ element : Subtitle, attribute : 'style', value : {
+                        ...SetStyle['subtitle']['style'],
+                    },
+                });
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Subtitle);
+            };
+            if (Attribute[i]['description']) {
+                const Description = CreateElement({ element : 'p', textnode : Attribute[i]['description'] });
+                SetAttribute({ element : Description, attribute : 'class', value : [
+                        ...SetStyle['description']['class'],
+                    ],
+                });
+                SetAttribute({ element : Description, attribute : 'style', value : {
+                        ...SetStyle['description']['style'],
+                    },
+                });
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Description);
+            };
         };
     };
     const ButtonAttribute = [
