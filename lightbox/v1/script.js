@@ -1,11 +1,14 @@
 import {
-    SetContentBody,
-} from './script-function.js';
-import {
     LightboxBuilder,
     LightboxTransition,
     LightboxShow,
-} from './script-lightbox-container.js';
+} from './script-container.js';
+import {
+    SetContentBody,
+} from './script-function.js';
+// import {
+//     NavigationBuilder,
+// } from './script-navigation.js';
 import {
     SocialNetwork,
 } from './script-network.js';
@@ -16,6 +19,7 @@ export var CurrentPicture = 0;
 document.addEventListener("DOMContentLoaded", () => {
     SocialNetwork();
     LightboxBuilder();
+    // NavigationBuilder();
     SetContentBody({ id : '.photo-content' });
     const Content = document.querySelectorAll('.photo-content');
     const Array = (output = 0) => {

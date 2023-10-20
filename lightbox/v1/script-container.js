@@ -131,71 +131,71 @@ export const LightboxBuilder = (output = {}) => {
             };
         };
     };
-    const NavigationButtonAttribute = NavigationButtonAttributeFunction({ current : CurrentPicture });
-    if (NavigationButtonAttribute) {
-        if (NavigationButtonAttribute['length']) {
-            const NavigationButtonArray = [];
-            for (let i = 0; i < NavigationButtonAttribute['length']; i++) {
-                NavigationButtonArray[i] = CreateElement();
-                SetAttribute({ element : NavigationButtonArray[i], attribute : 'id', value : NavigationButtonAttribute[i]['id'] });
-                SetAttribute({ element : NavigationButtonArray[i], attribute : 'class', value : [
+    const NavigationAttribute = NavigationAttributeFunction({ current : CurrentPicture });
+    if (NavigationAttribute) {
+        if (NavigationAttribute['length']) {
+            const NavigationArray = [];
+            for (let i = 0; i < NavigationAttribute['length']; i++) {
+                NavigationArray[i] = CreateElement();
+                SetAttribute({ element : NavigationArray[i], attribute : 'id', value : NavigationAttribute[i]['id'] });
+                SetAttribute({ element : NavigationArray[i], attribute : 'class', value : [
                         ...SetStyle['button']['class'],
                         'd-flex',
                     ]
                 });
-                SetAttribute({ element : NavigationButtonArray[i], attribute : 'style', value : {
+                SetAttribute({ element : NavigationArray[i], attribute : 'style', value : {
                         ...SetStyle['button']['style'],
-                        ...NavigationButtonAttribute[i]['style'],
+                        ...NavigationAttribute[i]['style'],
                     }
                 });
                 const ButtonIcon = CreateElement({ element : 'i' });
                 SetAttribute({ element : ButtonIcon, attribute : 'class', value : [
                         ...SetStyle['ico']['class'],
-                        ...NavigationButtonAttribute[i]['ico']['class'],
+                        ...NavigationAttribute[i]['ico']['class'],
                     ]
                 });
                 SetAttribute({ element : ButtonIcon, attribute : 'style', value : {
                         ...SetStyle['ico']['style'],
                     }
                 });
-                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(NavigationButtonArray[i]).appendChild(ButtonIcon);
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(NavigationArray[i]).appendChild(ButtonIcon);
                 [ 'mouseover', 'mouseenter' ].map(Index => {
-                    NavigationButtonArray[i].addEventListener(Index, Event => {
-                        NavigationButtonArray[i]['classList'].add('bg-danger');
-                        NavigationButtonArray[i]['classList'].remove('bg-secondary');
+                    NavigationArray[i].addEventListener(Index, Event => {
+                        NavigationArray[i]['classList'].add('bg-danger');
+                        NavigationArray[i]['classList'].remove('bg-secondary');
                         Event.stopPropagation();
                         Event.preventDefault();
                     });
                 });
                 [ 'mouseleave', 'mouseout' ].map(Index => {
-                    NavigationButtonArray[i].addEventListener(Index, Event => {
-                        NavigationButtonArray[i]['classList'].add('bg-secondary');
-                        NavigationButtonArray[i]['classList'].remove('bg-danger');
+                    NavigationArray[i].addEventListener(Index, Event => {
+                        NavigationArray[i]['classList'].add('bg-secondary');
+                        NavigationArray[i]['classList'].remove('bg-danger');
                         Event.stopPropagation();
                         Event.preventDefault();
                     });
                 });
-                NavigationButtonArray[i].addEventListener('click', Event => {
-                    NavigationButtonAttribute[i]['function']();
+                NavigationArray[i].addEventListener('click', Event => {
+                    NavigationAttribute[i]['function']();
                     Event.stopPropagation();
                     Event.preventDefault();
                 });
-                if (NavigationButtonAttribute[i]['key']['length']) {
-                    for (let j = 0; j < NavigationButtonAttribute[i]['key']['length']; j++) {
+                if (NavigationAttribute[i]['key']['length']) {
+                    for (let j = 0; j < NavigationAttribute[i]['key']['length']; j++) {
                         document.addEventListener('keydown', Event => {
-                            if (Event['key'] === NavigationButtonAttribute[i]['key'][j]) {
+                            if (Event['key'] === NavigationAttribute[i]['key'][j]) {
                                 document['body']['style']['pointerEvents'] = 'none';
-                                NavigationButtonArray[i]['classList'].add('bg-danger');
-                                NavigationButtonArray[i]['classList'].remove('bg-secondary');
-                                NavigationButtonAttribute[i]['function']();
+                                NavigationArray[i]['classList'].add('bg-danger');
+                                NavigationArray[i]['classList'].remove('bg-secondary');
+                                NavigationAttribute[i]['function']();
                                 Event.stopPropagation();
                                 Event.preventDefault();
                             };
                         });
                         document.addEventListener('keyup', Event => {
-                            if (Event['key'] === NavigationButtonAttribute[i]['key'][j]) {
-                                NavigationButtonArray[i]['classList'].add('bg-secondary');
-                                NavigationButtonArray[i]['classList'].remove('bg-danger');
+                            if (Event['key'] === NavigationAttribute[i]['key'][j]) {
+                                NavigationArray[i]['classList'].add('bg-secondary');
+                                NavigationArray[i]['classList'].remove('bg-danger');
                                 Event.stopPropagation();
                                 Event.preventDefault();
                             };
@@ -208,9 +208,9 @@ export const LightboxBuilder = (output = {}) => {
                     };
                 };
             };
-            LightboxTransition({ current : CurrentPicture });
         };
     };
+    LightboxTransition({ current : CurrentPicture });
 };
 export const LightboxTransition = (output = {}) => {
     let Proper = {
@@ -249,7 +249,7 @@ export const LightboxShow = () => {
         };
     };
 };
-export const NavigationButtonAttributeFunction = (output = {}) => {
+export const NavigationAttributeFunction = (output = {}) => {
     let Proper = {
         current : 'current' in output ? (Validator['Number'](output['current']) ? output['current'] : 0) : 0,
     };
