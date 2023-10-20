@@ -10,11 +10,11 @@ import {
     LightboxWidth,
     SetStyle,
 } from './script-variables.js';
-export const LightboxContainer = (Output = {}) => {
-    const Proper = {
-        current : 'current' in Output ? (Validator['Number'](Output['current']) ? Output['current'] : 0) : 0,
+export const LightboxBuilder = (output = {}) => {
+    let Proper = {
+        current : 'current' in output ? (Validator['Number'](output['current']) ? output['current'] : 0) : 0,
     };
-    var CurrentPicture = Proper['current'];
+    let CurrentPicture = Proper['current'];
     const Background = CreateElement();
     SetAttribute({ element : Background, attribute : 'id', value : 'background' });
     SetAttribute({ element : Background, attribute : 'class', value : [
@@ -131,11 +131,134 @@ export const LightboxContainer = (Output = {}) => {
             };
         };
     };
-    const ButtonAttribute = [
+    const NavigationButtonAttribute = NavigationButtonAttributeFunction({ current : CurrentPicture });
+    if (NavigationButtonAttribute) {
+        if (NavigationButtonAttribute['length']) {
+            const NavigationButtonArray = [];
+            for (let i = 0; i < NavigationButtonAttribute['length']; i++) {
+                NavigationButtonArray[i] = CreateElement();
+                SetAttribute({ element : NavigationButtonArray[i], attribute : 'id', value : NavigationButtonAttribute[i]['id'] });
+                SetAttribute({ element : NavigationButtonArray[i], attribute : 'class', value : [
+                        ...SetStyle['button']['class'],
+                        'd-flex',
+                    ]
+                });
+                SetAttribute({ element : NavigationButtonArray[i], attribute : 'style', value : {
+                        ...SetStyle['button']['style'],
+                        ...NavigationButtonAttribute[i]['style'],
+                    }
+                });
+                const ButtonIcon = CreateElement({ element : 'i' });
+                SetAttribute({ element : ButtonIcon, attribute : 'class', value : [
+                        ...SetStyle['ico']['class'],
+                        ...NavigationButtonAttribute[i]['ico']['class'],
+                    ]
+                });
+                SetAttribute({ element : ButtonIcon, attribute : 'style', value : {
+                        ...SetStyle['ico']['style'],
+                    }
+                });
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(NavigationButtonArray[i]).appendChild(ButtonIcon);
+                [ 'mouseover', 'mouseenter' ].map(Index => {
+                    NavigationButtonArray[i].addEventListener(Index, Event => {
+                        NavigationButtonArray[i]['classList'].add('bg-danger');
+                        NavigationButtonArray[i]['classList'].remove('bg-secondary');
+                        Event.stopPropagation();
+                        Event.preventDefault();
+                    });
+                });
+                [ 'mouseleave', 'mouseout' ].map(Index => {
+                    NavigationButtonArray[i].addEventListener(Index, Event => {
+                        NavigationButtonArray[i]['classList'].add('bg-secondary');
+                        NavigationButtonArray[i]['classList'].remove('bg-danger');
+                        Event.stopPropagation();
+                        Event.preventDefault();
+                    });
+                });
+                NavigationButtonArray[i].addEventListener('click', Event => {
+                    NavigationButtonAttribute[i]['function']();
+                    Event.stopPropagation();
+                    Event.preventDefault();
+                });
+                if (NavigationButtonAttribute[i]['key']['length']) {
+                    for (let j = 0; j < NavigationButtonAttribute[i]['key']['length']; j++) {
+                        document.addEventListener('keydown', Event => {
+                            if (Event['key'] === NavigationButtonAttribute[i]['key'][j]) {
+                                document['body']['style']['pointerEvents'] = 'none';
+                                NavigationButtonArray[i]['classList'].add('bg-danger');
+                                NavigationButtonArray[i]['classList'].remove('bg-secondary');
+                                NavigationButtonAttribute[i]['function']();
+                                Event.stopPropagation();
+                                Event.preventDefault();
+                            };
+                        });
+                        document.addEventListener('keyup', Event => {
+                            if (Event['key'] === NavigationButtonAttribute[i]['key'][j]) {
+                                NavigationButtonArray[i]['classList'].add('bg-secondary');
+                                NavigationButtonArray[i]['classList'].remove('bg-danger');
+                                Event.stopPropagation();
+                                Event.preventDefault();
+                            };
+                        });
+                        document.addEventListener('mousemove', Event => {
+                            document['body']['style']['pointerEvents'] = 'auto';
+                            Event.stopPropagation();
+                            Event.preventDefault();
+                        });
+                    };
+                };
+            };
+            LightboxTransition({ current : CurrentPicture });
+        };
+    };
+};
+export const LightboxTransition = (output = {}) => {
+    let Proper = {
+        current : 'current' in output ? (Validator['Number'](output['current']) ? output['current'] : 0) : 0,
+    };
+    let CurrentPicture = Proper['current'];
+    document.querySelector('#content')['style']['left'] = LightboxPosition[CurrentPicture]['left'];
+    document.querySelector('#inner')['style']['height'] = LightboxAttribute[CurrentPicture]['height'];
+    document.querySelector('#inner')['style']['left'] = LightboxAttribute[CurrentPicture]['left'];
+    document.querySelector('#inner')['style']['top'] = LightboxAttribute[CurrentPicture]['top'];
+    document.querySelector('#inner')['style']['width'] = LightboxAttribute[CurrentPicture]['width'];
+    if (CurrentPicture < 1) {
+        document.querySelector('#btn-arrow-left')['style']['opacity'] = 0;
+        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(0)';
+    };
+    if (CurrentPicture > (LightboxAttribute['length'] - 2)) {
+        document.querySelector('#btn-arrow-right')['style']['opacity'] = 0;
+        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(0)';
+    };
+    if (!(CurrentPicture < 1)) {
+        document.querySelector('#btn-arrow-left')['style']['opacity'] = 1;
+        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(1)';
+    };
+    if (!(CurrentPicture > (LightboxAttribute['length'] - 2))) {
+        document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
+        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
+    };
+};
+export const LightboxShow = () => {
+    let Selector = document.querySelector('#background');
+    if (Selector) {
+        Selector['style']['display'] = 'flex';
+        Selector['style']['zIndex'] = 9999;
+        if (!TransitionRunning(Selector)) {
+            Selector['style']['opacity'] = 1;
+        };
+    };
+};
+export const NavigationButtonAttributeFunction = (output = {}) => {
+    let Proper = {
+        current : 'current' in output ? (Validator['Number'](output['current']) ? output['current'] : 0) : 0,
+    };
+    let CurrentPicture = Proper['current'];
+    return [
         {
             function : () => {
                 CurrentPicture = CurrentPicture < 1 ? CurrentPicture : CurrentPicture - 1;
-                Transition(CurrentPicture);
+                LightboxTransition({ current : CurrentPicture });
             },
             class : [
             ],
@@ -157,7 +280,7 @@ export const LightboxContainer = (Output = {}) => {
         {
             function : () => {
                 CurrentPicture = CurrentPicture > (LightboxAttribute['length'] - 2) ? CurrentPicture : CurrentPicture + 1;
-                Transition(CurrentPicture);
+                LightboxTransition({ current : CurrentPicture });
             },
             class : [
             ],
@@ -179,10 +302,12 @@ export const LightboxContainer = (Output = {}) => {
         {
             function : () => {
                 const Selector = document.querySelector('#background');
-                Selector['style']['opacity'] = 0;
-                if (!TransitionRunning(Selector)) {
-                    Selector['style']['display'] = 'none';
-                    Selector['style']['zIndex'] = - 1;
+                if (Selector) {
+                    Selector['style']['opacity'] = 0;
+                    if (!TransitionRunning(Selector)) {
+                        Selector['style']['display'] = 'none';
+                        Selector['style']['zIndex'] = - 1;
+                    };
                 };
             },
             class : [
@@ -206,104 +331,4 @@ export const LightboxContainer = (Output = {}) => {
             },
         },
     ];
-    const ButtonArray = [];
-    if (ButtonAttribute['length']) {
-        for (let i = 0; i < ButtonAttribute['length']; i++) {
-            ButtonArray[i] = CreateElement();
-            SetAttribute({ element : ButtonArray[i], attribute : 'id', value : ButtonAttribute[i]['id'] });
-            SetAttribute({ element : ButtonArray[i], attribute : 'class', value : [
-                    ...SetStyle['button']['class'],
-                    'd-flex',
-                ]
-            });
-            SetAttribute({ element : ButtonArray[i], attribute : 'style', value : {
-                    ...SetStyle['button']['style'],
-                    ...ButtonAttribute[i]['style'],
-                }
-            });
-            const ButtonIcon = CreateElement({ element : 'i' });
-            SetAttribute({ element : ButtonIcon, attribute : 'class', value : [
-                    ...SetStyle['ico']['class'],
-                    ...ButtonAttribute[i]['ico']['class'],
-                ]
-            });
-            SetAttribute({ element : ButtonIcon, attribute : 'style', value : {
-                    ...SetStyle['ico']['style'],
-                }
-            });
-            document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(ButtonArray[i]).appendChild(ButtonIcon);
-            [ 'mouseover', 'mouseenter' ].map(Index => {
-                ButtonArray[i].addEventListener(Index, Event => {
-                    ButtonArray[i]['classList'].add('bg-danger');
-                    ButtonArray[i]['classList'].remove('bg-secondary');
-                    Event.stopPropagation();
-                    Event.preventDefault();
-                });
-            });
-            [ 'mouseleave', 'mouseout' ].map(Index => {
-                ButtonArray[i].addEventListener(Index, Event => {
-                    ButtonArray[i]['classList'].add('bg-secondary');
-                    ButtonArray[i]['classList'].remove('bg-danger');
-                    Event.stopPropagation();
-                    Event.preventDefault();
-                });
-            });
-            ButtonArray[i].addEventListener('click', Event => {
-                ButtonAttribute[i]['function']();
-                Event.stopPropagation();
-                Event.preventDefault();
-            });
-            if (ButtonAttribute[i]['key']['length']) {
-                for (let j = 0; j < ButtonAttribute[i]['key']['length']; j++) {
-                    document.addEventListener('keydown', Event => {
-                        if (Event['key'] === ButtonAttribute[i]['key'][j]) {
-                            document['body']['style']['pointerEvents'] = 'none';
-                            ButtonArray[i]['classList'].add('bg-danger');
-                            ButtonArray[i]['classList'].remove('bg-secondary');
-                            ButtonAttribute[i]['function']();
-                            Event.stopPropagation();
-                            Event.preventDefault();
-                        };
-                    });
-                    document.addEventListener('keyup', Event => {
-                        if (Event['key'] === ButtonAttribute[i]['key'][j]) {
-                            ButtonArray[i]['classList'].add('bg-secondary');
-                            ButtonArray[i]['classList'].remove('bg-danger');
-                            Event.stopPropagation();
-                            Event.preventDefault();
-                        };
-                    });
-                    document.addEventListener('mousemove', Event => {
-                        document['body']['style']['pointerEvents'] = 'auto';
-                        Event.stopPropagation();
-                        Event.preventDefault();
-                    });
-                };
-            };
-        };
-        Transition(CurrentPicture);
-    };
-};
-export const Transition = (Output = 0) => {
-    document.querySelector('#content')['style']['left'] = LightboxPosition[Output]['left'];
-    document.querySelector('#inner')['style']['height'] = LightboxAttribute[Output]['height'];
-    document.querySelector('#inner')['style']['left'] = LightboxAttribute[Output]['left'];
-    document.querySelector('#inner')['style']['top'] = LightboxAttribute[Output]['top'];
-    document.querySelector('#inner')['style']['width'] = LightboxAttribute[Output]['width'];
-    if (Output < 1) {
-        document.querySelector('#btn-arrow-left')['style']['opacity'] = 0;
-        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(0)';
-    };
-    if (Output > (LightboxAttribute['length'] - 2)) {
-        document.querySelector('#btn-arrow-right')['style']['opacity'] = 0;
-        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(0)';
-    };
-    if (!(Output < 1)) {
-        document.querySelector('#btn-arrow-left')['style']['opacity'] = 1;
-        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(1)';
-    };
-    if (!(Output > (LightboxAttribute['length'] - 2))) {
-        document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
-        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
-    };
 };

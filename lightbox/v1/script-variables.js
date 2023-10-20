@@ -189,3 +189,25 @@ for (let i = 0; i < LightboxAttribute['length']; i++) {
     LightboxWidth += NoUnit(LightboxAttribute[i]['width']);
     LightboxPosition.push({ left : - 1 * LightboxWidth + 'px' });
 };
+export const Transform = {
+    highlight : Element => {
+        if (Element) {
+            if (Element.querySelector('.photo-filter')) {
+                Element.querySelector('.photo-filter')['style']['opacity'] = 'calc(1 / 100 * 75)';
+            };
+            if (Element.querySelector('.photo-caption')) {
+                Element.querySelector('.photo-caption')['style']['opacity'] = 1;
+            };
+        };
+    },
+    downlight : Element => {
+        if (Element) {
+            if (Element.querySelector('.photo-filter')) {
+                Element.querySelector('.photo-filter')['style']['opacity'] = 0;
+            };
+            if (Element.querySelector('.photo-caption')) {
+                Element.querySelector('.photo-caption')['style']['opacity'] = 0;
+            };
+        };
+    },
+};
