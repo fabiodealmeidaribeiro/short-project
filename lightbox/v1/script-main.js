@@ -14,7 +14,7 @@ export const Validator = {
     Object : output => !(output === false || output === null || output === undefined || output['length'] === 0) && typeof output === 'object' && !Array.isArray(output) && Object.keys(output)['length'] !== 0,
     String : output => !(output === false || output === null || output === undefined || output === '') && typeof output === 'string',
 };
-export const OnlyNumber = output => parseFloat(output.replace('px', '').replace('rem', ''));
+export const NoUnit = output => parseFloat(output.replace('px', '').replace('rem', ''));
 export const TransitionRunning = (output) => getComputedStyle(output)['transition'] === 'running';
 export const AddRemoveClass = (output = {}) => {
     const Proper = {

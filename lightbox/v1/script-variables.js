@@ -1,4 +1,6 @@
-
+import {
+    NoUnit,
+} from './script-main.js';
 export let TextTemplate = '';
 TextTemplate += ' Irure ut velit esse eiusmod eu occaecat officia reprehenderit dolore consequat ut anim culpa in. Sit aliqua ad eu minim. Do labore est proident amet reprehenderit cupidatat fugiat. Id nostrud aliquip dolore ad. Occaecat in ipsum ut irure aliqua qui adipisicing Lorem nostrud voluptate cupidatat.';
 TextTemplate += ' Laborum mollit ut in ad fugiat sit sunt cillum in fugiat officia aute enim. Duis ad dolore laboris magna enim in amet culpa mollit cupidatat. Aliquip nostrud dolor esse et non. Commodo cillum laboris ullamco ut.';
@@ -152,4 +154,38 @@ export const SetStyle = {
             'font-size' : (Button / 2) + 'rem',
         },
     },
+};
+const REM = parseFloat(getComputedStyle(document['documentElement'])['fontSize']);
+const ContainerHeight = window['innerHeight'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2;
+const ContainerWidth = window['innerWidth'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2;
+const ContainerPadding = NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin']) + NoUnit(SetStyle['picture']['style']['padding']);
+export const LightboxAttribute = [];
+document.querySelectorAll('.photo-content').forEach(element => {
+    let Picture = element.querySelector('.photo-background') ? (element.querySelector('.photo-background').querySelector('.photo-picture') ? element.querySelector('.photo-background').querySelector('.photo-picture') : [ undefined ]) : [ undefined ];
+    Picture = Picture ? {
+        height : Picture.getAttribute('data-height') ? Picture.getAttribute('data-height') : [ undefined ],
+        url : Picture.getAttribute('data-url') ? Picture.getAttribute('data-url') : [ undefined ],
+        width : Picture.getAttribute('data-width') ? Picture.getAttribute('data-width') : [ undefined ],
+    } : { };
+    let Caption = element.querySelector('.photo-caption') ? element.querySelector('.photo-caption') : [ undefined ];
+    Caption = Caption ? {
+        title : Caption.querySelector('h1') ? (Caption.querySelector('h1')['innerText'] ? Caption.querySelector('h1')['innerText'] : [ undefined ]) : [ undefined ],
+        subtitle : Caption.querySelector('h2') ? (Caption.querySelector('h2')['innerText'] ? Caption.querySelector('h2')['innerText'] : [ undefined ]) : [ undefined ],
+        description : Caption.querySelector('p') ? (Caption.querySelector('p')['innerText'] ? Caption.querySelector('p')['innerText'] : [ undefined ]) : [ undefined ],
+    } : { };
+    LightboxAttribute.push({
+        ...Caption ? { title : Caption['title'] ? Caption['title'] : [ undefined ] } : { },
+        ...Caption ? { subtitle : Caption['subtitle'] ? Caption['subtitle'] : [ undefined ] } : { },
+        ...Caption ? { description : Caption['description'] ? Caption['description'] : [ undefined ] } : { },
+        ...Picture ? { left : ((ContainerWidth - Picture['width'] * ContainerHeight / Picture['height']) / 2) + 'px' } : { },
+        ...Picture ? { url : Picture['url'] } : { },
+        ...Picture ? { width : (Picture['width'] * ContainerHeight / Picture['height'] > ContainerWidth ? ContainerWidth - REM * ContainerPadding : Picture['width'] * ContainerHeight / Picture['height']) + 'px' } : { },
+    });
+});
+export const LightboxPosition = [];
+export var LightboxWidth = 0;
+LightboxPosition.push({ left : 0 });
+for (let i = 0; i < LightboxAttribute['length']; i++) {
+    LightboxWidth += NoUnit(LightboxAttribute[i]['width']);
+    LightboxPosition.push({ left : - 1 * LightboxWidth + 'px' });
 };

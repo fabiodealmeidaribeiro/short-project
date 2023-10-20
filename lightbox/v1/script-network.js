@@ -96,10 +96,12 @@ export const SocialNetwork = () => {
         },
         {
             function : () => {
-                if (document.querySelector('#btn-arrow')['classList'].contains('rotate'))   
+                if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
                     window.scrollTo(0, 0);
-                if (!document.querySelector('#btn-arrow')['classList'].contains('rotate'))
+                };
+                if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
                     window.scrollTo(0, document['body']['scrollHeight']);
+                };
             },
             hover : [
                 'bg-danger',

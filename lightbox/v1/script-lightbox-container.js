@@ -1,58 +1,15 @@
 import {
     CreateElement,
-    OnlyNumber,
     SetAttribute,
     TransitionRunning,
     Validator,
 } from './script-main.js';
 import {
+    LightboxAttribute,
+    LightboxPosition,
+    LightboxWidth,
     SetStyle,
 } from './script-variables.js';
-const setBorderMargin = OnlyNumber(SetStyle['border']['margin']);
-const setContainerMargin = OnlyNumber(SetStyle['container']['margin']);
-const setContainerHeight = window['innerHeight'] - (setBorderMargin + setContainerMargin) * 2;
-const setContainerWidth = window['innerWidth'] - (setBorderMargin + setContainerMargin) * 2;
-const REM = parseFloat(getComputedStyle(document['documentElement'])['fontSize']);
-const setPicturePadding = OnlyNumber(SetStyle['picture']['style']['padding']);
-const setContainerPadding = setBorderMargin + setContainerMargin + setPicturePadding;
-const Attribute = [];
-document.querySelectorAll('.photo-content').forEach((element, index) => {
-    let Picture = element.querySelector('.photo-background')
-    ? (element.querySelector('.photo-background').querySelector('.photo-picture') ? element.querySelector('.photo-background').querySelector('.photo-picture') : [ undefined ])
-    : [ undefined ];
-    Picture = Picture ? {
-        height : Picture.getAttribute('data-height') ? Picture.getAttribute('data-height') : [ undefined ],
-        url : Picture.getAttribute('data-url') ? Picture.getAttribute('data-url') : [ undefined ],
-        width : Picture.getAttribute('data-width') ? Picture.getAttribute('data-width') : [ undefined ],
-    } : { };
-    let Caption = element.querySelector('.photo-caption') ? element.querySelector('.photo-caption') : [ undefined ];
-    Caption = Caption ? {
-        title : Caption.querySelector('h1')
-        ? (Caption.querySelector('h1')['innerText'] ? Caption.querySelector('h1')['innerText'] : [ undefined ])
-        : [ undefined ],
-        subtitle : Caption.querySelector('h2')
-        ? (Caption.querySelector('h2')['innerText'] ? Caption.querySelector('h2')['innerText'] : [ undefined ])
-        : [ undefined ],
-        description : Caption.querySelector('p')
-        ? (Caption.querySelector('p')['innerText'] ? Caption.querySelector('p')['innerText'] : [ undefined ])
-        : [ undefined ],
-    } : { };
-    Attribute.push({
-        title : Caption['title'],
-        subtitle : Caption['subtitle'],
-        description : Caption['description'],
-        left : ((setContainerWidth - Picture['width'] * setContainerHeight / Picture['height']) / 2) + 'px',
-        url : Picture['url'],
-        width : (Picture['width'] * setContainerHeight / Picture['height'] > setContainerWidth ? setContainerWidth - REM * setContainerPadding : Picture['width'] * setContainerHeight / Picture['height']) + 'px',
-    });
-});
-const Position = [];
-var ContentWidth = 0;
-Position.push({ left : 0 });
-for (let i = 0; i < Attribute['length']; i++) {
-    ContentWidth += OnlyNumber(Attribute[i]['width']);
-    Position.push({ left : - 1 * ContentWidth + 'px' });
-};
 export const LightboxContainer = (Output = {}) => {
     const Proper = {
         current : 'current' in Output ? (Validator['Number'](Output['current']) ? Output['current'] : 0) : 0,
@@ -103,8 +60,8 @@ export const LightboxContainer = (Output = {}) => {
     });
     SetAttribute({ element : Inner, attribute : 'style', value : {
             ...SetStyle['inner']['style'],
-            left : Attribute[CurrentPicture]['left'],
-            width : Attribute[CurrentPicture]['width'],
+            left : LightboxAttribute[CurrentPicture]['left'],
+            width : LightboxAttribute[CurrentPicture]['width'],
         },
     });
     document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner);
@@ -116,14 +73,14 @@ export const LightboxContainer = (Output = {}) => {
     });
     SetAttribute({ element : Content, attribute : 'style', value : {
             ...SetStyle['content']['style'],
-            left : Position[CurrentPicture]['left'],
-            width : ContentWidth + 'px',
+            left : LightboxPosition[CurrentPicture]['left'],
+            width : LightboxWidth + 'px',
         },
     });
     document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content);
     const Picture = [];
-    if (Attribute['length']) {
-        for (let i = 0; i < Attribute['length']; i++) {
+    if (LightboxAttribute['length']) {
+        for (let i = 0; i < LightboxAttribute['length']; i++) {
             Picture[i] = CreateElement();
             SetAttribute({ element : Picture[i], attribute : 'class', value : [
                     ...SetStyle['picture']['class'],
@@ -131,13 +88,13 @@ export const LightboxContainer = (Output = {}) => {
             });
             SetAttribute({ element : Picture[i], attribute : 'style', value : {
                     ...SetStyle['picture']['style'],
-                    ...Attribute[i]['url'] ? { 'background-image' : 'url(\'' + Attribute[i]['url'] + '\')' } : { 'background-color' : 'white' },
-                    width : Attribute[i]['width'],
+                    ...LightboxAttribute[i]['url'] ? { 'background-image' : 'url(\'' + LightboxAttribute[i]['url'] + '\')' } : { 'background-color' : 'white' },
+                    width : LightboxAttribute[i]['width'],
                 },
             });
             document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]);
-            if (Attribute[i]['title']) {
-                const Title = CreateElement({ element : 'h1', textnode : Attribute[i]['title'] });
+            if (LightboxAttribute[i]['title']) {
+                const Title = CreateElement({ element : 'h1', textnode : LightboxAttribute[i]['title'] });
                 SetAttribute({ element : Title, attribute : 'class', value : [
                         ...SetStyle['title']['class'],
                     ],
@@ -148,8 +105,8 @@ export const LightboxContainer = (Output = {}) => {
                 });
                 document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Title);
             };
-            if (Attribute[i]['subtitle']) {
-                const Subtitle = CreateElement({ element : 'h2', textnode : Attribute[i]['subtitle'] });
+            if (LightboxAttribute[i]['subtitle']) {
+                const Subtitle = CreateElement({ element : 'h2', textnode : LightboxAttribute[i]['subtitle'] });
                 SetAttribute({ element : Subtitle, attribute : 'class', value : [
                         ...SetStyle['subtitle']['class'],
                     ],
@@ -160,8 +117,8 @@ export const LightboxContainer = (Output = {}) => {
                 });
                 document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Subtitle);
             };
-            if (Attribute[i]['description']) {
-                const Description = CreateElement({ element : 'p', textnode : Attribute[i]['description'] });
+            if (LightboxAttribute[i]['description']) {
+                const Description = CreateElement({ element : 'p', textnode : LightboxAttribute[i]['description'] });
                 SetAttribute({ element : Description, attribute : 'class', value : [
                         ...SetStyle['description']['class'],
                     ],
@@ -199,7 +156,7 @@ export const LightboxContainer = (Output = {}) => {
         },
         {
             function : () => {
-                CurrentPicture = CurrentPicture > (Attribute['length'] - 2) ? CurrentPicture : CurrentPicture + 1;
+                CurrentPicture = CurrentPicture > (LightboxAttribute['length'] - 2) ? CurrentPicture : CurrentPicture + 1;
                 Transition(CurrentPicture);
             },
             class : [
@@ -300,6 +257,7 @@ export const LightboxContainer = (Output = {}) => {
                 for (let j = 0; j < ButtonAttribute[i]['key']['length']; j++) {
                     document.addEventListener('keydown', Event => {
                         if (Event['key'] === ButtonAttribute[i]['key'][j]) {
+                            document['body']['style']['pointerEvents'] = 'none';
                             ButtonArray[i]['classList'].add('bg-danger');
                             ButtonArray[i]['classList'].remove('bg-secondary');
                             ButtonAttribute[i]['function']();
@@ -315,6 +273,11 @@ export const LightboxContainer = (Output = {}) => {
                             Event.preventDefault();
                         };
                     });
+                    document.addEventListener('mousemove', Event => {
+                        document['body']['style']['pointerEvents'] = 'auto';
+                        Event.stopPropagation();
+                        Event.preventDefault();
+                    });
                 };
             };
         };
@@ -322,16 +285,16 @@ export const LightboxContainer = (Output = {}) => {
     };
 };
 export const Transition = (Output = 0) => {
-    document.querySelector('#content')['style']['left'] = Position[Output]['left'];
-    document.querySelector('#inner')['style']['height'] = Attribute[Output]['height'];
-    document.querySelector('#inner')['style']['left'] = Attribute[Output]['left'];
-    document.querySelector('#inner')['style']['top'] = Attribute[Output]['top'];
-    document.querySelector('#inner')['style']['width'] = Attribute[Output]['width'];
+    document.querySelector('#content')['style']['left'] = LightboxPosition[Output]['left'];
+    document.querySelector('#inner')['style']['height'] = LightboxAttribute[Output]['height'];
+    document.querySelector('#inner')['style']['left'] = LightboxAttribute[Output]['left'];
+    document.querySelector('#inner')['style']['top'] = LightboxAttribute[Output]['top'];
+    document.querySelector('#inner')['style']['width'] = LightboxAttribute[Output]['width'];
     if (Output < 1) {
         document.querySelector('#btn-arrow-left')['style']['opacity'] = 0;
         document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(0)';
     };
-    if (Output > (Attribute['length'] - 2)) {
+    if (Output > (LightboxAttribute['length'] - 2)) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 0;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(0)';
     };
@@ -339,7 +302,7 @@ export const Transition = (Output = 0) => {
         document.querySelector('#btn-arrow-left')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(1)';
     };
-    if (!(Output > (Attribute['length'] - 2))) {
+    if (!(Output > (LightboxAttribute['length'] - 2))) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
     };

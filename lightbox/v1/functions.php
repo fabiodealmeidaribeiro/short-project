@@ -43,8 +43,7 @@
                         $is_src = $is_folder . '/' . $is_archives[$is_index];
                         if (is_file($is_src)):
                             $is_classes = [ ...sizeof($is_archives) % 3 === 0 ? [ 'col-lg-4' ] : [ 'col-lg-3' ], 'col-sm-6' ];
-                            $is_return .= '<div id=\'photo-content-' . $is_index . '\' class=\'photo-content ' . implode(' ', $is_classes) . '\'>';
-
+                            $is_return .= '<div class=\'photo-content ' . implode(' ', $is_classes) . '\'>';
                                 $is_return .= '<div class=\'photo-background\'>';
                                     $is_return .= '<div';
                                         $is_return .= ' class=\'photo-picture\'';
@@ -54,15 +53,12 @@
                                         $is_return .= ' style=\'background-image: url(' . $is_src . ')\'';
                                     $is_return .= '></div>';
                                 $is_return .= '</div>';
-
                                 $is_return .= '<div class=\'photo-filter\'></div>';
-
                                 $is_return .= '<div class=\'photo-caption\'>';
                                     $is_return .= '<h1>' . 'Viva Hostel Design.' . '</h1>';
                                     $is_return .= '<h2>' . 'O melhor da Vila Madalena em elegância e conforto.' . '</h2>';
                                     $is_return .= '<p>' . 'Consequat deserunt dolor quis ad nisi consectetur ipsum qui exercitation occaecat officia laborum.' . '</p>';
                                 $is_return .= '</div>';
-
                             $is_return .= '</div>';
                         endif;
                     endforeach;

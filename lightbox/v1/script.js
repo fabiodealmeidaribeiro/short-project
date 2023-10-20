@@ -60,42 +60,41 @@ const SetContentBody = (output = {}) => {
         };
     });
 };
-const LightboxContainerShow = () => {
-    const Selector = document.querySelector('#background');
-    Selector['style']['display'] = 'flex';
-    Selector['style']['zIndex'] = 9999;
-    if (!TransitionRunning(Selector))
-        Selector['style']['opacity'] = 1;
-};
-const Transform = {
-    highlight : (Element) => {
-        if (Element) {
-            if (Element.querySelector('.photo-filter')) {
-                Element.querySelector('.photo-filter')['style']['opacity'] = 'calc(1 / 100 * 75)';
-            };
-            if (Element.querySelector('.photo-caption')) {
-                Element.querySelector('.photo-caption')['style']['opacity'] = 1;
-            };
-        };
-    },
-    downlight : (Element) => {
-        if (Element) {
-            if (Element.querySelector('.photo-filter')) {
-                Element.querySelector('.photo-filter')['style']['opacity'] = 0;
-            };
-            if (Element.querySelector('.photo-caption')) {
-                Element.querySelector('.photo-caption')['style']['opacity'] = 0;
-            };
-        };
-    },
-};
-const Content = document.querySelectorAll('.photo-content');
 document.addEventListener("DOMContentLoaded", () => {
+    const Transform = {
+        highlight : Element => {
+            if (Element) {
+                if (Element.querySelector('.photo-filter')) {
+                    Element.querySelector('.photo-filter')['style']['opacity'] = 'calc(1 / 100 * 75)';
+                };
+                if (Element.querySelector('.photo-caption')) {
+                    Element.querySelector('.photo-caption')['style']['opacity'] = 1;
+                };
+            };
+        },
+        downlight : Element => {
+            if (Element) {
+                if (Element.querySelector('.photo-filter')) {
+                    Element.querySelector('.photo-filter')['style']['opacity'] = 0;
+                };
+                if (Element.querySelector('.photo-caption')) {
+                    Element.querySelector('.photo-caption')['style']['opacity'] = 0;
+                };
+            };
+        },
+    };
+    const LightboxContainerShow = (output = 0) => {
+        // document.querySelector('#content')['style']['left'] = Attribute[output]['left'];
+        const Selector = document.querySelector('#background');
+        Selector['style']['display'] = 'flex';
+        Selector['style']['zIndex'] = 9999;
+        if (!TransitionRunning(Selector))
+            Selector['style']['opacity'] = 1;
+    };
     SocialNetwork();
     LightboxContainer({ current : 1 });
     SetContentBody({ id : '.photo-content' });
-    var Number = 0;
-    Transform['highlight'](Content[Number]);
+    const Content = document.querySelectorAll('.photo-content');
     const Array = (output = 0) => {
         return [
             {
@@ -110,22 +109,27 @@ document.addEventListener("DOMContentLoaded", () => {
             },
         ];
     };
-    for (let i = 0; i < Array()['length']; i++) {
-        document.addEventListener('keydown', Event => {
-            if (Event['key'] === Array()[i]['key']) {
-                document['body']['style']['pointerEvents'] = 'none';
-                Transform['downlight'](Content[Number]);
-                Transform['highlight'](Content[Number][Array()[i]['sibling']]);
-                Content[Number][Array()[i]['sibling']].scrollIntoView({ behavior : 'smooth' });
-                Number = Number + Array(Number)[i]['number'];
-                Event.stopPropagation();
-                Event.preventDefault();
+    var Number = 0;
+    Transform['highlight'](Content[Number]);
+    const KeydownHighlight = (Event, Param) => {
+        const Index = Param['index'];
+        if (Event['key'] === Array()[Index]['key']) {
+            document['body']['style']['pointerEvents'] = 'none';
+            const Current = Content[Number];
+            const Highlight = Content[Number][Array()[Index]['sibling']];
+            if (Highlight) {
+                Transform['downlight'](Current);
+                Transform['highlight'](Highlight);
+                Highlight.scrollIntoView({ behavior : 'smooth' });
             };
-        });
-        document.addEventListener('mousemove', Event => {
-            document['body']['style']['pointerEvents'] = 'auto';
+            Number = Number + Array(Number)[Index]['number'];
             Event.stopPropagation();
             Event.preventDefault();
+        };
+    };
+    for (let i = 0; i < Array()['length']; i++) {
+        document.addEventListener('keydown', KeydownHighlight, {
+            index : i
         });
     };
     Content.forEach((Element, i) => {
@@ -141,20 +145,31 @@ document.addEventListener("DOMContentLoaded", () => {
                 Element['style']['cursor'] = 'pointer';
                 Content.forEach(Content => Transform['downlight'](Content));
                 Transform['highlight'](Element);
-                Number = i;
                 Event.stopPropagation();
                 Event.preventDefault();
             });
         });
         Element.addEventListener('click', Event => {
-            LightboxContainerShow();
+            document.removeEventListener('keydown', KeydownHighlight);
+            LightboxContainerShow(i);
             Event.stopPropagation();
             Event.preventDefault();
         });
+        document.addEventListener('keydown', Event => {
+            if (Event['key'] === 'Enter') {
+                document['body']['style']['pointerEvents'] = 'none';
+                document.removeEventListener('keydown', KeydownHighlight);
+                LightboxContainerShow(i);
+                Event.stopPropagation();
+                Event.preventDefault();
+            };
+        });
     });
-
-
-
+    document.addEventListener('mousemove', Event => {
+        document['body']['style']['pointerEvents'] = 'auto';
+        Event.stopPropagation();
+        Event.preventDefault();
+    });
 });
 window.addEventListener('resize', () => {
     SetContentBody({ id : '.photo-content' });
