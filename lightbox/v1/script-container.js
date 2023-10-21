@@ -1,7 +1,6 @@
 import {
     CreateElement,
     SetAttribute,
-    TransitionRunning,
 } from './script-main.js';
 import {
     NavigationBuilder,
@@ -157,59 +156,6 @@ export const LightboxBuilder = (CurrentPicture = 0) => {
                     }
                 });
                 document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(NavigationArray[i]).appendChild(ButtonIcon);
-
-                // [ 'mouseover', 'mouseenter' ].map(Index => {
-                //     NavigationArray[i].addEventListener(Index, Event => {
-                //         NavigationArray[i]['classList'].add('bg-danger');
-                //         NavigationArray[i]['classList'].remove('bg-secondary');
-                //         Event.stopPropagation();
-                //         Event.preventDefault();
-                //     });
-                // });
-
-                // [ 'mouseleave', 'mouseout' ].map(Index => {
-                //     NavigationArray[i].addEventListener(Index, Event => {
-                //         NavigationArray[i]['classList'].add('bg-secondary');
-                //         NavigationArray[i]['classList'].remove('bg-danger');
-                //         Event.stopPropagation();
-                //         Event.preventDefault();
-                //     });
-                // });
-                
-                // NavigationArray[i].addEventListener('click', Event => {
-                //     NavigationAttribute[i]['function']();
-                //     Event.stopPropagation();
-                //     Event.preventDefault();
-                // });
-
-                // if (NavigationAttribute[i]['key']['length']) {
-                //     for (let j = 0; j < NavigationAttribute[i]['key']['length']; j++) {
-                //         document.addEventListener('keydown', Event => {
-                //             if (Event['key'] === NavigationAttribute[i]['key'][j]) {
-                //                 document['body']['style']['pointerEvents'] = 'none';
-                //                 NavigationArray[i]['classList'].add('bg-danger');
-                //                 NavigationArray[i]['classList'].remove('bg-secondary');
-                //                 NavigationAttribute[i]['function']();
-                //                 Event.stopPropagation();
-                //                 Event.preventDefault();
-                //             };
-                //         });
-                //         document.addEventListener('keyup', Event => {
-                //             if (Event['key'] === NavigationAttribute[i]['key'][j]) {
-                //                 NavigationArray[i]['classList'].add('bg-secondary');
-                //                 NavigationArray[i]['classList'].remove('bg-danger');
-                //                 Event.stopPropagation();
-                //                 Event.preventDefault();
-                //             };
-                //         });
-                //         document.addEventListener('mousemove', Event => {
-                //             document['body']['style']['pointerEvents'] = 'auto';
-                //             Event.stopPropagation();
-                //             Event.preventDefault();
-                //         });
-                //     };
-                // };
-                
             };
         };
     };
@@ -236,15 +182,5 @@ export const LightboxTransition = (CurrentPicture = 0) => {
     if (!(CurrentPicture > (LightboxAttribute['length'] - 2))) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
-    };
-};
-export const LightboxDisplay = () => {
-    let Selector = document.querySelector('#background');
-    if (Selector) {
-        Selector['style']['display'] = 'flex';
-        Selector['style']['zIndex'] = 9999;
-        if (!TransitionRunning(Selector)) {
-            Selector['style']['opacity'] = 1;
-        };
     };
 };
