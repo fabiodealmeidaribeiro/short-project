@@ -2,11 +2,8 @@ import {
     NoUnit,
 } from './script-main.js';
 export let TextTemplate = '';
-TextTemplate += ' Irure ut velit esse eiusmod eu occaecat officia reprehenderit dolore consequat ut anim culpa in. Sit aliqua ad eu minim. Do labore est proident amet reprehenderit cupidatat fugiat. Id nostrud aliquip dolore ad. Occaecat in ipsum ut irure aliqua qui adipisicing Lorem nostrud voluptate cupidatat.';
-TextTemplate += ' Laborum mollit ut in ad fugiat sit sunt cillum in fugiat officia aute enim. Duis ad dolore laboris magna enim in amet culpa mollit cupidatat. Aliquip nostrud dolor esse et non. Commodo cillum laboris ullamco ut.';
-TextTemplate += ' Culpa incididunt fugiat tempor non id commodo. Officia irure exercitation dolor sunt ullamco anim excepteur. Mollit nisi velit ut mollit. Quis tempor reprehenderit duis id id esse dolore commodo sint labore.';
-TextTemplate += ' Aliquip Lorem Lorem Lorem ad occaecat nostrud occaecat Lorem aliqua deserunt occaecat sit irure do. Deserunt ad commodo laborum eu. Irure amet ea in consectetur ad aute. Enim do amet incididunt labore eiusmod eu tempor. Quis consequat deserunt commodo reprehenderit ut nostrud qui id eiusmod mollit nulla in proident. Aliquip nostrud in reprehenderit adipisicing ullamco incididunt nisi eiusmod qui aute magna reprehenderit.';
-TextTemplate += ' Excepteur non nulla Lorem duis minim occaecat officia. Lorem aliqua consectetur do velit velit nulla proident tempor adipisicing est consequat minim enim. Aliquip aliquip adipisicing sint voluptate. Enim tempor cupidatat magna nulla elit velit. Deserunt culpa nulla reprehenderit do commodo amet labore ullamco irure aliquip adipisicing aliqua cupidatat voluptate. Do dolore ipsum fugiat est voluptate nulla ipsum dolor sunt dolore deserunt veniam aute. Qui pariatur sint culpa culpa ea deserunt duis.';
+TextTemplate += ' O Viva Hostel Design é uma opção de hospedagem diferenciada e moderna em São Paulo. Localizado no bairro de Pinheiros, um dos mais descolados da cidade, o hostel oferece uma experiência única aos seus hóspedes.';
+TextTemplate += ' Com uma decoração arrojada e criativa, o Viva Hostel Design conta com quartos compartilhados e privativos, todos equipados com ar-condicionado, armários individuais e Wi-Fi gratuito. Além disso, o Hostel dispõe de uma cozinha compartilhada, sala de estar com TV, terraço com vista panorâmica e um bar.';
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };

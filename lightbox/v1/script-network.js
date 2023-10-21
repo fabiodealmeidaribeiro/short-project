@@ -11,7 +11,9 @@ export const SocialNetwork = () => {
     const Array = [];
     const Attribute = [
         {
-            function : () => {
+            function : (output = {}) => {
+                let Https = 'https://www.facebook.com/VivaHostel/';
+                window.open(Https, '_blank');
             },
             hover : [
                 'bg-primary',
@@ -25,7 +27,9 @@ export const SocialNetwork = () => {
             id : 'btn-facebook',
         },
         {
-            function : () => {
+            function : (output = {}) => {
+                let Https = 'https://www.instagram.com/vivahostel/';
+                window.open(Https, '_blank');
             },
             hover : [
                 'bg-danger',
@@ -38,35 +42,37 @@ export const SocialNetwork = () => {
             },
             id : 'btn-instagram',
         },
-        {
-            function : () => {
-            },
-            hover : [
-                'bg-info',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-messenger',
-                ],
-            },
-            id : 'btn-messenger',
-        },
+        // {
+        //     function : (output = {}) => {
+        //         let Https = '';
+        //         window.open(Https, '_blank');
+        //     },
+        //     hover : [
+        //         'bg-info',
+        //     ],
+        //     ico : {
+        //         class : [
+        //             'bi',
+        //             'bi-messenger',
+        //         ],
+        //     },
+        //     id : 'btn-messenger',
+        // },
         {
             function : (output = {}) => {
                 const Proper = {
-                    phone : 'phone' in output ? (Validator['String'](output['phone']) ? output['phone'] : '+55 (11) 9 9163-3880') : '+55 (11) 9 9163-3880',
+                    phone : 'phone' in output ? (Validator['String'](output['phone']) ? output['phone'] : '+55 (11) 3812-9142') : '+55 (11) 3812-9142',
                     message : 'message' in output ? (Validator['String'](output['message']) ? output['message'] : TextTemplate) : TextTemplate,
                 };
-                let https = '';
+                let Https = '';
                 if (Validator['String'](Proper['phone'])) {
-                    https += 'https://api.whatsapp.com/send?phone=';
-                    https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
+                    Https += 'https://api.whatsapp.com/send?phone=';
+                    Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
                     if (Validator['String'](Proper['message'])) {
-                        https += '&text=';
-                        https += Proper['message'].trim().replace(/' '/, '%20');
+                        Https += '&text=';
+                        Https += Proper['message'].trim().replace(/' '/, '%20');
                     };
-                    window.open(https, '_blank');
+                    window.open(Https, '_blank');
                 };
             },
             hover : [
@@ -81,7 +87,9 @@ export const SocialNetwork = () => {
             id : 'btn-whatsapp',
         },
         {
-            function : () => {
+            function : (output = {}) => {
+                let Https = 'https://www.youtube.com/watch?v=1OaaUjyixVY';
+                window.open(Https, '_blank');
             },
             hover : [
                 'bg-danger',
@@ -95,7 +103,7 @@ export const SocialNetwork = () => {
             id : 'btn-youtube',
         },
         {
-            function : () => {
+            function : (output = {}) => {
                 if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
                     window.scrollTo(0, 0);
                 };
@@ -146,7 +154,7 @@ export const SocialNetwork = () => {
                 });
                 document.querySelector('body').appendChild(Array[i]).appendChild(Icon);
                 [ 'mouseover', 'mouseenter' ].map(Index => {
-                    Array[i].addEventListener(Index, Event => {
+                    Array[i].addEventListener(Index, (Event) => {
                         Array[i]['style']['cursor'] = 'pointer';
                         Array[i]['classList'].add(...Attribute[i]['hover']);
                         Array[i]['classList'].remove('bg-secondary');
@@ -155,7 +163,7 @@ export const SocialNetwork = () => {
                     });
                 });
                 [ 'mouseleave', 'mouseout' ].map(Index => {
-                    Array[i].addEventListener(Index, Event => {
+                    Array[i].addEventListener(Index, (Event) => {
                         Array[i]['style']['cursor'] = 'default';
                         Array[i]['classList'].add('bg-secondary');
                         Array[i]['classList'].remove(...Attribute[i]['hover']);
@@ -163,7 +171,7 @@ export const SocialNetwork = () => {
                         Event.preventDefault();
                     });
                 });
-                document.addEventListener('keydown', Event => {
+                document.addEventListener('keydown', (Event) => {
                     Array[i]['classList'].add('bg-secondary');
                     Array[i]['classList'].remove(...Attribute[i]['hover']);
                     if (Event['key'] === (i + 1).toString()) {
@@ -173,7 +181,7 @@ export const SocialNetwork = () => {
                     Event.stopPropagation();
                     Event.preventDefault();
                 });
-                Array[i].addEventListener('click', Event => {
+                Array[i].addEventListener('click', (Event) => {
                     Attribute[i]['function']();
                     switch (Attribute[i]['id']) {
                         case 'btn-arrow' :

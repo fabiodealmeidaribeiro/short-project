@@ -4,14 +4,14 @@ import {
 import {
     SetStyle,
 } from './script-variables.js';
-export const SetContentBody = (output = {}) => {
+export const SetContent = (output = {}) => {
     const Array = [ 1, 1.33, 1.85, 2.35 ];
     const Proper = {
-        id : 'id' in output ? (output['id'] ? output['id'] : '') : '',
-        height : 1,
+        class : 'class' in output ? (output['class'] ? output['class'] : '') : '',
+        height : 'height' in output ? (output['height'] ? output['height'] : 1) : 1,
         width : 'width' in output ? (output['width'] ? output['width'] : Array[0]) : Array[0],
     };
-    document.querySelectorAll(Proper['id']).forEach(Element => {
+    document.querySelectorAll(Proper['class']).forEach(Element => {
         if (Element) {
             Element['style']['height'] = Proper['height'] * Element['clientWidth'] / Proper['width'] + 'px';
             const Caption = Element.querySelector('.photo-caption');

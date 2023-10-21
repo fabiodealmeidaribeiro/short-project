@@ -2,19 +2,17 @@ import {
     CreateElement,
     SetAttribute,
     TransitionRunning,
-    Validator,
 } from './script-main.js';
+import {
+    NavigationBuilder,
+} from './script-navigation.js';
 import {
     LightboxAttribute,
     LightboxPosition,
     LightboxWidth,
     SetStyle,
 } from './script-variables.js';
-export const LightboxBuilder = (output = {}) => {
-    let Proper = {
-        current : 'current' in output ? (Validator['Number'](output['current']) ? output['current'] : 0) : 0,
-    };
-    let CurrentPicture = Proper['current'];
+export const LightboxBuilder = (CurrentPicture = 0) => {
     const Background = CreateElement();
     SetAttribute({ element : Background, attribute : 'id', value : 'background' });
     SetAttribute({ element : Background, attribute : 'class', value : [
@@ -131,7 +129,7 @@ export const LightboxBuilder = (output = {}) => {
             };
         };
     };
-    const NavigationAttribute = NavigationAttributeFunction({ current : CurrentPicture });
+    const NavigationAttribute = NavigationBuilder(CurrentPicture);
     if (NavigationAttribute) {
         if (NavigationAttribute['length']) {
             const NavigationArray = [];
@@ -159,64 +157,63 @@ export const LightboxBuilder = (output = {}) => {
                     }
                 });
                 document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(NavigationArray[i]).appendChild(ButtonIcon);
-                [ 'mouseover', 'mouseenter' ].map(Index => {
-                    NavigationArray[i].addEventListener(Index, Event => {
-                        NavigationArray[i]['classList'].add('bg-danger');
-                        NavigationArray[i]['classList'].remove('bg-secondary');
-                        Event.stopPropagation();
-                        Event.preventDefault();
-                    });
-                });
-                [ 'mouseleave', 'mouseout' ].map(Index => {
-                    NavigationArray[i].addEventListener(Index, Event => {
-                        NavigationArray[i]['classList'].add('bg-secondary');
-                        NavigationArray[i]['classList'].remove('bg-danger');
-                        Event.stopPropagation();
-                        Event.preventDefault();
-                    });
-                });
-                NavigationArray[i].addEventListener('click', Event => {
-                    NavigationAttribute[i]['function']();
-                    Event.stopPropagation();
-                    Event.preventDefault();
-                });
-                if (NavigationAttribute[i]['key']['length']) {
-                    for (let j = 0; j < NavigationAttribute[i]['key']['length']; j++) {
-                        document.addEventListener('keydown', Event => {
-                            if (Event['key'] === NavigationAttribute[i]['key'][j]) {
-                                document['body']['style']['pointerEvents'] = 'none';
-                                NavigationArray[i]['classList'].add('bg-danger');
-                                NavigationArray[i]['classList'].remove('bg-secondary');
-                                NavigationAttribute[i]['function']();
-                                Event.stopPropagation();
-                                Event.preventDefault();
-                            };
-                        });
-                        document.addEventListener('keyup', Event => {
-                            if (Event['key'] === NavigationAttribute[i]['key'][j]) {
-                                NavigationArray[i]['classList'].add('bg-secondary');
-                                NavigationArray[i]['classList'].remove('bg-danger');
-                                Event.stopPropagation();
-                                Event.preventDefault();
-                            };
-                        });
-                        document.addEventListener('mousemove', Event => {
-                            document['body']['style']['pointerEvents'] = 'auto';
-                            Event.stopPropagation();
-                            Event.preventDefault();
-                        });
-                    };
-                };
+
+                // [ 'mouseover', 'mouseenter' ].map(Index => {
+                //     NavigationArray[i].addEventListener(Index, Event => {
+                //         NavigationArray[i]['classList'].add('bg-danger');
+                //         NavigationArray[i]['classList'].remove('bg-secondary');
+                //         Event.stopPropagation();
+                //         Event.preventDefault();
+                //     });
+                // });
+                // [ 'mouseleave', 'mouseout' ].map(Index => {
+                //     NavigationArray[i].addEventListener(Index, Event => {
+                //         NavigationArray[i]['classList'].add('bg-secondary');
+                //         NavigationArray[i]['classList'].remove('bg-danger');
+                //         Event.stopPropagation();
+                //         Event.preventDefault();
+                //     });
+                // });
+                // NavigationArray[i].addEventListener('click', Event => {
+                //     NavigationAttribute[i]['function']();
+                //     Event.stopPropagation();
+                //     Event.preventDefault();
+                // });
+
+                // if (NavigationAttribute[i]['key']['length']) {
+                //     for (let j = 0; j < NavigationAttribute[i]['key']['length']; j++) {
+                //         document.addEventListener('keydown', Event => {
+                //             if (Event['key'] === NavigationAttribute[i]['key'][j]) {
+                //                 document['body']['style']['pointerEvents'] = 'none';
+                //                 NavigationArray[i]['classList'].add('bg-danger');
+                //                 NavigationArray[i]['classList'].remove('bg-secondary');
+                //                 NavigationAttribute[i]['function']();
+                //                 Event.stopPropagation();
+                //                 Event.preventDefault();
+                //             };
+                //         });
+                //         document.addEventListener('keyup', Event => {
+                //             if (Event['key'] === NavigationAttribute[i]['key'][j]) {
+                //                 NavigationArray[i]['classList'].add('bg-secondary');
+                //                 NavigationArray[i]['classList'].remove('bg-danger');
+                //                 Event.stopPropagation();
+                //                 Event.preventDefault();
+                //             };
+                //         });
+                //         document.addEventListener('mousemove', Event => {
+                //             document['body']['style']['pointerEvents'] = 'auto';
+                //             Event.stopPropagation();
+                //             Event.preventDefault();
+                //         });
+                //     };
+                // };
+                
             };
         };
     };
-    LightboxTransition({ current : CurrentPicture });
+    LightboxTransition(CurrentPicture);
 };
-export const LightboxTransition = (output = {}) => {
-    let Proper = {
-        current : 'current' in output ? (Validator['Number'](output['current']) ? output['current'] : 0) : 0,
-    };
-    let CurrentPicture = Proper['current'];
+export const LightboxTransition = (CurrentPicture = 0) => {
     document.querySelector('#content')['style']['left'] = LightboxPosition[CurrentPicture]['left'];
     document.querySelector('#inner')['style']['height'] = LightboxAttribute[CurrentPicture]['height'];
     document.querySelector('#inner')['style']['left'] = LightboxAttribute[CurrentPicture]['left'];
@@ -239,7 +236,7 @@ export const LightboxTransition = (output = {}) => {
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
     };
 };
-export const LightboxShow = () => {
+export const LightboxDisplay = () => {
     let Selector = document.querySelector('#background');
     if (Selector) {
         Selector['style']['display'] = 'flex';
@@ -248,87 +245,4 @@ export const LightboxShow = () => {
             Selector['style']['opacity'] = 1;
         };
     };
-};
-export const NavigationAttributeFunction = (output = {}) => {
-    let Proper = {
-        current : 'current' in output ? (Validator['Number'](output['current']) ? output['current'] : 0) : 0,
-    };
-    let CurrentPicture = Proper['current'];
-    return [
-        {
-            function : () => {
-                CurrentPicture = CurrentPicture < 1 ? CurrentPicture : CurrentPicture - 1;
-                LightboxTransition({ current : CurrentPicture });
-            },
-            class : [
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-arrow-left-circle-fill',
-                ],
-            },
-            id : 'btn-arrow-left',
-            key : [
-                'ArrowLeft',
-            ],
-            style : {
-                left : 'calc(' + SetStyle['button']['margin'] + ' * ' + 3 + ')',
-                cursor : 'pointer',
-            },
-        },
-        {
-            function : () => {
-                CurrentPicture = CurrentPicture > (LightboxAttribute['length'] - 2) ? CurrentPicture : CurrentPicture + 1;
-                LightboxTransition({ current : CurrentPicture });
-            },
-            class : [
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-arrow-right-circle-fill',
-                ],
-            },
-            id : 'btn-arrow-right',
-            key : [
-                'ArrowRight',
-            ],
-            style : {
-                right : 'calc(' + SetStyle['button']['margin'] + ' * ' + 3 + ')',
-                cursor : 'pointer',
-            },
-        },
-        {
-            function : () => {
-                const Selector = document.querySelector('#background');
-                if (Selector) {
-                    Selector['style']['opacity'] = 0;
-                    if (!TransitionRunning(Selector)) {
-                        Selector['style']['display'] = 'none';
-                        Selector['style']['zIndex'] = - 1;
-                    };
-                };
-            },
-            class : [
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-x-circle-fill',
-                ],
-            },
-            id : 'btn-arrow-down',
-            key : [
-                'ArrowDown',
-                'Escape',
-            ],
-            style : {
-                bottom : 'calc(' + SetStyle['button']['margin'] + ' * ' + 3 + ')',
-                left : '50%',
-                transform : 'translate(-50%, 0)',
-                cursor : 'pointer',
-            },
-        },
-    ];
 };
