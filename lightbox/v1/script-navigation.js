@@ -1,19 +1,12 @@
 import {
-    LightboxTransition,
-} from './script-container.js';
-import {
-    TransitionRunning,
-} from './script-main.js';
-import {
     LightboxAttribute,
     SetStyle,
 } from './script-variables.js';
 export const NavigationBuilder = (CurrentPicture = 0) => {
     return [
         {
+            condition : CurrentPicture < 1 ? 0 : - 1,
             function : () => {
-                CurrentPicture = CurrentPicture < 1 ? CurrentPicture : CurrentPicture - 1;
-                LightboxTransition(CurrentPicture);
             },
             class : [
             ],
@@ -33,9 +26,8 @@ export const NavigationBuilder = (CurrentPicture = 0) => {
             },
         },
         {
+            condition : CurrentPicture > LightboxAttribute['length'] - 2 ? 0 : + 1,
             function : () => {
-                CurrentPicture = CurrentPicture > (LightboxAttribute['length'] - 2) ? CurrentPicture : CurrentPicture + 1;
-                LightboxTransition(CurrentPicture);
             },
             class : [
             ],
@@ -55,15 +47,8 @@ export const NavigationBuilder = (CurrentPicture = 0) => {
             },
         },
         {
+            condition : 0,
             function : () => {
-                const Selector = document.querySelector('#background');
-                if (Selector) {
-                    Selector['style']['opacity'] = 0;
-                    if (!TransitionRunning(Selector)) {
-                        Selector['style']['display'] = 'none';
-                        Selector['style']['zIndex'] = - 1;
-                    };
-                };
             },
             class : [
             ],

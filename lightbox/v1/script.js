@@ -7,6 +7,12 @@ import {
     SetContent,
 } from './script-function.js';
 import {
+    TransitionRunning,
+} from './script-main.js';
+import {
+    NavigationBuilder,
+} from './script-navigation.js';
+import {
     SocialNetwork,
 } from './script-network.js';
 import {
@@ -16,26 +22,44 @@ export var CurrentPicture = 0;
 document.addEventListener("DOMContentLoaded", () => {
     SocialNetwork();
     LightboxBuilder();
+    for (let i = 0; i < NavigationBuilder()['length']; i++) {
+        document.querySelector('#' + NavigationBuilder()[i]['id']).addEventListener('click', Event => {
+            if (NavigationBuilder()[i]['id'] === 'btn-arrow-down') {
+                const Selector = document.querySelector('#background');
+                if (Selector) {
+                    Selector['style']['opacity'] = 0;
+                    if (!TransitionRunning(Selector)) {
+                        Selector['style']['display'] = 'none';
+                        Selector['style']['zIndex'] = - 1;
+                    };
+                };
+            };
+            CurrentPicture = CurrentPicture + NavigationBuilder(CurrentPicture)[i]['condition'];
+            LightboxTransition(CurrentPicture);
+            Event.stopPropagation();
+            Event.preventDefault();
+        });
+    };
     SetContent({ class : '.photo-content' });
     const Content = document.querySelectorAll('.photo-content');
-    const Array = (output = 0) => {
+    const Array = (CurrentPicture = 0) => {
         return [
             {
+                condition : CurrentPicture < 1 ? 0 : - 1,
                 key : 'ArrowLeft',
                 sibling : 'previousElementSibling',
-                number : output < 1 ? 0 : - 1,
             },
             {
+                condition : CurrentPicture > Content['length'] - 2 ? 0 : + 1,
                 key : 'ArrowRight',
                 sibling : 'nextElementSibling',
-                number : output > Content['length'] - 2 ? 0 : + 1,
             },
         ];
     };
     Transform['highlight'](Content[CurrentPicture]);
     if (Array()) {
         for (let i = 0; i < Array()['length']; i++) {
-            document.addEventListener('keydown', Event => {
+            document.addEventListener('keydown', (Event) => {
                 if (Event['key'] === Array()[i]['key']) {
                     document['body']['style']['pointerEvents'] = 'none';
                     const Current = Content[CurrentPicture];
@@ -45,7 +69,7 @@ document.addEventListener("DOMContentLoaded", () => {
                         Transform['highlight'](Highlight);
                         Highlight.scrollIntoView({ behavior : 'smooth' });
                     };
-                    CurrentPicture = CurrentPicture + Array(CurrentPicture)[i]['number'];
+                    CurrentPicture = CurrentPicture + Array(CurrentPicture)[i]['condition'];
                     Event.stopPropagation();
                     Event.preventDefault();
                 };

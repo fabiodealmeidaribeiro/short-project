@@ -166,6 +166,7 @@ export const LightboxBuilder = (CurrentPicture = 0) => {
                 //         Event.preventDefault();
                 //     });
                 // });
+
                 // [ 'mouseleave', 'mouseout' ].map(Index => {
                 //     NavigationArray[i].addEventListener(Index, Event => {
                 //         NavigationArray[i]['classList'].add('bg-secondary');
@@ -174,6 +175,7 @@ export const LightboxBuilder = (CurrentPicture = 0) => {
                 //         Event.preventDefault();
                 //     });
                 // });
+                
                 // NavigationArray[i].addEventListener('click', Event => {
                 //     NavigationAttribute[i]['function']();
                 //     Event.stopPropagation();
