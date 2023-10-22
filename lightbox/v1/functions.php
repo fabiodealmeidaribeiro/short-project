@@ -4,6 +4,10 @@
         return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
     };
 
+    function RandomIndex ($is_array) {
+        return $is_array[rand(0, sizeof($is_array) - 1)];
+    };
+
     function PoweredBy ($output = []) {
         $is_proper = [
             'url' => ArrayKeyExist ($output, 'url') ? trim($output['url']) : '',
@@ -63,6 +67,27 @@
                     });
                     $is_archives = array_diff($is_archives, []);
                     $is_indexes = array_keys($is_archives);
+                    $is_concept = [
+                        'A amizade é o que dá sentido à vida.',
+                        'A amizade é o que torna a vida possível.',
+                        'A vida anda pra frente.',
+                        'A vida é a síntese de tudo.',
+                        'A vida é compartilhar.',
+                        'A vida é feliz.',
+                        'A vida é jornada.',
+                        'A vida é luz que ofusca.',
+                        'A vida é o caminho.',
+                        'A vida e saúde.',
+                        'A vida é serviço, e viver é servir.',
+                        'A vida é um presente, e o presente.',
+                        'A vida é unidade plural.',
+                        'A vida está na verdade.',
+                        'A vida está no detalhe.',
+                        'A vida não para.',
+                        'Não há vida sem amor.',
+                        'O amor é a verdade da vida.',
+                        'O caminho é o que dá sentido à vida.',
+                    ];
                     foreach ($is_indexes as $is_index):
                         $is_src = $is_folder . '/' . $is_archives[$is_index];
                         if (is_file($is_src)):
@@ -79,9 +104,9 @@
                                 $is_return .= '</div>';
                                 $is_return .= '<div class=\'thumbnail-filter\'></div>';
                                 $is_return .= '<div class=\'thumbnail-caption\'>';
-                                    $is_return .= '<h1>' . 'Viva Hostel Design.' . '</h1>';
+                                    $is_return .= '<h1>' . 'Viva Hostel.' . '</h1>';
                                     $is_return .= '<h2>' . 'O melhor da Vila Madalena em elegância e conforto.' . '</h2>';
-                                    $is_return .= '<p>' . 'Aute ea dolore cillum enim dolor.' . '</p>';
+                                    $is_return .= '<p>' . RandomIndex($is_concept) . '</p>';
                                 $is_return .= '</div>';
                             $is_return .= '</div>';
                         endif;
