@@ -6,7 +6,7 @@ import {
 import {
     SetStyle,
     TextTemplate,
-} from './script-variables.js';
+} from './script-variable.js';
 export const SocialNetwork = () => {
     const Array = [];
     const Attribute = [
@@ -42,22 +42,6 @@ export const SocialNetwork = () => {
             },
             id : 'btn-instagram',
         },
-        // {
-        //     function : (output = {}) => {
-        //         let Https = '';
-        //         window.open(Https, '_blank');
-        //     },
-        //     hover : [
-        //         'bg-info',
-        //     ],
-        //     ico : {
-        //         class : [
-        //             'bi',
-        //             'bi-messenger',
-        //         ],
-        //     },
-        //     id : 'btn-messenger',
-        // },
         {
             function : (output = {}) => {
                 const Proper = {
@@ -131,9 +115,6 @@ export const SocialNetwork = () => {
                 SetAttribute({ element : Array[i], attribute : 'id', value : Attribute[i]['id'] });
                 SetAttribute({ element : Array[i], attribute : 'class', value : [
                         ...SetStyle['button']['class'],
-                        'bg-secondary',
-                        'd-lg-flex',
-                        'd-none',
                     ],
                 });
                 SetAttribute({ element : Array[i], attribute : 'style', value : {

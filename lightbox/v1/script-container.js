@@ -10,7 +10,7 @@ import {
     LightboxPosition,
     LightboxWidth,
     SetStyle,
-} from './script-variables.js';
+} from './script-variable.js';
 export const LightboxBuilder = (CurrentPicture = 0) => {
     const Background = CreateElement();
     SetAttribute({ element : Background, attribute : 'id', value : 'background' });

@@ -2,8 +2,8 @@ import {
     NoUnit,
 } from './script-main.js';
 export let TextTemplate = '';
-TextTemplate += ' O Viva Hostel Design é uma opção de hospedagem diferenciada e moderna em São Paulo. Localizado no bairro de Pinheiros, um dos mais descolados da cidade, o hostel oferece uma experiência única aos seus hóspedes.';
-TextTemplate += ' Com uma decoração arrojada e criativa, o Viva Hostel Design conta com quartos compartilhados e privativos, todos equipados com ar-condicionado, armários individuais e Wi-Fi gratuito. Além disso, o Hostel dispõe de uma cozinha compartilhada, sala de estar com TV, terraço com vista panorâmica e um bar.';
+TextTemplate += ' O Viva Hostel Design é uma opção de hospedagem diferenciada e moderna em São Paulo. Localizado no bairro da Vila Madalena, um dos mais descolados da cidade, o hostel oferece uma experiência única aos seus hóspedes.';
+TextTemplate += ' Com uma decoração arrojada e criativa, o Viva Hostel Design conta com quartos compartilhados e privativos, todos equipados com ar-condicionado, armários individuais e Wi-Fi gratuito. Além disso, o Hostel dispõe de uma cozinha equipada e compartilhada, sala de estar, sala de TV, terraço com vista panorâmica, e um bar.';
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };
@@ -132,6 +132,7 @@ export const SetStyle = {
         class : [
             'align-items-center',
             'bg-secondary',
+            'd-flex',
             'justify-content-center',
             'position-fixed',
             'rounded-circle',
@@ -157,14 +158,14 @@ const ContainerHeight = window['innerHeight'] - (NoUnit(SetStyle['border']['marg
 const ContainerWidth = window['innerWidth'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2;
 const ContainerPadding = NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin']) + NoUnit(SetStyle['picture']['style']['padding']);
 export const LightboxAttribute = [];
-document.querySelectorAll('.photo-content').forEach(element => {
-    let Picture = element.querySelector('.photo-background') ? (element.querySelector('.photo-background').querySelector('.photo-picture') ? element.querySelector('.photo-background').querySelector('.photo-picture') : [ undefined ]) : [ undefined ];
+document.querySelectorAll('.thumbnail-content').forEach(element => {
+    let Picture = element.querySelector('.thumbnail-background') ? (element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') ? element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') : [ undefined ]) : [ undefined ];
     Picture = Picture ? {
         height : Picture.getAttribute('data-height') ? Picture.getAttribute('data-height') : [ undefined ],
         url : Picture.getAttribute('data-url') ? Picture.getAttribute('data-url') : [ undefined ],
         width : Picture.getAttribute('data-width') ? Picture.getAttribute('data-width') : [ undefined ],
     } : { };
-    let Caption = element.querySelector('.photo-caption') ? element.querySelector('.photo-caption') : [ undefined ];
+    let Caption = element.querySelector('.thumbnail-caption') ? element.querySelector('.thumbnail-caption') : [ undefined ];
     Caption = Caption ? {
         title : Caption.querySelector('h1') ? (Caption.querySelector('h1')['innerText'] ? Caption.querySelector('h1')['innerText'] : [ undefined ]) : [ undefined ],
         subtitle : Caption.querySelector('h2') ? (Caption.querySelector('h2')['innerText'] ? Caption.querySelector('h2')['innerText'] : [ undefined ]) : [ undefined ],
@@ -189,21 +190,21 @@ for (let i = 0; i < LightboxAttribute['length']; i++) {
 export const Transform = {
     highlight : Element => {
         if (Element) {
-            if (Element.querySelector('.photo-filter')) {
-                Element.querySelector('.photo-filter')['style']['opacity'] = 'calc(1 / 100 * 75)';
+            if (Element.querySelector('.thumbnail-filter')) {
+                Element.querySelector('.thumbnail-filter')['style']['opacity'] = 'calc(1 / 100 * 75)';
             };
-            if (Element.querySelector('.photo-caption')) {
-                Element.querySelector('.photo-caption')['style']['opacity'] = 1;
+            if (Element.querySelector('.thumbnail-caption')) {
+                Element.querySelector('.thumbnail-caption')['style']['opacity'] = 1;
             };
         };
     },
     downlight : Element => {
         if (Element) {
-            if (Element.querySelector('.photo-filter')) {
-                Element.querySelector('.photo-filter')['style']['opacity'] = 0;
+            if (Element.querySelector('.thumbnail-filter')) {
+                Element.querySelector('.thumbnail-filter')['style']['opacity'] = 0;
             };
-            if (Element.querySelector('.photo-caption')) {
-                Element.querySelector('.photo-caption')['style']['opacity'] = 0;
+            if (Element.querySelector('.thumbnail-caption')) {
+                Element.querySelector('.thumbnail-caption')['style']['opacity'] = 0;
             };
         };
     },

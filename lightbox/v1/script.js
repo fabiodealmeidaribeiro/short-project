@@ -16,7 +16,7 @@ import {
 } from './script-network.js';
 import {
     Transform,
-} from './script-variables.js';
+} from './script-variable.js';
 var CurrentPicture = 0;
 document.addEventListener("DOMContentLoaded", () => {
     SocialNetwork();
@@ -62,8 +62,8 @@ document.addEventListener("DOMContentLoaded", () => {
             Event.preventDefault();
         });
     };
-    SetContent({ class : '.photo-content' });
-    const Content = document.querySelectorAll('.photo-content');
+    SetContent({ class : '.thumbnail-content' });
+    const Content = document.querySelectorAll('.thumbnail-content');
     const Array = (CurrentPicture = 0) => {
         return [
             {
@@ -139,5 +139,5 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 });
 window.addEventListener('resize', () => {
-    SetContent({ class : '.photo-content' });
+    SetContent({ class : '.thumbnail-content' });
 });

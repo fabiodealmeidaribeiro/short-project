@@ -3,7 +3,7 @@ import {
 } from './script-main.js';
 import {
     SetStyle,
-} from './script-variables.js';
+} from './script-variable.js';
 export const SetContent = (output = {}) => {
     const Array = [ 1, 1.33, 1.85, 2.35 ];
     const Proper = {
@@ -14,7 +14,7 @@ export const SetContent = (output = {}) => {
     document.querySelectorAll(Proper['class']).forEach(Element => {
         if (Element) {
             Element['style']['height'] = Proper['height'] * Element['clientWidth'] / Proper['width'] + 'px';
-            const Caption = Element.querySelector('.photo-caption');
+            const Caption = Element.querySelector('.thumbnail-caption');
             if (Caption) {
                 const Title = Caption.querySelector('h1');
                 if (Title) {

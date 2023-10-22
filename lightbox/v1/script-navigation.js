@@ -1,7 +1,7 @@
 import {
     LightboxAttribute,
     SetStyle,
-} from './script-variables.js';
+} from './script-variable.js';
 export const NavigationBuilder = (CurrentPicture = 0) => {
     return [
         {
