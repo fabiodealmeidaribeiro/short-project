@@ -1,5 +1,11 @@
 <?php
 
+    function ReadJSONFile ($output) {
+        if (file_exists($output)):
+            return json_decode(file_get_contents($output));
+        endif;
+    };
+
     function ArrayKeyExist ($is_array, $is_key) {
         return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
     };
@@ -67,27 +73,7 @@
                     });
                     $is_archives = array_diff($is_archives, []);
                     $is_indexes = array_keys($is_archives);
-                    $is_concept = [
-                        'A amizade é o que dá sentido à vida.',
-                        'A amizade é o que torna a vida possível.',
-                        'A vida anda pra frente.',
-                        'A vida é a síntese de tudo.',
-                        'A vida é compartilhar.',
-                        'A vida é feliz.',
-                        'A vida é jornada.',
-                        'A vida é luz que ofusca.',
-                        'A vida é o caminho.',
-                        'A vida e saúde.',
-                        'A vida é serviço, e viver é servir.',
-                        'A vida é um presente, e o presente.',
-                        'A vida é unidade plural.',
-                        'A vida está na verdade.',
-                        'A vida está no detalhe.',
-                        'A vida não para.',
-                        'Não há vida sem amor.',
-                        'O amor é a verdade da vida.',
-                        'O caminho é o que dá sentido à vida.',
-                    ];
+                    $is_concept = ReadJSONFile ('settings.json')->concept;
                     foreach ($is_indexes as $is_index):
                         $is_src = $is_folder . '/' . $is_archives[$is_index];
                         if (is_file($is_src)):

@@ -1,4 +1,31 @@
 {
-  "title": "Viva Hostel Design",
-  "description": "Velit consectetur et aliqua occaecat pariatur deserunt sit cillum id nulla cupidatat elit."
+  "about": {
+    "title": "Viva Hostel",
+    "subtitle": "O melhor da Vila Madalena em elegância e conforto.",
+    "description": [
+      " O Viva Hostel Design é uma opção de hospedagem diferenciada e moderna em São Paulo. Localizado no bairro da Vila Madalena, um dos mais descolados da cidade, o hostel oferece uma experiência única aos seus hóspedes.",
+      " Com uma decoração arrojada e criativa, o Viva Hostel Design conta com quartos compartilhados e privativos, todos equipados com ar-condicionado, armários individuais e Wi-Fi gratuito. Além disso, o Hostel dispõe de uma cozinha equipada e compartilhada, sala de estar, sala de TV, terraço com vista panorâmica, e um bar."
+    ]
+  },
+  "concept": [
+    "A amizade é o que dá sentido à vida.",
+    "A amizade é o que torna a vida possível.",
+    "A vida anda pra frente.",
+    "A vida é a síntese de tudo.",
+    "A vida é compartilhar.",
+    "A vida é feliz.",
+    "A vida é jornada.",
+    "A vida é luz que ofusca.",
+    "A vida é o caminho.",
+    "A vida e saúde.",
+    "A vida é serviço, e viver é servir.",
+    "A vida é um presente, e o presente.",
+    "A vida é unidade plural.",
+    "A vida está na verdade.",
+    "A vida está no detalhe.",
+    "A vida não para.",
+    "Não há vida sem amor.",
+    "O amor é a verdade da vida.",
+    "O caminho é o que dá sentido à vida."
+  ]
 }

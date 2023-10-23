@@ -2,20 +2,22 @@
     include_once('functions.php');
     echo HeaderDisplay ();
     echo ThumbnailBuilder ('./image');
+    $is_about = ReadJSONFile('settings.json')->about;
+    $is_title = $is_about->title ? [ '<h1>' . $is_about->title . '</h1>' ] : [];
+    $is_subtitle = $is_about->subtitle ? [ '<h2>' . $is_about->subtitle . '</h2>' ] : [];
+    $is_description = '';
+    if (empty($is_about->description)): else:
+        for ($i = 0; $i < sizeof($is_about->description); $i++):
+            if (empty($is_about->description[$i])): else:
+                $is_description .= '<p>' . trim($is_about->description[$i]) . '</p>';
+            endif;
+        endfor;
+    endif;
     echo FooterBuilder ([ 'content' => [
             [
-                '<h1>',
-                    'Viva Hostel Design.',
-                '</h1>',
-                '<h2>',
-                    'O melhor da Vila Madalena em elegância e conforto.',
-                '</h2>',
-                '<p>',
-                    'O Viva Hostel Design é uma opção de hospedagem diferenciada e moderna em São Paulo. Localizado no bairro da Vila Madalena, um dos mais descolados da cidade, o hostel oferece uma experiência única aos seus hóspedes.',
-                '</p>',
-                '<p>',
-                    'Com uma decoração arrojada e criativa, o Viva Hostel Design conta com quartos compartilhados e privativos, todos equipados com ar-condicionado, armários individuais e Wi-Fi gratuito. Além disso, o Hostel dispõe de uma cozinha equipada e compartilhada, sala de estar, sala de TV, terraço com vista panorâmica, e um bar.',
-                '</p>',
+                ...$is_title,
+                ...$is_subtitle,
+                ...!empty($is_description) ? [ $is_description ] : [],
             ],
             [
                 '<iframe',
