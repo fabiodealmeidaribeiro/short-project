@@ -105,6 +105,7 @@ document.addEventListener("DOMContentLoaded", () => {
         });
         [ 'mouseover', 'mouseenter' ].map(Index => {
             Element.addEventListener(Index, Event => {
+                CurrentPicture = i;
                 Element['style']['cursor'] = 'pointer';
                 Content.forEach(Content => Transform['downlight'](Content));
                 Transform['highlight'](Element);
