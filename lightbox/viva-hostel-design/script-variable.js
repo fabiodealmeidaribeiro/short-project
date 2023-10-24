@@ -2,8 +2,8 @@ import {
     NoUnit,
 } from './script-main.js';
 export let TextTemplate = '';
-TextTemplate += ' O Viva Hostel Design é uma opção de hospedagem diferenciada e moderna em São Paulo. Localizado no bairro da Vila Madalena, um dos mais descolados da cidade, o hostel oferece uma experiência única aos seus hóspedes.';
-TextTemplate += ' Com uma decoração arrojada e criativa, o Viva Hostel Design conta com quartos compartilhados e privativos, todos equipados com ar-condicionado, armários individuais e Wi-Fi gratuito. Além disso, o Hostel dispõe de uma cozinha equipada e compartilhada, sala de estar, sala de TV, terraço com vista panorâmica, e um bar.';
+TextTemplate += ' Commodo aute nostrud consectetur incididunt labore nulla pariatur irure eu et aliqua ipsum nisi. Aliqua sit deserunt reprehenderit officia id nulla consectetur exercitation occaecat. Aliqua laborum tempor ut fugiat aliqua fugiat proident exercitation. Voluptate Lorem elit amet ex tempor dolor pariatur ullamco do. Sit mollit laboris nisi mollit nulla nisi.';
+TextTemplate += ' Eu enim ex in officia minim qui ipsum. In ipsum exercitation aliquip adipisicing. Commodo mollit nostrud nostrud est commodo in in pariatur incididunt pariatur culpa.';
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };
@@ -158,14 +158,14 @@ const ContainerHeight = window['innerHeight'] - (NoUnit(SetStyle['border']['marg
 const ContainerWidth = window['innerWidth'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2;
 const ContainerPadding = NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin']) + NoUnit(SetStyle['picture']['style']['padding']);
 export const LightboxAttribute = [];
-document.querySelectorAll('.thumbnail-content').forEach(element => {
-    let Picture = element.querySelector('.thumbnail-background') ? (element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') ? element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') : [ undefined ]) : [ undefined ];
+document.querySelectorAll('.thumbnail-content').forEach(Element => {
+    let Picture = Element.querySelector('.thumbnail-background') ? (Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') ? Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') : [ undefined ]) : [ undefined ];
     Picture = Picture ? {
         height : Picture.getAttribute('data-height') ? Picture.getAttribute('data-height') : [ undefined ],
         url : Picture.getAttribute('data-url') ? Picture.getAttribute('data-url') : [ undefined ],
         width : Picture.getAttribute('data-width') ? Picture.getAttribute('data-width') : [ undefined ],
     } : { };
-    let Caption = element.querySelector('.thumbnail-caption') ? element.querySelector('.thumbnail-caption') : [ undefined ];
+    let Caption = Element.querySelector('.thumbnail-caption') ? Element.querySelector('.thumbnail-caption') : [ undefined ];
     Caption = Caption ? {
         title : Caption.querySelector('h1') ? (Caption.querySelector('h1')['innerText'] ? Caption.querySelector('h1')['innerText'] : [ undefined ]) : [ undefined ],
         subtitle : Caption.querySelector('h2') ? (Caption.querySelector('h2')['innerText'] ? Caption.querySelector('h2')['innerText'] : [ undefined ]) : [ undefined ],
@@ -196,6 +196,11 @@ export const Transform = {
             if (Element.querySelector('.thumbnail-caption')) {
                 Element.querySelector('.thumbnail-caption')['style']['opacity'] = 1;
             };
+            if (Element.querySelector('.thumbnail-background')) {
+                if (Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture')) {
+                    Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture')['classList'].add('transform-scale');
+                };
+            };
         };
     },
     downlight : Element => {
@@ -205,6 +210,11 @@ export const Transform = {
             };
             if (Element.querySelector('.thumbnail-caption')) {
                 Element.querySelector('.thumbnail-caption')['style']['opacity'] = 0;
+            };
+            if (Element.querySelector('.thumbnail-background')) {
+                if (Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture')) {
+                    Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture')['classList'].remove('transform-scale');
+                };
             };
         };
     },

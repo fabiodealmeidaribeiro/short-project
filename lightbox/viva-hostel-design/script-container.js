@@ -11,7 +11,7 @@ import {
     LightboxWidth,
     SetStyle,
 } from './script-variable.js';
-export const LightboxBuilder = (CurrentPicture = 0) => {
+export const LightboxBuilder = (output = 0) => {
     const Background = CreateElement();
     SetAttribute({ element : Background, attribute : 'id', value : 'background' });
     SetAttribute({ element : Background, attribute : 'class', value : [
@@ -57,8 +57,8 @@ export const LightboxBuilder = (CurrentPicture = 0) => {
     });
     SetAttribute({ element : Inner, attribute : 'style', value : {
             ...SetStyle['inner']['style'],
-            left : LightboxAttribute[CurrentPicture]['left'],
-            width : LightboxAttribute[CurrentPicture]['width'],
+            left : LightboxAttribute[output]['left'],
+            width : LightboxAttribute[output]['width'],
         },
     });
     document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner);
@@ -70,7 +70,7 @@ export const LightboxBuilder = (CurrentPicture = 0) => {
     });
     SetAttribute({ element : Content, attribute : 'style', value : {
             ...SetStyle['content']['style'],
-            left : LightboxPosition[CurrentPicture]['left'],
+            left : LightboxPosition[output]['left'],
             width : LightboxWidth + 'px',
         },
     });
@@ -128,7 +128,7 @@ export const LightboxBuilder = (CurrentPicture = 0) => {
             };
         };
     };
-    const NavigationAttribute = NavigationBuilder(CurrentPicture);
+    const NavigationAttribute = NavigationBuilder(output);
     if (NavigationAttribute) {
         if (NavigationAttribute['length']) {
             const NavigationArray = [];
@@ -159,27 +159,27 @@ export const LightboxBuilder = (CurrentPicture = 0) => {
             };
         };
     };
-    LightboxTransition(CurrentPicture);
+    LightboxTransition(output);
 };
-export const LightboxTransition = (CurrentPicture = 0) => {
-    document.querySelector('#content')['style']['left'] = LightboxPosition[CurrentPicture]['left'];
-    document.querySelector('#inner')['style']['height'] = LightboxAttribute[CurrentPicture]['height'];
-    document.querySelector('#inner')['style']['left'] = LightboxAttribute[CurrentPicture]['left'];
-    document.querySelector('#inner')['style']['top'] = LightboxAttribute[CurrentPicture]['top'];
-    document.querySelector('#inner')['style']['width'] = LightboxAttribute[CurrentPicture]['width'];
-    if (CurrentPicture < 1) {
+export const LightboxTransition = (output = 0) => {
+    document.querySelector('#content')['style']['left'] = LightboxPosition[output]['left'];
+    document.querySelector('#inner')['style']['height'] = LightboxAttribute[output]['height'];
+    document.querySelector('#inner')['style']['left'] = LightboxAttribute[output]['left'];
+    document.querySelector('#inner')['style']['top'] = LightboxAttribute[output]['top'];
+    document.querySelector('#inner')['style']['width'] = LightboxAttribute[output]['width'];
+    if (output < 1) {
         document.querySelector('#btn-arrow-left')['style']['opacity'] = 0;
         document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(0)';
     };
-    if (CurrentPicture > (LightboxAttribute['length'] - 2)) {
+    if (output > (LightboxAttribute['length'] - 2)) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 0;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(0)';
     };
-    if (!(CurrentPicture < 1)) {
+    if (!(output < 1)) {
         document.querySelector('#btn-arrow-left')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(1)';
     };
-    if (!(CurrentPicture > (LightboxAttribute['length'] - 2))) {
+    if (!(output > (LightboxAttribute['length'] - 2))) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
     };

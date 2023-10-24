@@ -27,8 +27,7 @@ h6
     padding : 0;
 }
 
-.thumbnail-caption>h1 { font-size : calc(2.5rem / 100 * 50); }
-.thumbnail-caption>h2 { font-size : calc(2rem / 100 * 50); }
+h2 { font-size : calc(2rem / 100 * 75); }
 
 ::-webkit-scrollbar
 {
@@ -63,9 +62,9 @@ h6
     position : relative;
 }
 
+.transform-scale,
 .thumbnail-content:hover .thumbnail-picture
-{
-    cursor : pointer;
+{ 
     -moz-transform : scale(1.5);
     -ms-transform : scale(1.5);
     -o-transform : scale(1.5);

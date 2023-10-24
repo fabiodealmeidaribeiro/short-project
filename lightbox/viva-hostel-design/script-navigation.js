@@ -2,10 +2,10 @@ import {
     LightboxAttribute,
     SetStyle,
 } from './script-variable.js';
-export const NavigationBuilder = (CurrentPicture = 0) => {
+export const NavigationBuilder = (output = 0) => {
     return [
         {
-            condition : CurrentPicture < 1 ? 0 : - 1,
+            condition : output < 1 ? 0 : - 1,
             function : () => {
             },
             class : [
@@ -26,7 +26,7 @@ export const NavigationBuilder = (CurrentPicture = 0) => {
             },
         },
         {
-            condition : CurrentPicture > LightboxAttribute['length'] - 2 ? 0 : + 1,
+            condition : output > LightboxAttribute['length'] - 2 ? 0 : + 1,
             function : () => {
             },
             class : [
