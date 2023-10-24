@@ -5,103 +5,15 @@ import {
 } from './script-main.js';
 import {
     SetStyle,
-    TextTemplate,
 } from './script-variable.js';
-export const SocialNetwork = () => {
+export const SocialNetwork = (output = {}) => {
+    const Proper = {
+        phone : 'phone' in output ? (Validator['String'](output['phone']) ? output['phone'] : '') : '',
+        message : 'message' in output ? (Validator['Array'](output['message']) ? output['message'] : []) : [],
+        https : 'https' in output ? (Validator['Array'](output['https']) ? output['https'] : []) : [],
+    };
     const Array = [];
-    const Attribute = [
-        {
-            function : () => {
-                let Https = 'https://www.facebook.com/VivaHostel/';
-                window.open(Https, '_blank');
-            },
-            hover : [
-                'bg-primary',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-facebook',
-                ],
-            },
-            id : 'btn-facebook',
-        },
-        {
-            function : () => {
-                let Https = 'https://www.instagram.com/vivahostel/';
-                window.open(Https, '_blank');
-            },
-            hover : [
-                'bg-danger',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-instagram',
-                ],
-            },
-            id : 'btn-instagram',
-        },
-        {
-            function : (output = {}) => {
-                const Proper = {
-                    phone : 'phone' in output ? (Validator['String'](output['phone']) ? output['phone'] : '+55 (11) 9 9258-1757') : '+55 (11) 9 9258-1757',
-                    message : 'message' in output ? (Validator['String'](output['message']) ? output['message'] : TextTemplate) : TextTemplate,
-                };
-                let Https = '';
-                if (Validator['String'](Proper['phone'])) {
-                    Https += 'https://api.whatsapp.com/send?phone=';
-                    Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
-                    if (Validator['String'](Proper['message'])) {
-                        Https += '&text=';
-                        Https += Proper['message'].trim().replace(/' '/, '%20');
-                    };
-                    window.open(Https, '_blank');
-                };
-            },
-            hover : [
-                'bg-success',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-whatsapp',
-                ],
-            },
-            id : 'btn-whatsapp',
-        },
-        {
-            function : () => {
-                let Https = 'https://www.youtube.com/watch?v=1OaaUjyixVY';
-                window.open(Https, '_blank');
-            },
-            hover : [
-                'bg-danger',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-youtube',
-                ],
-            },
-            id : 'btn-youtube',
-        },
-        {
-            function : () => {
-                let Https = 'https://www.linkedin.com/in/rafael-favoretto';
-                window.open(Https, '_blank');
-            },
-            hover : [
-                'bg-primary',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-linkedin',
-                ],
-            },
-            id : 'btn-linkedin',
-        },
+    let Attribute = [
         {
             function : () => {
                 if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
@@ -122,10 +34,80 @@ export const SocialNetwork = () => {
             },
             id : 'btn-arrow',
         },
+        {
+            function : () => {
+                let Https = '';
+                if (Validator['String'](Proper['phone'])) {
+                    Https += 'https://api.whatsapp.com/send?phone=';
+                    Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
+                    if (Validator['Array'](Proper['message'])) {
+                        Https += '&text=';
+                        for (let i = 0; i < Proper['message']['length']; i++) {
+                            Https += Proper['message'][i].trim().replace(/' '/, '%20');
+                            Https += i < Proper['message']['length'] - 1 ? '%20' : '';
+                        };
+                    };
+                    window.open(Https, '_blank');
+                };
+            },
+            hover : [
+                'bg-success',
+            ],
+            ico : {
+                class : [
+                    'bi',
+                    'bi-whatsapp',
+                ],
+            },
+            id : 'btn-whatsapp',
+        },
     ];
+    const Network = [
+        {   
+            title : 'facebook',
+            background : 'bg-primary'
+        },
+        {
+            title : 'instagram',
+            background : 'bg-danger'
+        },
+        {
+            title : 'linkedin',
+            background : 'bg-primary'
+        },
+        {
+            title : 'youtube',
+            background : 'bg-danger'
+        },
+    ];
+    if (Proper['https']) {
+        if (Proper['https']['length']) {
+            for (let i = 0; i < Proper['https']['length']; i++) {
+                for (let j = 0; j < Network['length']; j++) {
+                    if (Proper['https'][i].includes(Network[j]['title'])) {
+                        Attribute.push({
+                            function : () => {
+                                window.open(Proper['https'][i], '_blank');
+                            },
+                            hover : [
+                                Network[j]['background'],
+                            ],
+                            ico : {
+                                class : [
+                                    'bi',
+                                    'bi-' + Network[j]['title'],
+                                ],
+                            },
+                            id : 'btn-' + Network[j]['title'],
+                        });
+                    };
+                };
+            };
+        };
+    };
     if (Attribute) {
         if (Attribute['length']) {
-            Attribute.reverse();
+            // Attribute.reverse();
             for (let i = 0; i < Attribute['length']; i++) {
                 Array[i] = CreateElement();
                 SetAttribute({ element : Array[i], attribute : 'id', value : Attribute[i]['id'] });
