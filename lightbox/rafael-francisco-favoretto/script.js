@@ -20,12 +20,6 @@ import {
 var CurrentPicture = 0;
 document.addEventListener('DOMContentLoaded', () => {
     SocialNetwork({
-        https : [
-            'https://www.facebook.com/VivaHostel/',
-            'https://www.instagram.com/vivahostel/',
-            'https://www.linkedin.com/in/rafael-favoretto',
-            'https://www.youtube.com/watch?v=1OaaUjyixVY',
-        ],
         phone : '+55 (11) 9 9258-1757',
         message : [
             'Commodo aute nostrud consectetur incididunt labore nulla pariatur irure eu et aliqua ipsum nisi.',
@@ -35,6 +29,12 @@ document.addEventListener('DOMContentLoaded', () => {
             'Eu enim ex in officia minim qui ipsum.',
             'In ipsum exercitation aliquip adipisicing.',
             'Commodo mollit nostrud nostrud est commodo in in pariatur incididunt pariatur culpa.',
+        ],
+        https : [
+            'https://www.facebook.com/VivaHostel/',
+            'https://www.instagram.com/vivahostel/',
+            'https://www.linkedin.com/in/rafael-favoretto',
+            'https://www.youtube.com/watch?v=1OaaUjyixVY',
         ],
     });
     LightboxBuilder();

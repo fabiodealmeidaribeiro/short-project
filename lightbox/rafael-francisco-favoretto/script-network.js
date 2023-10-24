@@ -34,21 +34,21 @@ export const SocialNetwork = (output = {}) => {
             },
             id : 'btn-arrow',
         },
-        {
+    ];
+    if (Validator['String'](Proper['phone'])) {
+        Attribute.push({
             function : () => {
                 let Https = '';
-                if (Validator['String'](Proper['phone'])) {
-                    Https += 'https://api.whatsapp.com/send?phone=';
-                    Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
-                    if (Validator['Array'](Proper['message'])) {
-                        Https += '&text=';
-                        for (let i = 0; i < Proper['message']['length']; i++) {
-                            Https += Proper['message'][i].trim().replace(/' '/, '%20');
-                            Https += i < Proper['message']['length'] - 1 ? '%20' : '';
-                        };
+                Https += 'https://api.whatsapp.com/send?phone=';
+                Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
+                if (Validator['Array'](Proper['message'])) {
+                    Https += '&text=';
+                    for (let i = 0; i < Proper['message']['length']; i++) {
+                        Https += Proper['message'][i].trim().replace(/' '/, '%20');
+                        Https += i < Proper['message']['length'] - 1 ? '%20' : '';
                     };
-                    window.open(Https, '_blank');
                 };
+                window.open(Https, '_blank');
             },
             hover : [
                 'bg-success',
@@ -60,8 +60,8 @@ export const SocialNetwork = (output = {}) => {
                 ],
             },
             id : 'btn-whatsapp',
-        },
-    ];
+        });
+    };
     const Network = [
         {   
             title : 'facebook',
@@ -107,7 +107,6 @@ export const SocialNetwork = (output = {}) => {
     };
     if (Attribute) {
         if (Attribute['length']) {
-            // Attribute.reverse();
             for (let i = 0; i < Attribute['length']; i++) {
                 Array[i] = CreateElement();
                 SetAttribute({ element : Array[i], attribute : 'id', value : Attribute[i]['id'] });
