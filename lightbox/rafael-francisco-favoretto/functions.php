@@ -123,16 +123,22 @@
         $is_proper = [
             'content' => ArrayKeyExist($output, 'content') ? $output['content'] : [],
         ];
+        $is_array = [];
+        for ($i = 0; $i < sizeof($is_proper['content']); $i++):
+            if (IsTrue($is_proper['content'][$i])):
+                array_push($is_array, $is_proper['content'][$i]);
+            endif;
+        endfor;
         $is_return = '';
-        if (IsTrue($is_proper['content'])):
+        if (IsTrue($is_array)):
             $is_return .= '<footer class=\'bg-dark m-0 p-0\'>';
                 $is_return .= '<section class=\'mx-auto pt-3\' style=\'width : calc(100% - 10rem);\'>';
                     $is_return .= '<div class=\'align-items-start justify-content-center row gx-3\'>';
-                        $is_classes = [ ...sizeof($is_proper['content']) % 3 === 0 ? [ 'col-lg-4' ] : [ 'col-lg-6' ], 'col-sm-12', 'mb-3' ];
-                        for ($i = 0; $i < sizeof($is_proper['content']); $i++):
-                            if (IsTrue($is_proper['content'][$i])):
+                        $is_classes = [ ...sizeof($is_array) % 3 === 0 ? [ 'col-lg-4' ] : [ 'col-lg-6' ], 'col-sm-12', 'mb-3' ];
+                        for ($i = 0; $i < sizeof($is_array); $i++):
+                            if (IsTrue($is_array[$i])):
                                 $is_return .= '<article class=\'' . implode(' ', $is_classes) . '\'>';
-                                    $is_return .= implode('', $is_proper['content'][$i]);
+                                    $is_return .= implode('', $is_array[$i]);
                                 $is_return .= '</article>';
                             endif;
                         endfor;
