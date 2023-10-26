@@ -89,6 +89,24 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         });
     };
+
+    document.addEventListener('keydown', Event => {
+        if (Event['key'] === 'Enter') {
+            LightboxTransition(CurrentPicture);
+            let Selector = document.querySelector('#background');
+            if (Selector) {
+                Selector['style']['display'] = 'flex';
+                Selector['style']['zIndex'] = 9999;
+                if (!TransitionRunning(Selector)) {
+                    Selector['style']['opacity'] = 1;
+                };
+            };
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
+    });
+
+
     Content.forEach((Element, i) => {
         [ 'mouseleave', 'mouseout' ].map(Index => {
             Element.addEventListener(Index, Event => {

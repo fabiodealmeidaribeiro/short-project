@@ -16,8 +16,8 @@ const fetchData = async (output = '') => {
 export const SocialNetwork = async () => {
     const Result = await fetchData('settings.json');
     const Proper = {
+        description : Validator['Array'](Result['about']['description']) ? Result['about']['description'] : [],
         phone : Validator['String'](Result['network']['phone']) ? Result['network']['phone'] : '',
-        message : Validator['Array'](Result['network']['message']) ? Result['network']['message'] : [],
         https : Validator['Array'](Result['network']['https']) ? Result['network']['https'] : [],
     };
     const Network = [
@@ -67,11 +67,11 @@ export const SocialNetwork = async () => {
                 let Https = '';
                 Https += 'https://api.whatsapp.com/send?phone=';
                 Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
-                if (Validator['Array'](Proper['message'])) {
+                if (Validator['Array'](Proper['description'])) {
                     Https += '&text=';
-                    for (let i = 0; i < Proper['message']['length']; i++) {
-                        Https += Proper['message'][i].trim().replace(/' '/, '%20');
-                        Https += i < Proper['message']['length'] - 1 ? '%20' : '';
+                    for (let i = 0; i < Proper['description']['length']; i++) {
+                        Https += Proper['description'][i].trim().replace(/' '/, '%20');
+                        Https += i < Proper['description']['length'] - 1 ? '%20' : '';
                     };
                 };
                 window.open(Https, '_blank');
