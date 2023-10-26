@@ -1,28 +1,22 @@
 <?php
     include_once('functions.php');
     echo HeaderDisplay ();
-    echo ThumbnailBuilder ();
-    $is_about = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json')->about : [];
-    $is_title = IsTrue($is_about) ? (IsTrue($is_about->title) ? [ '<h1>' . trim($is_about->title) . '</h1>' ] : []) : [];
-    $is_subtitle = IsTrue($is_about) ? (IsTrue($is_about->subtitle) ? [ '<h2>' . trim($is_about->subtitle) . '</h2>' ] : []) : [];
-    $is_description = '';
-    if (IsTrue($is_about)):
-        if (IsTrue($is_about->description)):
-            for ($i = 0; $i < sizeof($is_about->description); $i++):
-                if (IsTrue($is_about->description[$i])):
-                    $is_description .= '<p>' . trim($is_about->description[$i]) . '</p>';
-                endif;
-            endfor;
-        endif;
-    endif;
+    echo ThumbnailBuilder ([ 'subtitle' => true, 'concept' => true ]);
+    $is_json = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json') : [];
+    $is_about = property_exists($is_json, 'about') ? $is_json->about : [];
     echo FooterBuilder ([ 'content' => [
             [
-                ...$is_title,
-                ...$is_subtitle,
-                ...IsTrue($is_description) ? [ $is_description ] : [],
+                ...IsTrue($is_about)
+                ? (property_exists($is_about, 'title') ? [ '<h1>' . trim($is_about->title) . '</h1>' ] : [])
+                : [],
+                ...IsTrue($is_about)
+                ? (property_exists($is_about, 'subtitle') ? [ '<h2>' . trim($is_about->subtitle) . '</h2>' ] : [])
+                : [],
+                ...IsTrue($is_about)
+                ? (property_exists($is_about, 'description') ? array_map(function($i) { return '<p>' . trim($i) . '</p>'; }, $is_about->description) : [])
+                : [],
             ],
-            [
-            ],
+            ...property_exists($is_json, 'footer') ? $is_json->footer : [],
         ]
     ]);
     echo FooterDisplay ();

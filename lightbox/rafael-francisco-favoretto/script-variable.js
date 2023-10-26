@@ -1,9 +1,6 @@
 import {
     NoUnit,
 } from './script-main.js';
-export let TextTemplate = '';
-TextTemplate += ' Commodo aute nostrud consectetur incididunt labore nulla pariatur irure eu et aliqua ipsum nisi. Aliqua sit deserunt reprehenderit officia id nulla consectetur exercitation occaecat. Aliqua laborum tempor ut fugiat aliqua fugiat proident exercitation. Voluptate Lorem elit amet ex tempor dolor pariatur ullamco do. Sit mollit laboris nisi mollit nulla nisi.';
-TextTemplate += ' Eu enim ex in officia minim qui ipsum. In ipsum exercitation aliquip adipisicing. Commodo mollit nostrud nostrud est commodo in in pariatur incididunt pariatur culpa.';
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };

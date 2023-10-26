@@ -19,24 +19,7 @@ import {
 } from './script-variable.js';
 var CurrentPicture = 0;
 document.addEventListener('DOMContentLoaded', () => {
-    SocialNetwork({
-        phone : '+55 (11) 9 9258-1757',
-        message : [
-            'Commodo aute nostrud consectetur incididunt labore nulla pariatur irure eu et aliqua ipsum nisi.',
-            'Aliqua sit deserunt reprehenderit officia id nulla consectetur exercitation occaecat.',
-            'Aliqua laborum tempor ut fugiat aliqua fugiat proident exercitation. Voluptate Lorem elit amet ex tempor dolor pariatur ullamco do.',
-            'Sit mollit laboris nisi mollit nulla nisi.',
-            'Eu enim ex in officia minim qui ipsum.',
-            'In ipsum exercitation aliquip adipisicing.',
-            'Commodo mollit nostrud nostrud est commodo in in pariatur incididunt pariatur culpa.',
-        ],
-        https : [
-            'https://www.facebook.com/VivaHostel/',
-            'https://www.instagram.com/vivahostel/',
-            'https://www.linkedin.com/in/rafael-favoretto',
-            'https://www.youtube.com/watch?v=1OaaUjyixVY',
-        ],
-    });
+    SocialNetwork();
     LightboxBuilder();
     for (let i = 0; i < NavigationBuilder()['length']; i++) {
         let Selector = document.querySelector('#' + NavigationBuilder()[i]['id']);
@@ -90,22 +73,40 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
     };
     Transform['highlight'](Content[CurrentPicture]);
+    const HighlightListener = (Event, Index) => {
+        if (Event['key'] === Array()[Index]['key']) {
+            const Current = Content[CurrentPicture];
+            const Highlight = Content[CurrentPicture][Array()[Index]['sibling']];
+            if (Highlight) {
+                Transform['downlight'](Current);
+                Transform['highlight'](Highlight);
+                Highlight.scrollIntoView({ behavior : 'smooth' });
+            };
+            CurrentPicture = CurrentPicture + Array(CurrentPicture)[Index]['condition'];
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
+    };
     for (let i = 0; i < Array()['length']; i++) {
         document.addEventListener('keydown', Event => {
-            if (Event['key'] === Array()[i]['key']) {
-                const Current = Content[CurrentPicture];
-                const Highlight = Content[CurrentPicture][Array()[i]['sibling']];
-                if (Highlight) {
-                    Transform['downlight'](Current);
-                    Transform['highlight'](Highlight);
-                    Highlight.scrollIntoView({ behavior : 'smooth' });
-                };
-                CurrentPicture = CurrentPicture + Array(CurrentPicture)[i]['condition'];
-                Event.stopPropagation();
-                Event.preventDefault();
-            };
+            HighlightListener(Event, i);
         });
     };
+    document.addEventListener('keydown', Event => {
+        if (Event['key'] === 'Enter') {
+            LightboxTransition(CurrentPicture);
+            let Selector = document.querySelector('#background');
+            if (Selector) {
+                Selector['style']['display'] = 'flex';
+                Selector['style']['zIndex'] = 9999;
+                if (!TransitionRunning(Selector)) {
+                    Selector['style']['opacity'] = 1;
+                };
+            };
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
+    });
     Content.forEach((Element, i) => {
         [ 'mouseleave', 'mouseout' ].map(Index => {
             Element.addEventListener(Index, Event => {

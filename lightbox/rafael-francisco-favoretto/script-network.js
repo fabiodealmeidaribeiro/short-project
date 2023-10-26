@@ -6,12 +6,38 @@ import {
 import {
     SetStyle,
 } from './script-variable.js';
-export const SocialNetwork = (output = {}) => {
-    const Proper = {
-        phone : 'phone' in output ? (Validator['String'](output['phone']) ? output['phone'] : '') : '',
-        message : 'message' in output ? (Validator['Array'](output['message']) ? output['message'] : []) : [],
-        https : 'https' in output ? (Validator['Array'](output['https']) ? output['https'] : []) : [],
+const fetchData = async (output = '') => {
+    if (output) {
+        const Response = await fetch(output);
+        const Result = await Response.json();
+        return Result;
     };
+};
+export const SocialNetwork = async () => {
+    const Result = await fetchData('settings.json');
+    const Proper = {
+        description : Validator['Array'](Result['about']['description']) ? Result['about']['description'] : [],
+        phone : Validator['String'](Result['network']['phone']) ? Result['network']['phone'] : '',
+        https : Validator['Array'](Result['network']['https']) ? Result['network']['https'] : [],
+    };
+    const Network = [
+        {   
+            title : 'facebook',
+            background : 'bg-primary'
+        },
+        {
+            title : 'instagram',
+            background : 'bg-danger'
+        },
+        {
+            title : 'linkedin',
+            background : 'bg-primary'
+        },
+        {
+            title : 'youtube',
+            background : 'bg-danger'
+        },
+    ];
     const Array = [];
     let Attribute = [
         {
@@ -41,11 +67,11 @@ export const SocialNetwork = (output = {}) => {
                 let Https = '';
                 Https += 'https://api.whatsapp.com/send?phone=';
                 Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
-                if (Validator['Array'](Proper['message'])) {
+                if (Validator['Array'](Proper['description'])) {
                     Https += '&text=';
-                    for (let i = 0; i < Proper['message']['length']; i++) {
-                        Https += Proper['message'][i].trim().replace(/' '/, '%20');
-                        Https += i < Proper['message']['length'] - 1 ? '%20' : '';
+                    for (let i = 0; i < Proper['description']['length']; i++) {
+                        Https += Proper['description'][i].trim().replace(/' '/, '%20');
+                        Https += i < Proper['description']['length'] - 1 ? '%20' : '';
                     };
                 };
                 window.open(Https, '_blank');
@@ -62,24 +88,6 @@ export const SocialNetwork = (output = {}) => {
             id : 'btn-whatsapp',
         });
     };
-    const Network = [
-        {   
-            title : 'facebook',
-            background : 'bg-primary'
-        },
-        {
-            title : 'instagram',
-            background : 'bg-danger'
-        },
-        {
-            title : 'linkedin',
-            background : 'bg-primary'
-        },
-        {
-            title : 'youtube',
-            background : 'bg-danger'
-        },
-    ];
     if (Proper['https']) {
         if (Proper['https']['length']) {
             for (let i = 0; i < Proper['https']['length']; i++) {

@@ -106,7 +106,6 @@ h2 { font-size : calc(2rem / 100 * 75); }
 {
     display : flex;   
     justify-content : center;
-    align-items : flex-start;
     flex-direction : column;
     flex-wrap : nowrap;
     opacity : 0;
