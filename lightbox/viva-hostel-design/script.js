@@ -73,23 +73,25 @@ document.addEventListener('DOMContentLoaded', () => {
         ];
     };
     Transform['highlight'](Content[CurrentPicture]);
+    const HighlightListener = (Event, Index) => {
+        if (Event['key'] === Array()[Index]['key']) {
+            const Current = Content[CurrentPicture];
+            const Highlight = Content[CurrentPicture][Array()[Index]['sibling']];
+            if (Highlight) {
+                Transform['downlight'](Current);
+                Transform['highlight'](Highlight);
+                Highlight.scrollIntoView({ behavior : 'smooth' });
+            };
+            CurrentPicture = CurrentPicture + Array(CurrentPicture)[Index]['condition'];
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
+    };
     for (let i = 0; i < Array()['length']; i++) {
         document.addEventListener('keydown', Event => {
-            if (Event['key'] === Array()[i]['key']) {
-                const Current = Content[CurrentPicture];
-                const Highlight = Content[CurrentPicture][Array()[i]['sibling']];
-                if (Highlight) {
-                    Transform['downlight'](Current);
-                    Transform['highlight'](Highlight);
-                    Highlight.scrollIntoView({ behavior : 'smooth' });
-                };
-                CurrentPicture = CurrentPicture + Array(CurrentPicture)[i]['condition'];
-                Event.stopPropagation();
-                Event.preventDefault();
-            };
+            HighlightListener(Event, i);
         });
     };
-
     document.addEventListener('keydown', Event => {
         if (Event['key'] === 'Enter') {
             LightboxTransition(CurrentPicture);
@@ -105,8 +107,6 @@ document.addEventListener('DOMContentLoaded', () => {
             Event.preventDefault();
         };
     });
-
-
     Content.forEach((Element, i) => {
         [ 'mouseleave', 'mouseout' ].map(Index => {
             Element.addEventListener(Index, Event => {
