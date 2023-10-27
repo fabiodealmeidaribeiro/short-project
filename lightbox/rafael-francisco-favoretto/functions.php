@@ -70,7 +70,7 @@
         $is_return = '';
         $is_proper = [
             'folder' => ArrayKeyExist($output, 'folder') ? trim($output['folder']) : './image',
-            'title' => ArrayKeyExist($output, 'title') ? $output['title'] : true,
+            'title' => ArrayKeyExist($output, 'title') ? $output['title'] : false,
             'subtitle' => ArrayKeyExist($output, 'subtitle') ? $output['subtitle'] : false,
             'concept' => ArrayKeyExist($output, 'concept') ? $output['concept'] : false,
         ];
@@ -100,14 +100,14 @@
                                 $is_return .= '</div>';
                                 $is_return .= '<div class=\'thumbnail-filter\'></div>';
                                 $is_active = 0;
-                                $is_active += IsTrue($is_about->title) ? 1 : 0;
-                                $is_active += IsTrue($is_about->subtitle) ? 1 : 0;
-                                $is_active += IsTrue($is_concept) ? 1 : 0;
+                                $is_active += $is_proper['title'] ? (IsTrue($is_about->title) ? 1 : 0) : 0;
+                                $is_active += $is_proper['subtitle'] ? (IsTrue($is_about->subtitle) ? 1 : 0) : 0;
+                                $is_active += $is_proper['concept'] ? (IsTrue($is_concept) ? 1 : 0) : 0;
                                 if (IsTrue($is_active)):
                                     $is_return .= '<div class=\'thumbnail-caption\'>';
-                                        $is_return .= IsTrue($is_about->title) ? '<h1>' . trim($is_about->title) . '</h1>' : '';
-                                        $is_return .= IsTrue($is_about->subtitle) ? '<h2>' . trim($is_about->subtitle) . '</h2>' : '';
-                                        $is_return .= IsTrue($is_concept) ? '<p>' . RandomIndex($is_concept) . '</p>' : '';
+                                        $is_return .= $is_proper['title'] ? (IsTrue($is_about->title) ? '<h1>' . trim($is_about->title) . '</h1>' : '') : '';
+                                        $is_return .= $is_proper['subtitle'] ? (IsTrue($is_about->subtitle) ? '<h2>' . trim($is_about->subtitle) . '</h2>' : '') : '';
+                                        $is_return .= $is_proper['concept'] ? (IsTrue($is_concept) ? '<p>' . RandomIndex($is_concept) . '</p>' : '') : '';
                                     $is_return .= '</div>';
                                 endif;
                             $is_return .= '</div>';

@@ -156,14 +156,15 @@ const ContainerWidth = window['innerWidth'] - (NoUnit(SetStyle['border']['margin
 const ContainerPadding = NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin']) + NoUnit(SetStyle['picture']['style']['padding']);
 export const LightboxAttribute = [];
 document.querySelectorAll('.thumbnail-content').forEach(Element => {
-    let Picture = Element.querySelector('.thumbnail-background') ? (Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') ? Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') : [ undefined ]) : [ undefined ];
+    let Picture = Element.querySelector('.thumbnail-background')
+    ? (Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') ? Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') : [ undefined ])
+    : [ undefined ];
     Picture = Picture ? {
         height : Picture.getAttribute('data-height') ? Picture.getAttribute('data-height') : [ undefined ],
         url : Picture.getAttribute('data-url') ? Picture.getAttribute('data-url') : [ undefined ],
         width : Picture.getAttribute('data-width') ? Picture.getAttribute('data-width') : [ undefined ],
     } : { };
-    let Caption = Element.querySelector('.thumbnail-caption') ? Element.querySelector('.thumbnail-caption') : [ undefined ];
-    Caption = Caption ? {
+    let Caption = Element.querySelector('.thumbnail-caption') ? {
         title : Caption.querySelector('h1') ? (Caption.querySelector('h1')['innerText'] ? Caption.querySelector('h1')['innerText'] : [ undefined ]) : [ undefined ],
         subtitle : Caption.querySelector('h2') ? (Caption.querySelector('h2')['innerText'] ? Caption.querySelector('h2')['innerText'] : [ undefined ]) : [ undefined ],
         description : Caption.querySelector('p') ? (Caption.querySelector('p')['innerText'] ? Caption.querySelector('p')['innerText'] : [ undefined ]) : [ undefined ],

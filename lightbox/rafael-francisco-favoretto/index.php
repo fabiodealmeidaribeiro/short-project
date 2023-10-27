@@ -1,7 +1,7 @@
 <?php
     include_once('functions.php');
     echo HeaderDisplay ();
-    echo ThumbnailBuilder ([ 'subtitle' => true, 'concept' => true ]);
+    echo ThumbnailBuilder ();
     $is_json = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json') : [];
     $is_about = property_exists($is_json, 'about') ? $is_json->about : [];
     echo FooterBuilder ([ 'content' => [
