@@ -77,8 +77,8 @@ a:hover
 
 footer
 {
-    background : grey;
-    background : linear-gradient(135deg, grey, black);
+    background : #333;
+    background : linear-gradient(at center, #333, #000);
     margin : 0;
     padding : 0;
 }
