@@ -151,10 +151,14 @@ export const SetStyle = {
         },
     },
 };
-const REM = parseFloat(getComputedStyle(document['documentElement'])['fontSize']);
-const ContainerHeight = window['innerHeight'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2;
-const ContainerWidth = window['innerWidth'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2;
-const ContainerPadding = NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin']) + NoUnit(SetStyle['picture']['style']['padding']);
+const Container = () => {
+    return {
+        height : window['innerHeight'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2,
+        width : window['innerWidth'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2,
+        padding : NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin']) + NoUnit(SetStyle['picture']['style']['padding']),
+        rem : parseFloat(getComputedStyle(document['documentElement'])['fontSize']),
+    };
+};
 export const LightboxAttribute = [];
 document.querySelectorAll('.thumbnail-content').forEach(Element => {
     let Picture = Element.querySelector('.thumbnail-background')
@@ -180,18 +184,26 @@ document.querySelectorAll('.thumbnail-content').forEach(Element => {
         ...Caption ? { title : Caption['title'] ? Caption['title'] : [ undefined ] } : { },
         ...Caption ? { subtitle : Caption['subtitle'] ? Caption['subtitle'] : [ undefined ] } : { },
         ...Caption ? { description : Caption['description'] ? Caption['description'] : [ undefined ] } : { },
-        ...Picture ? { left : ((ContainerWidth - Picture['width'] * ContainerHeight / Picture['height']) / 2) + 'px' } : { },
+        ...Picture ? { left : ((Container()['width'] - Picture['width'] * Container()['height'] / Picture['height']) / 2) + 'px' } : { },
         ...Picture ? { url : Picture['url'] } : { },
-        ...Picture ? { width : (Picture['width'] * ContainerHeight / Picture['height'] > ContainerWidth ? ContainerWidth - REM * ContainerPadding : Picture['width'] * ContainerHeight / Picture['height']) + 'px' } : { },
+        ...Picture ? { width : (Picture['width'] * Container()['height'] / Picture['height'] > Container()['width'] ? Container()['width'] - Container()['rem'] * Container()['padding'] : Picture['width'] * Container()['height'] / Picture['height']) + 'px' } : { },
     });
 });
-export const LightboxPosition = [];
-export var LightboxWidth = 0;
-LightboxPosition.push({ left : 0 });
-for (let i = 0; i < LightboxAttribute['length']; i++) {
-    LightboxWidth += NoUnit(LightboxAttribute[i]['width']);
-    LightboxPosition.push({ left : - 1 * LightboxWidth + 'px' });
+const LightboxFunction = (Attribute = []) => {
+    let Width = 0;
+    const Position = [];
+    Position.push({ left : 0 });
+    for (let i = 0; i < Attribute['length']; i++) {
+        Width += NoUnit(Attribute[i]['width']);
+        Position.push({ left : - 1 * Width + 'px' });
+    };
+    return {
+        width : Width,
+        position : Position,
+    };
 };
+export var LightboxWidth = LightboxFunction(LightboxAttribute)['width'];
+export const LightboxPosition = LightboxFunction(LightboxAttribute)['position'];
 export const Transform = {
     highlight : Element => {
         if (Element) {

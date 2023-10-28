@@ -19,8 +19,6 @@ html
     scroll-behavior : smooth;
 }
 
-/* ---/--- */
-
 ::-webkit-scrollbar
 {
     height : 100%;
@@ -70,6 +68,7 @@ h2
     line-height : calc(2rem / 100 * 75);
 }
 
+a,
 p
 {
     font-size : 1rem;
@@ -78,16 +77,13 @@ p
 
 a
 {
-    color : #212121;
     text-decoration : none;
 }
 
 a:hover
 {
-    color : #B71C1C;
+    color : #212121;
 }
-
-/* ---/--- */
 
 footer
 {
@@ -103,8 +99,6 @@ footer>section
     padding : 1rem 0 0 0;
     width : calc(100% - 9rem);
 }
-
-/* ---/--- */
 
 article>.content
 {
@@ -163,7 +157,7 @@ article>div>iframe
 
 .transform-scale,
 .thumbnail-content:hover .thumbnail-picture
-{ 
+{
     -moz-transform : scale(1.5);
     -ms-transform : scale(1.5);
     -o-transform : scale(1.5);
