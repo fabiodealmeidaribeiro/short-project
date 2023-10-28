@@ -81,7 +81,8 @@ export const SetStyle = {
     },
     picture : {
         class : [
-            'align-items-start',
+            'align-items-lg-start',
+            'align-items-center',
             'd-flex',
             'flex-column',
             'h-100',
