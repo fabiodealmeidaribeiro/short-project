@@ -151,7 +151,7 @@ export const SetStyle = {
         },
     },
 };
-const Container = () => {
+export const LightboxContainer = () => {
     return {
         height : window['innerHeight'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2,
         width : window['innerWidth'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2,
@@ -184,12 +184,12 @@ document.querySelectorAll('.thumbnail-content').forEach(Element => {
         ...Caption ? { title : Caption['title'] ? Caption['title'] : [ undefined ] } : { },
         ...Caption ? { subtitle : Caption['subtitle'] ? Caption['subtitle'] : [ undefined ] } : { },
         ...Caption ? { description : Caption['description'] ? Caption['description'] : [ undefined ] } : { },
-        ...Picture ? { left : ((Container()['width'] - Picture['width'] * Container()['height'] / Picture['height']) / 2) + 'px' } : { },
+        ...Picture ? { left : ((LightboxContainer()['width'] - Picture['width'] * LightboxContainer()['height'] / Picture['height']) / 2) + 'px' } : { },
         ...Picture ? { url : Picture['url'] } : { },
-        ...Picture ? { width : (Picture['width'] * Container()['height'] / Picture['height'] > Container()['width'] ? Container()['width'] - Container()['rem'] * Container()['padding'] : Picture['width'] * Container()['height'] / Picture['height']) + 'px' } : { },
+        ...Picture ? { width : (Picture['width'] * LightboxContainer()['height'] / Picture['height'] > LightboxContainer()['width'] ? LightboxContainer()['width'] - LightboxContainer()['rem'] * LightboxContainer()['padding'] : Picture['width'] * LightboxContainer()['height'] / Picture['height']) + 'px' } : { },
     });
 });
-const LightboxFunction = (Attribute = []) => {
+export const LightboxFunction = (Attribute = []) => {
     let Width = 0;
     const Position = [];
     Position.push({ left : 0 });
@@ -202,7 +202,7 @@ const LightboxFunction = (Attribute = []) => {
         position : Position,
     };
 };
-export var LightboxWidth = LightboxFunction(LightboxAttribute)['width'];
+export const LightboxWidth = LightboxFunction(LightboxAttribute)['width'];
 export const LightboxPosition = LightboxFunction(LightboxAttribute)['position'];
 export const Transform = {
     highlight : Element => {

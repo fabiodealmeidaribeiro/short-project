@@ -161,3 +161,31 @@ export const LightboxBuilder = (output = 0) => {
         };
     };
 };
+export const LightboxTransition = (output = {}) => {
+    const Proper = {
+        current : 'current' in output ? (output['current'] ? output['current'] : 0) : 0,
+        width : 'width' in output ? (output['width'] ? output['width'] : LightboxWidth) : LightboxWidth,
+    };
+    document.querySelector('#content')['style']['left'] = LightboxPosition[Proper['current']]['left'];
+    document.querySelector('#content')['style']['width'] = Proper['width'] + 'px';
+    document.querySelector('#inner')['style']['height'] = LightboxAttribute[Proper['current']]['height'];
+    document.querySelector('#inner')['style']['left'] = LightboxAttribute[Proper['current']]['left'];
+    document.querySelector('#inner')['style']['top'] = LightboxAttribute[Proper['current']]['top'];
+    document.querySelector('#inner')['style']['width'] = LightboxAttribute[Proper['current']]['width'];
+    if (Proper['current'] < 1) {
+        document.querySelector('#btn-arrow-left')['style']['opacity'] = 0;
+        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(0)';
+    };
+    if (Proper['current'] > (LightboxAttribute['length'] - 2)) {
+        document.querySelector('#btn-arrow-right')['style']['opacity'] = 0;
+        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(0)';
+    };
+    if (!(Proper['current'] < 1)) {
+        document.querySelector('#btn-arrow-left')['style']['opacity'] = 1;
+        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(1)';
+    };
+    if (!(Proper['current'] > (LightboxAttribute['length'] - 2))) {
+        document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
+        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
+    };
+};

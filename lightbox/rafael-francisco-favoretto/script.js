@@ -1,11 +1,11 @@
 import {
     LightboxBuilder,
+    LightboxTransition,
 } from './script-container.js';
 import {
     SetContent,
 } from './script-function.js';
 import {
-    NoUnit,
     TransitionRunning,
 } from './script-main.js';
 import {
@@ -15,41 +15,9 @@ import {
     SocialNetwork,
 } from './script-network.js';
 import {
-    LightboxAttribute,
-    LightboxPosition,
-    LightboxWidth,
-    SetStyle,
     Transform,
 } from './script-variable.js';
-const LightboxTransition = (output = {}) => {
-    const Proper = {
-        current : 'current' in output ? (output['current'] ? output['current'] : 0) : 0,
-        width : 'width' in output ? (output['width'] ? output['width'] : LightboxWidth) : LightboxWidth,
-    };
-    document.querySelector('#content')['style']['left'] = LightboxPosition[Proper['current']]['left'];
-    document.querySelector('#content')['style']['width'] = Proper['width'] + 'px';
-    document.querySelector('#inner')['style']['height'] = LightboxAttribute[Proper['current']]['height'];
-    document.querySelector('#inner')['style']['left'] = LightboxAttribute[Proper['current']]['left'];
-    document.querySelector('#inner')['style']['top'] = LightboxAttribute[Proper['current']]['top'];
-    document.querySelector('#inner')['style']['width'] = LightboxAttribute[Proper['current']]['width'];
-    if (Proper['current'] < 1) {
-        document.querySelector('#btn-arrow-left')['style']['opacity'] = 0;
-        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(0)';
-    };
-    if (Proper['current'] > (LightboxAttribute['length'] - 2)) {
-        document.querySelector('#btn-arrow-right')['style']['opacity'] = 0;
-        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(0)';
-    };
-    if (!(Proper['current'] < 1)) {
-        document.querySelector('#btn-arrow-left')['style']['opacity'] = 1;
-        document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(1)';
-    };
-    if (!(Proper['current'] > (LightboxAttribute['length'] - 2))) {
-        document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
-        document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
-    };
-};
-var CurrentPicture = 0;
+var CurrentThumbnail = 0;
 document.addEventListener('DOMContentLoaded', () => {
     SocialNetwork();
     LightboxBuilder();
@@ -67,8 +35,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     };
                 };
             };
-            CurrentPicture = CurrentPicture + NavigationBuilder(CurrentPicture)[i]['condition'];
-            LightboxTransition({ current : CurrentPicture });
+            CurrentThumbnail = CurrentThumbnail + NavigationBuilder(CurrentThumbnail)[i]['condition'];
+            LightboxTransition({ current : CurrentThumbnail });
             Event.stopPropagation();
             Event.preventDefault();
         });
@@ -105,17 +73,17 @@ document.addEventListener('DOMContentLoaded', () => {
             },
         ];
     };
-    Transform['highlight'](Content[CurrentPicture]);
+    Transform['highlight'](Content[CurrentThumbnail]);
     const HighlightListener = (Event, Index) => {
         if (Event['key'] === Array()[Index]['key']) {
-            const Current = Content[CurrentPicture];
-            const Highlight = Content[CurrentPicture][Array()[Index]['sibling']];
+            const Current = Content[CurrentThumbnail];
+            const Highlight = Content[CurrentThumbnail][Array()[Index]['sibling']];
             if (Highlight) {
                 Transform['downlight'](Current);
                 Transform['highlight'](Highlight);
                 Highlight.scrollIntoView({ behavior : 'smooth' });
             };
-            CurrentPicture = CurrentPicture + Array(CurrentPicture)[Index]['condition'];
+            CurrentThumbnail = CurrentThumbnail + Array(CurrentThumbnail)[Index]['condition'];
             Event.stopPropagation();
             Event.preventDefault();
         };
@@ -127,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
     };
     document.addEventListener('keydown', Event => {
         if (Event['key'] === 'Enter') {
-            LightboxTransition({ current : CurrentPicture });
+            LightboxTransition({ current : CurrentThumbnail });
             let Selector = document.querySelector('#background');
             if (Selector) {
                 Selector['style']['display'] = 'flex';
@@ -150,7 +118,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         [ 'mouseover', 'mouseenter' ].map(Index => {
             Element.addEventListener(Index, Event => {
-                CurrentPicture = i;
+                CurrentThumbnail = i;
                 Element['style']['cursor'] = 'pointer';
                 Content.forEach(Content => Transform['downlight'](Content));
                 Transform['highlight'](Element);
@@ -159,8 +127,8 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         Element.addEventListener('click', Event => {
-            CurrentPicture = i;
-            LightboxTransition({ current : CurrentPicture });
+            CurrentThumbnail = i;
+            LightboxTransition({ current : CurrentThumbnail });
             let Selector = document.querySelector('#background');
             if (Selector) {
                 Selector['style']['display'] = 'flex';
@@ -186,47 +154,4 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 window.addEventListener('resize', () => {
     SetContent({ class : '.thumbnail-content' });
-    LightboxTransition({ current : CurrentPicture, width : LightboxWidth });
-    const Container = () => {
-        return {
-            height : window['innerHeight'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2,
-            width : window['innerWidth'] - (NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin'])) * 2,
-            padding : NoUnit(SetStyle['border']['margin']) + NoUnit(SetStyle['container']['margin']) + NoUnit(SetStyle['picture']['style']['padding']),
-            rem : parseFloat(getComputedStyle(document['documentElement'])['fontSize']),
-        };
-    };
-    const LightboxAttribute = [];
-    document.querySelectorAll('.thumbnail-content').forEach(Element => {
-        let Picture = Element.querySelector('.thumbnail-background')
-        ? (Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') ? Element.querySelector('.thumbnail-background').querySelector('.thumbnail-picture') : [ undefined ])
-        : [ undefined ];
-        Picture = Picture ? {
-            height : Picture.getAttribute('data-height') ? Picture.getAttribute('data-height') : [ undefined ],
-            url : Picture.getAttribute('data-url') ? Picture.getAttribute('data-url') : [ undefined ],
-            width : Picture.getAttribute('data-width') ? Picture.getAttribute('data-width') : [ undefined ],
-        } : { };
-        let Caption = Element.querySelector('.thumbnail-caption') ? {
-            title : Element.querySelector('.thumbnail-caption').querySelector('h1')
-            ? (Element.querySelector('.thumbnail-caption').querySelector('h1')['innerText'] ? Element.querySelector('.thumbnail-caption').querySelector('h1')['innerText'] : [ undefined ])
-            : [ undefined ],
-            subtitle : Element.querySelector('.thumbnail-caption').querySelector('h2')
-            ? (Element.querySelector('.thumbnail-caption').querySelector('h2')['innerText'] ? Element.querySelector('.thumbnail-caption').querySelector('h2')['innerText'] : [ undefined ])
-            : [ undefined ],
-            description : Element.querySelector('.thumbnail-caption').querySelector('p')
-            ? (Element.querySelector('.thumbnail-caption').querySelector('p')['innerText'] ? Element.querySelector('.thumbnail-caption').querySelector('p')['innerText'] : [ undefined ])
-            : [ undefined ],
-        } : { };
-        LightboxAttribute.push({
-            ...Caption ? { title : Caption['title'] ? Caption['title'] : [ undefined ] } : { },
-            ...Caption ? { subtitle : Caption['subtitle'] ? Caption['subtitle'] : [ undefined ] } : { },
-            ...Caption ? { description : Caption['description'] ? Caption['description'] : [ undefined ] } : { },
-            ...Picture ? { left : ((Container()['width'] - Picture['width'] * Container()['height'] / Picture['height']) / 2) + 'px' } : { },
-            ...Picture ? { url : Picture['url'] } : { },
-            ...Picture ? { width : (Picture['width'] * Container()['height'] / Picture['height'] > Container()['width'] ? Container()['width'] - Container()['rem'] * Container()['padding'] : Picture['width'] * Container()['height'] / Picture['height']) + 'px' } : { },
-        });
-    });
-    document.querySelectorAll('.thumbnail').forEach((Thumbnail, Index) => {
-        Thumbnail['style']['width'] = LightboxAttribute[Index]['width'];
-        console.log(Thumbnail);
-    });
 });
