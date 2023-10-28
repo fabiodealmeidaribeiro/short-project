@@ -21,7 +21,7 @@
     function PoweredBy ($output = []) {
         $is_proper = [
             'url' => ArrayKeyExist($output, 'url') ? trim($output['url']) : 'https://linkedin.com/in/fabiodealmeidaribeiro',
-            'title' => ArrayKeyExist($output, 'title') ? trim($output['title']) : 'Fábio de Almeida Ribeiro',
+            'title' => ArrayKeyExist($output, 'title') ? trim($output['title']) : 'Developed by Fábio de Almeida Ribeiro.',
         ];
         $is_return = '';
         if (IsTrue($is_proper['title']) && IsTrue($is_proper['url'])):
@@ -70,12 +70,13 @@
         $is_return = '';
         $is_proper = [
             'folder' => ArrayKeyExist($output, 'folder') ? trim($output['folder']) : './image',
-            'title' => ArrayKeyExist($output, 'title') ? $output['title'] : false,
-            'subtitle' => ArrayKeyExist($output, 'subtitle') ? $output['subtitle'] : false,
-            'concept' => ArrayKeyExist($output, 'concept') ? $output['concept'] : false,
+            'title' => ArrayKeyExist($output, 'title') ? $output['title'] : true,
+            'subtitle' => ArrayKeyExist($output, 'subtitle') ? $output['subtitle'] : true,
+            'concept' => ArrayKeyExist($output, 'concept') ? $output['concept'] : true,
         ];
-        $is_about = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json')->about : [];
-        $is_concept = ReadJSONFile('settings.json') ? ReadJSONFile ('settings.json')->concept : [];
+        $is_about = $is_concept = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json') : [];
+        $is_about = property_exists($is_about, 'about') ? $is_about->about : [];
+        $is_concept = property_exists($is_concept, 'concept') ? $is_concept->concept : [];
         if (is_dir($is_proper['folder'])):
             $is_return .= '<div class=\'thumbnail-container container-fluid mx-auto p-0\'>';
                 $is_return .= '<div class=\'row g-0\'>';
@@ -105,15 +106,9 @@
                                 $is_active += $is_proper['concept'] && IsTrue($is_concept) ? 1 : 0;
                                 if (IsTrue($is_active)):
                                     $is_return .= '<div class=\'thumbnail-caption\'>';
-                                        $is_return .= $is_proper['title']
-                                        ? (IsTrue($is_about->title) ? '<h1>' . trim($is_about->title) . '</h1>' : '')
-                                        : '';
-                                        $is_return .= $is_proper['subtitle']
-                                        ? (IsTrue($is_about->subtitle) ? '<h2>' . trim($is_about->subtitle) . '</h2>' : '')
-                                        : '';
-                                        $is_return .= $is_proper['concept']
-                                        ? (IsTrue($is_concept) ? '<p>' . RandomIndex($is_concept) . '</p>' : '')
-                                        : '';
+                                        $is_return .= $is_proper['title'] ? (IsTrue($is_about->title) ? '<h1>' . trim($is_about->title) . '</h1>' : '') : '';
+                                        $is_return .= $is_proper['subtitle'] ? (IsTrue($is_about->subtitle) ? '<h2>' . trim($is_about->subtitle) . '</h2>' : '') : '';
+                                        $is_return .= $is_proper['concept'] ? (IsTrue($is_concept) ? '<p>' . RandomIndex($is_concept) . '</p>' : '') : '';
                                     $is_return .= '</div>';
                                 endif;
                             $is_return .= '</div>';
@@ -126,15 +121,14 @@
     };
 
     function FooterBuilder ($output = []) {
-        $is_proper = [
-            'content' => ArrayKeyExist($output, 'content') ? $output['content'] : [],
-        ];
         $is_array = [];
-        for ($i = 0; $i < sizeof($is_proper['content']); $i++):
-            if (IsTrue($is_proper['content'][$i])):
-                array_push($is_array, $is_proper['content'][$i]);
-            endif;
-        endfor;
+        if (empty($output)): else:
+            for ($i = 0; $i < sizeof($output); $i++):
+                if (IsTrue($output[$i])):
+                    array_push($is_array, $output[$i]);
+                endif;
+            endfor;
+        endif;
         $is_return = '';
         if (IsTrue($is_array)):
             $is_return .= '<footer>';
@@ -144,7 +138,8 @@
                         for ($i = 0; $i < sizeof($is_array); $i++):
                             if (IsTrue($is_array[$i])):
                                 $is_return .= '<article class=\'' . implode(' ', $is_classes) . '\'>';
-                                    $is_return .= '<div>';
+                                    $is_iframe = substr(implode('', $is_array[$i]), 0, strlen('<iframe')) === '<iframe';
+                                    $is_return .= '<div' . (!$is_iframe ? ' class=\'content\'' : '') . '>';
                                         $is_return .= implode('', $is_array[$i]);
                                     $is_return .= '</div>';
                                 $is_return .= '</article>';
@@ -154,7 +149,7 @@
                 $is_return .= '</section>';
             $is_return .= '</footer>';
         endif;
-        $is_return .= PoweredBy ();
+        $is_return .= PoweredBy();
         return $is_return;
     };
 

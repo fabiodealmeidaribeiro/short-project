@@ -14,9 +14,10 @@ body
     width : 100%;
 }
 
-/*
-
-*/
+html
+{
+    scroll-behavior : smooth;
+}
 
 ::-webkit-scrollbar
 {
@@ -45,24 +46,25 @@ body
     background-color : red;
 }
 
-/*
-
-*/
-
 p,
 h1,
-h2,
-h3,
-h4,
-h5,
-h6
+h2
 {
     color : white;
     margin : 0;
     padding : 0;
+    
 }
 
-h2 { font-size : calc(2rem / 100 * 75); }
+h1 {
+    font-size : calc(2.5rem / 100 * 75);
+    line-height : calc(2.5rem / 100 * 75);
+}
+
+h2 {
+    font-size : calc(2rem / 100 * 75);
+    line-height : calc(2rem / 100 * 75);
+}
 
 a
 {
@@ -90,12 +92,21 @@ footer>section
     width : calc(100% - 9rem);
 }
 
-article>div
+article>.content
 {
     background-color : rgba(255, 255, 255, .1);
     border : calc(1rem / 16) solid rgba(255, 255, 255, .2);
     border-radius : calc(1rem / 4);
+    box-shadow :
+        0 2px 2px 0 rgba(0, 0, 0, 0.14),
+        0 3px 1px -2px rgba(0, 0, 0, 0.2),
+        0 1px 5px 0 rgba(0, 0, 0, 0.12);
     padding : 1rem;
+}
+
+article>div>h2
+{
+    margin : .5rem 0 0 0;
 }
 
 iframe
@@ -106,10 +117,6 @@ iframe
         0 3px 1px -2px rgba(0, 0, 0, 0.2),
         0 1px 5px 0 rgba(0, 0, 0, 0.12);
 }
-
-/*
-
-*/
 
 .thumbnail-content
 {
