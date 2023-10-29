@@ -12,12 +12,12 @@ import {
 } from './script-block.js';
 import {
     AddRemoveClass,
-    Apply,
+    ToMask,
     ButtonColorChange,
     CreateElement,
     GetElementContent,
     InvalidElements,
-    Is,
+    ToValidator,
     LinkedinWidget,
     SelectorOrID,
     SetAttribute,
@@ -43,7 +43,7 @@ window.addEventListener('DOMContentLoaded', () => {
     
     FrontpageParams(FrontpageArray);
 
-    let GoogleAdsense = '';
+    // let GoogleAdsense = '';
 
     // GoogleAdsense += '<ins';
     //     GoogleAdsense += ' class=\'adsbygoogle\'';
@@ -55,7 +55,7 @@ window.addEventListener('DOMContentLoaded', () => {
     // GoogleAdsense += '></ins>';
     // GoogleAdsense += '<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
 
-    BlockParams({ body : GoogleAdsense, father : 'main' });
+    // BlockParams({ body : GoogleAdsense, father : 'main' });
 
     LinkedinWidget({ father : 'footer' });
 
@@ -69,12 +69,6 @@ window.addEventListener('DOMContentLoaded', () => {
     SetAttribute({ element : BTNGroupFooter, attribute : 'id', value : 'btn-group-footer' });
     SetAttribute({ element : BTNGroupFooter, attribute : 'class', value : [ 'btn-group' ] });
     document.querySelector('footer').appendChild(BTNGroupFooter);
-
-
-
-
-
-
 
     let Header = [];
 
@@ -231,10 +225,10 @@ window.addEventListener('DOMContentLoaded', () => {
                                         InnerHTML += '<td class=\'m-0 p-2\'>';
                                             if (TableArray[i]['content']) {
                                                 InnerHTML += '<p class=\'fst-italic m-0 p-0 text-start\'>';
-                                                    InnerHTML += Is['email'](TableArray[i]['content']) ? '<a href=\'mailto:' + TableArray[i]['content'] + '\' target=\'_blank\'>' : '';
-                                                    InnerHTML += Is['phone'](TableArray[i]['content']) ? '<a href=\'https://api.whatsapp.com/send?phone=' + TableArray[i]['content'].replace(/[^a-zA-Z0-9]/g, '') + '\' target=\'_blank\'>' : '';
-                                                    InnerHTML += Is['date'](TableArray[i]['content']) ? Apply['date']({ date : TableArray[i]['content'] }) : TableArray[i]['content'];
-                                                    InnerHTML += Is['email'](TableArray[i]['content']) || Is['phone'](TableArray[i]['content']) ? '</a>' : '';
+                                                    InnerHTML += ToValidator['email'](TableArray[i]['content']) ? '<a href=\'mailto:' + TableArray[i]['content'] + '\' target=\'_blank\'>' : '';
+                                                    InnerHTML += ToValidator['phone'](TableArray[i]['content']) ? '<a href=\'https://api.whatsapp.com/send?phone=' + TableArray[i]['content'].replace(/[^a-zA-Z0-9]/g, '') + '\' target=\'_blank\'>' : '';
+                                                    InnerHTML += ToValidator['date'](TableArray[i]['content']) ? ToMask['date']({ date : TableArray[i]['content'] }) : TableArray[i]['content'];
+                                                    InnerHTML += ToValidator['email'](TableArray[i]['content']) || ToValidator['phone'](TableArray[i]['content']) ? '</a>' : '';
                                                 InnerHTML += '</p>';
                                             };
                                             if (!TableArray[i]['content']) {

@@ -175,7 +175,7 @@ const Network = [
         background : 'bg-danger'
     },
 ];
-const fetchData = async (output = '') => {
+const FetchData = async (output = '') => {
     if (output) {
         const Response = await fetch(output);
         const Result = await Response.json();
@@ -183,7 +183,7 @@ const fetchData = async (output = '') => {
     };
 };
 export const SocialNetwork = async () => {
-    const Result = await fetchData('settings.json');
+    const Result = await FetchData('settings.json');
     const Proper = {
         description : Validator['Array'](Result['about']['description']) ? Result['about']['description'] : [],
         phone : Validator['String'](Result['network']['phone']) ? Result['network']['phone'] : '',
@@ -308,23 +308,13 @@ export const SocialNetwork = async () => {
                         Event.preventDefault();
                     });
                 });
-                document.addEventListener('keydown', Event => {
-                    Array[i]['classList'].add('bg-secondary');
-                    Array[i]['classList'].remove(...Attribute[i]['hover']);
-                    if (Event['key'] === (i + 1).toString()) {
-                        Array[i]['classList'].add(...Attribute[i]['hover']);
-                        Array[i]['classList'].remove('bg-secondary');
-                    };
-                    Event.stopPropagation();
-                    Event.preventDefault();
-                });
                 Array[i].addEventListener('click', Event => {
                     Attribute[i]['function']();
                     switch (Attribute[i]['id']) {
-                        case 'btn-arrow' :
-                            Array[i]['classList'].toggle('rotate');
-                        break;
+                        case 'btn-arrow' : Array[i]['classList'].toggle('rotate'); break;
                     };
+                    Event.stopPropagation();
+                    Event.preventDefault();
                 });
             };
         };

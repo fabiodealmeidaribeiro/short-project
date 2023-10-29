@@ -1,34 +1,6 @@
-// export async function FetchAndParseImage (output) {
-//     try {
-//         const Response = await fetch(output);
-//         if (!Response['ok'])
-//             throw new Error(Response['status']);
-//         const Html = await Response.text();
-//         const Parser = new DOMParser();
-//         const DOC = Parser.parseFromString(Html, 'text/html');
-//         DOC.querySelectorAll('img').forEach(index => {
-//             console.log(index.getAttribute('src'));
-//         });
-//     } catch (error) {
-//         console.error(error['message']);
-//     };
-// };
-
-// const fetchData = async (output = '') => {
-//     if (output) {
-//         const Response = await fetch(output);
-//         const Result = await Response.json();
-//         return Result;
-//     };
-// };
-
 export const Period = (new Date().getHours() > 6 && new Date().getHours() < 18);
 
-// export const XPathReturn = (output = {}) => {
-//     return document.evaluate('//' + output['selector'] + '[@id=\'' + output['id'] + '\']', document, null, XPathResult.FIRST_ORDERED_NODE_TYPE, null)['singleNodeValue']['outerHTML'];
-// };
-
-export const Is = {
+export const ToValidator = {
     email : (output = '') => {
         return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(output);
     },
@@ -51,9 +23,7 @@ export const Is = {
     minimum : (output = '', number = 2) => {
         return number < output.trim().split(' ')['length'];
     },
-    noempty : (output) => {
-        return !(output <= 0 || output === '');
-    },
+    empty : (output) => output <= 0 || output === '',
     phone : (output = '') => {
         const DDI = '55', Array = [];
         for (let i = 1; i <= 9; i++) for (let j = 1; j <= 9; j++) Array.push([i] + [j]);
@@ -78,7 +48,7 @@ export const Is = {
     },
 };
 
-export const Apply = {
+export const ToMask = {
     camelcase : (output = '') => {
         output['value'] = output['value'].match(/\d+/g) ? output['value'].replace(/\d+/g, '') : output['value'];
         var Term = output['value'].split(' ');

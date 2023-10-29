@@ -1,10 +1,10 @@
 import {
     Classes,
-    ClassesDimension,
+    ClassesArray,
 } from './script-variable.js';
 
 import {
-    CheckJSONTermination,
+    // CheckJSONTermination,
     CreateElement,
     FirstUpper,
     IsHTMLFormat,
@@ -25,7 +25,7 @@ export const BlockBuilder = (output = {}) => {
     const Content = CreateElement();
     const Title = CreateElement({ element : 'h1', textnode : FirstUpper(Proper['title']) });
     SetAttribute({ element : Body, attribute : 'class', value : Classes['p'] });
-    SetAttribute({ element : Content, attribute : 'class', value : [ ...ClassesDimension, ...Proper['classes'] ] });
+    SetAttribute({ element : Content, attribute : 'class', value : [ ...ClassesArray['dimension'], ...Proper['classes'] ] });
     SetAttribute({ element : Title, attribute : 'class', value : Classes['h1'] });
     if (document.querySelector(Proper['father'])) {
         if (Validator['Gene'](Proper['title']) || Validator['Gene'](Proper['body'])) {
@@ -40,7 +40,15 @@ export const BlockBuilder = (output = {}) => {
     };
 };
 
-export const BlockParams = (output = {}) => {
+const FetchData = async (output = '') => {
+    if (output) {
+        const Response = await fetch(output);
+        const Result = await Response.json();
+        return Result;
+    };
+};
+
+export const BlockParams = async (output = {}) => {
     const Proper = {
         archive : 'archive' in output ? (Validator['String'](output['archive']) ? output['archive'] : [ undefined ]) : [ undefined ],
         body : 'body' in output ? (Validator['String'](output['body']) ? output['body'] : '') : '',
@@ -48,29 +56,11 @@ export const BlockParams = (output = {}) => {
         father : 'father' in output ? (Validator['String'](output['father']) ? output['father'] : 'body') : 'body',
         title : 'title' in output ? (Validator['String'](output['title']) ? output['title'] : '') : '',
     };
-    if(Validator['String'](Proper['archive'])) {
-        if (CheckJSONTermination(Proper['archive'])) {
-            fetch(Proper['archive']).then(response => {
-                if (!response['ok']) throw new Error(response['status']);
-                return response.json();
-            }).then(result => {
-                BlockBuilder({
-                    body : result['body'],
-                    classes : Proper['classes'],
-                    father : Proper['father'],
-                    title : result['title'],
-                });
-            }).catch(error => {
-                console.error(error['message']);
-            });
-        };
-    };
-    if(!Validator['String'](Proper['archive'])) {
-        BlockBuilder({
-            body : Proper['body'],
-            classes : Proper['classes'],
-            father : Proper['father'],
-            title : Proper['title'],
-        });
-    };
+    const Result = await FetchData(Proper['archive']);
+    BlockBuilder({
+        body : Result['body'],
+        classes : Proper['classes'],
+        father : Proper['father'],
+        title : Result['title'],
+    });
 };
