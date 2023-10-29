@@ -31,56 +31,64 @@ html
 
 ::-webkit-scrollbar-track
 {
-    background-color : white;
+    background-color : #FAFAFA;
 }
 
 ::-webkit-scrollbar-thumb
 {
-    background-color : grey;
+    background-color : #424242;
     border-radius : 6px;
     width : 100%;
 }
 
 ::-webkit-scrollbar-thumb:hover
 {
-    background-color : red;
+    background-color : #B71C1C;
 }
 
+a,
 p,
 h1,
 h2
 {
-    color : white;
+    color : #FAFAFA;
     margin : 0;
     padding : 0;
-    
 }
 
-h1 {
+h1
+{
     font-size : calc(2.5rem / 100 * 75);
     line-height : calc(2.5rem / 100 * 75);
 }
 
-h2 {
+h2
+{
     font-size : calc(2rem / 100 * 75);
     line-height : calc(2rem / 100 * 75);
 }
 
+a,
+p
+{
+    font-size : 1rem;
+    line-height : 1rem;
+}
+
 a
 {
-    color : black;
     text-decoration : none;
 }
 
 a:hover
 {
-    color : red;
+    color : #212121;
 }
 
 footer
 {
-    background : #333;
-    background : linear-gradient(at center, #333, #000);
+    background : #424242;
+    background : linear-gradient(at center, #424242, #212121);
     margin : 0;
     padding : 0;
 }
@@ -104,18 +112,42 @@ article>.content
     padding : 1rem;
 }
 
+article>#content-1>h1 { margin : 0 0 .5rem 0; }
+article>#content-4>h1 { margin : 0 0 .5rem 0; }
+article>#content-1>p { margin : 0 0 .5rem 0; }
+
 article>div>h2
 {
     margin : .5rem 0 0 0;
 }
 
-iframe
+article>div>iframe
 {
     border-radius : calc(1rem / 4);
     box-shadow :
         0 2px 2px 0 rgba(0, 0, 0, 0.14),
         0 3px 1px -2px rgba(0, 0, 0, 0.2),
         0 1px 5px 0 rgba(0, 0, 0, 0.12);
+}
+
+.developed
+{
+    background-color : #212121;
+    padding : 1rem;
+    text-align : center;
+}
+
+.developed>p>a
+{
+    color : #616161;
+    margin : 0;
+    padding : 0;
+    text-decoration : none;
+}
+
+.developed>p>a:hover
+{
+    color : #9E9E9E;
 }
 
 .thumbnail-content
@@ -125,7 +157,7 @@ iframe
 
 .transform-scale,
 .thumbnail-content:hover .thumbnail-picture
-{ 
+{
     -moz-transform : scale(1.5);
     -ms-transform : scale(1.5);
     -o-transform : scale(1.5);
@@ -159,7 +191,7 @@ iframe
 
 .thumbnail-filter
 {
-    background-color : #000000;
+    background-color : #212121;
     opacity : 0;
 }
 

@@ -18,7 +18,7 @@
         return $is_array[rand(0, sizeof($is_array) - 1)];
     };
 
-    function PoweredBy ($output = []) {
+    function Developed ($output = []) {
         $is_proper = [
             'url' => ArrayKeyExist($output, 'url') ? trim($output['url']) : 'https://linkedin.com/in/fabiodealmeidaribeiro',
             'title' => ArrayKeyExist($output, 'title') ? trim($output['title']) : 'Developed by Fábio de Almeida Ribeiro.',
@@ -26,9 +26,9 @@
         $is_return = '';
         if (IsTrue($is_proper['title']) && IsTrue($is_proper['url'])):
             if (filter_var($is_proper['url'], FILTER_VALIDATE_URL)):
-                $is_return .= '<div class=\'bg-black text-center p-3\'>';
-                    $is_return .= '<p class=\'m-0 p-0\'>';
-                        $is_return .= '<a class=\'text-decoration-none text-white\' href=\'' . trim($is_proper['url']) . '/\' target=\'_blank\'>';
+                $is_return .= '<div class=\'developed\'>';
+                    $is_return .= '<p>';
+                        $is_return .= '<a href=\'' . trim($is_proper['url']) . '/\' target=\'_blank\'>';
                             $is_return .= trim($is_proper['title']);
                         $is_return .= '</a>';
                     $is_return .= '</p>';
@@ -139,7 +139,7 @@
                             if (IsTrue($is_array[$i])):
                                 $is_return .= '<article class=\'' . implode(' ', $is_classes) . '\'>';
                                     $is_iframe = substr(implode('', $is_array[$i]), 0, strlen('<iframe')) === '<iframe';
-                                    $is_return .= '<div' . (!$is_iframe ? ' class=\'content\'' : '') . '>';
+                                    $is_return .= '<div id=\'content-' . ($i + 1) . '\' class=\'' . (!$is_iframe ? 'content' : '') . '\'>';
                                         $is_return .= implode('', $is_array[$i]);
                                     $is_return .= '</div>';
                                 $is_return .= '</article>';
@@ -149,7 +149,7 @@
                 $is_return .= '</section>';
             $is_return .= '</footer>';
         endif;
-        $is_return .= PoweredBy();
+        $is_return .= Developed();
         return $is_return;
     };
 

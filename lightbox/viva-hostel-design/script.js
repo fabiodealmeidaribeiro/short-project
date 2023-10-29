@@ -1,13 +1,12 @@
 import {
+    LightboxBlock,
     LightboxBuilder,
+    LightboxNone,
     LightboxTransition,
 } from './script-container.js';
 import {
     SetContent,
 } from './script-function.js';
-import {
-    TransitionRunning,
-} from './script-main.js';
 import {
     NavigationBuilder,
 } from './script-navigation.js';
@@ -17,25 +16,19 @@ import {
 import {
     Transform,
 } from './script-variable.js';
-var CurrentPicture = 0;
+var CurrentThumbnail = 0;
 document.addEventListener('DOMContentLoaded', () => {
     SocialNetwork();
     LightboxBuilder();
+    LightboxTransition();
     for (let i = 0; i < NavigationBuilder()['length']; i++) {
         let Selector = document.querySelector('#' + NavigationBuilder()[i]['id']);
         Selector.addEventListener('click', Event => {
             if (NavigationBuilder()[i]['id'] === 'btn-arrow-down') {
-                const Selector = document.querySelector('#background');
-                if (Selector) {
-                    Selector['style']['opacity'] = 0;
-                    if (!TransitionRunning(Selector)) {
-                        Selector['style']['display'] = 'none';
-                        Selector['style']['zIndex'] = - 1;
-                    };
-                };
+                LightboxNone('#background');
             };
-            CurrentPicture = CurrentPicture + NavigationBuilder(CurrentPicture)[i]['condition'];
-            LightboxTransition(CurrentPicture);
+            CurrentThumbnail = CurrentThumbnail + NavigationBuilder(CurrentThumbnail)[i]['condition'];
+            LightboxTransition({ current : CurrentThumbnail });
             Event.stopPropagation();
             Event.preventDefault();
         });
@@ -72,17 +65,17 @@ document.addEventListener('DOMContentLoaded', () => {
             },
         ];
     };
-    Transform['highlight'](Content[CurrentPicture]);
+    Transform['highlight'](Content[CurrentThumbnail]);
     const HighlightListener = (Event, Index) => {
         if (Event['key'] === Array()[Index]['key']) {
-            const Current = Content[CurrentPicture];
-            const Highlight = Content[CurrentPicture][Array()[Index]['sibling']];
+            const Current = Content[CurrentThumbnail];
+            const Highlight = Content[CurrentThumbnail][Array()[Index]['sibling']];
             if (Highlight) {
                 Transform['downlight'](Current);
                 Transform['highlight'](Highlight);
                 Highlight.scrollIntoView({ behavior : 'smooth' });
             };
-            CurrentPicture = CurrentPicture + Array(CurrentPicture)[Index]['condition'];
+            CurrentThumbnail = CurrentThumbnail + Array(CurrentThumbnail)[Index]['condition'];
             Event.stopPropagation();
             Event.preventDefault();
         };
@@ -92,21 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             HighlightListener(Event, i);
         });
     };
-    document.addEventListener('keydown', Event => {
-        if (Event['key'] === 'Enter') {
-            LightboxTransition(CurrentPicture);
-            let Selector = document.querySelector('#background');
-            if (Selector) {
-                Selector['style']['display'] = 'flex';
-                Selector['style']['zIndex'] = 9999;
-                if (!TransitionRunning(Selector)) {
-                    Selector['style']['opacity'] = 1;
-                };
-            };
-            Event.stopPropagation();
-            Event.preventDefault();
-        };
-    });
     Content.forEach((Element, i) => {
         [ 'mouseleave', 'mouseout' ].map(Index => {
             Element.addEventListener(Index, Event => {
@@ -117,7 +95,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
         [ 'mouseover', 'mouseenter' ].map(Index => {
             Element.addEventListener(Index, Event => {
-                CurrentPicture = i;
+                CurrentThumbnail = i;
                 Element['style']['cursor'] = 'pointer';
                 Content.forEach(Content => Transform['downlight'](Content));
                 Transform['highlight'](Element);
@@ -126,19 +104,27 @@ document.addEventListener('DOMContentLoaded', () => {
             });
         });
         Element.addEventListener('click', Event => {
-            CurrentPicture = i;
-            LightboxTransition(CurrentPicture);
-            let Selector = document.querySelector('#background');
-            if (Selector) {
-                Selector['style']['display'] = 'flex';
-                Selector['style']['zIndex'] = 9999;
-                if (!TransitionRunning(Selector)) {
-                    Selector['style']['opacity'] = 1;
-                };
-            };
+            CurrentThumbnail = i;
+            LightboxTransition({ current : CurrentThumbnail });
+            LightboxBlock('#background');
             Event.stopPropagation();
             Event.preventDefault();
         });
+    });
+    document.addEventListener('keydown', Event => {
+        if (Event['key'] === 'Enter') {
+            LightboxTransition({ current : CurrentThumbnail });
+            LightboxBlock('#background');
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
+    });
+    document.addEventListener('keydown', Event => {
+        if (Event['key'] === 'Escape') {
+            LightboxNone('#background');
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
     });
     document.addEventListener('keydown', Event => {
         document['body']['style']['pointerEvents'] = 'none';

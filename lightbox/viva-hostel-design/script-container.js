@@ -1,5 +1,6 @@
 import {
     CreateElement,
+    TransitionRunning,
     SetAttribute,
 } from './script-main.js';
 import {
@@ -75,21 +76,22 @@ export const LightboxBuilder = (output = 0) => {
         },
     });
     document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content);
-    const Picture = [];
+    const Thumbnail = [];
     if (LightboxAttribute['length']) {
         for (let i = 0; i < LightboxAttribute['length']; i++) {
-            Picture[i] = CreateElement();
-            SetAttribute({ element : Picture[i], attribute : 'class', value : [
+            Thumbnail[i] = CreateElement();
+            SetAttribute({ element : Thumbnail[i], attribute : 'class', value : [
                     ...SetStyle['picture']['class'],
+                    'thumbnail',
                 ],
             });
-            SetAttribute({ element : Picture[i], attribute : 'style', value : {
+            SetAttribute({ element : Thumbnail[i], attribute : 'style', value : {
                     ...SetStyle['picture']['style'],
                     ...LightboxAttribute[i]['url'] ? { 'background-image' : 'url(\'' + LightboxAttribute[i]['url'] + '\')' } : { 'background-color' : 'white' },
                     width : LightboxAttribute[i]['width'],
                 },
             });
-            document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]);
+            document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Thumbnail[i]);
             if (LightboxAttribute[i]['title']) {
                 const Title = CreateElement({ element : 'h1', textnode : LightboxAttribute[i]['title'] });
                 SetAttribute({ element : Title, attribute : 'class', value : [
@@ -100,7 +102,7 @@ export const LightboxBuilder = (output = 0) => {
                         ...SetStyle['title']['style'],
                     },
                 });
-                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Title);
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Thumbnail[i]).appendChild(Title);
             };
             if (LightboxAttribute[i]['subtitle']) {
                 const Subtitle = CreateElement({ element : 'h2', textnode : LightboxAttribute[i]['subtitle'] });
@@ -112,7 +114,7 @@ export const LightboxBuilder = (output = 0) => {
                         ...SetStyle['subtitle']['style'],
                     },
                 });
-                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Subtitle);
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Thumbnail[i]).appendChild(Subtitle);
             };
             if (LightboxAttribute[i]['description']) {
                 const Description = CreateElement({ element : 'p', textnode : LightboxAttribute[i]['description'] });
@@ -124,7 +126,7 @@ export const LightboxBuilder = (output = 0) => {
                         ...SetStyle['description']['style'],
                     },
                 });
-                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Picture[i]).appendChild(Description);
+                document.querySelector('body').appendChild(Background).appendChild(Border).appendChild(Container).appendChild(Inner).appendChild(Content).appendChild(Thumbnail[i]).appendChild(Description);
             };
         };
     };
@@ -159,28 +161,50 @@ export const LightboxBuilder = (output = 0) => {
             };
         };
     };
-    LightboxTransition(output);
 };
-export const LightboxTransition = (output = 0) => {
-    document.querySelector('#content')['style']['left'] = LightboxPosition[output]['left'];
-    document.querySelector('#inner')['style']['height'] = LightboxAttribute[output]['height'];
-    document.querySelector('#inner')['style']['left'] = LightboxAttribute[output]['left'];
-    document.querySelector('#inner')['style']['top'] = LightboxAttribute[output]['top'];
-    document.querySelector('#inner')['style']['width'] = LightboxAttribute[output]['width'];
-    if (output < 1) {
+export const LightboxTransition = (output = {}) => {
+    const Proper = {
+        current : 'current' in output ? (output['current'] ? output['current'] : 0) : 0,
+        width : 'width' in output ? (output['width'] ? output['width'] : LightboxWidth) : LightboxWidth,
+    };
+    document.querySelector('#content')['style']['left'] = LightboxPosition[Proper['current']]['left'];
+    document.querySelector('#content')['style']['width'] = Proper['width'] + 'px';
+    document.querySelector('#inner')['style']['height'] = LightboxAttribute[Proper['current']]['height'];
+    document.querySelector('#inner')['style']['left'] = LightboxAttribute[Proper['current']]['left'];
+    document.querySelector('#inner')['style']['top'] = LightboxAttribute[Proper['current']]['top'];
+    document.querySelector('#inner')['style']['width'] = LightboxAttribute[Proper['current']]['width'];
+    if (Proper['current'] < 1) {
         document.querySelector('#btn-arrow-left')['style']['opacity'] = 0;
         document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(0)';
     };
-    if (output > (LightboxAttribute['length'] - 2)) {
+    if (Proper['current'] > (LightboxAttribute['length'] - 2)) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 0;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(0)';
     };
-    if (!(output < 1)) {
+    if (!(Proper['current'] < 1)) {
         document.querySelector('#btn-arrow-left')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-left')['style']['transform'] = 'scale(1)';
     };
-    if (!(output > (LightboxAttribute['length'] - 2))) {
+    if (!(Proper['current'] > (LightboxAttribute['length'] - 2))) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
+    };
+};
+export const LightboxBlock = (Selector) => {
+    if (document.querySelector(Selector)) {
+        document.querySelector(Selector)['style']['display'] = 'flex';
+        document.querySelector(Selector)['style']['zIndex'] = 9999;
+        if (!TransitionRunning(document.querySelector(Selector))) {
+            document.querySelector(Selector)['style']['opacity'] = 1;
+        };
+    };
+};
+export const LightboxNone = (Selector) => {
+    if (document.querySelector(Selector)) {
+        document.querySelector(Selector)['style']['opacity'] = 0;
+        if (!TransitionRunning(document.querySelector(Selector))) {
+            document.querySelector(Selector)['style']['display'] = 'none';
+            document.querySelector(Selector)['style']['zIndex'] = - 1;
+        };
     };
 };
