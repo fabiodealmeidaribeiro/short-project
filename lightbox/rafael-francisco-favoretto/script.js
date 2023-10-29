@@ -1,13 +1,12 @@
 import {
+    LightboxBlock,
     LightboxBuilder,
+    LightboxNone,
     LightboxTransition,
 } from './script-container.js';
 import {
     SetContent,
 } from './script-function.js';
-import {
-    TransitionRunning,
-} from './script-main.js';
 import {
     NavigationBuilder,
 } from './script-navigation.js';
@@ -26,14 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
         let Selector = document.querySelector('#' + NavigationBuilder()[i]['id']);
         Selector.addEventListener('click', Event => {
             if (NavigationBuilder()[i]['id'] === 'btn-arrow-down') {
-                const Selector = document.querySelector('#background');
-                if (Selector) {
-                    Selector['style']['opacity'] = 0;
-                    if (!TransitionRunning(Selector)) {
-                        Selector['style']['display'] = 'none';
-                        Selector['style']['zIndex'] = - 1;
-                    };
-                };
+                LightboxNone('#background');
             };
             CurrentThumbnail = CurrentThumbnail + NavigationBuilder(CurrentThumbnail)[i]['condition'];
             LightboxTransition({ current : CurrentThumbnail });
@@ -93,21 +85,6 @@ document.addEventListener('DOMContentLoaded', () => {
             HighlightListener(Event, i);
         });
     };
-    document.addEventListener('keydown', Event => {
-        if (Event['key'] === 'Enter') {
-            LightboxTransition({ current : CurrentThumbnail });
-            let Selector = document.querySelector('#background');
-            if (Selector) {
-                Selector['style']['display'] = 'flex';
-                Selector['style']['zIndex'] = 9999;
-                if (!TransitionRunning(Selector)) {
-                    Selector['style']['opacity'] = 1;
-                };
-            };
-            Event.stopPropagation();
-            Event.preventDefault();
-        };
-    });
     Content.forEach((Element, i) => {
         [ 'mouseleave', 'mouseout' ].map(Index => {
             Element.addEventListener(Index, Event => {
@@ -129,17 +106,25 @@ document.addEventListener('DOMContentLoaded', () => {
         Element.addEventListener('click', Event => {
             CurrentThumbnail = i;
             LightboxTransition({ current : CurrentThumbnail });
-            let Selector = document.querySelector('#background');
-            if (Selector) {
-                Selector['style']['display'] = 'flex';
-                Selector['style']['zIndex'] = 9999;
-                if (!TransitionRunning(Selector)) {
-                    Selector['style']['opacity'] = 1;
-                };
-            };
+            LightboxBlock('#background');
             Event.stopPropagation();
             Event.preventDefault();
         });
+    });
+    document.addEventListener('keydown', Event => {
+        if (Event['key'] === 'Enter') {
+            LightboxTransition({ current : CurrentThumbnail });
+            LightboxBlock('#background');
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
+    });
+    document.addEventListener('keydown', Event => {
+        if (Event['key'] === 'Escape') {
+            LightboxNone('#background');
+            Event.stopPropagation();
+            Event.preventDefault();
+        };
     });
     document.addEventListener('keydown', Event => {
         document['body']['style']['pointerEvents'] = 'none';

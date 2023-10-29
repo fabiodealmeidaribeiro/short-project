@@ -1,5 +1,6 @@
 import {
     CreateElement,
+    TransitionRunning,
     SetAttribute,
 } from './script-main.js';
 import {
@@ -187,5 +188,23 @@ export const LightboxTransition = (output = {}) => {
     if (!(Proper['current'] > (LightboxAttribute['length'] - 2))) {
         document.querySelector('#btn-arrow-right')['style']['opacity'] = 1;
         document.querySelector('#btn-arrow-right')['style']['transform'] = 'scale(1)';
+    };
+};
+export const LightboxBlock = (Selector) => {
+    if (document.querySelector(Selector)) {
+        document.querySelector(Selector)['style']['display'] = 'flex';
+        document.querySelector(Selector)['style']['zIndex'] = 9999;
+        if (!TransitionRunning(document.querySelector(Selector))) {
+            document.querySelector(Selector)['style']['opacity'] = 1;
+        };
+    };
+};
+export const LightboxNone = (Selector) => {
+    if (document.querySelector(Selector)) {
+        document.querySelector(Selector)['style']['opacity'] = 0;
+        if (!TransitionRunning(document.querySelector(Selector))) {
+            document.querySelector(Selector)['style']['display'] = 'none';
+            document.querySelector(Selector)['style']['zIndex'] = - 1;
+        };
     };
 };
