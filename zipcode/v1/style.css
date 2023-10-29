@@ -1,33 +1,63 @@
 @charset "UTF-8";
 
-@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css");
-
 *
 {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
+    box-sizing : border-box;
+    margin : 0;
+    padding : 0;
+}
+
+html,
+body
+{
+    height : 100%;
+    width : 100%;
+}
+
+html
+{
+    scroll-behavior : smooth;
 }
 
 ::-webkit-scrollbar
 {
-  width: 12px;
+    height : 100%;
+    opacity : 0;
+    position : fixed;
+    right : 0;
+    top : 0;
+    width : 12px;
 }
 
 ::-webkit-scrollbar-track
 {
-  background: #e9ecef;
+    background-color : #FAFAFA;
 }
 
 ::-webkit-scrollbar-thumb
 {
-  background: #6c757d;
-  border-radius: 6px;
+    background-color : #424242;
+    border-radius : 6px;
+    width : 100%;
 }
 
 ::-webkit-scrollbar-thumb:hover
 {
-  background: #dc3545;
+    background-color : #B71C1C;
+}
+
+.rotate
+{
+    transform : rotate(180deg);
+}
+
+#btn-arrow
+{    
+    -moz-transition : all .25s ease-in-out;
+    -ms-transition : all .25s ease-in-out;
+    -o-transition : all .25s ease-in-out;
+    -webkit-transition : all .25s ease-in-out;
+    transition : all .25s ease-in-out;
 }
 
 @media screen and (max-width : 992px) {

@@ -1,7 +1,7 @@
 import {
     Classes,
     ClassesDimension,
-} from './script-variables.js';
+} from './script-variable.js';
 
 import {
     CheckJSONTermination,

@@ -14,7 +14,7 @@ import {
 import {
     Classes,
     FormatDate,
-} from './script-variables.js';
+} from './script-variable.js';
 
 export const FormFieldBuilder = output => {
     const Proper = {

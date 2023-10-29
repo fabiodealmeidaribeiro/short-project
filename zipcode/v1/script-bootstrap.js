@@ -10,11 +10,9 @@ import {
     SetAttribute,
     Validator,
 } from './script-main.js';
-
 import {
     Classes,
-} from './script-variables.js';
-
+} from './script-variable.js';
 export const BootstrapParams = {
     ModalComponent : (output = {}) => {
         const Proper = {

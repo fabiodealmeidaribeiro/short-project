@@ -1,19 +1,15 @@
 import {
     BootstrapParams
 } from './script-bootstrap.js';
-
 import {
     FormFieldParams
 } from './script-formfield.js';
-
 import {
     FrontpageParams
 } from './script-frontpage.js';
-
 import {
     BlockParams
 } from './script-block.js';
-
 import {
     AddRemoveClass,
     Apply,
@@ -26,18 +22,20 @@ import {
     SelectorOrID,
     SetAttribute,
     SetTextNode,
-    Validator,
 } from './script-main.js';
-
+import {
+    SocialNetwork,
+} from './script-network.js';
 import {
     Classes,
     FormatDate,
     FormFieldArray,
     FrontpageArray,
     TextTemplate,
-} from './script-variables.js';
+} from './script-variable.js';
 
 window.addEventListener('DOMContentLoaded', () => {
+    SocialNetwork();
     
     BlockParams({ archive : 'settings.json', classes : [ 'mt-5' ], father : 'header' });
 
@@ -72,132 +70,11 @@ window.addEventListener('DOMContentLoaded', () => {
     SetAttribute({ element : BTNGroupFooter, attribute : 'class', value : [ 'btn-group' ] });
     document.querySelector('footer').appendChild(BTNGroupFooter);
 
-    const BTNAttribute = [
-        {
-            title : 'DownArrow',
-            classes : {
-                hover : [
-                    'bg-danger',
-                ],
-                background : [
-                    'bg-secondary',
-                ],
-                ico : [
-                    'bi',
-                    'bi-arrow-down-circle',
-                ],
-            },
-            function : (output = {}) => {
-                // const Width = window['innerWidth'] || document['documentElement']['clientWidth'] || document['body']['clientWidth'];
-                // const Height = window['innerHeight'] || document['documentElement']['clientHeight'] || document['body']['clientHeight'];
-                // (document['documentElement'] || document['body'])['scrollTop'] += Height;
-                window.scrollTo(0, document['body']['scrollHeight']);
-            },
-        },
-        {
-            title : 'UpArrow',
-            classes : {
-                hover : [
-                    'bg-warning',
-                ],
-                background : [
-                    'bg-secondary',
-                ],
-                ico : [
-                    'bi',
-                    'bi-arrow-up-circle',
-                ],
-            },
-            function : (output = {}) => {
-                (document['documentElement'] || document['body'])['scrollTop'] = 0;
-            },
-        },
-        {
-            title : 'WhatsApp',
-            classes : {
-                hover : [
-                    'bg-success',
-                ],
-                background : [
-                    'bg-secondary',
-                ],
-                ico : [
-                    'bi',
-                    'bi-whatsapp',
-                ],
-            },
-            function : (output = {}) => {
-                const Proper = {
-                    phone : 'phone' in output ? (Validator['String'](output['phone']) ? output['phone'] : '') : '',
-                    message : 'message' in output ? (Validator['String'](output['message']) ? output['message'] : '') : '',
-                };
-                let WhatsAppURL = '';
-                if (Validator['String'](Proper['phone'])) {
-                    WhatsAppURL += 'https://api.whatsapp.com/send?phone=';
-                    WhatsAppURL += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
-                    if (Validator['String'](Proper['message'])) {
-                        WhatsAppURL += '&text=';
-                        WhatsAppURL += Proper['message'].trim().replace(/' '/, '%20');
-                    };
-                    window.open(WhatsAppURL, '_blank');
-                };
-            },
-        },
-    ];
 
-    const BTNArray = [];
 
-    for (let i = 0; i < BTNAttribute['length']; i++) {
-        const Size = 50;
-        BTNArray[i] = CreateElement();
-        SetAttribute({ element : BTNArray[i], attribute : 'id', value : BTNAttribute[i]['title'] });
-        SetAttribute({ element : BTNArray[i], attribute : 'class', value : [
-                ...BTNAttribute[i]['classes']['background'],
-            ]
-        });
-        SetAttribute({ element : BTNArray[i], attribute : 'style', value : {
-                'align-items' : 'center',
-                'border-radius' : '50%',
-                bottom : 'calc(1rem + ' + (i * .5) + 'rem + ' + (i * Size) + 'px)',
-                display : 'flex',
-                height : Size + 'px',
-                'justify-content' : 'center',
-                position : 'fixed',
-                right : '1rem',
-                width : Size + 'px',
-                'z-index' : 1,
-            }
-        });
-        const Icon = CreateElement({ element : 'i' });
-        SetAttribute({ element : Icon, attribute : 'class', value : BTNAttribute[i]['classes']['ico'] });
-        SetAttribute({ element : Icon, attribute : 'style', value : { color : 'white', 'font-size' : (Size / 100 * 50) + 'px' } });
-        document.querySelector('body').appendChild(BTNArray[i]).appendChild(Icon);
-        BTNArray[i].addEventListener('mouseenter', () => {
-            BTNArray[i]['classList'].add(...BTNAttribute[i]['classes']['hover']);
-            BTNArray[i]['classList'].remove(...BTNAttribute[i]['classes']['background']);
-            BTNArray[i]['style']['cursor'] = 'pointer';
-        });
-        BTNArray[i].addEventListener('mouseleave', () => {
-            BTNArray[i]['classList'].add(...BTNAttribute[i]['classes']['background']);
-            BTNArray[i]['classList'].remove(...BTNAttribute[i]['classes']['hover']);
-            BTNArray[i]['style']['cursor'] = 'default';
-        });
-        BTNArray[i].addEventListener('click', () => {
-            let BtnObject = {};
-            switch (BTNAttribute[i]['title']) {
-                case 'DownArrow' : break;
-                case 'UpArrow' : break;
-                case 'WhatsApp' :
-                    BtnObject = {
-                        phone : '+55 (11) 9 9163-3880',
-                        message : TextTemplate,
-                    };
-                break;
-                default : break;
-            };
-            BTNAttribute[i]['function'](BtnObject);
-        });
-    };
+
+
+
 
     let Header = [];
 
@@ -219,7 +96,6 @@ window.addEventListener('DOMContentLoaded', () => {
     };
     document.querySelector('.content-message').addEventListener('keyup', CharCount);
     CharCount();
-
     [ 'blur', 'focus' ].map(event => {
         if (document.querySelector(SelectorOrID('cep'))) {
             document.querySelector(SelectorOrID('cep')).addEventListener(event, () => {
@@ -274,12 +150,10 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         };
     });
-
     const TableArray = GetElementContent({
         path : document.querySelector('body').querySelector('main').querySelector('form'),
         slave : [ 'title', 'label', 'content', 'feedback' ],
     });
-    
     const ElementAlert = () => {
         [ 'title', 'label', 'content', 'feedback' ].map(index => {
             document.querySelectorAll('.' + index).forEach((element, i) => {
@@ -293,7 +167,6 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });  
     };
-
     if (document.querySelector(SelectorOrID('button-cleaner'))) {
         document.querySelector(SelectorOrID('button-cleaner')).addEventListener('click', () => {
             SetTextNode(document.querySelector(SelectorOrID('birth-date')), FormatDate({ format : 'aaaa-mm-dd' }));
@@ -309,7 +182,6 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         });
     };
-
     if (document.querySelector(SelectorOrID('button-sender'))) {
         document.querySelector(SelectorOrID('button-sender')).addEventListener('click', () => {
             if (InvalidElements()) {
@@ -320,9 +192,7 @@ window.addEventListener('DOMContentLoaded', () => {
             };
         });
     };
-
     BootstrapParams['ModalComponent']({ id : 'container-result', title : 'Resultado.', danger : true, });
-
     if (document.querySelector(SelectorOrID('button-result'))) {
         document.querySelector(SelectorOrID('button-result')).addEventListener('click', () => {
             if (InvalidElements()) {

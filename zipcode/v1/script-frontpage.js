@@ -15,7 +15,7 @@ import {
 
 import {
     Classes,
-} from './script-variables.js';
+} from './script-variable.js';
 
 export const FrontpageStyle = (output = '') => {
     let result = output;
