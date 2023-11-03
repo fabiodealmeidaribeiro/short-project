@@ -74,9 +74,8 @@
             'subtitle' => ArrayKeyExist($output, 'subtitle') ? $output['subtitle'] : true,
             'concept' => ArrayKeyExist($output, 'concept') ? $output['concept'] : true,
         ];
-        $is_about = $is_concept = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json') : [];
-        $is_about = property_exists($is_about, 'about') ? $is_about->about : [];
-        $is_concept = property_exists($is_concept, 'concept') ? $is_concept->concept : [];
+        $is_JSON = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json') : [];
+        $is_concept = property_exists($is_JSON, 'concept') ? (IsTrue($is_JSON->concept) ? $is_JSON->concept : []) : [];
         if (is_dir($is_proper['folder'])):
             $is_return .= '<div class=\'thumbnail-container container-fluid mx-auto p-0\'>';
                 $is_return .= '<div class=\'row g-0\'>';
@@ -101,13 +100,13 @@
                                 $is_return .= '</div>';
                                 $is_return .= '<div class=\'thumbnail-filter\'></div>';
                                 $is_active = 0;
-                                $is_active += $is_proper['title'] && IsTrue($is_about->title) ? 1 : 0;
-                                $is_active += $is_proper['subtitle'] && IsTrue($is_about->subtitle) ? 1 : 0;
+                                $is_active += $is_proper['title'] && IsTrue($is_JSON->title) ? 1 : 0;
+                                $is_active += $is_proper['subtitle'] && IsTrue($is_JSON->subtitle) ? 1 : 0;
                                 $is_active += $is_proper['concept'] && IsTrue($is_concept) ? 1 : 0;
                                 if (IsTrue($is_active)):
                                     $is_return .= '<div class=\'thumbnail-caption\'>';
-                                        $is_return .= $is_proper['title'] ? (IsTrue($is_about->title) ? '<h1>' . trim($is_about->title) . '</h1>' : '') : '';
-                                        $is_return .= $is_proper['subtitle'] ? (IsTrue($is_about->subtitle) ? '<h2>' . trim($is_about->subtitle) . '</h2>' : '') : '';
+                                        $is_return .= $is_proper['title'] ? (IsTrue($is_JSON->title) ? '<h1>' . trim($is_JSON->title) . '</h1>' : '') : '';
+                                        $is_return .= $is_proper['subtitle'] ? (IsTrue($is_JSON->subtitle) ? '<h2>' . trim($is_JSON->subtitle) . '</h2>' : '') : '';
                                         $is_return .= $is_proper['concept'] ? (IsTrue($is_concept) ? '<p>' . RandomIndex($is_concept) . '</p>' : '') : '';
                                     $is_return .= '</div>';
                                 endif;

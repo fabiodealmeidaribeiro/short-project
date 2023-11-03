@@ -112,6 +112,7 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     document.addEventListener('keydown', Event => {
+        console.log(Event['key']);
         if (Event['key'] === 'Enter') {
             LightboxTransition({ current : CurrentThumbnail });
             LightboxBlock('#background');

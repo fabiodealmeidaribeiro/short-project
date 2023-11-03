@@ -1,24 +1,21 @@
 {
-  "about": {
-    "title": "Rafael Francisco Favoretto",
-    "subtitle": "Diretor de Arte.",
-    "description": [
-      "I was born in São Paulo, Brazil, and I have extensive experience as an Art Director and Digital Artist, along with solid skills in management of creative teams. At the moment, I work creating for Mars, Scania and Sodexo, among another clients.",
-      "With over twenty years of experience as a Digital Artist and Creative Director, I bring a strong wealth of experience and a refined creative perspective.",
-      "Throughout my professional journey, I've had the privilege of leading diverse projects, guiding teams to create visually impactful and effective pieces.",
-      "My passion for aesthetics and my expertise in management in art direction have allowed me to contribute significantly to the execution of memorable and successful campaigns. I'm looking forward to sharing more about my accomplishments and collaborations over these years.",
-      "Since I began my journey as an Art Director nearly 20 years ago, I've been engaged in presential and remote work for agencies, provided consultancy for startups, and collaborated with talented individuals to create digital products for businesses and consumers."
-    ]
-  },
-  "network": {
-    "phone": "+ 55 (11) 9 9258-1757",
-    "https": [
-      "https://www.facebook.com/VivaHostel/",
-      "https://www.instagram.com/vivahostel/",
-      "https://www.linkedin.com/in/rafael-favoretto"
-    ]
-  },
-  "footer": [
+  "title": "Rafael Francisco Favoretto",
+  "subtitle": "Diretor de Arte.",
+  "description": [
+    "I was born in São Paulo, Brazil, and I have extensive experience as an Art Director and Digital Artist, along with solid skills in management of creative teams. At the moment, I work creating for Mars, Scania and Sodexo, among another clients.",
+    "With over twenty years of experience as a Digital Artist and Creative Director, I bring a strong wealth of experience and a refined creative perspective.",
+    "Throughout my professional journey, I've had the privilege of leading diverse projects, guiding teams to create visually impactful and effective pieces.",
+    "My passion for aesthetics and my expertise in management in art direction have allowed me to contribute significantly to the execution of memorable and successful campaigns. I'm looking forward to sharing more about my accomplishments and collaborations over these years.",
+    "Since I began my journey as an Art Director nearly 20 years ago, I've been engaged in presential and remote work for agencies, provided consultancy for startups, and collaborated with talented individuals to create digital products for businesses and consumers."
+  ],
+  "phone": "+ 55 (11) 9 9258-1757",
+  "https": [
+    "https://www.facebook.com/VivaHostel/",
+    "https://www.instagram.com/vivahostel/",
+    "https://www.linkedin.com/in/rafael-favoretto"
+  ],
+  "concept": [],
+  "widget": [
     [
       "<h1>Work Experience</h1>",
       "<h2>Creative Director.</h2>",

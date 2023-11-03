@@ -38,9 +38,9 @@ const FetchData = async (output = '') => {
 export const SocialNetwork = async () => {
     const Result = await FetchData('settings.json');
     const Proper = {
-        description : Validator['Array'](Result['about']['description']) ? Result['about']['description'] : [],
-        phone : Validator['String'](Result['network']['phone']) ? Result['network']['phone'] : '',
-        https : Validator['Array'](Result['network']['https']) ? Result['network']['https'] : [],
+        description : Validator['Array'](Result['description']) ? Result['description'] : [],
+        phone : Validator['String'](Result['phone']) ? Result['phone'] : '',
+        https : Validator['Array'](Result['https']) ? Result['https'] : [],
     };
     const Array = [];
     let Attribute = [
