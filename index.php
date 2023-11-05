@@ -50,7 +50,7 @@
 
     echo HeaderDisplay ();
 
-    $is_url = Directory()['url'];
+    $is_URL = Directory()['url'];
 
     $is_folder = Directory()['folder'];
 
@@ -67,9 +67,11 @@
             'shadow-sm',
             'p-3',
         ];
+        $is_current = $_SERVER['REQUEST_SCHEME'] . '://' . $_SERVER['HTTP_HOST'] . dirname(dirname($_SERVER['PHP_SELF']));
         echo '<main' . (!empty($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '>';
+            echo '<a href=\'' . $is_current . '\'>' . '<h1 class=\'fs-1 m-0 p-0\'>' . 'Previous Page.' . '</h1>' . '</a>';
             for ($i = 0; $i < sizeof($is_folder); $i++):
-                echo '<a href=\'' . $is_url . $is_folder[$i] . '\' target=\'_blank\'>';
+                echo '<a href=\'' . $is_URL . $is_folder[$i] . '\' target=\'_blank\'>';
                     echo '<h1 class=\'d-inline-block fs-1 m-0 p-0\'>';
                         echo ucwords(str_replace('-', ' ', $is_folder[$i]));
                         echo $i < sizeof($is_folder) - 1 ? ', ' : '.';
