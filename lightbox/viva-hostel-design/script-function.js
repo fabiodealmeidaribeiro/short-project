@@ -1,15 +1,17 @@
 import {
     SetAttribute,
 } from './script-main.js';
+
 import {
-    SetStyle,
+    Style,
 } from './script-variable.js';
-export const SetContent = (output = {}) => {
+
+export const SetContent = (Input = {}) => {
     const Array = [ 1, 1.33, 1.85, 2.35 ];
     const Proper = {
-        class : 'class' in output ? (output['class'] ? output['class'] : '') : '',
-        height : 'height' in output ? (output['height'] ? output['height'] : 1) : 1,
-        width : 'width' in output ? (output['width'] ? output['width'] : Array[0]) : Array[0],
+        class : 'class' in Input ? (Input['class'] ? Input['class'] : '') : '',
+        height : 'height' in Input ? (Input['height'] ? Input['height'] : 1) : 1,
+        width : 'width' in Input ? (Input['width'] ? Input['width'] : Array[0]) : Array[0],
     };
     document.querySelectorAll(Proper['class']).forEach(Element => {
         if (Element) {
@@ -19,33 +21,33 @@ export const SetContent = (output = {}) => {
                 const Title = Caption.querySelector('h1');
                 if (Title) {
                     SetAttribute({ element : Title, attribute : 'class', value : [
-                            ...SetStyle['title']['class'],
+                            ...Style['title']['class'],
                         ],
                     });
                     SetAttribute({ element : Title, attribute : 'style', value : {
-                            ...SetStyle['title']['style'],
+                            ...Style['title']['style'],
                         },
                     });
                 };
                 const Subtitle = Caption.querySelector('h2');
                 if (Subtitle) {
                     SetAttribute({ element : Subtitle, attribute : 'class', value : [
-                            ...SetStyle['subtitle']['class'],
+                            ...Style['subtitle']['class'],
                         ],
                     });
                     SetAttribute({ element : Subtitle, attribute : 'style', value : {
-                            ...SetStyle['subtitle']['style'],
+                            ...Style['subtitle']['style'],
                         },
                     });
                 };
                 const Description = Caption.querySelector('p');
                 if (Description) {
                     SetAttribute({ element : Description, attribute : 'class', value : [
-                            ...SetStyle['description']['class'],
+                            ...Style['description']['class'],
                         ],
                     });
                     SetAttribute({ element : Description, attribute : 'style', value : {
-                            ...SetStyle['description']['style'],
+                            ...Style['description']['style'],
                         },
                     });
                 };

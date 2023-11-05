@@ -121,6 +121,8 @@ const FetchData = async (Input = '') => {
     };
 };
 
+const Scrollbar = Input => Input['scrollHeight'] > Input['clientHeight'];
+
 export const SocialNetwork = async () => {
     const Result = await FetchData('settings.json');
     const Proper = {
@@ -132,7 +134,7 @@ export const SocialNetwork = async () => {
     };
     const Element = [];
     let Attribute = [];
-    if (window['scrollY'] === window['innerHeight']) {
+    if (Scrollbar(document.querySelector('body'))) {
         Attribute.push({
             function : () => {
                 if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {

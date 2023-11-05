@@ -1,11 +1,12 @@
 import {
     LightboxAttribute,
-    SetStyle,
+    Style,
 } from './script-variable.js';
-export const NavigationBuilder = (output = 0) => {
+
+export const NavigationBuilder = (Input = 0) => {
     return [
         {
-            condition : output < 1 ? 0 : - 1,
+            condition : Input < 1 ? 0 : - 1,
             function : () => {
             },
             class : [
@@ -21,12 +22,12 @@ export const NavigationBuilder = (output = 0) => {
                 'ArrowLeft',
             ],
             style : {
-                left : 'calc(' + SetStyle['button']['margin'] + ' * ' + 3 + ')',
+                left : 'calc(' + Style['button']['margin'] + ' * ' + 3 + ')',
                 cursor : 'pointer',
             },
         },
         {
-            condition : output > LightboxAttribute['length'] - 2 ? 0 : + 1,
+            condition : Input > LightboxAttribute['length'] - 2 ? 0 : + 1,
             function : () => {
             },
             class : [
@@ -42,7 +43,7 @@ export const NavigationBuilder = (output = 0) => {
                 'ArrowRight',
             ],
             style : {
-                right : 'calc(' + SetStyle['button']['margin'] + ' * ' + 3 + ')',
+                right : 'calc(' + Style['button']['margin'] + ' * ' + 3 + ')',
                 cursor : 'pointer',
             },
         },
@@ -64,7 +65,7 @@ export const NavigationBuilder = (output = 0) => {
                 'Escape',
             ],
             style : {
-                bottom : 'calc(' + SetStyle['button']['margin'] + ' * ' + 3 + ')',
+                bottom : 'calc(' + Style['button']['margin'] + ' * ' + 3 + ')',
                 left : '50%',
                 transform : 'translate(-50%, 0)',
                 cursor : 'pointer',

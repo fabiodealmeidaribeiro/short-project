@@ -4,19 +4,25 @@ import {
     LightboxNone,
     LightboxTransition,
 } from './script-container.js';
+
 import {
     SetContent,
 } from './script-function.js';
+
 import {
     NavigationBuilder,
 } from './script-navigation.js';
+
 import {
     SocialNetwork,
 } from './script-network.js';
+
 import {
     Transform,
 } from './script-variable.js';
+
 var CurrentThumbnail = 0;
+
 document.addEventListener('DOMContentLoaded', () => {
     SocialNetwork();
     LightboxBuilder();
@@ -138,6 +144,7 @@ document.addEventListener('DOMContentLoaded', () => {
         Event.preventDefault();
     });
 });
+
 window.addEventListener('resize', () => {
     SetContent({ class : '.thumbnail-content' });
 });

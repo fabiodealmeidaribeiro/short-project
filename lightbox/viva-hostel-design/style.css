@@ -112,9 +112,12 @@ article>.content
     padding : 1rem;
 }
 
-article>#content-1>h1 { margin : 0 0 .5rem 0; }
-article>#content-4>h1 { margin : 0 0 .5rem 0; }
-article>#content-1>p { margin : 0 0 .5rem 0; }
+article>#content-1>h1,
+article>#content-1>p,
+article>#content-4>h1
+{
+    margin : 0 0 .5rem 0;
+}
 
 article>div>h2
 {

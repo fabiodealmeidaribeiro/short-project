@@ -51,3 +51,8 @@ html
 {
     background-color : #B71C1C;
 }
+
+.rotate
+{
+    transform : rotate(180deg);
+}

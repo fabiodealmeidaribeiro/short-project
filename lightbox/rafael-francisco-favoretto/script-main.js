@@ -1,26 +1,25 @@
 export const Validator = {
-    Array : output => !(output === false || output === null || output === undefined || output['length'] === 0) && typeof output === 'object' && Array.isArray(output),
-    Boolean : output => !(output === null || output === undefined) && typeof output === 'boolean',
-    Function : output => {
-        if (!(output === null || output === undefined || output === false)) {
-            if (typeof output === 'function') {
-                const Treat = output.toString().replace(/\s+/g, '');
-                return !(Treat === 'function(){}' || Treat === '()=>{}' || Treat === '(output)=>{}' || Treat === 'output=>{}');
+    Array : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && Array.isArray(Input),
+    Boolean : Input => !(Input === null || Input === undefined) && typeof Input === 'boolean',
+    Function : Input => {
+        if (!(Input === null || Input === undefined || Input === false)) {
+            if (typeof Input === 'function') {
+                const Treat = Input.toString().replace(/\s+/g, '');
+                return !(Treat === 'function(){}' || Treat === '()=>{}' || Treat === '(Input)=>{}' || Treat === 'Input=>{}');
             };
         };
     },
-    Gene : output => !(output === false || output === null || output === undefined || output === 0 || output === ''),
-    Number : output => !(output === false || output === null || output === undefined || output === 0) && typeof output === 'number',
-    Object : output => !(output === false || output === null || output === undefined || output['length'] === 0) && typeof output === 'object' && !Array.isArray(output) && Object.keys(output)['length'] !== 0,
-    String : output => !(output === false || output === null || output === undefined || output === '') && typeof output === 'string',
+    Gene : Input => !(Input === false || Input === null || Input === undefined || Input === 0 || Input === ''),
+    Number : Input => !(Input === false || Input === null || Input === undefined || Input === 0) && typeof Input === 'number',
+    Object : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && !Array.isArray(Input) && Object.keys(Input)['length'] !== 0,
+    String : Input => !(Input === false || Input === null || Input === undefined || Input === '') && typeof Input === 'string',
 };
-export const NoUnit = output => parseFloat(output.replace('px', '').replace('rem', ''));
-export const TransitionRunning = (output) => getComputedStyle(output)['transition'] === 'running';
-export const AddRemoveClass = (output = {}) => {
+
+export const AddRemoveClass = (Input = {}) => {
     const Proper = {
-        classes : 'classes' in output ? (Validator['Array'](output['classes']) ? output['classes'] : []) : [],
-        element : 'element' in output ? (Validator['Array'](output['element']) ? output['element'] : []) : [],
-        method : 'method' in output ? (Validator['String'](output['method']) ? output['method'] : 'add') : 'add',
+        classes : 'classes' in Input ? (Validator['Array'](Input['classes']) ? Input['classes'] : []) : [],
+        element : 'element' in Input ? (Validator['Array'](Input['element']) ? Input['element'] : []) : [],
+        method : 'method' in Input ? (Validator['String'](Input['method']) ? Input['method'] : 'add') : 'add',
     };
     if (Validator['Array'](Proper['element'])) {
         for (let x = 0; x < Proper['element']['length']; x++) {
@@ -32,10 +31,11 @@ export const AddRemoveClass = (output = {}) => {
         };
     };
 };
-export const CreateElement = (output = {}) => {
+
+export const CreateElement = (Input = {}) => {
     const Proper = {
-        element : 'element' in output ? (Validator['String'](output['element']) ? output['element'] : 'div') : 'div',
-        textnode : 'textnode' in output ? (Validator['String'](output['textnode']) ? output['textnode'] : '') : '',
+        element : 'element' in Input ? (Validator['String'](Input['element']) ? Input['element'] : 'div') : 'div',
+        textnode : 'textnode' in Input ? (Validator['String'](Input['textnode']) ? Input['textnode'] : '') : '',
     };
     let Result = document.createElement(Proper['element']);
     if (Validator['Gene'](Proper['textnode'])) {
@@ -43,11 +43,12 @@ export const CreateElement = (output = {}) => {
     };
     return Result;
 };
-export const SetAttribute = (output = {}) => {
+
+export const SetAttribute = (Input = {}) => {
     let Proper = {
-        attribute : 'attribute' in output ? (Validator['String'](output['attribute']) ? output['attribute'] : [ undefined ]) : [ undefined ],
-        element : 'element' in output ? (Validator['Gene'](output['element']) ? output['element'] : [ undefined ]) : [ undefined ],
-        value : 'value' in output ? (Validator['Array'](output['value']) || Validator['Object'](output['value']) || Validator['String'](output['value']) ? output['value'] : '') : '',
+        attribute : 'attribute' in Input ? (Validator['String'](Input['attribute']) ? Input['attribute'] : [ undefined ]) : [ undefined ],
+        element : 'element' in Input ? (Validator['Gene'](Input['element']) ? Input['element'] : [ undefined ]) : [ undefined ],
+        value : 'value' in Input ? (Validator['Array'](Input['value']) || Validator['Object'](Input['value']) || Validator['String'](Input['value']) ? Input['value'] : '') : '',
     };
     if (Validator['Gene'](Proper['element']) && Validator['String'](Proper['attribute']) && Validator['Gene'](Proper['value'])) {
         Proper['attribute'] = document.createAttribute(Proper['attribute']);
