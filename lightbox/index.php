@@ -76,10 +76,10 @@
                 echo '<a href=\'' . $is_current . '\'>' . '<h1 class=\'fs-1 m-0 p-0\'>' . 'Previous Page.' . '</h1>' . '</a>';
                 for ($i = 0; $i < sizeof($is_folder); $i++):
                     echo '<a href=\'' . $is_URL . $is_folder[$i] . '\'>';
-                        echo '<h1 class=\'d-inline-block fs-1 m-0 p-0\'>';
+                        echo '<h3 class=\'d-inline-block fs-3 m-0 p-0\'>';
                             echo ucwords(str_replace('-', ' ', $is_folder[$i]));
                             echo $i < sizeof($is_folder) - 1 ? ', ' : '.';
-                        echo '</h1>';
+                        echo '</h3>';
                     echo '</a>';
                 endfor;
             echo '</div>';
