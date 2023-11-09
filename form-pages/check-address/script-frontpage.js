@@ -17,8 +17,8 @@ import {
     Classes,
 } from './script-variable.js';
 
-export const FrontpageStyle = (output = '') => {
-    let result = output;
+export const FrontpageStyle = (Input = '') => {
+    let result = Input;
     let Header = [];
     for (let i = 1; i <= 6; i++) Header.push(('<h' + i).toString());
     [ ...Header ].map(e => {
@@ -35,12 +35,12 @@ export const FrontpageStyle = (output = '') => {
     return result;
 };
 
-export const FrontpageBuilder = (output = {}) => {
+export const FrontpageBuilder = (Input = {}) => {
     const Proper = {
-        father : 'father' in output ? (Validator['String'](output['father']) ? ('btn-group-' + output['father']) : 'btn-group-footer') : 'btn-group-footer',
-        id : 'id' in output ? (Validator['String'](output['id']) ? output['id'] : [ undefined ]) : [ undefined ],
-        theme : 'theme' in output ? (Validator['String'](output['theme']) ? output['theme'].trim() : 'ModalComponent') : 'ModalComponent',
-        title : 'title' in output ? (Validator['String'](output['title']) ? FirstUpper(output['title']) : [ undefined ]) : [ undefined ],
+        father : 'father' in Input ? (Validator['String'](Input['father']) ? ('btn-group-' + Input['father']) : 'btn-group-footer') : 'btn-group-footer',
+        id : 'id' in Input ? (Validator['String'](Input['id']) ? Input['id'] : [ undefined ]) : [ undefined ],
+        theme : 'theme' in Input ? (Validator['String'](Input['theme']) ? Input['theme'].trim() : 'ModalComponent') : 'ModalComponent',
+        title : 'title' in Input ? (Validator['String'](Input['title']) ? FirstUpper(Input['title']) : [ undefined ]) : [ undefined ],
     };
     const ButtonIndex = CreateElement({ element : 'button', textnode : FirstUpper(Proper['title']) });
     SetAttribute({ element : ButtonIndex, attribute : 'class', value : [ ...Classes['button'] ] });
@@ -55,9 +55,9 @@ export const FrontpageBuilder = (output = {}) => {
     };
 };
 
-export const FrontpageParams = (output = {}) => {
-    if (Validator['Array'](output)) {
-        output.forEach(object => {
+export const FrontpageParams = (Input = {}) => {
+    if (Validator['Array'](Input)) {
+        Input.forEach(object => {
             if (Validator['Object'](object)) {
                 const Proper = {
                     father : 'father' in object ? (Validator['String'](object['father']) ? (IndexExistenceChecker({ array : [ 'fixed', 'footer' ], index : object['father'] }) ? object['father'] : [ undefined ]) : [ undefined ]) : [ undefined ],

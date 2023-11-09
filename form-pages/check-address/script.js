@@ -1,15 +1,15 @@
 import {
     BootstrapParams
 } from './script-bootstrap.js';
+
 import {
     FormFieldParams
 } from './script-formfield.js';
+
 import {
     FrontpageParams
 } from './script-frontpage.js';
-import {
-    BlockParams
-} from './script-block.js';
+
 import {
     AddRemoveClass,
     ToMask,
@@ -23,9 +23,11 @@ import {
     SetAttribute,
     SetTextNode,
 } from './script-main.js';
+
 import {
     SocialNetwork,
 } from './script-network.js';
+
 import {
     Classes,
     FormatDate,
@@ -36,26 +38,10 @@ import {
 
 window.addEventListener('DOMContentLoaded', () => {
     SocialNetwork();
-    
-    BlockParams({ archive : 'settings.json', classes : [ 'mt-5' ], father : 'header' });
 
     FormFieldParams({ array : FormFieldArray, father : 'main' });
     
     FrontpageParams(FrontpageArray);
-
-    // let GoogleAdsense = '';
-
-    // GoogleAdsense += '<ins';
-    //     GoogleAdsense += ' class=\'adsbygoogle\'';
-    //     GoogleAdsense += ' data-ad-client=\'ca-pub-3915625735347184\'';
-    //     GoogleAdsense += ' data-ad-format=\'auto\'';
-    //     GoogleAdsense += ' data-ad-slot=\'6762257078\'';
-    //     GoogleAdsense += ' data-full-width-responsive=\'true\'';
-    //     GoogleAdsense += ' style=\'display:block\'';
-    // GoogleAdsense += '></ins>';
-    // GoogleAdsense += '<script>(adsbygoogle = window.adsbygoogle || []).push({});</script>';
-
-    // BlockParams({ body : GoogleAdsense, father : 'main' });
 
     LinkedinWidget({ father : 'footer' });
 
@@ -88,8 +74,11 @@ window.addEventListener('DOMContentLoaded', () => {
         document.querySelector('.feedback-message')['textContent'] += document.querySelector('.content-message')['value']['length'];
         document.querySelector('.feedback-message')['textContent'] += '/' + TextTemplate.trim()['length'] + '.';
     };
+
     document.querySelector('.content-message').addEventListener('keyup', CharCount);
+
     CharCount();
+
     [ 'blur', 'focus' ].map(event => {
         if (document.querySelector(SelectorOrID('cep'))) {
             document.querySelector(SelectorOrID('cep')).addEventListener(event, () => {
@@ -97,17 +86,17 @@ window.addEventListener('DOMContentLoaded', () => {
                     method : 'GET',
                     mode : 'cors',
                     cache : 'default'
-                }).then(response => {
-                    if (!response['ok'])
-                        throw new Error(response['status']);
-                    return response.json();
+                }).then(Response => {
+                    if (!Response['ok'])
+                        throw new Error(Response['status']);
+                    return Response.json();
                 }).then(result => {
-                    const GetElement = (output = '') => {
+                    const GetElement = (Input = '') => {
                         const Object = {
-                            content : document.querySelector(SelectorOrID(output)),
+                            content : document.querySelector(SelectorOrID(Input)),
                         };
-                        [ ...[ 'title', 'label', 'content', 'feedback' ].filter(index => index !== 'content') ].map(index => {
-                            Object[index] = document.querySelector('.' + index + '-' + output);
+                        [ ...[ 'title', 'label', 'content', 'feedback' ].filter(Index => Index !== 'content') ].map(Index => {
+                            Object[Index] = document.querySelector('.' + Index + '-' + Input);
                         })
                         return Object;
                     };
@@ -115,10 +104,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (result['erro']) {
                         for (let i = 0; i < ZIPCode['length']; i++) {
                             const Element = GetElement(ZIPCode[i]);
-                            [ 'title', 'label', 'content', 'feedback' ].map(index => {
-                                if (Element[index]) {
-                                    Element[index]['classList'][ ZIPCode[i] === 'cep' ? 'add' : 'remove' ](...Classes['disapproved']);
-                                    Element[index]['classList'].remove(...Classes['approved']);
+                            [ 'title', 'label', 'content', 'feedback' ].map(Index => {
+                                if (Element[Index]) {
+                                    Element[Index]['classList'][ ZIPCode[i] === 'cep' ? 'add' : 'remove' ](...Classes['disapproved']);
+                                    Element[Index]['classList'].remove(...Classes['approved']);
                                 };
                             });
                             if (Element['content']) SetTextNode(Element['content'], '');
@@ -128,10 +117,10 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (!result['erro']) {
                         for (const ID in result) {
                             const Element = GetElement(ID);
-                            [ 'title', 'label', 'content', 'feedback' ].map(index => {
-                                if (Element[index]) {
-                                    Element[index]['classList'].add(...Classes['approved']);
-                                    Element[index]['classList'].remove(...Classes['disapproved']);
+                            [ 'title', 'label', 'content', 'feedback' ].map(Index => {
+                                if (Element[Index]) {
+                                    Element[Index]['classList'].add(...Classes['approved']);
+                                    Element[Index]['classList'].remove(...Classes['disapproved']);
                                 };
                             });
                             if (Element['content']) SetTextNode(Element['content'], result[ID]);
@@ -144,38 +133,42 @@ window.addEventListener('DOMContentLoaded', () => {
             });
         };
     });
+
     const TableArray = GetElementContent({
         path : document.querySelector('body').querySelector('main').querySelector('form'),
         slave : [ 'title', 'label', 'content', 'feedback' ],
     });
+
     const ElementAlert = () => {
-        [ 'title', 'label', 'content', 'feedback' ].map(index => {
-            document.querySelectorAll('.' + index).forEach((element, i) => {
+        [ 'title', 'label', 'content', 'feedback' ].map(Index => {
+            document.querySelectorAll('.' + Index).forEach((element, i) => {
                 if (element) {
                     if (!element['classList'].contains('is-valid')) {
                         element['classList'].add(...Classes['disapproved']);
-                        if (index !== 'content') SetTextNode(element, TableArray[i][index]);
-                        if (index === 'content') element['value'] = '';
+                        if (Index !== 'content') SetTextNode(element, TableArray[i][Index]);
+                        if (Index === 'content') element['value'] = '';
                     };
                 };
             });
         });  
     };
+
     if (document.querySelector(SelectorOrID('button-cleaner'))) {
         document.querySelector(SelectorOrID('button-cleaner')).addEventListener('click', () => {
             SetTextNode(document.querySelector(SelectorOrID('birth-date')), FormatDate({ format : 'aaaa-mm-dd' }));
             ButtonColorChange({ status : 'valid' });
-            [ 'title', 'label', 'content', 'feedback' ].map(index => {
-                document.querySelectorAll('.' + index).forEach((element, i) => {
+            [ 'title', 'label', 'content', 'feedback' ].map(Index => {
+                document.querySelectorAll('.' + Index).forEach((element, i) => {
                     if (element) {
                         element['classList'].remove(...[ ...Classes['approved'], ...Classes['disapproved'] ]);
-                        if (index !== 'content') SetTextNode(element, TableArray[i][index]);
-                        if (index === 'content') element['value'] = '';
+                        if (Index !== 'content') SetTextNode(element, TableArray[i][Index]);
+                        if (Index === 'content') element['value'] = '';
                     };
                 });
             });
         });
     };
+
     if (document.querySelector(SelectorOrID('button-sender'))) {
         document.querySelector(SelectorOrID('button-sender')).addEventListener('click', () => {
             if (InvalidElements()) {
@@ -186,7 +179,9 @@ window.addEventListener('DOMContentLoaded', () => {
             };
         });
     };
+
     BootstrapParams['ModalComponent']({ id : 'container-result', title : 'Resultado.', danger : true, });
+
     if (document.querySelector(SelectorOrID('button-result'))) {
         document.querySelector(SelectorOrID('button-result')).addEventListener('click', () => {
             if (InvalidElements()) {
@@ -250,4 +245,5 @@ window.addEventListener('DOMContentLoaded', () => {
             };
         });
     };
+    
 });

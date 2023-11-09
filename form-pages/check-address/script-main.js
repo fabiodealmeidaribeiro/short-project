@@ -1,46 +1,46 @@
 export const Period = (new Date().getHours() > 6 && new Date().getHours() < 18);
 
 export const ToValidator = {
-    email : (output = '') => {
-        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(output);
+    email : (Input = '') => {
+        return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(Input);
     },
-    cpf : (output = '') => {
-        output = output.replace(/[^\d]/g, '');
-        if (output['length'] !== 11 || /^(.)\1+$/.test(output))
+    cpf : (Input = '') => {
+        Input = Input.replace(/[^\d]/g, '');
+        if (Input['length'] !== 11 || /^(.)\1+$/.test(Input))
             return false;
         let Sum = 0;
         for (let i = 0; i < 9; i++)
-            Sum += parseInt(output.charAt(i)) * (10 - i);
+            Sum += parseInt(Input.charAt(i)) * (10 - i);
         let Rest = Sum % 11;
         let ni = Rest < 2 ? 0 : 11 - Rest;
         Sum = 0;
         for (let i = 0; i < 10; i++)
-            Sum += parseInt(output.charAt(i)) * (11 - i);
+            Sum += parseInt(Input.charAt(i)) * (11 - i);
         Rest = Sum % 11;
         let nii = Rest < 2 ? 0 : 11 - Rest;
-        return (parseInt(output.charAt(9)) === ni && parseInt(output.charAt(10)) === nii);
+        return (parseInt(Input.charAt(9)) === ni && parseInt(Input.charAt(10)) === nii);
     },
-    minimum : (output = '', number = 2) => {
-        return number < output.trim().split(' ')['length'];
+    minimum : (Input = '', number = 2) => {
+        return number < Input.trim().split(' ')['length'];
     },
-    empty : (output) => output <= 0 || output === '',
-    phone : (output = '') => {
+    empty : (Input) => Input <= 0 || Input === '',
+    phone : (Input = '') => {
         const DDI = '55', Array = [];
         for (let i = 1; i <= 9; i++) for (let j = 1; j <= 9; j++) Array.push([i] + [j]);
-        const DDD = output.substring(('+' + DDI + ' (')['length'], ('+' + DDI + ' (11')['length']);
-        if (output['length'] <= ('+' + DDI + ' (11) 9 9163-3880').replace(/[^a-zA-Z0-9]/g, '')['length']) { return false; } {
+        const DDD = Input.substring(('+' + DDI + ' (')['length'], ('+' + DDI + ' (11')['length']);
+        if (Input['length'] <= ('+' + DDI + ' (11) 9 9163-3880').replace(/[^a-zA-Z0-9]/g, '')['length']) { return false; } {
             if (Array.includes(DDD)) {
-                return new RegExp(`^\\+${ DDI } \\(${ DDD }\\) 9 [0-9]{4}-[0-9]{4}$`).test(output);
+                return new RegExp(`^\\+${ DDI } \\(${ DDD }\\) 9 [0-9]{4}-[0-9]{4}$`).test(Input);
             };
         };
     },
-    date : (output = '') => {
-        return !isNaN(new Date(output)) && (new Date(output)).toString() !== 'Invalid Date';
+    date : (Input = '') => {
+        return !isNaN(new Date(Input)) && (new Date(Input)).toString() !== 'Invalid Date';
     },
-    more : (output = {}) => {
+    more : (Input = {}) => {
         const Proper = {
-            date : 'date' in output ? (output['date'] ? output['date'] : Date.now()) : Date.now(),
-            year : 'year' in output ? (output['year'] ? output['year'] : 18) : 18,
+            date : 'date' in Input ? (Input['date'] ? Input['date'] : Date.now()) : Date.now(),
+            year : 'year' in Input ? (Input['year'] ? Input['year'] : 18) : 18,
         };
         if (!Proper['date']) return false;
         let CurrentDate = new Date();
@@ -49,25 +49,25 @@ export const ToValidator = {
 };
 
 export const ToMask = {
-    camelcase : (output = '') => {
-        output['value'] = output['value'].match(/\d+/g) ? output['value'].replace(/\d+/g, '') : output['value'];
-        var Term = output['value'].split(' ');
+    camelcase : (Input = '') => {
+        Input['value'] = Input['value'].match(/\d+/g) ? Input['value'].replace(/\d+/g, '') : Input['value'];
+        var Term = Input['value'].split(' ');
         for (var i = 0; i < Term['length']; i++) Term[i] = Term[i]['length'] > 2 ? Term[i].charAt(0).toUpperCase() + Term[i].slice(1).toLowerCase() : Term[i];
-        output['value'] = Term.join(' ');
+        Input['value'] = Term.join(' ');
     },
-    cep : (output = '') => {
-        let Value = output['value'].replace(/\D/g, '');
-        return output['value'] = Value['length'] === '05109-200'.replace(/[^0-9]/g, '')['length'] ? Value.replace(/(\d{5})(\d{3})/, '$1-$2') : Value;
+    cep : (Input = '') => {
+        let Value = Input['value'].replace(/\D/g, '');
+        return Input['value'] = Value['length'] === '05109-200'.replace(/[^0-9]/g, '')['length'] ? Value.replace(/(\d{5})(\d{3})/, '$1-$2') : Value;
     },
-    cpf : (output = '') => {
-        let Value = output['value'].replace(/\D/g, '');
-        return output['value'] = Value['length'] === '123.456.789-10'.replace(/[^0-9]/g, '')['length'] ? Value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : Value;
+    cpf : (Input = '') => {
+        let Value = Input['value'].replace(/\D/g, '');
+        return Input['value'] = Value['length'] === '123.456.789-10'.replace(/[^0-9]/g, '')['length'] ? Value.replace(/(\d{3})(\d{3})(\d{3})(\d{2})/, '$1.$2.$3-$4') : Value;
     },
-    date : (output = {}) => {
+    date : (Input = {}) => {
         const Proper = {
-            date : 'date' in output ? (output['date'] ? output['date'] : Date.now()) : Date.now(),
-            format : 'format' in output ? (output['format'] ? output['format'] : 'dd/mm/aaaa') : 'dd/mm/aaaa',
-            year : 'year' in output ? (output['year'] ? output['year'] : - 18) : - 18,
+            date : 'date' in Input ? (Input['date'] ? Input['date'] : Date.now()) : Date.now(),
+            format : 'format' in Input ? (Input['format'] ? Input['format'] : 'dd/mm/aaaa') : 'dd/mm/aaaa',
+            year : 'year' in Input ? (Input['year'] ? Input['year'] : - 18) : - 18,
         };
         const Map = {
             dd : (new Date(Proper['date']).getDate() + 1).toString().padStart(2, '0'),
@@ -76,16 +76,16 @@ export const ToMask = {
         };
         return Proper['format'].replace(/mm|dd|aaaa/gi, matched => Map[matched]);
     },
-    phone : (output = '') => {
-        const Value = output['value'].replace(/\D/g, '');
-        return output['value'] = Value['length'] === '+55 (11) 9 9163-3880'.replace(/[^0-9]/g, '')['length'] ? Value.replace(/(\d{2})(\d{2})(\d{1})(\d{4})(\d{4})/, '+$1 ($2) $3 $4-$5') : Value;
+    phone : (Input = '') => {
+        const Value = Input['value'].replace(/\D/g, '');
+        return Input['value'] = Value['length'] === '+55 (11) 9 9163-3880'.replace(/[^0-9]/g, '')['length'] ? Value.replace(/(\d{2})(\d{2})(\d{1})(\d{4})(\d{4})/, '+$1 ($2) $3 $4-$5') : Value;
     },
 };
 
-export const ThereIsKeyWithRealValue = (output = []) => {
+export const ThereIsKeyWithRealValue = (Input = []) => {
     const Proper = {
-        objeto : 'objeto' in output ? (Validator['Array'](output['objeto']) ? output['objeto'] : []) : [],
-        key : 'key' in output ? (Validator['String'](output['key']) ? output['key'] : '') : '',
+        objeto : 'objeto' in Input ? (Validator['Array'](Input['objeto']) ? Input['objeto'] : []) : [],
+        key : 'key' in Input ? (Validator['String'](Input['key']) ? Input['key'] : '') : '',
     };
     if (Validator['Array'](Proper['objeto'])) {
         if (Validator['String'](Proper['key'])) {
@@ -101,34 +101,34 @@ export const ThereIsKeyWithRealValue = (output = []) => {
 
 export const LocalLanguage = () => (navigator['language'] || navigator['userLanguage']) === 'pt-BR';
 
-export const SumObjectValues = output => {
+export const SumObjectValues = Input => {
     let result = 0;
-    for (let key in output) {
-        if (typeof output[key] === 'number') {
-            result += output[key];
+    for (let key in Input) {
+        if (typeof Input[key] === 'number') {
+            result += Input[key];
         };
     };
     return result;
 };
 
-export const CheckJSONTermination = output => output.substr(- 1 * '.json'['length']) === '.json';
+export const CheckJSONTermination = Input => Input.substr(- 1 * '.json'['length']) === '.json';
 
-export const CheckHTMLTermination = output => output.substr(- 1 * '.html'['length']) === '.html';
+export const CheckHTMLTermination = Input => Input.substr(- 1 * '.html'['length']) === '.html';
 
-export const IsHTMLFormat = (output = '') => output.startsWith('<') && output.endsWith('>');
+export const IsHTMLFormat = (Input = '') => Input.startsWith('<') && Input.endsWith('>');
 
-export const SetTextNode = (output = '', value = '') => output['textContent'] = output['innerText'] = output['value'] = value;
+export const SetTextNode = (Input = '', value = '') => Input['textContent'] = Input['innerText'] = Input['value'] = value;
 
-export const GetTextNode = (output = '') => {
-    const TextNode = output['textContent'] || output['innerText'] || output['value'];
+export const GetTextNode = (Input = '') => {
+    const TextNode = Input['textContent'] || Input['innerText'] || Input['value'];
     return TextNode ? TextNode : '';
 };
 
-export const GetElementContent = (output = {}) => {
+export const GetElementContent = (Input = {}) => {
     const Array = [];
     const Proper = {
-        path : 'path' in output ? (output['path'] ? output['path'] : '') : '',
-        slave : 'slave' in output ? (Validator['Array'](output['slave']) ? output['slave'] : []) : [],
+        path : 'path' in Input ? (Input['path'] ? Input['path'] : '') : '',
+        slave : 'slave' in Input ? (Validator['Array'](Input['slave']) ? Input['slave'] : []) : [],
     };
     const Master = Proper['slave'].shift();
     if (Proper['path']) {
@@ -143,7 +143,7 @@ export const GetElementContent = (output = {}) => {
     return Array;
 };
 
-export const SelectorOrID = (output = '') => {
+export const SelectorOrID = (Input = '') => {
     const result = [ 
         'html', 'head', 'title', 'meta', 'link', 'style', 'script', 'base', 'body', 'h1',
         'h2', 'h3', 'h4', 'h5', 'h6', 'p', 'br', 'hr', 'a', 'img',
@@ -153,19 +153,19 @@ export const SelectorOrID = (output = '') => {
         'time', 'mark', 'del', 'ins', 'sup', 'sub', 'small', 'strong', 'em', 'dfn', 'samp',
         'kbd', 'var', 'progress', 'meter', 'details', 'summary', 'figure', 'figcaption', 'aside', 'nav', 'header',
         'footer', 'main', 'article', 'section', 'address', 'pre', 'wbr'
-     ].filter(index => index.includes(output));
-    return 0 < result['length'] ? output : ('#' + output);
+     ].filter(index => index.includes(Input));
+    return 0 < result['length'] ? Input : ('#' + Input);
 };
 
-export const IndexExistenceChecker = (output = {}) => {
-    const result = output['array'].filter(index => index.includes(output['index']));
+export const IndexExistenceChecker = (Input = {}) => {
+    const result = Input['array'].filter(index => index.includes(Input['index']));
     return 0 < result['length'];
 };
 
-export const KeysAreSame = (output = {}) => {
+export const KeysAreSame = (Input = {}) => {
     const Proper = {
-        objeto : 'objeto' in output ? (Validator['Array'](output['objeto']) ? output['objeto'] : []) : [],
-        key : 'key' in output ? (Validator['String'](output['key']) ? output['key'] : []) : [],
+        objeto : 'objeto' in Input ? (Validator['Array'](Input['objeto']) ? Input['objeto'] : []) : [],
+        key : 'key' in Input ? (Validator['String'](Input['key']) ? Input['key'] : []) : [],
     };
     if (Validator['Gene'](Proper['objeto']) && Validator['Gene'](Proper['key'])) {
         if (!Validator['Gene'](Proper['objeto']['length'])) {
@@ -180,12 +180,12 @@ export const KeysAreSame = (output = {}) => {
     return Proper['objeto'][0][Proper['key']];
 };
 
-export const PasswordBuilder = (output = {}) => {
+export const PasswordBuilder = (Input = {}) => {
     const Proper = {
-        amount : 'amount' in output ? (Validator['Number'](output['amount']) ? output['amount'] : 10) : 10,
-        number : 'number' in output ? (Validator['Boolean'](output['number']) ? output['number'] : true) : true,
-        special : 'special' in output ? (Validator['Boolean'](output['special']) ? output['special'] : true) : true,
-        uppercase : 'uppercase' in output ? (Validator['Boolean'](output['uppercase']) ? output['uppercase'] : true) : true,
+        amount : 'amount' in Input ? (Validator['Number'](Input['amount']) ? Input['amount'] : 10) : 10,
+        number : 'number' in Input ? (Validator['Boolean'](Input['number']) ? Input['number'] : true) : true,
+        special : 'special' in Input ? (Validator['Boolean'](Input['special']) ? Input['special'] : true) : true,
+        uppercase : 'uppercase' in Input ? (Validator['Boolean'](Input['uppercase']) ? Input['uppercase'] : true) : true,
     };
     let Char = '', Password = '';
     Char += 'abcdefghijklmnopqrstuvwxyz';
@@ -196,8 +196,8 @@ export const PasswordBuilder = (output = {}) => {
     return Password;
 };
 
-export const JustLetters = (output = '') => {
-    return output
+export const JustLetters = (Input = '') => {
+    return Input
     .replace(/[^\w\s\-ÁÀÂÃáàâãÉÈÊéèêÍÌíìÓÒÔÕóòôõÚÙÛúùûÇç]/gi, '')
     .replace(/[ÁÀÂÃ]/gi, 'A').replace(/[áàâã]/gi, 'a')
     .replace(/[ÉÈÊ]/gi, 'E').replace(/[éèê]/gi, 'e')
@@ -209,20 +209,20 @@ export const JustLetters = (output = '') => {
     .replace(/\s+/gi, '');
 };
 
-export const JustLowerLetters = (output = '') => JustLetters(output).toLowerCase();
+export const JustLowerLetters = (Input = '') => JustLetters(Input).toLowerCase();
 
-export const FirstUpper = (output = '') => ((output).charAt(0).toUpperCase() + (output).slice(1)).trim();
+export const FirstUpper = (Input = '') => ((Input).charAt(0).toUpperCase() + (Input).slice(1)).trim();
 
-export const LinkedinWidget = (output = {}) => {
+export const LinkedinWidget = (Input = {}) => {
     const Proper = {
-        class : 'class' in output ? (Validator['Array'](output['class']) ? output['class'] : [ 'badge-base', 'LI-profile-badge' ]) : [ 'badge-base', 'LI-profile-badge' ],
-        father : 'father' in output ? (Validator['String'](output['father']) ? output['father'] : 'body') : 'body',
-        locale : 'data-locale' in output ? (Validator['String'](output['data-locale']) ? output['data-locale'] : 'pt_BR') : 'pt_BR',
-        size : 'data-size' in output ? (Validator['String'](output['data-size']) ? output['data-size'] : 'medium') : 'medium',
-        theme : 'data-theme' in output ? (Validator['String'](output['data-theme']) ? output['data-theme'] : 'light') : 'light',
-        type : 'data-type' in output ? (Validator['String'](output['data-type']) ? output['data-type'] : 'VERTICAL') : 'VERTICAL',
-        vanity : 'data-vanity' in output ? (Validator['String'](output['data-vanity']) ? output['data-vanity'] : 'fabiodealmeidaribeiro') : 'fabiodealmeidaribeiro',
-        version : 'data-version' in output ? (Validator['String'](output['data-version']) ? output['data-version'] : 'v1') : 'v1',
+        class : 'class' in Input ? (Validator['Array'](Input['class']) ? Input['class'] : [ 'badge-base', 'LI-profile-badge' ]) : [ 'badge-base', 'LI-profile-badge' ],
+        father : 'father' in Input ? (Validator['String'](Input['father']) ? Input['father'] : 'body') : 'body',
+        locale : 'data-locale' in Input ? (Validator['String'](Input['data-locale']) ? Input['data-locale'] : 'pt_BR') : 'pt_BR',
+        size : 'data-size' in Input ? (Validator['String'](Input['data-size']) ? Input['data-size'] : 'medium') : 'medium',
+        theme : 'data-theme' in Input ? (Validator['String'](Input['data-theme']) ? Input['data-theme'] : 'light') : 'light',
+        type : 'data-type' in Input ? (Validator['String'](Input['data-type']) ? Input['data-type'] : 'VERTICAL') : 'VERTICAL',
+        vanity : 'data-vanity' in Input ? (Validator['String'](Input['data-vanity']) ? Input['data-vanity'] : 'fabiodealmeidaribeiro') : 'fabiodealmeidaribeiro',
+        version : 'data-version' in Input ? (Validator['String'](Input['data-version']) ? Input['data-version'] : 'v1') : 'v1',
     };
     const Container = CreateElement();
     SetAttribute({ element : Container, attribute : 'class', value : [ ...Proper['class'], 'mb-5', 'mx-auto' ] });
@@ -236,29 +236,29 @@ export const LinkedinWidget = (output = {}) => {
     if (document.querySelector(Proper['father'])) document.querySelector(Proper['father']).appendChild(Container);
 };
 
-export const IndexProper = output => {
+export const IndexProper = Input => {
     return {
-        'aria-label' : 'aria-label' in output ? (Validator['String'](output['aria-label']) ? output['aria-label'].trim() : '') : '',
-        bottom : 'bottom' in output ? (Validator['Boolean'](output['bottom']) ? output['bottom'] : false) : false,
-        classes : 'classes' in output ? (Validator['Array'](output['classes']) ? output['classes'] : []) : [],
-        'data-bs-target' : 'data-bs-target' in output ? (Validator['String'](output['data-bs-target']) ? SelectorOrID(output['data-bs-target']) : '') : '',
-        'data-bs-toggle' : 'data-bs-toggle' in output ? (Validator['String'](output['data-bs-toggle']) ? output['data-bs-toggle'].trim() : '') : '',
-        feedback : 'feedback' in output ? (Validator['String'](output['feedback']) ? output['feedback'].trim() : '') : '',
-        disabled : 'disabled' in output ? (Validator['Boolean'](output['disabled']) ? output['disabled'] : false) : false,
-        function : 'function' in output ? (Validator['Function'](output['function']) ? output['function'] : {}) : {},
-        id : 'id' in output ? (Validator['String'](output['id']) ? output['id'].trim() : JustLetters(PasswordBuilder())) : JustLetters(PasswordBuilder()),
-        label : 'label' in output ? (Validator['String'](output['label']) ? output['label'].trim() : '') : '',
-        maxlength : 'maxlength' in output ? (Validator['Number'](output['maxlength']) ? output['maxlength'].toString() : '') : '',
-        minlength : 'minlength' in output ? (Validator['Number'](output['minlength']) ? output['minlength'].toString() : '') : '',
-        multiple : 'multiple' in output ? (Validator['Boolean'](output['multiple']) ? output['multiple'] : false) : false,
-        option : 'option' in output ? (Validator['Array'](output['option']) ? output['option'] : []) : [],
-        rows : 'rows' in output ? (Validator['Number'](output['rows']) ? output['rows'].toString() : '') : '',
-        size : 'size' in output ? (Validator['Number'](output['size']) ? output['size'].toString() : '') : '',
-        placeholder : 'placeholder' in output ? (Validator['String'](output['placeholder']) ? output['placeholder'].trim() : '') : '',
-        selector : 'selector' in output ? (Validator['String'](output['selector']) ? output['selector'] : 'input') : 'input',
-        style : 'style' in output ? (Validator['Object'](output['style']) ? output['style'] : {}) : {},
-        title : 'title' in output ? (Validator['String'](output['title']) ? output['title'] : '') : '',
-        type : 'type' in output ? (Validator['String'](output['type']) ? output['type'] : 'text') : 'text',
+        'aria-label' : 'aria-label' in Input ? (Validator['String'](Input['aria-label']) ? Input['aria-label'].trim() : '') : '',
+        bottom : 'bottom' in Input ? (Validator['Boolean'](Input['bottom']) ? Input['bottom'] : false) : false,
+        classes : 'classes' in Input ? (Validator['Array'](Input['classes']) ? Input['classes'] : []) : [],
+        'data-bs-target' : 'data-bs-target' in Input ? (Validator['String'](Input['data-bs-target']) ? SelectorOrID(Input['data-bs-target']) : '') : '',
+        'data-bs-toggle' : 'data-bs-toggle' in Input ? (Validator['String'](Input['data-bs-toggle']) ? Input['data-bs-toggle'].trim() : '') : '',
+        feedback : 'feedback' in Input ? (Validator['String'](Input['feedback']) ? Input['feedback'].trim() : '') : '',
+        disabled : 'disabled' in Input ? (Validator['Boolean'](Input['disabled']) ? Input['disabled'] : false) : false,
+        function : 'function' in Input ? (Validator['Function'](Input['function']) ? Input['function'] : {}) : {},
+        id : 'id' in Input ? (Validator['String'](Input['id']) ? Input['id'].trim() : JustLetters(PasswordBuilder())) : JustLetters(PasswordBuilder()),
+        label : 'label' in Input ? (Validator['String'](Input['label']) ? Input['label'].trim() : '') : '',
+        maxlength : 'maxlength' in Input ? (Validator['Number'](Input['maxlength']) ? Input['maxlength'].toString() : '') : '',
+        minlength : 'minlength' in Input ? (Validator['Number'](Input['minlength']) ? Input['minlength'].toString() : '') : '',
+        multiple : 'multiple' in Input ? (Validator['Boolean'](Input['multiple']) ? Input['multiple'] : false) : false,
+        option : 'option' in Input ? (Validator['Array'](Input['option']) ? Input['option'] : []) : [],
+        rows : 'rows' in Input ? (Validator['Number'](Input['rows']) ? Input['rows'].toString() : '') : '',
+        size : 'size' in Input ? (Validator['Number'](Input['size']) ? Input['size'].toString() : '') : '',
+        placeholder : 'placeholder' in Input ? (Validator['String'](Input['placeholder']) ? Input['placeholder'].trim() : '') : '',
+        selector : 'selector' in Input ? (Validator['String'](Input['selector']) ? Input['selector'] : 'input') : 'input',
+        style : 'style' in Input ? (Validator['Object'](Input['style']) ? Input['style'] : {}) : {},
+        title : 'title' in Input ? (Validator['String'](Input['title']) ? Input['title'] : '') : '',
+        type : 'type' in Input ? (Validator['String'](Input['type']) ? Input['type'] : 'text') : 'text',
     };
 };
 
@@ -280,10 +280,10 @@ export const InvalidElements = () => {
     return Result;
 };
 
-export const ButtonColorChange = (output = {}) => {
+export const ButtonColorChange = (Input = {}) => {
     const Proper = {
-        id : 'id' in output ? (Validator['String'](output['id']) ? output['id'] : '') : '',
-        status : 'status' in output ? (Validator['String'](output['status']) ? output['status'] : 'invalid') : 'invalid',
+        id : 'id' in Input ? (Validator['String'](Input['id']) ? Input['id'] : '') : '',
+        status : 'status' in Input ? (Validator['String'](Input['status']) ? Input['status'] : 'invalid') : 'invalid',
     };
     [ 'button-sender', 'button-result' ].map(index => {
         if (Proper['status'] === 'invalid') {
@@ -302,31 +302,31 @@ export const ButtonColorChange = (output = {}) => {
 };
 
 export const Validator = {
-    Array : output => !(output === false || output === null || output === undefined || output['length'] === 0) && typeof output === 'object' && Array.isArray(output),
-    Boolean : output => !(output === null || output === undefined) && typeof output === 'boolean',
-    Function : output => {
-        if (!(output === null || output === undefined || output === false)) {
-            if (typeof output === 'function') {
-                const Treat = output.toString().replace(/\s+/g, '');
-                return !(Treat === 'function(){}' || Treat === '()=>{}' || Treat === '(output)=>{}' || Treat === 'output=>{}');
+    Array : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && Array.isArray(Input),
+    Boolean : Input => !(Input === null || Input === undefined) && typeof Input === 'boolean',
+    Function : Input => {
+        if (!(Input === null || Input === undefined || Input === false)) {
+            if (typeof Input === 'function') {
+                const Treat = Input.toString().replace(/\s+/g, '');
+                return !(Treat === 'function(){}' || Treat === '()=>{}' || Treat === '(Input)=>{}' || Treat === 'Input=>{}');
             };
         };
     },
-    Gene : output => !(output === false || output === null || output === undefined || output === 0 || output === ''),
-    Number : output => !(output === false || output === null || output === undefined || output === 0) && typeof output === 'number',
-    Object : output => !(output === false || output === null || output === undefined || output['length'] === 0) && typeof output === 'object' && !Array.isArray(output) && Object.keys(output)['length'] !== 0,
-    String : output => !(output === false || output === null || output === undefined || output === '') && typeof output === 'string',
+    Gene : Input => !(Input === false || Input === null || Input === undefined || Input === 0 || Input === ''),
+    Number : Input => !(Input === false || Input === null || Input === undefined || Input === 0) && typeof Input === 'number',
+    Object : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && !Array.isArray(Input) && Object.keys(Input)['length'] !== 0,
+    String : Input => !(Input === false || Input === null || Input === undefined || Input === '') && typeof Input === 'string',
 };
 
-export const NoUnit = output => parseFloat(output.replace('px', '').replace('rem', ''));
+export const NoUnit = Input => parseFloat(Input.replace('px', '').replace('rem', ''));
 
-export const TransitionRunning = (output) => getComputedStyle(output)['transition'] === 'running';
+export const TransitionRunning = (Input) => getComputedStyle(Input)['transition'] === 'running';
 
-export const AddRemoveClass = (output = {}) => {
+export const AddRemoveClass = (Input = {}) => {
     const Proper = {
-        classes : 'classes' in output ? (Validator['Array'](output['classes']) ? output['classes'] : []) : [],
-        element : 'element' in output ? (Validator['Array'](output['element']) ? output['element'] : []) : [],
-        method : 'method' in output ? (Validator['String'](output['method']) ? output['method'] : 'add') : 'add',
+        classes : 'classes' in Input ? (Validator['Array'](Input['classes']) ? Input['classes'] : []) : [],
+        element : 'element' in Input ? (Validator['Array'](Input['element']) ? Input['element'] : []) : [],
+        method : 'method' in Input ? (Validator['String'](Input['method']) ? Input['method'] : 'add') : 'add',
     };
     if (Validator['Array'](Proper['element'])) {
         for (let x = 0; x < Proper['element']['length']; x++) {
@@ -339,10 +339,10 @@ export const AddRemoveClass = (output = {}) => {
     };
 };
 
-export const CreateElement = (output = {}) => {
+export const CreateElement = (Input = {}) => {
     const Proper = {
-        element : 'element' in output ? (Validator['String'](output['element']) ? output['element'] : 'div') : 'div',
-        textnode : 'textnode' in output ? (Validator['String'](output['textnode']) ? output['textnode'] : '') : '',
+        element : 'element' in Input ? (Validator['String'](Input['element']) ? Input['element'] : 'div') : 'div',
+        textnode : 'textnode' in Input ? (Validator['String'](Input['textnode']) ? Input['textnode'] : '') : '',
     };
     let Result = document.createElement(Proper['element']);
     if (Validator['Gene'](Proper['textnode'])) {
@@ -351,11 +351,11 @@ export const CreateElement = (output = {}) => {
     return Result;
 };
 
-export const SetAttribute = (output = {}) => {
+export const SetAttribute = (Input = {}) => {
     let Proper = {
-        attribute : 'attribute' in output ? (Validator['String'](output['attribute']) ? output['attribute'] : [ undefined ]) : [ undefined ],
-        element : 'element' in output ? (Validator['Gene'](output['element']) ? output['element'] : [ undefined ]) : [ undefined ],
-        value : 'value' in output ? (Validator['Array'](output['value']) || Validator['Object'](output['value']) || Validator['String'](output['value']) ? output['value'] : '') : '',
+        attribute : 'attribute' in Input ? (Validator['String'](Input['attribute']) ? Input['attribute'] : [ undefined ]) : [ undefined ],
+        element : 'element' in Input ? (Validator['Gene'](Input['element']) ? Input['element'] : [ undefined ]) : [ undefined ],
+        value : 'value' in Input ? (Validator['Array'](Input['value']) || Validator['Object'](Input['value']) || Validator['String'](Input['value']) ? Input['value'] : '') : '',
     };
     if (Validator['Gene'](Proper['element']) && Validator['String'](Proper['attribute']) && Validator['Gene'](Proper['value'])) {
         Proper['attribute'] = document.createAttribute(Proper['attribute']);

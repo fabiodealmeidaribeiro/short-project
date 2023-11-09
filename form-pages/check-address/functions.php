@@ -21,7 +21,6 @@
             $is_return .= '</body>';
             $is_return .= '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>';
             $is_return .= '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>';
-            // $is_return .= '<script async src=\'https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-3915625735347184\' crossorigin=\'anonymous\'></script>';
             $is_return .= '<script src=\'https://platform.linkedin.com/badges/js/profile.js\' async defer type=\'text/javascript\'></script>';
             $is_return .= file_exists('script.js') ? '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' : '';
         $is_return .= '</html>';

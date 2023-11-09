@@ -16,14 +16,14 @@ import {
 } from './script-variable.js';
 
 export const BootstrapParams = {
-    ModalComponent : (output = {}) => {
+    ModalComponent : (Input = {}) => {
         const Proper = {
-            body : 'body' in output ? (Validator['String'](output['body']) ? output['body'] : [ undefined ]) : [ undefined ],
-            danger : 'danger' in output ? (Validator['Boolean'](output['danger']) ? output['danger'] : false) : false,
-            father : 'father' in output ? (Validator['String'](output['father']) ? output['father'] : 'body') : 'body',
-            screen : 'screen' in output ? (Validator['String'](output['screen']) ? (IndexExistenceChecker({ array : [ 'extra', 'full' ], index : output['screen'] }) ? output['screen'] : false) : false) : false,
-            id : 'id' in output ? (Validator['String'](output['id']) ? output['id'] : JustLetters(PasswordBuilder())) : JustLetters(PasswordBuilder()),
-            title : 'title' in output ? (Validator['String'](output['title']) ? FirstUpper(output['title']) : '') : '',
+            body : 'body' in Input ? (Validator['String'](Input['body']) ? Input['body'] : [ undefined ]) : [ undefined ],
+            danger : 'danger' in Input ? (Validator['Boolean'](Input['danger']) ? Input['danger'] : false) : false,
+            father : 'father' in Input ? (Validator['String'](Input['father']) ? Input['father'] : 'body') : 'body',
+            screen : 'screen' in Input ? (Validator['String'](Input['screen']) ? (IndexExistenceChecker({ array : [ 'extra', 'full' ], index : Input['screen'] }) ? Input['screen'] : false) : false) : false,
+            id : 'id' in Input ? (Validator['String'](Input['id']) ? Input['id'] : JustLetters(PasswordBuilder())) : JustLetters(PasswordBuilder()),
+            title : 'title' in Input ? (Validator['String'](Input['title']) ? FirstUpper(Input['title']) : '') : '',
         };
         const Container = CreateElement();
         SetAttribute({ element : Container, attribute : 'class', value : [ 'modal', 'fade' ] });
@@ -101,11 +101,11 @@ export const BootstrapParams = {
                         };
                     };
                 });
-                const CallbackMouseMove = (output = '') => {
+                const CallbackMouseMove = (Input = '') => {
                     Selector.push(...[ 'p', 'strong' ]);
-                    Content['classList'][output](...[ 'bg-danger', 'bg-gradiente', 'border-danger' ]);
-                    Content['classList'][(output === 'add' ? 'remove' : 'add')](...[ 'bg-white' ]);
-                    Content.querySelectorAll(Selector.join(', ')).forEach(header => header['classList'][output](...[ 'text-white' ]));
+                    Content['classList'][Input](...[ 'bg-danger', 'bg-gradiente', 'border-danger' ]);
+                    Content['classList'][(Input === 'add' ? 'remove' : 'add')](...[ 'bg-white' ]);
+                    Content.querySelectorAll(Selector.join(', ')).forEach(header => header['classList'][Input](...[ 'text-white' ]));
                 };
                 Content.addEventListener('mouseover', () => CallbackMouseMove('add'));
                 Content.addEventListener('mouseout', () => CallbackMouseMove('remove'));
@@ -113,12 +113,13 @@ export const BootstrapParams = {
         });
         document.querySelector(SelectorOrID(Proper['id'])).querySelector('.modal-footer').querySelector('.btn-group').appendChild(FooterButton);
     },
-    OffCanvasComponent : (output = {}) => {
+
+    OffCanvasComponent : (Input = {}) => {
         const Proper = {
-            body : 'body' in output ? (Validator['String'](output['body']) ? output['body'] : '') : '',
-            father : 'father' in output ? (Validator['String'](output['father']) ? output['father'] : 'body') : 'body',
-            id : 'id' in output ? (Validator['String'](output['id']) ? output['id'].trim() : JustLetters(PasswordBuilder())) : JustLetters(PasswordBuilder()),
-            title : 'title' in output ? (Validator['String'](output['title']) ? FirstUpper(output['title']) : '') : '',
+            body : 'body' in Input ? (Validator['String'](Input['body']) ? Input['body'] : '') : '',
+            father : 'father' in Input ? (Validator['String'](Input['father']) ? Input['father'] : 'body') : 'body',
+            id : 'id' in Input ? (Validator['String'](Input['id']) ? Input['id'].trim() : JustLetters(PasswordBuilder())) : JustLetters(PasswordBuilder()),
+            title : 'title' in Input ? (Validator['String'](Input['title']) ? FirstUpper(Input['title']) : '') : '',
         };
         const Container = CreateElement();
         SetAttribute({ element : Container, attribute : 'aria-labelledby', value : Proper['id'] + '-label' });
@@ -144,4 +145,5 @@ export const BootstrapParams = {
             document.querySelector(Proper['father']).appendChild(Container).appendChild(Body);
         };
     },
+
 };

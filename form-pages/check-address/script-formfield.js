@@ -16,10 +16,10 @@ import {
     FormatDate,
 } from './script-variable.js';
 
-export const FormFieldBuilder = output => {
+export const FormFieldBuilder = Input => {
     const Proper = {
-        array : 'array' in output ? (Validator['Array'](output['array']) ? output['array'] : []) : [],
-        father : 'father' in output ? (Validator['String'](output['father']) ? output['father'] : 'body') : 'body',
+        array : 'array' in Input ? (Validator['Array'](Input['array']) ? Input['array'] : []) : [],
+        father : 'father' in Input ? (Validator['String'](Input['father']) ? Input['father'] : 'body') : 'body',
     };
     const Array = Proper['array'];
     const Father = Proper['father'];
@@ -65,9 +65,9 @@ export const FormFieldBuilder = output => {
                     };
                 };
             };
-            const Constructor = (output = {}, ) => {
-                if (Validator['Object'](output)) {
-                    const Proper = IndexProper(output);
+            const Constructor = (Input = {}, ) => {
+                if (Validator['Object'](Input)) {
+                    const Proper = IndexProper(Input);
                     const Checker = {
                         date : Proper['type'] === 'date',
                         button : Proper['selector'] === 'button',
@@ -161,64 +161,64 @@ export const FormFieldBuilder = output => {
     };
 };
 
-export const FormFieldValidator = (output = {}) => {
-    if (Validator['Object'](output)) {
-        if ('index' in output) {
-            const Content = document.querySelector(SelectorOrID(output['index']['id']));
-            const Title = Content['parentElement']['parentElement'].querySelector('.title-' + output['index']['id']) ? Content['parentElement']['parentElement'].querySelector('.title-' + output['index']['id']) : [ undefined ];
-            const Label = Content['parentElement']['parentElement'].querySelector('.label-' + output['index']['id']) ? Content['parentElement']['parentElement'].querySelector('.label-' + output['index']['id']) : [ undefined ];
-            const Feedback = Content['parentElement']['parentElement'].querySelector('.feedback-' + output['index']['id']) ? Content['parentElement']['parentElement'].querySelector('.feedback-' + output['index']['id']) : [ undefined ];
+export const FormFieldValidator = (Input = {}) => {
+    if (Validator['Object'](Input)) {
+        if ('index' in Input) {
+            const Content = document.querySelector(SelectorOrID(Input['index']['id']));
+            const Title = Content['parentElement']['parentElement'].querySelector('.title-' + Input['index']['id']) ? Content['parentElement']['parentElement'].querySelector('.title-' + Input['index']['id']) : [ undefined ];
+            const Label = Content['parentElement']['parentElement'].querySelector('.label-' + Input['index']['id']) ? Content['parentElement']['parentElement'].querySelector('.label-' + Input['index']['id']) : [ undefined ];
+            const Feedback = Content['parentElement']['parentElement'].querySelector('.feedback-' + Input['index']['id']) ? Content['parentElement']['parentElement'].querySelector('.feedback-' + Input['index']['id']) : [ undefined ];
             [ 'change', 'input' ].map(event => {
                 if (Content) {
                     Content.addEventListener(event, () => {
                         const Element = Content['value'];
-                        if ('Mask' in output) {
-                            if (Validator['Function'](output['Mask'])) {
-                                output['Mask'](Content);
+                        if ('Mask' in Input) {
+                            if (Validator['Function'](Input['Mask'])) {
+                                Input['Mask'](Content);
                             };
                         };
-                        if ('Validator' in output) {
-                            if (Validator['Function'](output['Validator'])) {
+                        if ('Validator' in Input) {
+                            if (Validator['Function'](Input['Validator'])) {
                                 if (Title) {
-                                    if (output['Validator'](Element)) {
+                                    if (Input['Validator'](Element)) {
                                         Title['classList'].add(...Classes['approved']);
                                         Title['classList'].remove(...Classes['disapproved']);
                                     };
-                                    if (!output['Validator'](Element)) {
+                                    if (!Input['Validator'](Element)) {
                                         Title['classList'].add(...Classes['disapproved']);
                                         Title['classList'].remove(...Classes['approved']);
                                     };
                                 };
                                 if (Label) {
-                                    if (output['Validator'](Element)) {
+                                    if (Input['Validator'](Element)) {
                                         Label['classList'].add(...Classes['approved']);
                                         Label['classList'].remove(...Classes['disapproved']);
                                     };
-                                    if (!output['Validator'](Element)) {
+                                    if (!Input['Validator'](Element)) {
                                         Label['classList'].add(...Classes['disapproved']);
                                         Label['classList'].remove(...Classes['approved']);
                                     };
                                 };
-                                if (output['Validator'](Element)) {
+                                if (Input['Validator'](Element)) {
                                     Content['classList'].add(...Classes['approved']);
                                     Content['classList'].remove(...Classes['disapproved']);
                                     ButtonColorChange({ status : 'valid' });
                                 };
-                                if (!output['Validator'](Element)) {
+                                if (!Input['Validator'](Element)) {
                                     Content['classList'].add(...Classes['disapproved']);
                                     Content['classList'].remove(...Classes['approved']);
                                 };
                                 if (Feedback) {
-                                    if (output['Validator'](Element)) {
+                                    if (Input['Validator'](Element)) {
                                         Feedback['classList'].add(...Classes['approved']);
                                         Feedback['classList'].remove(...Classes['disapproved']);
                                         const TextNode = 'Completo!';
                                         SetTextNode(Feedback, TextNode);
                                     };
-                                    if (!output['Validator'](Element)) {
+                                    if (!Input['Validator'](Element)) {
                                         Feedback['classList'].add(...Classes['disapproved']);
                                         Feedback['classList'].remove(...Classes['approved']);
-                                        const TextNode = Validator['String'](output['index']['feedback']) ? output['index']['feedback'] : 'Incompleto!';
+                                        const TextNode = Validator['String'](Input['index']['feedback']) ? Input['index']['feedback'] : 'Incompleto!';
                                         SetTextNode(Feedback, TextNode);
                                     };
                                 };
@@ -231,18 +231,18 @@ export const FormFieldValidator = (output = {}) => {
     };
 };
 
-export const FormFieldType = (output = {}) => {
+export const FormFieldType = (Input = {}) => {
     FormFieldValidator({
-        'index' : output,
-        'Mask' : 'function' in output ? ('Mask' in output['function'] ? (Validator['Function'](output['function']['Mask']) ? output['function']['Mask'] : [ undefined ]) : [ undefined ]) : [ undefined ],
-        'Validator' : 'function' in output ? ('Validator' in output['function'] ? (Validator['Function'](output['function']['Validator']) ? output['function']['Validator'] : [ undefined ]) : [ undefined ]) : [ undefined ],
+        'index' : Input,
+        'Mask' : 'function' in Input ? ('Mask' in Input['function'] ? (Validator['Function'](Input['function']['Mask']) ? Input['function']['Mask'] : [ undefined ]) : [ undefined ]) : [ undefined ],
+        'Validator' : 'function' in Input ? ('Validator' in Input['function'] ? (Validator['Function'](Input['function']['Validator']) ? Input['function']['Validator'] : [ undefined ]) : [ undefined ]) : [ undefined ],
     });
 };
 
-export const FormFieldParams = (output = {}) => {
+export const FormFieldParams = (Input = {}) => {
     const Proper = {
-        array : 'array' in output ? (Validator['Array'](output['array']) ? output['array'] : []) : [],
-        father : 'father' in output ? (Validator['String'](output['father']) ? output['father'] : 'body') : 'body',
+        array : 'array' in Input ? (Validator['Array'](Input['array']) ? Input['array'] : []) : [],
+        father : 'father' in Input ? (Validator['String'](Input['father']) ? Input['father'] : 'body') : 'body',
     };
     if (Validator['Array'](Proper['array'])) {
         FormFieldBuilder({ array : Proper['array'], father : Proper['father'] });

@@ -1,133 +1,69 @@
-import {
-    CreateElement,
-    SetAttribute,
-    Validator,
-} from './script-main.js';
+const Validator = {
+    Array : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && Array.isArray(Input),
+    Boolean : Input => !(Input === null || Input === undefined) && typeof Input === 'boolean',
+    Function : Input => {
+        if (!(Input === null || Input === undefined || Input === false)) {
+            if (typeof Input === 'function') {
+                const Treat = Input.toString().replace(/\s+/g, '');
+                return !(Treat === 'function(){}' || Treat === '()=>{}' || Treat === '(Input)=>{}' || Treat === 'Input=>{}');
+            };
+        };
+    },
+    Gene : Input => !(Input === false || Input === null || Input === undefined || Input === 0 || Input === ''),
+    Number : Input => !(Input === false || Input === null || Input === undefined || Input === 0) && typeof Input === 'number',
+    Object : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && !Array.isArray(Input) && Object.keys(Input)['length'] !== 0,
+    String : Input => !(Input === false || Input === null || Input === undefined || Input === '') && typeof Input === 'string',
+};
+
+const CreateElement = (Input = {}) => {
+    const Proper = {
+        element : 'element' in Input ? (Validator['String'](Input['element']) ? Input['element'] : 'div') : 'div',
+        textnode : 'textnode' in Input ? (Validator['String'](Input['textnode']) ? Input['textnode'] : '') : '',
+    };
+    let Result = document.createElement(Proper['element']);
+    if (Validator['Gene'](Proper['textnode'])) {
+        Result.appendChild(document.createTextNode(Proper['textnode']));
+    };
+    return Result;
+};
+
+const SetAttribute = (Input = {}) => {
+    let Proper = {
+        attribute : 'attribute' in Input ? (Validator['String'](Input['attribute']) ? Input['attribute'] : [ undefined ]) : [ undefined ],
+        element : 'element' in Input ? (Validator['Gene'](Input['element']) ? Input['element'] : [ undefined ]) : [ undefined ],
+        value : 'value' in Input ? (Validator['Array'](Input['value']) || Validator['Object'](Input['value']) || Validator['String'](Input['value']) ? Input['value'] : '') : '',
+    };
+    if (Validator['Gene'](Proper['element']) && Validator['String'](Proper['attribute']) && Validator['Gene'](Proper['value'])) {
+        Proper['attribute'] = document.createAttribute(Proper['attribute']);
+        Proper['attribute']['value'] = '';
+        if (Validator['String'](Proper['value'])) {
+            Proper['attribute']['value'] = Proper['value'];
+        };
+        if (Validator['Array'](Proper['value'])) {
+            for (let i = 0; i < Proper['value']['length']; i++) {
+                Proper['attribute']['value'] += Proper['value'][i];
+                Proper['attribute']['value'] += i < Proper['value']['length'] - 1 ? ' ' : '';
+            };
+        };
+        if (Validator['Object'](Proper['value'])) {
+            for (let i = 0; i < Object.keys(Proper['value'])['length']; i++) {
+                Proper['attribute']['value'] += Object.keys(Proper['value'])[i] + ': ' + Proper['value'][Object.keys(Proper['value'])[i]] + ';';
+                Proper['attribute']['value'] += i < Object.keys(Proper['value'])['length'] - 1 ? ' ' : '';
+            };
+        };
+        Proper['element'].setAttributeNode(Proper['attribute']);
+    };
+};
+
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };
-const TextShadow = {
-    'text-shadow' : 'rgba(0, 0, 0, .5) 1px 1px 1px',
-};
+
 const Button = 3;
+
 const Margin = 1;
-export const SetStyle = {
-    background : {
-        class : [
-            'align-items-center',
-            'bg-secondary',
-            'h-100',
-            'justify-content-center',
-            'position-fixed',
-            'w-100',
-        ],
-        style : {
-            display : 'none',
-            left : 0,
-            opacity : 0,
-            top : 0,
-            'z-index' : - 1,
-        },
-    },
-    border : {
-        class : [
-            'align-items-center',
-            'bg-light',
-            'd-flex',
-            'justify-content-center',
-            'overflow-hidden',
-            'position-relative',
-        ],
-        style : {
-            border : '1px solid rgba(0, 0, 0, .125)',
-            'border-radius' : (Button + Margin / 2) + 'rem',
-            ...BoxShadow,
-        },
-        margin : (Margin) + 'rem',
-    },
-    container : {
-        class : [
-            'align-items-center',
-            'bg-white',
-            'd-flex',
-            'justify-content-center',
-            'overflow-hidden',
-            'position-relative',
-        ],
-        style : {
-            'border-radius' : (Button - Margin + Margin / 2) + 'rem',
-        },
-        margin : Margin + 'rem',
-    },
-    inner : {
-        class : [
-            'align-self-center',
-            'h-100',
-            'overflow-hidden',
-        ],
-        style : {
-            top : 0,
-        }
-    },
-    content : {
-        class : [
-            'align-items-center',
-            'd-flex',
-            'h-100',
-            'justify-content-start',
-            'position-relative',
-        ],
-        style : {
-            top : 0,
-        },
-    },
-    picture : {
-        class : [
-            'align-items-lg-start',
-            'align-items-center',
-            'd-flex',
-            'flex-column',
-            'h-100',
-            'justify-content-start',
-        ],
-        style : {
-            'background-position' : 'center',
-            'background-size' : 'cover',
-            'padding' : (Button - Margin + Margin / 2) + 'rem',
-        },
-    },
-    title : {
-        class : [
-            'text-lg-start',
-            'text-center',
-            'text-white',
-        ],
-        style : {
-            ...TextShadow,
-        },
-    },
-    subtitle : {
-        class : [
-            'fs-3',
-            'text-lg-start',
-            'text-center',
-            'text-white',
-        ],
-        style : {
-            ...TextShadow,
-        },
-    },
-    description : {
-        class : [
-            'fst-italic',
-            'text-lg-start',
-            'text-center',
-            'text-white',
-        ],
-        style : {
-            ...TextShadow,
-        },
-    },
+
+const Style = {
     button : {
         class : [
             'align-items-center',
@@ -153,6 +89,7 @@ export const SetStyle = {
         },
     },
 };
+
 const Network = [
     {   
         title : 'facebook',
@@ -175,23 +112,30 @@ const Network = [
         background : 'bg-danger'
     },
 ];
-const FetchData = async (output = '') => {
-    if (output) {
-        const Response = await fetch(output);
+
+const FetchData = async (Input = '') => {
+    if (Input) {
+        const Response = await fetch(Input);
         const Result = await Response.json();
         return Result;
     };
 };
+
+const Scrollbar = Input => Input['scrollHeight'] > Input['clientHeight'];
+
 export const SocialNetwork = async () => {
     const Result = await FetchData('settings.json');
     const Proper = {
-        description : Validator['Array'](Result['about']['description']) ? Result['about']['description'] : [],
-        phone : Validator['String'](Result['network']['phone']) ? Result['network']['phone'] : '',
-        https : Validator['Array'](Result['network']['https']) ? Result['network']['https'] : [],
+        title : Validator['String'](Result['title']) ? Result['title'] : '',
+        subtitle : Validator['String'](Result['subtitle']) ? Result['subtitle'] : '',
+        description : Validator['Array'](Result['description']) ? Result['description'] : [],
+        phone : Validator['String'](Result['phone']) ? Result['phone'] : '',
+        network : Validator['Array'](Result['network']) ? Result['network'] : [],
     };
-    const Array = [];
-    let Attribute = [
-        {
+    const Element = [];
+    let Attribute = [];
+    if (Scrollbar(document.querySelector('body'))) {
+        Attribute.push({
             function : () => {
                 if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
                     window.scrollTo(0, 0);
@@ -210,22 +154,33 @@ export const SocialNetwork = async () => {
                 ],
             },
             id : 'btn-arrow',
-        },
-    ];
+        });
+    };
     if (Validator['String'](Proper['phone'])) {
         Attribute.push({
             function : () => {
-                let Https = '';
-                Https += 'https://api.whatsapp.com/send?phone=';
-                Https += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
+                let Message = '';
+                Message += 'https://api.whatsapp.com/send?phone=';
+                Message += Proper['phone'].replace(/[^a-zA-Z0-9]/g, '');
                 if (Validator['Array'](Proper['description'])) {
-                    Https += '&text=';
+                    Message += '&text=';
+                    if (Proper['title']) {
+                        Message += Proper['title'].trim().replace(/' '/, '%20');
+                        Message += ', '.trim().replace(/' '/, '%20');
+                    };
                     for (let i = 0; i < Proper['description']['length']; i++) {
-                        Https += Proper['description'][i].trim().replace(/' '/, '%20');
-                        Https += i < Proper['description']['length'] - 1 ? '%20' : '';
+                        if (Proper['title']) {
+                            Message += !i
+                            ? (Proper['description'][i].slice(0, 1).toLowerCase() + Proper['description'][i].slice(1)).trim().replace(/' '/, '%20')
+                            : Proper['description'][i].trim().replace(/' '/, '%20');
+                        };
+                        if (!Proper['title']) {
+                            Message += Proper['description'][i].trim().replace(/' '/, '%20');
+                        };
+                        Message += i < (Proper['description']['length'] - 1) ? '%20' : '';
                     };
                 };
-                window.open(Https, '_blank');
+                window.open(Message, '_blank');
             },
             hover : [
                 'bg-success',
@@ -239,14 +194,14 @@ export const SocialNetwork = async () => {
             id : 'btn-whatsapp',
         });
     };
-    if (Proper['https']) {
-        if (Proper['https']['length']) {
-            for (let i = 0; i < Proper['https']['length']; i++) {
+    if (Proper['network']) {
+        if (Proper['network']['length']) {
+            for (let i = 0; i < Proper['network']['length']; i++) {
                 for (let j = 0; j < Network['length']; j++) {
-                    if (Proper['https'][i].includes(Network[j]['title'])) {
+                    if (Proper['network'][i].includes(Network[j]['title'])) {
                         Attribute.push({
                             function : () => {
-                                window.open(Proper['https'][i], '_blank');
+                                window.open(Proper['network'][i], '_blank');
                             },
                             hover : [
                                 Network[j]['background'],
@@ -267,51 +222,51 @@ export const SocialNetwork = async () => {
     if (Attribute) {
         if (Attribute['length']) {
             for (let i = 0; i < Attribute['length']; i++) {
-                Array[i] = CreateElement();
-                SetAttribute({ element : Array[i], attribute : 'id', value : Attribute[i]['id'] });
-                SetAttribute({ element : Array[i], attribute : 'class', value : [
-                        ...SetStyle['button']['class'],
+                Element[i] = CreateElement();
+                SetAttribute({ element : Element[i], attribute : 'id', value : Attribute[i]['id'] });
+                SetAttribute({ element : Element[i], attribute : 'class', value : [
+                        ...Style['button']['class'],
                     ],
                 });
-                SetAttribute({ element : Array[i], attribute : 'style', value : {
-                        ...SetStyle['button']['style'],
-                        bottom : 'calc(' + SetStyle['button']['margin'] + ' + ' + '(' + i + '*' + '(' + SetStyle['button']['margin'] +  '/' + 2 + ')' + ')' + ' + ' + i + '*' + SetStyle['button']['style']['height'] + ')',
-                        right : SetStyle['button']['margin'],
+                SetAttribute({ element : Element[i], attribute : 'style', value : {
+                        ...Style['button']['style'],
+                        bottom : 'calc(' + Style['button']['margin'] + ' + ' + '(' + i + '*' + '(' + Style['button']['margin'] +  '/' + 2 + ')' + ')' + ' + ' + i + '*' + Style['button']['style']['height'] + ')',
+                        right : Style['button']['margin'],
                     },
                 });
                 const Icon = CreateElement({ element : 'i' });
                 SetAttribute({ element : Icon, attribute : 'class', value : [
                         ...Attribute[i]['ico']['class'],
-                        ...SetStyle['ico']['class'],
+                        ...Style['ico']['class'],
                     ],
                 });
                 SetAttribute({ element : Icon, attribute : 'style', value : {
-                        ...SetStyle['ico']['style'],
+                        ...Style['ico']['style'],
                     },
                 });
-                document.querySelector('body').appendChild(Array[i]).appendChild(Icon);
+                document.querySelector('body').appendChild(Element[i]).appendChild(Icon);
                 [ 'mouseover', 'mouseenter' ].map(Index => {
-                    Array[i].addEventListener(Index, Event => {
-                        Array[i]['style']['cursor'] = 'pointer';
-                        Array[i]['classList'].add(...Attribute[i]['hover']);
-                        Array[i]['classList'].remove('bg-secondary');
+                    Element[i].addEventListener(Index, Event => {
+                        Element[i]['style']['cursor'] = 'pointer';
+                        Element[i]['classList'].add(...Attribute[i]['hover']);
+                        Element[i]['classList'].remove('bg-secondary');
                         Event.stopPropagation();
                         Event.preventDefault();
                     });
                 });
                 [ 'mouseleave', 'mouseout' ].map(Index => {
-                    Array[i].addEventListener(Index, Event => {
-                        Array[i]['style']['cursor'] = 'default';
-                        Array[i]['classList'].add('bg-secondary');
-                        Array[i]['classList'].remove(...Attribute[i]['hover']);
+                    Element[i].addEventListener(Index, Event => {
+                        Element[i]['style']['cursor'] = 'default';
+                        Element[i]['classList'].add('bg-secondary');
+                        Element[i]['classList'].remove(...Attribute[i]['hover']);
                         Event.stopPropagation();
                         Event.preventDefault();
                     });
                 });
-                Array[i].addEventListener('click', Event => {
+                Element[i].addEventListener('click', Event => {
                     Attribute[i]['function']();
                     switch (Attribute[i]['id']) {
-                        case 'btn-arrow' : Array[i]['classList'].toggle('rotate'); break;
+                        case 'btn-arrow' : Element[i]['classList'].toggle('rotate'); break;
                     };
                     Event.stopPropagation();
                     Event.preventDefault();
