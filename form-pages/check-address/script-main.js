@@ -1,6 +1,6 @@
 export const Period = (new Date().getHours() > 6 && new Date().getHours() < 18);
 
-export const ToValidator = {
+export const Check = {
     email : (Input = '') => {
         return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(Input);
     },
@@ -48,7 +48,7 @@ export const ToValidator = {
     },
 };
 
-export const ToMask = {
+export const Mask = {
     camelcase : (Input = '') => {
         Input['value'] = Input['value'].match(/\d+/g) ? Input['value'].replace(/\d+/g, '') : Input['value'];
         var Term = Input['value'].split(' ');

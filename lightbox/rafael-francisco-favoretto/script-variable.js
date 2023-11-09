@@ -153,7 +153,7 @@ export const Style = {
     },
 };
 
-export const NoUnit = output => parseFloat(output.replace('px', '').replace('rem', ''));
+export const NoUnit = Input => parseFloat(Input.replace('px', '').replace('rem', ''));
 
 export const LightboxContainer = () => {
     return {

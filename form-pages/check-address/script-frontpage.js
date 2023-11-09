@@ -18,21 +18,21 @@ import {
 } from './script-variable.js';
 
 export const FrontpageStyle = (Input = '') => {
-    let result = Input;
+    let Result = Input;
     let Header = [];
     for (let i = 1; i <= 6; i++) Header.push(('<h' + i).toString());
     [ ...Header ].map(e => {
-        result = result.replace(new RegExp(e, 'g'), (e + ' class=\'' + Classes['h' + e.slice(2, -1)].join(' ') + '\''));
+        Result = Result.replace(new RegExp(e, 'g'), (e + ' class=\'' + Classes['h' + e.slice(2, -1)].join(' ') + '\''));
     });
     [ '<li', '<p' ].map(e => {
-        result = result.replace(new RegExp(e, 'g'), (e + ' class=\'' + Classes['p'].join(' ') + '\''));
+        Result = Result.replace(new RegExp(e, 'g'), (e + ' class=\'' + Classes['p'].join(' ') + '\''));
     });
-    result = result.replace(new RegExp('<a', 'g'), ('<a class=\'' + Classes['a'].join(' ') + '\''));
-    result = result.replace(new RegExp('<div class="content"', 'g'), ('<div class=\'content ' + Classes['content'].join(' ') + '\''));
-    result = result.replace(new RegExp('<figure', 'g'), ('<figure class=\'' + Classes['figure'].join(' ') + '\''));
-    result = result.replace(new RegExp('<strong', 'g'), ('<strong class=\'' + Classes['strong'].join(' ') + '\''));
-    result = result.replace(new RegExp('<ul', 'g'), ('<ul class=\'' + Classes['ul'].join(' ') + '\''));
-    return result;
+    Result = Result.replace(new RegExp('<a', 'g'), ('<a class=\'' + Classes['a'].join(' ') + '\''));
+    Result = Result.replace(new RegExp('<div class="content"', 'g'), ('<div class=\'content ' + Classes['content'].join(' ') + '\''));
+    Result = Result.replace(new RegExp('<figure', 'g'), ('<figure class=\'' + Classes['figure'].join(' ') + '\''));
+    Result = Result.replace(new RegExp('<strong', 'g'), ('<strong class=\'' + Classes['strong'].join(' ') + '\''));
+    Result = Result.replace(new RegExp('<ul', 'g'), ('<ul class=\'' + Classes['ul'].join(' ') + '\''));
+    return Result;
 };
 
 export const FrontpageBuilder = (Input = {}) => {
@@ -57,24 +57,24 @@ export const FrontpageBuilder = (Input = {}) => {
 
 export const FrontpageParams = (Input = {}) => {
     if (Validator['Array'](Input)) {
-        Input.forEach(object => {
-            if (Validator['Object'](object)) {
+        Input.forEach(Object => {
+            if (Validator['Object'](Object)) {
                 const Proper = {
-                    father : 'father' in object ? (Validator['String'](object['father']) ? (IndexExistenceChecker({ array : [ 'fixed', 'footer' ], index : object['father'] }) ? object['father'] : [ undefined ]) : [ undefined ]) : [ undefined ],
-                    index : 'index' in object ? (Validator['Array'](object['index']) ? object['index'] : []) : [],
+                    father : 'father' in Object ? (Validator['String'](Object['father']) ? (IndexExistenceChecker({ array : [ 'fixed', 'footer' ], index : Object['father'] }) ? Object['father'] : [ undefined ]) : [ undefined ]) : [ undefined ],
+                    index : 'index' in Object ? (Validator['Array'](Object['index']) ? Object['index'] : []) : [],
                 };
                 if (Validator['Array'](Proper['index'])) {
-                    Proper['index'].forEach(element => {
+                    Proper['index'].forEach(Element => {
                         const ID = PasswordBuilder({ number : false, special : false });
-                        const Archive = 'archive' in element ? (Validator['String'](element['archive']) ? (CheckHTMLTermination(element['archive']) ? element['archive'] : '') : '') : '';
-                        const Screen = 'screen' in element ? (Validator['String'](element['screen']) ? element['screen'] : false) : false;
-                        const Theme = 'theme' in element ? (Validator['String'](element['theme']) ? element['theme'].trim() : 'ModalComponent') : 'ModalComponent';
-                        const Title = 'title' in element ? (Validator['String'](element['title']) ? FirstUpper(element['title']) : '') : '';
+                        const Archive = 'archive' in Element ? (Validator['String'](Element['archive']) ? (CheckHTMLTermination(Element['archive']) ? Element['archive'] : '') : '') : '';
+                        const Screen = 'screen' in Element ? (Validator['String'](Element['screen']) ? Element['screen'] : false) : false;
+                        const Theme = 'theme' in Element ? (Validator['String'](Element['theme']) ? Element['theme'].trim() : 'ModalComponent') : 'ModalComponent';
+                        const Title = 'title' in Element ? (Validator['String'](Element['title']) ? FirstUpper(Element['title']) : '') : '';
                         if (Validator['Gene'](Archive)) {
-                            fetch(Archive).then(response => {
-                                if (!response['ok']) throw new Error(response['status']);
-                                    return response.text();
-                            }).then(result => {
+                            fetch(Archive).then(Response => {
+                                if (!Response['ok']) throw new Error(Response['status']);
+                                    return Response.text();
+                            }).then(Result => {
                                 FrontpageBuilder({
                                     father : Proper['father'],
                                     id : ID,
@@ -82,13 +82,13 @@ export const FrontpageParams = (Input = {}) => {
                                     title : Title,
                                 });
                                 BootstrapParams[ Theme ]({
-                                    body : FrontpageStyle(result),
+                                    body : FrontpageStyle(Result),
                                     id : ID,
                                     screen : Screen,
                                     title : Title,
                                 });
-                            }).catch(error => {
-                                console.error(error['message']);
+                            }).catch(Error => {
+                                console.error(Error['message']);
                             });
                         };
                     });

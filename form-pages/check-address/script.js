@@ -12,12 +12,12 @@ import {
 
 import {
     AddRemoveClass,
-    ToMask,
+    Mask,
     ButtonColorChange,
     CreateElement,
     GetElementContent,
     InvalidElements,
-    ToValidator,
+    Check,
     LinkedinWidget,
     SelectorOrID,
     SetAttribute,
@@ -37,6 +37,7 @@ import {
 } from './script-variable.js';
 
 window.addEventListener('DOMContentLoaded', () => {
+
     SocialNetwork();
 
     FormFieldParams({ array : FormFieldArray, father : 'main' });
@@ -79,9 +80,9 @@ window.addEventListener('DOMContentLoaded', () => {
 
     CharCount();
 
-    [ 'blur', 'focus' ].map(event => {
+    [ 'blur', 'focus' ].map(Event => {
         if (document.querySelector(SelectorOrID('cep'))) {
-            document.querySelector(SelectorOrID('cep')).addEventListener(event, () => {
+            document.querySelector(SelectorOrID('cep')).addEventListener(Event, () => {
                 fetch(`https://viacep.com.br/ws/${ document.querySelector(SelectorOrID('cep'))['value'].replace('-', '') }/json`, {
                     method : 'GET',
                     mode : 'cors',
@@ -90,7 +91,7 @@ window.addEventListener('DOMContentLoaded', () => {
                     if (!Response['ok'])
                         throw new Error(Response['status']);
                     return Response.json();
-                }).then(result => {
+                }).then(Result => {
                     const GetElement = (Input = '') => {
                         const Object = {
                             content : document.querySelector(SelectorOrID(Input)),
@@ -101,7 +102,7 @@ window.addEventListener('DOMContentLoaded', () => {
                         return Object;
                     };
                     const ZIPCode = [ 'bairro', 'cep', 'complemento', 'ddd', 'gia', 'ibge', 'localidade', 'logradouro', 'siafi', 'uf' ];
-                    if (result['erro']) {
+                    if (Result['erro']) {
                         for (let i = 0; i < ZIPCode['length']; i++) {
                             const Element = GetElement(ZIPCode[i]);
                             [ 'title', 'label', 'content', 'feedback' ].map(Index => {
@@ -114,8 +115,8 @@ window.addEventListener('DOMContentLoaded', () => {
                             if (Element['feedback']) SetTextNode(Element['feedback'], (ZIPCode[i] === 'cep' ? 'Número invalido!' : ''));
                         };
                     };
-                    if (!result['erro']) {
-                        for (const ID in result) {
+                    if (!Result['erro']) {
+                        for (const ID in Result) {
                             const Element = GetElement(ID);
                             [ 'title', 'label', 'content', 'feedback' ].map(Index => {
                                 if (Element[Index]) {
@@ -123,12 +124,12 @@ window.addEventListener('DOMContentLoaded', () => {
                                     Element[Index]['classList'].remove(...Classes['disapproved']);
                                 };
                             });
-                            if (Element['content']) SetTextNode(Element['content'], result[ID]);
+                            if (Element['content']) SetTextNode(Element['content'], Result[ID]);
                             if (Element['feedback']) SetTextNode(Element['feedback'], 'Completo!');
                         };
                     };
-                }).catch(error => {
-                    console.error(error['message']);
+                }).catch(Error => {
+                    console.error(Error['message']);
                 });
             });
         };
@@ -141,12 +142,12 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const ElementAlert = () => {
         [ 'title', 'label', 'content', 'feedback' ].map(Index => {
-            document.querySelectorAll('.' + Index).forEach((element, i) => {
-                if (element) {
-                    if (!element['classList'].contains('is-valid')) {
-                        element['classList'].add(...Classes['disapproved']);
-                        if (Index !== 'content') SetTextNode(element, TableArray[i][Index]);
-                        if (Index === 'content') element['value'] = '';
+            document.querySelectorAll('.' + Index).forEach((Element, i) => {
+                if (Element) {
+                    if (!Element['classList'].contains('is-valid')) {
+                        Element['classList'].add(...Classes['disapproved']);
+                        if (Index !== 'content') SetTextNode(Element, TableArray[i][Index]);
+                        if (Index === 'content') Element['value'] = '';
                     };
                 };
             });
@@ -158,11 +159,11 @@ window.addEventListener('DOMContentLoaded', () => {
             SetTextNode(document.querySelector(SelectorOrID('birth-date')), FormatDate({ format : 'aaaa-mm-dd' }));
             ButtonColorChange({ status : 'valid' });
             [ 'title', 'label', 'content', 'feedback' ].map(Index => {
-                document.querySelectorAll('.' + Index).forEach((element, i) => {
-                    if (element) {
-                        element['classList'].remove(...[ ...Classes['approved'], ...Classes['disapproved'] ]);
-                        if (Index !== 'content') SetTextNode(element, TableArray[i][Index]);
-                        if (Index === 'content') element['value'] = '';
+                document.querySelectorAll('.' + Index).forEach((Element, i) => {
+                    if (Element) {
+                        Element['classList'].remove(...[ ...Classes['approved'], ...Classes['disapproved'] ]);
+                        if (Index !== 'content') SetTextNode(Element, TableArray[i][Index]);
+                        if (Index === 'content') Element['value'] = '';
                     };
                 });
             });
@@ -220,10 +221,10 @@ window.addEventListener('DOMContentLoaded', () => {
                                         InnerHTML += '<td class=\'m-0 p-2\'>';
                                             if (TableArray[i]['content']) {
                                                 InnerHTML += '<p class=\'fst-italic m-0 p-0 text-start\'>';
-                                                    InnerHTML += ToValidator['email'](TableArray[i]['content']) ? '<a href=\'mailto:' + TableArray[i]['content'] + '\' target=\'_blank\'>' : '';
-                                                    InnerHTML += ToValidator['phone'](TableArray[i]['content']) ? '<a href=\'https://api.whatsapp.com/send?phone=' + TableArray[i]['content'].replace(/[^a-zA-Z0-9]/g, '') + '\' target=\'_blank\'>' : '';
-                                                    InnerHTML += ToValidator['date'](TableArray[i]['content']) ? ToMask['date']({ date : TableArray[i]['content'] }) : TableArray[i]['content'];
-                                                    InnerHTML += ToValidator['email'](TableArray[i]['content']) || ToValidator['phone'](TableArray[i]['content']) ? '</a>' : '';
+                                                    InnerHTML += Check['email'](TableArray[i]['content']) ? '<a href=\'mailto:' + TableArray[i]['content'] + '\' target=\'_blank\'>' : '';
+                                                    InnerHTML += Check['phone'](TableArray[i]['content']) ? '<a href=\'https://api.whatsapp.com/send?phone=' + TableArray[i]['content'].replace(/[^a-zA-Z0-9]/g, '') + '\' target=\'_blank\'>' : '';
+                                                    InnerHTML += Check['date'](TableArray[i]['content']) ? Mask['date']({ date : TableArray[i]['content'] }) : TableArray[i]['content'];
+                                                    InnerHTML += Check['email'](TableArray[i]['content']) || Check['phone'](TableArray[i]['content']) ? '</a>' : '';
                                                 InnerHTML += '</p>';
                                             };
                                             if (!TableArray[i]['content']) {
@@ -237,13 +238,11 @@ window.addEventListener('DOMContentLoaded', () => {
                             InnerHTML += '</tbody>';
                         InnerHTML += '</table>';
                     };
-                    document.querySelector(SelectorOrID('container-result'))
-                    .querySelector('.modal-dialog').querySelector('.modal-content')
-                    .querySelector('.modal-body')['innerHTML'] = InnerHTML;
+                    document.querySelector(SelectorOrID('container-result')).querySelector('.modal-dialog').querySelector('.modal-content').querySelector('.modal-body')['innerHTML'] = InnerHTML;
                     document.querySelector(SelectorOrID('container-result')).querySelector('button').click();
                 };
             };
         });
     };
-    
+
 });

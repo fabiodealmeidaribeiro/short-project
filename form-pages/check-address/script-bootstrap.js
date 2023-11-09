@@ -113,7 +113,6 @@ export const BootstrapParams = {
         });
         document.querySelector(SelectorOrID(Proper['id'])).querySelector('.modal-footer').querySelector('.btn-group').appendChild(FooterButton);
     },
-
     OffCanvasComponent : (Input = {}) => {
         const Proper = {
             body : 'body' in Input ? (Validator['String'](Input['body']) ? Input['body'] : '') : '',
@@ -145,5 +144,4 @@ export const BootstrapParams = {
             document.querySelector(Proper['father']).appendChild(Container).appendChild(Body);
         };
     },
-
 };

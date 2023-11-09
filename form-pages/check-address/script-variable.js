@@ -1,6 +1,6 @@
 import {
-    ToMask,
-    ToValidator,
+    Mask,
+    Check,
 } from './script-main.js';
 
 export const FormatDate = (Input = {}) => {
@@ -93,10 +93,10 @@ export const FormFieldArray = [
             feedback : 'Nome completo correspondente ao documento oficial.',
             function : {
                 Mask : (Input = '') => {
-                    return ToMask['camelcase'](Input);
+                    return Mask['camelcase'](Input);
                 },
                 Validator : (Input = '') => {
-                    return ToValidator['minimum'](Input, 2);
+                    return Check['minimum'](Input, 2);
                 },
             },
             id : 'name',
@@ -106,10 +106,10 @@ export const FormFieldArray = [
             label : 'gênero',
             function : {
                 Mask : (Input = '') => {
-                    return ToMask['camelcase'](Input);
+                    return Mask['camelcase'](Input);
                 },
                 Validator : (Input = '') => {
-                    return !ToValidator['empty'](Input);
+                    return !Check['empty'](Input);
                 },
             },
             id : 'gender',
@@ -129,7 +129,7 @@ export const FormFieldArray = [
                 Mask : (Input = '') => {
                 },
                 Validator : (Input = '') => {
-                    return ToValidator['more']({ date : Input });
+                    return Check['more']({ date : Input });
                 },
             },
             id : 'birth-date',
@@ -140,10 +140,10 @@ export const FormFieldArray = [
             feedback : 'Número de CPF. correspondente ao documento oficial.',
             function : {
                 Mask : (Input = '') => {
-                    return ToMask['cpf'](Input);
+                    return Mask['cpf'](Input);
                 },
                 Validator : (Input = '') => {
-                    return ToValidator['cpf'](Input);
+                    return Check['cpf'](Input);
                 },
             },
             id : 'cpf',
@@ -161,7 +161,7 @@ export const FormFieldArray = [
                 Mask : (Input = '') => {
                 },
                 Validator : (Input = '') => {
-                    return ToValidator['email'](Input);
+                    return Check['email'](Input);
                 },
             },
             id : 'email',
@@ -173,10 +173,10 @@ export const FormFieldArray = [
             feedback : 'Número de telefone com DDI brasileiro.',
             function : {
                 Mask : (Input = '') => {
-                    return ToMask['phone'](Input);
+                    return Mask['phone'](Input);
                 },
                 Validator : (Input = '') => {
-                    return ToValidator['phone'](Input);
+                    return Check['phone'](Input);
                 },
             },
             id : 'tel',
@@ -191,7 +191,7 @@ export const FormFieldArray = [
             label : 'Cep',
             function : {
                 Mask : (Input) => {
-                    return ToMask['cep'](Input);
+                    return Mask['cep'](Input);
                 },
                 Validator : (Input) => {
                 },
@@ -207,10 +207,10 @@ export const FormFieldArray = [
             disabled : true,
             function : {
                 Mask : (Input) => {
-                    return ToMask['camelcase'](Input);
+                    return Mask['camelcase'](Input);
                 },
                 Validator : (Input) => {
-                    return ToValidator['minimum'](Input, 2);
+                    return Check['minimum'](Input, 2);
                 },
             },
             id : 'logradouro',
@@ -222,7 +222,7 @@ export const FormFieldArray = [
                 Mask : (Input) => {
                 },
                 Validator : (Input) => {
-                    return !ToValidator['empty'](Input);
+                    return !Check['empty'](Input);
                 },
             },
             id : 'numero',
@@ -275,7 +275,7 @@ export const FormFieldArray = [
             Mask : (Input) => {
             },
             Validator : (Input) => {
-                return ToValidator['minimum'](Input, 2);
+                return Check['minimum'](Input, 2);
             },
         },
         id : 'message',
