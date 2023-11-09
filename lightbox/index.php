@@ -1,6 +1,6 @@
 <?php
     $is_road = '';
-    for ($i = 0; $i < (count(explode('\\', realpath(__FILE__))) - 5); $i++):
+    for ($i = 0; $i < count(explode('\\', realpath(__FILE__))) - 5; $i++):
         $is_road .= '../';
     endfor;
     include_once $is_road . 'functions.php';
