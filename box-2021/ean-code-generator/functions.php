@@ -39,7 +39,7 @@
         return $is_input .= $is_check;
     };
 
-    function CodeImageGenerator ($is_input = '') {
+    function ImageGenerator ($is_input = '') {
         $is_image = imagecreatetruecolor(200, 100);
         $is_color = imagecolorallocate($is_image, 0, 0, 0);
         $is_background = imagecolorallocate($is_image, 255, 255, 255);
@@ -58,26 +58,34 @@
 
     function TableClasses () {
         date_default_timezone_set('America/Sao_Paulo');
-        return [
+        return implode(' ', [
             'mx-auto',
             'table',
             ...!(date('H') > 6 && date('H') < 18) ? [ 'table-dark' ] : [],
             'table-striped',
             'text-center',
             'w-100',
-        ];
+        ]);
     };
-
 
     function NavClasses () {
-        return [
-            'col-12',
-            'col-md-6',
-            'col-lg-3'
-        ];
+        return implode(' ', [
+            'navbar',
+            ...!(date('H') > 6 && date('H') < 18) ? [ 'bg-dark', 'navbar-dark' ] : [],
+            'p-2',
+            'w-100',
+        ]);
     };
 
-    function TheadDisplay ($is_input = []) {
+    function ColumnClasses () {
+        return implode(' ', [
+            'col-12',
+            'col-md-6',
+            'col-lg-3',
+        ]);
+    };
+
+    function TheadDisplay ($is_input = [ 'Number', 'Order', 'Ean code', 'Image code' ]) {
         $is_return = '';
         if (empty($is_input)): else:
             $is_return .= '<thead>';
@@ -92,5 +100,5 @@
         endif;
         return $is_return;
     };
-    
+
 ?>
