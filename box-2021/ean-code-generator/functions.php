@@ -26,27 +26,27 @@
         return $is_return;
     };
 
-    function NumberGenerator ($output = '') {
-        strlen($output) != 12 || !is_numeric($output) ? die('The EAN-13 number must contain exactly 12 numeric digits.') : null;
+    function NumberGenerator ($is_input = '') {
+        strlen($is_input) != 12 || !is_numeric($is_input) ? die('The EAN-13 number must contain exactly 12 numeric digits.') : null;
         $is_check = 0;
         for ($i = 0; $i < 12; $i += 2):
-            $is_check += (int)$output[$i];
+            $is_check += (int)$is_input[$i];
         endfor;
         for ($i = 1; $i < 12; $i += 2):
-            $is_check += (int)$output[$i] * 3;
+            $is_check += (int)$is_input[$i] * 3;
         endfor;
         $is_check = (10 - ($is_check % 10)) % 10;
-        return $output .= $is_check;
+        return $is_input .= $is_check;
     };
 
-    function CodeImageGenerator ($output = '') {
+    function CodeImageGenerator ($is_input = '') {
         $is_image = imagecreatetruecolor(200, 100);
         $is_color = imagecolorallocate($is_image, 0, 0, 0);
         $is_background = imagecolorallocate($is_image, 255, 255, 255);
         imagefill($is_image, 0, 0, $is_background);
         $x = 10;
         for ($i = 0; $i < 13; $i++):
-            if ($output[$i] == '1'):
+            if ($is_input[$i] == '1'):
                 imagefilledrectangle($is_image, $x, 0, $x + 2, 100, $is_color);
             endif;
             $x += 3;
@@ -56,26 +56,35 @@
         imagedestroy($is_image);
     };
 
-    function ClassDisplay () {
-        $is_return = '';
-        $is_return .= ' mx-auto';
-        $is_return .= ' table';
+    function TableClasses () {
         date_default_timezone_set('America/Sao_Paulo');
-        $is_return .= date('H') > 6 && date('H') < 18 ? '' : ' table-dark';
-        $is_return .= ' table-striped';
-        $is_return .= ' text-center';
-        $is_return .= ' w-100';
-        return $is_return;
+        return [
+            'mx-auto',
+            'table',
+            ...!(date('H') > 6 && date('H') < 18) ? [ 'table-dark' ] : [],
+            'table-striped',
+            'text-center',
+            'w-100',
+        ];
     };
 
-    function TheadDisplay ($output = []) {
+
+    function NavClasses () {
+        return [
+            'col-12',
+            'col-md-6',
+            'col-lg-3'
+        ];
+    };
+
+    function TheadDisplay ($is_input = []) {
         $is_return = '';
-        if (empty($output)): else:
+        if (empty($is_input)): else:
             $is_return .= '<thead>';
                 $is_return .= '<tr>';
-                    for ($i = 0; $i < sizeof($output); $i++):
+                    for ($i = 0; $i < sizeof($is_input); $i++):
                         $is_return .= '<th' . (!$i ? ' scope=\'col\'' : '') . '>';
-                            $is_return .= strtoupper($output[$i]);
+                            $is_return .= strtoupper($is_input[$i]);
                         $is_return .= '</th>';
                     endfor;
                 $is_return .= '</tr>';
