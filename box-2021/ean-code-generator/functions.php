@@ -1,5 +1,13 @@
 <?php
 
+    function ArrayKeyExist ($is_array, $is_key) {
+        return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
+    };
+
+    function IsTrue ($is_var) {
+        return isset($is_var) && !empty($is_var);
+    };
+
     function HeaderDisplay () {
         $is_return = '';
         $is_return .= '<!doctype html>';
@@ -97,6 +105,27 @@
                     endfor;
                 $is_return .= '</tr>';
             $is_return .= '</thead>';
+        endif;
+        return $is_return;
+    };
+
+    function TbodyDisplay ($is_input = []) {
+        $is_return = '';
+        if (empty($is_input)): else:
+            $is_return .= '<tbody>';
+                for ($i = 0; $i < $is_input['end-number'] - $is_input['start-number']; $i++):
+                    $is_order = '';
+                    $is_order .= 789;
+                    $is_order .= substr(preg_replace('/[^0-9]/', '', $is_input['cnpj-number']), 0, 9 - strlen($i));
+                    $is_order .= $i;
+                    $is_return .= '<tr>';
+                        $is_return .= '<td scope=\'row\'>' . $i . '</td>';
+                        $is_return .= '<td>' . $is_order . '</td>';
+                        $is_return .= '<td>' . NumberGenerator ($is_order) . '</td>';
+                        $is_return .= '<td>' . NumberGenerator ($is_order) . '</td>';
+                    $is_return .= '</tr>';
+                endfor;
+            $is_return .= '</tbody>';
         endif;
         return $is_return;
     };

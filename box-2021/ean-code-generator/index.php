@@ -1,29 +1,26 @@
 <?php
-
-    $is_ID = [
-        'Cnpj',
-        'Starting Number',
-        'End Number'
-    ];
-
-    $is_start = isset($_POST['starting-number']) ? $_POST['starting-number'] : 1;
-
-    $is_end = isset($_POST['end-number']) ? $_POST['end-number'] : 10;
-
-    $is_cnpj = preg_replace('/[^0-9]/', '', isset($_POST['cnpj']) ? $_POST['cnpj'] : '48.260.063/0001-03');
-
-    $is_array = [];
-
-    if ($is_cnpj && $is_start < $is_end):
-        for ($i = $is_start; $i <= $is_end; $i++):
-            array_push($is_array, $i);
-        endfor;
-    endif;
-
     include_once('functions.php');
-
     echo HeaderDisplay();
-
+    $is_array = [
+        [
+            'maxlength' => strlen('48.260.063/0001-03'),
+            'minlength' => strlen('48.260.063/0001-03'),
+            'title' => 'Cnpj Number',
+            'type' => 'text',
+        ],
+        [
+            'maxlength' => strlen(999999),
+            'minlength' => strlen(9),
+            'title' => 'Start Number',
+            'type' => 'number',
+        ],
+        [
+            'maxlength' => strlen(999999),
+            'minlength' => strlen(9),
+            'title' => 'End Number',
+            'type' => 'number',
+        ]
+    ];
     echo '<nav class=\'' . NavClasses() . '\'>';
         echo '<form';
             echo ' action=\'index.php\'';
@@ -31,15 +28,17 @@
             echo ' method=\'POST\'';
             echo ' role=\'search\'';
         echo '>';
-            for ($i = 0; $i < sizeof($is_ID); $i++):
+            for ($i = 0; $i < sizeof($is_array); $i++):
                 echo '<div class=\'' . ColumnClasses() . '\'>';
                     echo '<input';
-                        echo ' aria-label=\'' . trim($is_ID[$i]) . '\'';
+                        echo ' aria-label=\'' . trim($is_array[$i]['title']) . '\'';
                         echo ' class=\'form-control w-100 m-0 p-2\'';
-                        echo ' id=\'' . strtolower(str_replace(' ', '-', trim($is_ID[$i]))) . '\'';
-                        echo ' name=\'' . strtolower(str_replace(' ', '-', trim($is_ID[$i]))) . '\'';
-                        echo ' placeholder=\'' . trim($is_ID[$i]) . '\'';
-                        echo ' type=\'text\'';
+                        echo ' id=\'' . strtolower(str_replace(' ', '-', trim($is_array[$i]['title']))) . '\'';
+                        echo ' name=\'' . strtolower(str_replace(' ', '-', trim($is_array[$i]['title']))) . '\'';
+                        echo ArrayKeyExist ($is_array[$i], 'maxlength') ? ' maxlength=\'' . $is_array[$i]['maxlength'] . '\'' : '';
+                        echo ArrayKeyExist ($is_array[$i], 'minlength') ? ' minlength=\'' . $is_array[$i]['minlength'] . '\'' : '';
+                        echo ' placeholder=\'' . trim($is_array[$i]['title']) . '\'';
+                        echo ' type=\'' . (ArrayKeyExist ($is_array[$i], 'type') ? $is_array[$i]['type'] : 'text') . '\'';
                     echo '>';
                 echo '</div>';
             endfor;
@@ -50,25 +49,13 @@
             echo '</div>';
         echo '</form>';
     echo '</nav>';
-
     echo '<table class=\'' . TableClasses() . '\'>';
         echo TheadDisplay ();
-        echo '<tbody>';
-            for ($i = 0; $i < sizeof($is_array); $i++):
-                $is_order = '';
-                $is_order .= 789;
-                $is_order .= substr($is_cnpj, 0, 9 - strlen($is_array[$i]));
-                $is_order .= $is_array[$i];
-                echo '<tr>';
-                    echo '<td scope=\'row\'>' . $i . '</td>';
-                    echo '<td>' . $is_order . '</td>';
-                    echo '<td>' . NumberGenerator ($is_order) . '</td>';
-                    echo '<td>' . NumberGenerator ($is_order) . '</td>';
-                echo '</tr>';
-            endfor;
-        echo '</tbody>';
+        echo TbodyDisplay ([
+            'start-number' => isset($_POST['start-number']) ? $_POST['start-number'] : 1,
+            'end-number' => isset($_POST['end-number']) ? $_POST['end-number'] : 10,
+            'cnpj-number' => isset($_POST['cnpj-number']) ? $_POST['cnpj-number'] : '48.260.063/0001-03',
+        ]);
     echo '</table>';
-
     echo FooterDisplay ();
-
 ?>
