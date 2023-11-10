@@ -12,7 +12,7 @@
                 $is_return .= '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>';
                 $is_return .= file_exists('style.css') ? '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' : '';
             $is_return .= '</head>';
-            $is_return .= '<body>';
+            $is_return .= '<body class=\'w-100\'>';
         return $is_return;
     };
 

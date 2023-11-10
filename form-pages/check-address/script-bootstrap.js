@@ -51,7 +51,7 @@ export const BootstrapParams = {
                 SetAttribute({ element : Content, attribute : 'class', value : [ 'modal-content' ] });
                     const Padding = [ 'p-3' ];
                     const Header = CreateElement();
-                    SetAttribute({ element : Header, attribute : 'class', value : [ 'modal-header', ...Padding, ...Validator['Gene'](Proper['danger']) ? [ 'bg-danger' ] : [] ] });
+                    SetAttribute({ element : Header, attribute : 'class', value : [ 'modal-Header', ...Padding, ...Validator['Gene'](Proper['danger']) ? [ 'bg-danger' ] : [] ] });
                         const HeaderTitle = CreateElement({ element : 'h5', textnode : Proper['title'] });
                         SetAttribute({ element : HeaderTitle, attribute : 'class', value : [ 'modal-title', ...Classes['h5'], ...Validator['Gene'](Proper['danger']) ? [ 'text-white' ] : [] ] });
                         SetAttribute({ element : HeaderTitle, attribute : 'id', value : Proper['id'] + '-label' });
@@ -82,20 +82,20 @@ export const BootstrapParams = {
             if (Validator['String'](Proper['body'])) IsHTMLFormat(Proper['body']) ? Body['innerHTML'] += Proper['body'] : Body.appendChild(BodyContent);
             document.querySelector(Proper['father']).appendChild(Container).appendChild(Dialog).appendChild(Content).appendChild(Footer).appendChild(FooterContent);
         };
-        const Wrappers = document.querySelector(SelectorOrID(Proper['id'])).querySelector('.modal-body').querySelectorAll('.wrapper');
-        Wrappers.forEach((wrapper, i) => {
-            if (wrapper) {
+        const Wrappers = document.querySelector(SelectorOrID(Proper['id'])).querySelector('.modal-body').querySelectorAll('.Wrapper');
+        Wrappers.forEach((Wrapper, i) => {
+            if (Wrapper) {
                 const ButtonArray = [];
                 const Selector = [];
                 for (let i = 0; i < 6; i++) Selector.push('h' + (i + 1));
-                const Wrapper = wrapper;
+                const Wrapper = Wrapper;
                 const Content = Wrapper.querySelector('.content');
-                Content.querySelectorAll(Selector.join(', ')).forEach((header, j) => {
-                    if (header) {
-                        if (header['textContent']) {
-                            ButtonArray[j] = CreateElement({ element : 'button', textnode : FirstUpper(header['textContent']) });
+                Content.querySelectorAll(Selector.join(', ')).forEach((Header, j) => {
+                    if (Header) {
+                        if (Header['textContent']) {
+                            ButtonArray[j] = CreateElement({ element : 'button', textnode : FirstUpper(Header['textContent']) });
                             SetAttribute({ element : ButtonArray[j], attribute : 'class', value : Classes['button']});
-                            SetAttribute({ element : ButtonArray[j], attribute : 'id', value : JustLowerLetters(Proper['title'] + '-' + header['textContent']) });
+                            SetAttribute({ element : ButtonArray[j], attribute : 'id', value : JustLowerLetters(Proper['title'] + '-' + Header['textContent']) });
                             SetAttribute({ element : ButtonArray[j], attribute : 'type', value : 'button' });
                             document.querySelector(SelectorOrID(Proper['id'])).querySelector('.modal-footer').querySelector('.btn-group').appendChild(ButtonArray[j]);
                         };
@@ -105,7 +105,7 @@ export const BootstrapParams = {
                     Selector.push(...[ 'p', 'strong' ]);
                     Content['classList'][Input](...[ 'bg-danger', 'bg-gradiente', 'border-danger' ]);
                     Content['classList'][(Input === 'add' ? 'remove' : 'add')](...[ 'bg-white' ]);
-                    Content.querySelectorAll(Selector.join(', ')).forEach(header => header['classList'][Input](...[ 'text-white' ]));
+                    Content.querySelectorAll(Selector.join(', ')).forEach(Header => Header['classList'][Input](...[ 'text-white' ]));
                 };
                 Content.addEventListener('mouseover', () => CallbackMouseMove('add'));
                 Content.addEventListener('mouseout', () => CallbackMouseMove('remove'));
@@ -126,7 +126,7 @@ export const BootstrapParams = {
         SetAttribute({ element : Container, attribute : 'id', value : Proper['id'] });
         SetAttribute({ element : Container, attribute : 'tabindex', value : '-1' });
             const Header = CreateElement();
-            SetAttribute({ element : Header, attribute : 'class', value : [ 'offcanvas-header' ] });
+            SetAttribute({ element : Header, attribute : 'class', value : [ 'offcanvas-Header' ] });
                 const HeaderTitle = CreateElement({ element : 'h5', textnode : Proper['title'] });
                 SetAttribute({ element : HeaderTitle, attribute : 'class', value : [ ...Classes['h5'], 'offcanvas-title' ] });
                 const HeaderButton = CreateElement({ element : 'button' });
