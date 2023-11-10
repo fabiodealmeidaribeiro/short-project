@@ -6,10 +6,17 @@
     $is_start = 1;
     $is_end = 10;
 
-    $is_length = 999999999;
+    $is_length = '';
+    $is_length .= 999;
+    $is_length .= 999;
+    $is_length .= 999;
+
     $is_start = isset($is_start) ? ($is_start > $is_end ? $is_end - 1 : $is_start) : '';
+
     $is_end = isset($is_end) ? ($is_end > $is_length ? $is_length : $is_end) : '';
+
     $is_cnpj = isset($is_cnpj) ? (strlen($is_cnpj) === strlen('48.260.063/0001-03') ? preg_replace('/[^0-9]/', '', $is_cnpj) : '') : '';
+    
     $is_validity = $is_cnpj && $is_start < $is_end;
 
     $is_array = [];
@@ -25,9 +32,17 @@
     if (isset($is_array)):
         if (empty($is_array)): else:
             echo $is_display ? HeaderDisplay () : '';
+
+
+
                 $is_class = '';
                 $is_class .= $is_display ? ClassDisplay () : '';
+
+
                 $is_ID = [ 'Cnpj', 'Starting Number', 'End Number' ];
+
+
+
                 echo '<nav class=\'p-2 w-100\'>';
                     echo '<form class=\'row g-2 w-100\' role=\'search\'>';
                         $is_classes = [ 'col-12', 'col-md-6', 'col-lg-3' ];
@@ -43,10 +58,14 @@
                             echo '</div>';
                         endfor;
                         echo '<div' . (!empty($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '>';
-                            echo '<button class=\'btn btn-outline-success\' type=\'submit\'>Process</button>';
+                            echo '<button class=\'btn btn-outline-success\' type=\'submit\'>';
+                                echo 'Process';
+                            echo '</button>';
                         echo '</div>';
                     echo '</form>';
                 echo '</nav>';
+
+
                 echo '<table' . ($is_class ? ' class=\'' . trim($is_class) . '\'' : '') . '>';
                     echo $is_display ? TheadDisplay ([ 'order', 'ean code' ]) : '';
                     echo '<tbody>';
@@ -62,6 +81,9 @@
                         endfor;
                     echo '</tbody>';
                 echo '</table>';
+
+
+
             echo $is_display ? FooterDisplay () : '';
         endif;
     endif;
