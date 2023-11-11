@@ -9,29 +9,34 @@
     };
 
     function HeaderDisplay () {
-        $is_return = '';
-        $is_return .= '<!doctype html>';
-        $is_return .= '<html lang=\'en\'>';
-            $is_return .= '<head>';
-                $is_return .= '<title></title>';
-                $is_return .= '<meta charset=\'utf-8\'>';
-                $is_return .= '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>';
-                $is_return .= '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>';
-                $is_return .= '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>';
-                $is_return .= file_exists('style.css') ? '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' : '';
-            $is_return .= '</head>';
-            $is_return .= '<body class=\'w-100\'>';
-        return $is_return;
+        date_default_timezone_set('America/Sao_Paulo');
+        $is_class = implode(' ', [
+            ...(date('H') > 6 && date('H') < 18) ? [ 'bg-light' ] : [ 'bg-dark' ],
+            'w-100',
+        ]);
+        return implode(' ', [
+            '<!doctype html>',
+            '<html lang=\'en\'>',
+                '<head>',
+                    '<title></title>',
+                    '<meta charset=\'utf-8\'>',
+                    '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
+                    '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
+                    '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
+                    file_exists('style.css') ? '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' : '',
+                '</head>',
+                '<body' . ($is_class ? ' class=\'' . $is_class . '\'' : '') . '>',
+        ]);
     };
 
     function FooterDisplay () {
-            $is_return = '';
-            $is_return .= '</body>';
-            $is_return .= '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>';
-            $is_return .= '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>';
-            $is_return .= file_exists('script.js') ? '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' : '';
-        $is_return .= '</html>';
-        return $is_return;
+        return implode(' ', [
+                '</body>',
+                '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
+                '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
+                file_exists('script.js') ? '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' : '',
+            '</html>',
+        ]);
     };
 
     function NumberGenerator ($is_input = '') {
@@ -76,26 +81,40 @@
         ]);
     };
 
-    function NavClasses () {
+    function NavClasses ($is_input = 3) {
         date_default_timezone_set('America/Sao_Paulo');
         return implode(' ', [
             'navbar',
             'navbar-expand-lg',
             ...(date('H') > 6 && date('H') < 18) ? [ 'bg-light' ] : [ 'bg-dark' ],
-            'p-2',
+            'ps-' . $is_input,
+            'pe-' . $is_input,
+            'pe-md-0',
+            'pe-lg-' . $is_input,
+            'pt-' . $is_input,
+            'pb-0',
+            'pb-md-0',
+            'pb-lg-' . $is_input,
             'w-100',
         ]);
     };
 
-    function ColumnClasses () {
+    function ColumnClasses ($is_input = 3) {
         return implode(' ', [
             'col-12',
             'col-md-6',
             'col-lg-3',
+            'ps-0',
+            'pe-0',
+            'pe-md-' . $is_input,
+            'pe-lg-' . $is_input,
+            'mb-' . $is_input,
+            'mb-md-' . $is_input,
+            'mb-lg-0',
         ]);
     };
 
-    function TheadDisplay ($is_input = [ 'Number', 'Order', 'Ean code' ]) {
+    function TheadDisplay ($is_input = [ 'Order', 'Ean code' ]) {
         $is_return = '';
         if (empty($is_input)): else:
             $is_return .= '<thead>';
@@ -122,8 +141,7 @@
                     $is_order .= substr(preg_replace('/[^0-9]/', '', $is_input['cnpj-number']), 0, 9 - strlen($is_start));
                     $is_order .= $is_start;
                     $is_return .= '<tr>';
-                        $is_return .= '<td scope=\'row\'>' . '<p class=\'m-0 p-0\'>' . $i . '</p>' . '</td>';
-                        $is_return .= '<td>' . '<p class=\'m-0 p-0\'>' . $is_order . '</p>' . '</td>';
+                        $is_return .= '<td scope=\'row\'>' . '<p class=\'m-0 p-0\'>' . $is_order . '</p>' . '</td>';
                         $is_return .= '<td>' . '<p class=\'m-0 p-0\'>' . NumberGenerator ($is_order) . '</p>' . '</td>';
                     $is_return .= '</tr>';
                 endfor;
@@ -132,10 +150,10 @@
         return $is_return;
     };
 
-    function BootstrapModal ($is_input = 'exampleModal') {
+    function BootstrapModal ($is_input = 'example Modal') {
+        $is_input = str_replace(' ', '', ucwords($is_input));
         return implode(' ', [
             '<button type=\'button\' class=\'btn btn-primary\' data-bs-toggle=\'modal\' data-bs-target=\'#' . $is_input . '\'>',
-                'Launch demo modal',
             '</button>',
             '<div class=\'modal fade\' id=\'' . $is_input . '\' tabindex=\'-1\' aria-labelledby=\'' . $is_input . 'Label\' aria-hidden=\'true\'>',
                 '<div class=\'modal-dialog\'>',

@@ -1,34 +1,49 @@
 <?php
     include_once('functions.php');
+    
     echo HeaderDisplay();
-    $is_cnpj = '01.234.567/0001-89';
-    $is_array = [
-        [
-            'maxlength' => 6,
-            'minlength' => 1,
-            'title' => 'Start Number',
-            'type' => 'number',
-            'value' => isset($_POST['start-number']) ? $_POST['start-number'] : 1,
-        ],
-        [
-            'maxlength' => 6,
-            'minlength' => 1,
-            'title' => 'End Number',
-            'type' => 'number',
-            'value' => isset($_POST['end-number']) ? $_POST['end-number'] : 10,
-        ],
-        [
-            'maxlength' => strlen($is_cnpj),
-            'minlength' => strlen($is_cnpj),
-            'title' => 'Cnpj Number',
-            'type' => 'text',
-            'value' => isset($_POST['cnpj-number']) ? $_POST['cnpj-number'] : $is_cnpj,
-        ],
-    ];
 
-    date_default_timezone_set('America/Sao_Paulo');
+    $is_array = [];
+
+    $is_title = 'Start Number';
+
+    array_push($is_array, [
+        'maxlength' => 6,
+        'minlength' => 1,
+        'title' => $is_title,
+        'type' => 'number',
+        'value' => isset($_POST[strtolower(str_replace(' ', '-', $is_title))])
+        ? $_POST[strtolower(str_replace(' ', '-', $is_title))]
+        : '',
+    ]);
+
+    $is_title = 'End Number';
+
+    array_push($is_array, [
+        'maxlength' => 6,
+        'minlength' => 1,
+        'title' => $is_title,
+        'type' => 'number',
+        'value' => isset($_POST[strtolower(str_replace(' ', '-', $is_title))])
+        ? $_POST[strtolower(str_replace(' ', '-', $is_title))]
+        : '',
+    ]);
+
+    $is_title = 'Cnpj Number';
+    
+    array_push($is_array, [
+        'maxlength' => strlen('01.234.567/0001-89'),
+        'minlength' => strlen('01.234.567/0001-89'),
+        'title' => $is_title,
+        'type' => 'text',
+        'value' => isset($_POST[strtolower(str_replace(' ', '-', $is_title))])
+        ? $_POST[strtolower(str_replace(' ', '-', $is_title))]
+        : 1,
+    ]);
+
     echo '<nav';
         echo !empty(NavClasses()) ? ' class=\'' . NavClasses() . '\'' : '';
+        date_default_timezone_set('America/Sao_Paulo');
         echo !(date('H') > 6 && date('H') < 18) ? ' data-bs-theme=\'dark\'' : '';
     echo '>';
         echo '<form';
@@ -70,6 +85,8 @@
             strtolower(str_replace(' ', '-', trim($is_array[2]['title']))) => $is_array[2]['value'],
         ]);
     echo '</table>';
+
+    echo BootstrapModal ();
 
     echo FooterDisplay ();
 
