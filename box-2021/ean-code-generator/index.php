@@ -25,10 +25,15 @@
             'value' => isset($_POST['cnpj-number']) ? $_POST['cnpj-number'] : $is_cnpj,
         ],
     ];
-    echo '<nav class=\'' . NavClasses() . '\'>';
+
+    date_default_timezone_set('America/Sao_Paulo');
+    echo '<nav';
+        echo !empty(NavClasses()) ? ' class=\'' . NavClasses() . '\'' : '';
+        echo !(date('H') > 6 && date('H') < 18) ? ' data-bs-theme=\'dark\'' : '';
+    echo '>';
         echo '<form';
             echo ' action=\'index.php\'';
-            echo ' class=\'row g-2 w-100\'';
+            echo ' class=\'row m-0 p-0 h-100 w-100\'';
             echo ' method=\'POST\'';
             echo ' role=\'search\'';
         echo '>';
@@ -38,7 +43,7 @@
                     $is_id = $is_name = strtolower(str_replace(' ', '-', $is_placeholder));
                     echo '<input';
                         echo ' aria-label=\'' . $is_placeholder . '\'';
-                        echo ' class=\'form-control w-100 m-0 p-2\'';
+                        echo ' class=\'form-control m-0 p-2 h-100 w-100\'';
                         echo ' id=\'' . $is_id . '\'';
                         echo ' name=\'' . $is_name . '\'';
                         echo ArrayKeyExist ($is_array[$i], 'maxlength') ? ' maxlength=\'' . $is_array[$i]['maxlength'] . '\'' : '';
@@ -50,12 +55,13 @@
                 echo '</div>';
             endfor;
             echo '<div class=\'' . ColumnClasses() . '\'>';
-                echo '<button class=\'btn btn-outline-success\' type=\'submit\'>';
+                echo '<button class=\'btn btn-light m-0 p-2\' type=\'submit\'>';
                     echo 'Process';
                 echo '</button>';
             echo '</div>';
         echo '</form>';
     echo '</nav>';
+
     echo '<table class=\'' . TableClasses() . '\'>';
         echo TheadDisplay ();
         echo TbodyDisplay ([
@@ -64,5 +70,7 @@
             strtolower(str_replace(' ', '-', trim($is_array[2]['title']))) => $is_array[2]['value'],
         ]);
     echo '</table>';
+
     echo FooterDisplay ();
+
 ?>

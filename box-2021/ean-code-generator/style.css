@@ -38,3 +38,26 @@ html
 {
     background-color : #B71C1C;
 }
+
+/*
+
+    nav
+    {
+        left : 0;
+        position : absolute;
+        top : 0;
+    }
+
+    table
+    {
+        left : 0;
+        position : absolute;
+        top : 200px;
+    }
+
+*/
+
+tr:hover td p
+{
+    color : #B71C1C;
+}

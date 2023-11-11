@@ -67,9 +67,9 @@
     function TableClasses () {
         date_default_timezone_set('America/Sao_Paulo');
         return implode(' ', [
-            'mx-auto',
             'table',
-            ...!(date('H') > 6 && date('H') < 18) ? [ 'table-dark' ] : [],
+            ...(date('H') > 6 && date('H') < 18) ? [ 'table-light' ] : [ 'table-dark' ],
+            'table-hover',
             'table-striped',
             'text-center',
             'w-100',
@@ -77,9 +77,11 @@
     };
 
     function NavClasses () {
+        date_default_timezone_set('America/Sao_Paulo');
         return implode(' ', [
             'navbar',
-            ...!(date('H') > 6 && date('H') < 18) ? [ 'bg-dark', 'navbar-dark' ] : [],
+            'navbar-expand-lg',
+            ...(date('H') > 6 && date('H') < 18) ? [ 'bg-light' ] : [ 'bg-dark' ],
             'p-2',
             'w-100',
         ]);
@@ -93,7 +95,7 @@
         ]);
     };
 
-    function TheadDisplay ($is_input = [ 'Number', 'Order', 'Ean code', 'Image code' ]) {
+    function TheadDisplay ($is_input = [ 'Number', 'Order', 'Ean code' ]) {
         $is_return = '';
         if (empty($is_input)): else:
             $is_return .= '<thead>';
@@ -120,15 +122,44 @@
                     $is_order .= substr(preg_replace('/[^0-9]/', '', $is_input['cnpj-number']), 0, 9 - strlen($is_start));
                     $is_order .= $is_start;
                     $is_return .= '<tr>';
-                        $is_return .= '<td scope=\'row\'>' . $i . '</td>';
-                        $is_return .= '<td>' . $is_order . '</td>';
-                        $is_return .= '<td>' . NumberGenerator ($is_order) . '</td>';
-                        $is_return .= '<td>' . NumberGenerator ($is_order) . '</td>';
+                        $is_return .= '<td scope=\'row\'>' . '<p class=\'m-0 p-0\'>' . $i . '</p>' . '</td>';
+                        $is_return .= '<td>' . '<p class=\'m-0 p-0\'>' . $is_order . '</p>' . '</td>';
+                        $is_return .= '<td>' . '<p class=\'m-0 p-0\'>' . NumberGenerator ($is_order) . '</p>' . '</td>';
                     $is_return .= '</tr>';
                 endfor;
             $is_return .= '</tbody>';
         endif;
         return $is_return;
+    };
+
+    function BootstrapModal ($is_input = 'exampleModal') {
+        return implode(' ', [
+            '<button type=\'button\' class=\'btn btn-primary\' data-bs-toggle=\'modal\' data-bs-target=\'#' . $is_input . '\'>',
+                'Launch demo modal',
+            '</button>',
+            '<div class=\'modal fade\' id=\'' . $is_input . '\' tabindex=\'-1\' aria-labelledby=\'' . $is_input . 'Label\' aria-hidden=\'true\'>',
+                '<div class=\'modal-dialog\'>',
+                    '<div class=\'modal-content\'>',
+                        '<div class=\'modal-header\'>',
+                            '<h1 class=\'modal-title fs-5\' id=\'' . $is_input . 'Label\'>',
+                                'Modal title',
+                            '</h1>',
+                            '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
+                        '</div>',
+                        '<div class=\'modal-body\'>',
+                        '</div>',
+                        '<div class=\'modal-footer\'>',
+                            '<button type=\'button\' class=\'btn btn-secondary\' data-bs-dismiss=\'modal\'>',
+                                'Close',
+                            '</button>',
+                            '<button type=\'button\' class=\'btn btn-primary\'>',
+                                'Save changes',
+                            '</button>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+            '</div>',
+        ]);
     };
 
 ?>
