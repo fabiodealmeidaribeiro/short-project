@@ -8,7 +8,7 @@
         return isset($is_var) && !empty($is_var);
     };
 
-    function HeaderDisplay () {
+    function HeaderDisplay ($is_input = [ 'title' => 'Ean Code Generator' ]) {
         date_default_timezone_set('America/Sao_Paulo');
         $is_class = implode(' ', [
             ...(date('H') > 6 && date('H') < 18) ? [ 'bg-light' ] : [ 'bg-dark' ],
@@ -18,14 +18,14 @@
             '<!doctype html>',
             '<html lang=\'en\'>',
                 '<head>',
-                    '<title></title>',
+                    ArrayKeyExist ($is_input, 'title') ? '<title>' . ucwords(trim($is_input['id'])) . '</title>' : '',
                     '<meta charset=\'utf-8\'>',
                     '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
                     file_exists('style.css') ? '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' : '',
                 '</head>',
-                '<body' . ($is_class ? ' class=\'' . $is_class . '\'' : '') . '>',
+                '<body' . (!empty($is_class) ? ' class=\'' . $is_class . '\'' : '') . '>',
         ]);
     };
 
@@ -150,28 +150,46 @@
         return $is_return;
     };
 
-    function BootstrapModal ($is_input = 'example Modal') {
-        $is_input = str_replace(' ', '', ucwords($is_input));
+    function BootstrapModal ($is_input = [
+        'id' => 'Container',
+        'title' => '',
+        'body' => [],
+    ]) {
+        $is_body = '';
+        if (empty($is_input['body'])): else:
+            for ($i = 0; $i < sizeof($is_input['body']); $i++):
+                $is_body .= '<p class=\'' . ($i < sizeof($is_input['body']) - 1 ? 'mb-3' : 'm-0') . '\'>';
+                    $is_body .= $is_input['body'][$i];
+                $is_body .= '</p>';
+            endfor;
+        endif;
         return implode(' ', [
-            '<button type=\'button\' class=\'btn btn-primary\' data-bs-toggle=\'modal\' data-bs-target=\'#' . $is_input . '\'>',
+            '<button',
+                ' id=\'modal-' . strtolower(trim($is_input['id'])) . '-button\'',
+                ' class=\'d-none\'',
+                ' data-bs-target=\'#Model' . ucwords(trim($is_input['id'])) . '\'',
+                ' data-bs-toggle=\'modal\'',
+                ' type=\'button\'',
+            '>',
             '</button>',
-            '<div class=\'modal fade\' id=\'' . $is_input . '\' tabindex=\'-1\' aria-labelledby=\'' . $is_input . 'Label\' aria-hidden=\'true\'>',
-                '<div class=\'modal-dialog\'>',
+            '<div class=\'modal fade\' id=\'Model' . ucwords(trim($is_input['id'])) . '\' tabindex=\'-1\' aria-labelledby=\'Model' . ucwords(trim($is_input['id'])) . 'Label\' aria-hidden=\'true\'>',
+                '<div class=\'modal-dialog modal-dialog-centered modal-dialog-scrollable\'>',
                     '<div class=\'modal-content\'>',
-                        '<div class=\'modal-header\'>',
-                            '<h1 class=\'modal-title fs-5\' id=\'' . $is_input . 'Label\'>',
-                                'Modal title',
-                            '</h1>',
-                            '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
-                        '</div>',
-                        '<div class=\'modal-body\'>',
-                        '</div>',
+                        ...!empty($is_input['title']) ? [
+                            '<div class=\'modal-header\'>',
+                                '<h1 class=\'modal-title fs-5 p-0\' id=\'Model' . ucwords(trim($is_input['id'])) . 'Label\'>',
+                                    ucwords(trim($is_input['title'])),
+                                '</h1>',
+                                '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
+                            '</div>',
+                        ] : [],
+                        ...!empty($is_body) ? [ '<div class=\'modal-body p-3 \'>' . $is_body . '</div>' ] : [],
                         '<div class=\'modal-footer\'>',
                             '<button type=\'button\' class=\'btn btn-secondary\' data-bs-dismiss=\'modal\'>',
                                 'Close',
                             '</button>',
                             '<button type=\'button\' class=\'btn btn-primary\'>',
-                                'Save changes',
+                                'Save Image',
                             '</button>',
                         '</div>',
                     '</div>',
@@ -179,5 +197,4 @@
             '</div>',
         ]);
     };
-
 ?>

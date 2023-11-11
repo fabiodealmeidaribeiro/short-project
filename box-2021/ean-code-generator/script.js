@@ -18,10 +18,17 @@ const SetElements = () => {
     document.querySelector('table')['style']['top'] = TableTop;
 };
 
-window.addEventListener('DOMContentLoaded', () => {
-    SetElements (); 
+window.addEventListener('DOMContentLoaded', Event => {
+    SetElements ();
+    document.querySelector('tbody').querySelectorAll('tr').forEach((Element, Index) => {
+        Element.addEventListener('click', Event => {
+            document.querySelector('#modal-container-button').click();
+        });
+    });
 });
 
-window.addEventListener('resize', () => {
+window.addEventListener('resize', Event => {
     SetElements ();
 });
+
+
