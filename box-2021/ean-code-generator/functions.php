@@ -113,11 +113,12 @@
         $is_return = '';
         if (empty($is_input)): else:
             $is_return .= '<tbody>';
-                for ($i = 0; $i < $is_input['end-number'] - $is_input['start-number']; $i++):
+                for ($i = 0; $i <= $is_input['end-number'] - $is_input['start-number']; $i++):
                     $is_order = '';
                     $is_order .= 789;
-                    $is_order .= substr(preg_replace('/[^0-9]/', '', $is_input['cnpj-number']), 0, 9 - strlen($i));
-                    $is_order .= $i;
+                    $is_start = $is_input['start-number'] + $i;
+                    $is_order .= substr(preg_replace('/[^0-9]/', '', $is_input['cnpj-number']), 0, 9 - strlen($is_start));
+                    $is_order .= $is_start;
                     $is_return .= '<tr>';
                         $is_return .= '<td scope=\'row\'>' . $i . '</td>';
                         $is_return .= '<td>' . $is_order . '</td>';
