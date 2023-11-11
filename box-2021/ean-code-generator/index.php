@@ -102,6 +102,9 @@
             'Aliqua eiusmod nisi officia eiusmod labore aliqua et laboris.',
             'Ea ipsum eu ad fugiat velit quis.',
         ],
+        'button' => [
+            'Save Image',
+        ],
     ]);
 
     echo FooterDisplay ();
