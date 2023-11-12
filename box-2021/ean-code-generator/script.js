@@ -1,6 +1,10 @@
 import {
 } from './script-main.js';
 
+import {
+    SocialNetwork,
+} from './script-network.js';
+
 const StartNumber = document.querySelector('#start-number');
 const EndNumber = document.querySelector('#end-number');
 const CNPJNumber = document.querySelector('#cnpj-number');
@@ -19,12 +23,17 @@ const SetElements = () => {
 };
 
 window.addEventListener('DOMContentLoaded', Event => {
+
+    SocialNetwork();
+
     SetElements ();
+
     document.querySelector('tbody').querySelectorAll('tr').forEach((Element, Index) => {
         Element.addEventListener('click', Event => {
             document.querySelector('#modal-container-button').click();
         });
     });
+    
 });
 
 window.addEventListener('resize', Event => {

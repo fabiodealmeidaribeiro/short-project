@@ -1,7 +1,10 @@
 <?php
 
     date_default_timezone_set('America/Sao_Paulo');
-    $is_period = date('H') > 6 && date('H') < 18;
+
+    $is_time = 6;
+
+    $is_period = !(date('H') > $is_time && date('H') < ($is_time + 24 / 2));
 
     function ArrayKeyExist ($is_array, $is_key) {
         return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
@@ -175,26 +178,35 @@
         $is_button = '';
         if (empty($is_input['button'])): else:
             for ($i = 0; $i < sizeof($is_input['button']); $i++):
-                $is_button .= '<button class=\'' . $is_class['button'] . '\' id=\'button-' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\' type=\'button\'>';
+                $is_id = 'modal-' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '-button';
+                $is_button .= '<button class=\'' . $is_class['button'] . '\' id=\'button-' . $is_id . '\' type=\'button\'>';
                     $is_button .= ucwords(trim($is_input['button'][$i]));
                 $is_button .= '</button>';
             endfor;
         endif;
+        $is_id = strtolower(str_replace(' ', '-', trim($is_input['id'])));
+        $is_title = [
+            'button' => 'modal-' . $is_id . '-button',
+            'target' => 'model-' . $is_id . '-container',
+            'label' => 'model-' . $is_id . '-label',
+        ];
         return implode(' ', [
-            '<button class=\'d-none\' data-bs-target=\'#Model' . ucwords(trim($is_input['id'])) . '\' data-bs-toggle=\'modal\' id=\'modal-' . strtolower(trim($is_input['id'])) . '-button\' type=\'button\' ></button>',
-            '<div class=\'modal fade\' id=\'Model' . ucwords(trim($is_input['id'])) . '\' tabindex=\'-1\' aria-labelledby=\'Model' . ucwords(trim($is_input['id'])) . 'Label\' aria-hidden=\'true\'>',
-                '<div class=\'' . $is_class['dialog'] . '\'>',
-                    '<div class=\'' . $is_class['content'] . '\'>',
+            '<button class=\'d-none\' data-bs-target=\'#' . $is_title['target'] . '\' data-bs-toggle=\'modal\' id=\'' . $is_title['button'] . '\' type=\'button\' ></button>',
+            '<div aria-labelledby=\'' . $is_title['label'] . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_title['target'] . '\' tabindex=\'-1\'>',
+                '<div class=\'' . $is_class['dialog'] . '\' id=\'modal-dialog\'>',
+                    '<div class=\'' . $is_class['content'] . '\' id=\'modal-content\'>',
                         ...!empty($is_input['title']) ? [
-                            '<div class=\'' . $is_class['header'] . '\'' . (!$is_period ? ' data-bs-theme=\'dark\'' : '') . '>',
-                                '<h1 class=\'' . $is_class['title'] . '\' id=\'Model' . ucwords(trim($is_input['id'])) . 'Label\'>' . ucwords(trim($is_input['title'])) . '</h1>',
+                            '<div class=\'' . $is_class['header'] . '\'' . (!$is_period ? ' data-bs-theme=\'dark\'' : '') . ' id=\'modal-header\'>',
+                                '<h1 class=\'' . $is_class['title'] . '\' id=\'' . $is_title['label'] . '\'>' . ucwords(trim($is_input['title'])) . '</h1>',
                                 '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
                             '</div>',
                         ] : [],
-                        ...!empty($is_body) ? [ '<div class=\'' . $is_class['body'] . '\'>' . $is_body . '</div>' ] : [],
-                        '<div class=\'' . $is_class['footer'] . '\'>',
+                        ...!empty($is_body) ? [ '<div class=\'' . $is_class['body'] . '\' id=\'modal-body\'>' . $is_body . '</div>' ] : [],
+                        '<div class=\'' . $is_class['footer'] . '\' id=\'modal-footer\'>',
                             ...!empty($is_button) ? [ $is_button ] : [],
-                            '<button class=\'' . $is_class['button'] . '\' data-bs-dismiss=\'modal\' id=\'button-close\' type=\'button\'>' . 'Close' . '</button>',
+                            '<button class=\'' . $is_class['button'] . '\' data-bs-dismiss=\'modal\' id=\'modal-close-button\' type=\'button\'>',
+                                'Close',
+                            '</button>',
                         '</div>',
                     '</div>',
                 '</div>',
