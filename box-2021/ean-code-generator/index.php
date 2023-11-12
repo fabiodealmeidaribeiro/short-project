@@ -44,8 +44,7 @@
 
         echo '<nav';
             echo !empty(NavClasses()) ? ' class=\'' . NavClasses() . '\'' : '';
-            date_default_timezone_set('America/Sao_Paulo');
-            echo !(date('H') > 6 && date('H') < 18) ? ' data-bs-theme=\'dark\'' : '';
+            echo !$is_period ? ' data-bs-theme=\'dark\'' : '';
         echo '>';
             echo '<form';
                 echo ' action=\'index.php\'';
@@ -59,7 +58,8 @@
                         $is_id = $is_name = strtolower(str_replace(' ', '-', $is_placeholder));
                         echo '<input';
                             echo ' aria-label=\'' . $is_placeholder . '\'';
-                            echo ' class=\'form-control m-0 p-2 h-100 w-100\'';
+                            $is_class = implode(' ', [ 'form-control', ...$is_period ? [ 'bg-light', 'text-dark' ] : [ 'bg-dark', 'text-light' ], 'm-0', 'p-2', 'h-100', 'w-100' ]);
+                            echo !empty($is_class) ? ' class=\'' . $is_class . '\'' : '';
                             echo ' id=\'' . $is_id . '\'';
                             echo ' name=\'' . $is_name . '\'';
                             echo ArrayKeyExist ($is_array[$i], 'maxlength') ? ' maxlength=\'' . $is_array[$i]['maxlength'] . '\'' : '';
