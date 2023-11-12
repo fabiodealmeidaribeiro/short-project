@@ -12,7 +12,7 @@
 
     $is_time = 6;
 
-    $is_period = (date('H') > $is_time && date('H') < ($is_time + 24 / 2));
+    $is_period = !(date('H') > $is_time && date('H') < ($is_time + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
@@ -192,21 +192,72 @@
     function TbodyDisplay ($is_input = []) {
         $is_return = '';
         if (IsTrue($is_input)):
-            $is_return .= '<tbody>';
-                for ($i = 0; $i <= $is_input['end-number'] - $is_input['start-number']; $i++):
-                    $is_order = '';
-                    $is_order .= 789;
-                    $is_start = $is_input['start-number'] + $i;
-                    $is_order .= substr(preg_replace('/[^0-9]/', '', $is_input['cnpj-number']), 0, 9 - strlen($is_start));
-                    $is_order .= $is_start;
-                    $is_return .= '<tr>';
-                        $is_return .= '<td scope=\'row\'>' . '<p class=\'m-0 p-0\'>' . $is_order . '</p>' . '</td>';
-                        $is_return .= '<td>' . '<p class=\'m-0 p-0\'>' . NumberGenerator ($is_order) . '</p>' . '</td>';
-                    $is_return .= '</tr>';
-                endfor;
-            $is_return .= '</tbody>';
+            $is_proper = [
+                'start' => ArrayKeyExist ($is_input, 'start-number') ? (IsTrue($is_input['start-number']) ? $is_input['start-number'] : 0) : 0,
+                'end' => ArrayKeyExist ($is_input, 'end-number') ? (IsTrue($is_input['end-number']) ? $is_input['end-number'] : 0) : 0,
+                'cnpj' => ArrayKeyExist ($is_input, 'cnpj-number') ? (IsTrue($is_input['cnpj-number']) ? $is_input['cnpj-number'] : '') : '',
+            ];
+            $is_condition = !$is_proper['end'] || !$is_proper['start'] || !$is_proper['cnpj'] || $is_proper['end'] - $is_proper['start'] <= 0;
+            if ($is_condition): else:
+                $is_return .= '<tbody>';
+                    for ($i = 0; $i <= $is_proper['end'] - $is_proper['start']; $i++):
+                        $is_order = '';
+                        $is_order .= 789;
+                        $is_number = $is_proper['start'] + $i;
+                        $is_order .= substr(preg_replace('/[^0-9]/', '', $is_proper['cnpj']), 0, 9 - strlen($is_number));
+                        $is_order .= $is_number;
+                        $is_return .= '<tr>';
+                            $is_return .= '<td scope=\'row\'>' . '<p class=\'m-0 p-0\'>' . $is_order . '</p>' . '</td>';
+                            $is_return .= '<td>' . '<p class=\'m-0 p-0\'>' . NumberGenerator ($is_order) . '</p>' . '</td>';
+                        $is_return .= '</tr>';
+                    endfor;
+                $is_return .= '</tbody>';
+            endif;
         endif;
         return $is_return;
+    };
+
+    function ModalCall ($is_input = [ 'title' => 'About Me', 'selector' => 'a' ]) {
+        return implode(' ', [
+            '<div', IsTrue($is_input['title']) ? ' id=\'' . str_replace(' ', '-', trim($is_input['title'])) . '\'' : '', '>',
+                ...$is_input['selector'] === 'button'
+                ?
+                    [
+                        '<button',
+                            ' type=\'button\'',
+                            IsTrue(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '',
+                            ' data-bs-toggle=\'modal\'', 
+                            ' data-bs-target=\'#' . str_replace(' ', '', ucwords($is_input['title'])) . '\'',
+                        '>',
+                    ]
+                :
+                    [],
+                ...$is_input['selector'] === 'a'
+                ?
+                    [
+                        '<p>',
+                            '<a data-bs-toggle=\'modal\' data-bs-target=\'#' . str_replace(' ', '', ucwords($is_input['title'])) . '\'>'
+                    ]
+                :
+                    [],
+                ucwords($is_input['title']),
+                ...$is_input['selector'] === 'a'
+                ?
+                    [
+                            '</a>',
+                        '</p>'
+                    ]
+                :
+                    [],
+                ...$is_input['selector'] === 'button'
+                ?
+                    [
+                        '</button>'
+                    ]
+                :
+                    [],
+            '</div>',
+        ]);
     };
 
     function BootstrapModal ($is_input = [ 'id' => 'Container', 'title' => '', 'body' => [], 'button' => [], ]) {
@@ -242,6 +293,7 @@
             'target' => 'model-' . $is_id . '-container',
             'label' => 'model-' . $is_id . '-label',
         ];
+        global $is_period;
         return implode(' ', [
             '<button class=\'d-none\' data-bs-target=\'#' . $is_title['target'] . '\' data-bs-toggle=\'modal\' id=\'' . $is_title['button'] . '\' type=\'button\' ></button>',
             '<div aria-labelledby=\'' . $is_title['label'] . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_title['target'] . '\' tabindex=\'-1\'>',

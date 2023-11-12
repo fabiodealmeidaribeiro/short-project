@@ -1,13 +1,10 @@
 import {
+    IsTrue,
 } from './script-main.js';
 
 import {
     SocialNetwork,
 } from './script-network.js';
-
-const StartNumber = document.querySelector('#start-number');
-const EndNumber = document.querySelector('#end-number');
-const CNPJNumber = document.querySelector('#cnpj-number');
 
 const SetElements = () => {
     document.querySelector('nav')['style']['left'] = 0;
@@ -22,18 +19,31 @@ const SetElements = () => {
     document.querySelector('table')['style']['top'] = TableTop;
 };
 
+
+
 window.addEventListener('DOMContentLoaded', Event => {
-
     SocialNetwork();
-
-    SetElements ();
-
-    document.querySelector('tbody').querySelectorAll('tr').forEach((Element, Index) => {
-        Element.addEventListener('click', Event => {
-            document.querySelector('#modal-container-button').click();
+    SetElements();
+    document.querySelector('nav').querySelector('button').addEventListener('click', Event => {
+        [ 'start-number', 'end-number', 'cnpj-number' ].map(Index => {
+            if (document.querySelector('#' + Index)) {
+                if (!document.querySelector('#' + Index)['value']) {
+                    document.querySelector('#' + Index)['classList'].add('is-invalid');
+                };
+            };
         });
     });
-    
+    if (document.querySelector('tbody')) {
+        if (document.querySelector('tbody').querySelectorAll('tr')) {
+            document.querySelector('tbody').querySelectorAll('tr').forEach((Element, Index) => {
+                if (Element) {
+                    Element.addEventListener('click', Event => {
+                        document.querySelector('#modal-container-button').click();
+                    });
+                };
+            });
+        };
+    };
 });
 
 window.addEventListener('resize', Event => {

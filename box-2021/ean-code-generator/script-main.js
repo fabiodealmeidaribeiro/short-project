@@ -1,0 +1,1 @@
+export const IsTrue = Input => Input && Input['textContent'] !== '' && Input['innerText'] !== '' && Input['value'] !== '';
