@@ -43,7 +43,7 @@
         ]);
 
         echo '<nav';
-            echo !empty(NavClasses()) ? ' class=\'' . NavClasses() . '\'' : '';
+            echo !empty(SelectorClasses()['nav']) ? ' class=\'' . SelectorClasses()['nav'] . '\'' : '';
             echo !$is_period ? ' data-bs-theme=\'dark\'' : '';
         echo '>';
             echo '<form';
@@ -53,13 +53,12 @@
                 echo ' role=\'search\'';
             echo '>';
                 for ($i = 0; $i < sizeof($is_array); $i++):
-                    echo '<div class=\'' . ColumnClasses() . '\'>';
+                    echo '<div' . (!empty(SelectorClasses()['column']) ? ' class=\'' . SelectorClasses()['column'] . '\'' : '') . '>';
                         $is_placeholder = trim($is_array[$i]['title']);
                         $is_id = $is_name = strtolower(str_replace(' ', '-', $is_placeholder));
                         echo '<input';
                             echo ' aria-label=\'' . $is_placeholder . '\'';
-                            $is_class = implode(' ', [ 'form-control', ...$is_period ? [ 'bg-light', 'text-dark' ] : [ 'bg-dark', 'text-light' ], 'm-0', 'p-2', 'h-100', 'w-100' ]);
-                            echo !empty($is_class) ? ' class=\'' . $is_class . '\'' : '';
+                            echo !empty(SelectorClasses()['input']) ? ' class=\'' . SelectorClasses()['input'] . '\'' : '';
                             echo ' id=\'' . $is_id . '\'';
                             echo ' name=\'' . $is_name . '\'';
                             echo ArrayKeyExist ($is_array[$i], 'maxlength') ? ' maxlength=\'' . $is_array[$i]['maxlength'] . '\'' : '';
@@ -70,16 +69,15 @@
                         echo '>';
                     echo '</div>';
                 endfor;
-                echo '<div class=\'' . ColumnClasses() . '\'>';
-                    $is_class = implode(' ', [ 'btn', ...$is_period ? [ 'btn-light' ] : [ 'btn-dark' ], 'm-0', 'p-2' ]);
-                    echo '<button' . (!empty($is_class) ? ' class=\'' . $is_class . '\'' : '') . ' type=\'submit\'>';
+                echo '<div' . (!empty(SelectorClasses()['column']) ? ' class=\'' . SelectorClasses()['column'] . '\'' : '') . '>';
+                    echo '<button' . (!empty(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '') . ' type=\'submit\'>';
                         echo 'Process';
                     echo '</button>';
                 echo '</div>';
             echo '</form>';
         echo '</nav>';
 
-        echo '<table class=\'' . TableClasses() . '\'>';
+        echo '<table' . (!empty(SelectorClasses()['table']) ? ' class=\'' . SelectorClasses()['table'] . '\'' : '') . '>';
             echo TheadDisplay ();
             $is_merge = [];
             for ($i = 0; $i < sizeof($is_array); $i++):
