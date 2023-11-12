@@ -4,7 +4,7 @@
 
     $is_time = 6;
 
-    $is_period = !(date('H') > $is_time && date('H') < ($is_time + 24 / 2));
+    $is_period = (date('H') > $is_time && date('H') < ($is_time + 24 / 2));
 
     function ArrayKeyExist ($is_array, $is_key) {
         return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);

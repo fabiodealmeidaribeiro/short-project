@@ -71,7 +71,8 @@
                     echo '</div>';
                 endfor;
                 echo '<div class=\'' . ColumnClasses() . '\'>';
-                    echo '<button class=\'btn btn-light m-0 p-2\' type=\'submit\'>';
+                    $is_class = implode(' ', [ 'btn', ...$is_period ? [ 'btn-light' ] : [ 'btn-dark' ], 'm-0', 'p-2' ]);
+                    echo '<button' . (!empty($is_class) ? ' class=\'' . $is_class . '\'' : '') . ' type=\'submit\'>';
                         echo 'Process';
                     echo '</button>';
                 echo '</div>';
