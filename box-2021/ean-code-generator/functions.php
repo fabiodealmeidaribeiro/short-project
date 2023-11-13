@@ -217,31 +217,41 @@
         return $is_return;
     };
 
-    function IDConverter ($is_input = '') {
-        $is_input = preg_replace('/[ÁÀÂÃ]/', 'A', $is_input);
-        $is_input = preg_replace('/[áàâã]/', 'a', $is_input);
-        $is_input = preg_replace('/[ÉÈÊ]/', 'E', $is_input);
-        $is_input = preg_replace('/[éèê]/', 'e', $is_input);
-        $is_input = preg_replace('/[ÍÌ]/', 'I', $is_input);
-        $is_input = preg_replace('/[íì]/', 'i', $is_input);
-        $is_input = preg_replace('/[ÓÒÔÕ]/', 'O', $is_input);
-        $is_input = preg_replace('/[óòôõ]/', 'o', $is_input);
-        $is_input = preg_replace('/[ÚÙÛ]/', 'U', $is_input);
-        $is_input = preg_replace('/[úùû]/', 'u', $is_input);
-        $is_input = preg_replace('/[Ç]/', 'C', $is_input);
-        $is_input = preg_replace('/[ç]/', 'c', $is_input);
-        $is_input = str_replace(' ', '-', trim(strtolower($is_input)));
-        return $is_input;
+    function ValueConverter ($is_input = []) {
+        $is_proper = [
+            'type' => ArrayKeyExist ($is_input, 'type') ? (IsTrue($is_input['type']) ? $is_input['type'] : 'id') : 'id',
+            'value' => ArrayKeyExist ($is_input, 'value') ? (IsTrue($is_input['value']) ? $is_input['value'] : '') : '',
+        ];
+        $is_value = $is_proper['value'];
+        $is_value = preg_replace('/[ÁÀÂÃ]/', 'A', $is_value);
+        $is_value = preg_replace('/[áàâã]/', 'a', $is_value);
+        $is_value = preg_replace('/[ÉÈÊ]/', 'E', $is_value);
+        $is_value = preg_replace('/[éèê]/', 'e', $is_value);
+        $is_value = preg_replace('/[ÍÌ]/', 'I', $is_value);
+        $is_value = preg_replace('/[íì]/', 'i', $is_value);
+        $is_value = preg_replace('/[ÓÒÔÕ]/', 'O', $is_value);
+        $is_value = preg_replace('/[óòôõ]/', 'o', $is_value);
+        $is_value = preg_replace('/[ÚÙÛ]/', 'U', $is_value);
+        $is_value = preg_replace('/[úùû]/', 'u', $is_value);
+        $is_value = preg_replace('/[Ç]/', 'C', $is_value);
+        $is_value = preg_replace('/[ç]/', 'c', $is_value);
+        $is_type = $is_proper['type'] === 'id';
+        $is_value = $is_type ? str_replace(' ', '-', strtolower(trim($is_value))) : '#' . str_replace(' ', '', ucwords(trim($is_value)));
+        return $is_value;
     };
 
-    function ModalCall ($is_input = [ 'title' => 'About Me', 'selector' => 'a' ]) {
-        $is_id = IDConverter($is_input['title']);
-        $is_selector = strtolower(trim($is_input['selector'])) === 'a';
-        $is_title = ucwords(trim($is_input['title']));
-        $is_target = '#' . str_replace(' ', '', $is_title);
+    function ModalCall ($is_input = []) {
+        $is_proper = [
+            'title' => ArrayKeyExist ($is_input, 'title') ? (IsTrue($is_input['title']) ? $is_input['title'] : 'About Me') : 'About Me',
+            'selector' => ArrayKeyExist ($is_input, 'selector') ? (IsTrue($is_input['selector']) ? $is_input['selector'] : 'a') : 'a',
+        ];
+        $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_proper['title'] ]);
+        $is_selector = strtolower(trim($is_proper['selector'])) === 'a';
+        $is_title = ucwords(trim($is_proper['title']));
+        $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_proper['title'] ]);
         $is_style = '';
         $is_object = [
-             'bottom' => $is_selector ? 0 : '1rem',
+            'bottom' => !$is_selector ? '1rem' : 0,
             'left' => '50%',
             'margin' => 0,
             'padding' => 0,
@@ -264,7 +274,8 @@
                 '>',
             ] : [],
                 ...$is_selector ? [
-                    '<p', ' id=\'' . $is_id . '\'', ' style=\'' . trim($is_style) . '\'', '>', '<a data-bs-toggle=\'modal\' data-bs-target=\'' . $is_target . '\'>'
+                    '<p id=\'' . $is_id . '\' style=\'' . trim($is_style) . '\'>',
+                        '<a data-bs-toggle=\'modal\' data-bs-target=\'' . $is_target . '\'>'
                 ] : [],
                     $is_title,
                 ...$is_selector ? [ '</a>', '</p>' ] : [],
