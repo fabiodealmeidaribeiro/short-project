@@ -76,10 +76,23 @@
             ]),
             'p' => implode(' ', [
                 'd-inline',
+                // 'fw-bold',
+                // 'fw-bolder',
+                // 'fw-semibold',
+                // 'fw-medium',
+                // 'fw-normal',
+                // 'fw-light',
+                // 'fw-lighter',
+                'fst-italic',
+                // 'fst-normal',
                 'm-0',
                 'p-0',
                 ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-                'text-left',
+            ]),
+            'a' => implode(' ', [
+                'm-0',
+                'p-0',
+                'text-decoration-none',
             ]),
         ];
     };
@@ -242,15 +255,15 @@
         $is_value = preg_replace('/[úùû]/', 'u', $is_value);
         $is_value = preg_replace('/[Ç]/', 'C', $is_value);
         $is_value = preg_replace('/[ç]/', 'c', $is_value);
-        if ($is_proper['type'] === 'id'):
+        if ($is_proper['type'] === 'id')
             return str_replace(' ', '-', strtolower(trim($is_value)));
-        endif;
-        if ($is_proper['type'] === 'target'):
-            return '#' . str_replace(' ', '', ucwords(trim($is_value)));
-        endif;
+        if ($is_proper['type'] === 'target')
+            return str_replace(' ', '', ucwords(trim($is_value . ' ' . $is_proper['type'])));
+        if ($is_proper['type'] === 'label')
+            return str_replace(' ', '', ucwords(trim($is_value . ' ' . $is_proper['type'])));
     };
 
-    function ContainerCall ($is_input = []) {
+    function BootstrapModalCall ($is_input = []) {
         $is_proper = [
             'array' => ArrayKeyExist ($is_input, 'array') ? (IsTrue($is_input['array']) ? $is_input['array'] : []) : [],
             'selector' => ArrayKeyExist ($is_input, 'selector') ? (IsTrue($is_input['selector']) ? strtolower(trim($is_input['selector'])) : 'a') : 'a',
@@ -258,10 +271,13 @@
         $is_selector = strtolower(trim($is_proper['selector'])) === 'a';
         $is_style = '';
         $is_object = [
-            'display' => 'flex',
-            'justify-content' => 'center', 
+            'align-content' => 'center',
             'align-items' => 'center',
-            'gap' => '1rem',
+            'display' => 'flex',
+            'flex-wrap' => 'wrap',
+            'gap' => '.5rem',
+            'justify-content' => 'center',
+            'padding' => '1rem',
             'width' => '100%',
         ];
         foreach ($is_object as $is_key => $is_value):
@@ -280,16 +296,24 @@
                             '<button',
                                 IsTrue(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '',
                                 ' data-bs-toggle=\'modal\'',
-                                ' data-bs-target=\'' . $is_target . '\'',
+                                ' data-bs-target=\'#' . $is_target . '\'',
                                 ' type=\'button\'',
                             '>',
                         ] : [],
                             ...$is_selector ? [
-                                '<p class=\'' . SelectorClasses()['p'] . '\' id=\'' . $is_id . '\'>',
-                                    '<a data-bs-toggle=\'modal\' data-bs-target=\'' . $is_target . '\'>',
+                                '<p class=\'' . SelectorClasses()['p'] . '\' id=\'' . $is_id . '\'>', 
+                                '<a',
+                                    ' class=\'' . SelectorClasses()['a'] . '\'',
+                                    ' data-bs-toggle=\'modal\'',
+                                    ' data-bs-target=\'#' . $is_target . '\'',
+                                    ' href=\'#\'',
+                                '>',
                             ] : [],
                                 ucwords(trim($is_index)),
                             ...$is_selector ? [ '</a>', '</p>' ] : [],
+                            ...$is_selector ? [
+                                ...($i < sizeof($is_proper['array']) - 1) ? [ '<p class=\'' . SelectorClasses()['p'] . '\'>', '.', '</p>' ] : []
+                            ] : [],
                         ...!$is_selector ? [ '</button>' ] : [],
                     ]);
                 endfor;
@@ -298,57 +322,44 @@
         return implode('', $is_array);
     };
 
-    function BootstrapModal ($is_input = [ 'id' => 'Container', 'title' => '', 'body' => [], 'button' => [], ]) {
-        $is_body = '';
+    function BootstrapModal ($is_input = [ 'title' => '', 'body' => [], 'button' => [], ]) {
         global $is_period;
-        if (IsTrue($is_input['body'])):
-            for ($i = 0; $i < sizeof($is_input['body']); $i++):
-                $is_body .= '<p class=\'' . ($i < sizeof($is_input['body']) - 1 ? 'mb-3' : 'm-0') . '\'>';
-                    $is_body .= $is_input['body'][$i];
-                $is_body .= '</p>';
-            endfor;
-        endif;
         $is_button = '';
         if (IsTrue($is_input['button'])):
             for ($i = 0; $i < sizeof($is_input['button']); $i++):
-                $is_id = '';
-                $is_id .= 'modal';
-                $is_id .= '-';
-                $is_id .= str_replace(' ', '-', trim($is_input['button'][$i]));
-                $is_id .= '-';
-                $is_id .= 'button';
-                $is_button .= '<button';
-                    $is_button .= ' class=\'' . ModalClasses()['button'] . '\'';
-                    $is_button .= IsTrue($is_id) ? ' id=\'' . strtolower($is_id) . '\'' : '';
-                    $is_button .= ' type=\'button\'';
-                $is_button .= '>';
-                    $is_button .= ucwords(trim($is_input['button'][$i]));
-                $is_button .= '</button>';
+                $is_button .= implode('', [
+                    '<button',
+                        ' class=\'' . ModalClasses()['button'] . '\'',
+                        IsTrue($is_input['button'][$i])
+                        ? ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' : '',
+                        ' type=\'button\'',
+                    '>',
+                        ucwords(trim($is_input['button'][$i])),
+                    '</button>',
+                ]);
             endfor;
         endif;
-        $is_id = strtolower(str_replace(' ', '-', trim($is_input['id'])));
-        $is_title = [
-            'button' => 'modal-' . $is_id . '-button',
-            'target' => 'model-' . $is_id . '-container',
-            'label' => 'model-' . $is_id . '-label',
-        ];
+        $is_index = $is_input['title'];
+        $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
+        $is_label = ValueConverter([ 'type' => 'label', 'value' => $is_index ]);
+        $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
         return implode('', [
-            '<button class=\'d-none\' data-bs-target=\'#' . $is_title['target'] . '\' data-bs-toggle=\'modal\' id=\'' . $is_title['button'] . '\' type=\'button\' ></button>',
-            '<div aria-labelledby=\'' . $is_title['label'] . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_title['target'] . '\' tabindex=\'-1\'>',
-                '<div', IsTrue(ModalClasses()['dialog']) ? ' class=\'' . ModalClasses()['dialog'] . '\'' : '', ' id=\'modal-dialog\'>',
-                    '<div', IsTrue(ModalClasses()['content']) ? ' class=\'' . ModalClasses()['content'] . '\'' : '', ' id=\'modal-content\'>',
+            '<button class=\'d-none\' data-bs-target=\'#' . $is_target . '\' data-bs-toggle=\'modal\' id=\'' . $is_id . '\' type=\'button\' ></button>',
+            '<div aria-labelledby=\'' . $is_label . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_target . '\' tabindex=\'-1\'>',
+                '<div', IsTrue(ModalClasses()['dialog']) ? ' class=\'' . ModalClasses()['dialog'] . '\'' : '', ' id=\'dialog\'>',
+                    '<div', IsTrue(ModalClasses()['content']) ? ' class=\'' . ModalClasses()['content'] . '\'' : '', ' id=\'content\'>',
                         ...IsTrue($is_input['title']) ? [
-                            '<div', IsTrue(ModalClasses()['header']) ? ' class=\'' . ModalClasses()['header'] . '\'' : '', !$is_period ? ' data-bs-theme=\'dark\'' : '', ' id=\'modal-header\'', '>',
-                                '<h1', IsTrue(ModalClasses()['title']) ? ' class=\'' . ModalClasses()['title'] . '\'' : '', ' id=\'' . $is_title['label'] . '\'', '>',
+                            '<div', IsTrue(ModalClasses()['header']) ? ' class=\'' . ModalClasses()['header'] . '\'' : '', !$is_period ? ' data-bs-theme=\'dark\'' : '', ' id=\'header\'', '>',
+                                '<h1', IsTrue(ModalClasses()['title']) ? ' class=\'' . ModalClasses()['title'] . '\'' : '', ' id=\'' . $is_label . '\'', '>',
                                     ucwords(trim($is_input['title'])),
                                 '</h1>',
                                 '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
                             '</div>',
                         ] : [],
-                        ...IsTrue($is_body) ? [ '<div', ModalClasses()['body'] ? ' class=\'' . ModalClasses()['body'] . '\'' : '', ' id=\'modal-body\'>' . $is_body . '</div>' ] : [],
-                        '<div class=\'' . ModalClasses()['footer'] . '\' id=\'modal-footer\'>',
+                        ...IsTrue($is_input['body']) ? [ '<div', ModalClasses()['body'] ? ' class=\'' . ModalClasses()['body'] . '\'' : '', ' id=\'body\'>' . $is_input['body'] . '</div>' ] : [],
+                        '<div class=\'' . ModalClasses()['footer'] . '\' id=\'footer\'>',
                             ...IsTrue($is_button) ? [ $is_button ] : [],
-                            '<button', IsTrue(ModalClasses()['button']) ? ' class=\'' . ModalClasses()['button'] . '\'' : '', ' data-bs-dismiss=\'modal\' id=\'modal-close-button\' type=\'button\'>',
+                            '<button', IsTrue(ModalClasses()['button']) ? ' class=\'' . ModalClasses()['button'] . '\'' : '', ' data-bs-dismiss=\'modal\' id=\'close\' type=\'button\'>',
                                 'Close',
                             '</button>',
                         '</div>',

@@ -37,7 +37,7 @@ window.addEventListener('DOMContentLoaded', Event => {
             document.querySelector('tbody').querySelectorAll('tr').forEach((Element, Index) => {
                 if (Element) {
                     Element.addEventListener('click', Event => {
-                        document.querySelector('#modal-container-button').click();
+                        document.querySelector('#container').click();
                     });
                 };
             });

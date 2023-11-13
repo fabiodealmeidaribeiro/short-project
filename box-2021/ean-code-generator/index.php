@@ -91,8 +91,7 @@
         echo '</table>';
 
         echo BootstrapModal ([
-            'id' => 'Container',
-            'title' => 'Container',
+            'title' => 'container',
             'body' => [
                 'Ad minim enim nulla nostrud consectetur mollit cupidatat duis aliqua velit velit eiusmod velit commodo.',
                 'Proident laboris nisi adipisicing veniam esse.',
@@ -106,16 +105,20 @@
                 'Aliqua eiusmod nisi officia eiusmod labore aliqua et laboris.',
                 'Ea ipsum eu ad fugiat velit quis.',
             ],
-            'button' => [
-                'Copy',
-                'Print',
-                'Send',
-            ],
+            'button' => [ 'Copy', 'Print', 'Send' ]
         ]);
 
-        $is_title = [ 'Alberto Caeiro', 'Álvaro de Campos', 'Ricardo Reis', 'Bernardo Soares' ];
-
-        echo ContainerCall([ 'selector' => 'a', 'array' => $is_title, ]);
+        $is_array = [];
+        $is_archives = array_filter(scandir('footer'), function ($is_file) {
+            return pathinfo($is_file, PATHINFO_EXTENSION) === 'html';
+        });
+        $is_indexes = array_keys(array_diff($is_archives, []));
+        foreach ($is_indexes as $is_index):
+            $is_title = str_replace('-', ' ', str_replace('.html', '', $is_archives[$is_index]));
+            array_push($is_array, $is_title);
+            echo BootstrapModal ([ 'title' => $is_title, 'body' => file_get_contents('footer/' . $is_archives[$is_index]) ]);
+        endforeach;
+        echo BootstrapModalCall ([ 'selector' => 'a', 'array' => $is_array ]);
 
     echo FooterDisplay ();
 
