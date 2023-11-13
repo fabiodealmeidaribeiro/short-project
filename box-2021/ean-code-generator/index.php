@@ -113,6 +113,11 @@
             ],
         ]);
 
+        echo ModalCall([
+            'title' => 'Fábio de Almeida Ribeiro',
+            'selector' => 'aasdfasdfs',
+        ]);
+
     echo FooterDisplay ();
 
 ?>

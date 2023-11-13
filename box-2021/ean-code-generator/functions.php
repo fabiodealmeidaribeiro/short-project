@@ -12,7 +12,7 @@
 
     $is_time = 6;
 
-    $is_period = !(date('H') > $is_time && date('H') < ($is_time + 24 / 2));
+    $is_period = (date('H') > $is_time && date('H') < ($is_time + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
@@ -217,46 +217,58 @@
         return $is_return;
     };
 
+    function IDConverter ($is_input = '') {
+        $is_input = preg_replace('/[ÁÀÂÃ]/', 'A', $is_input);
+        $is_input = preg_replace('/[áàâã]/', 'a', $is_input);
+        $is_input = preg_replace('/[ÉÈÊ]/', 'E', $is_input);
+        $is_input = preg_replace('/[éèê]/', 'e', $is_input);
+        $is_input = preg_replace('/[ÍÌ]/', 'I', $is_input);
+        $is_input = preg_replace('/[íì]/', 'i', $is_input);
+        $is_input = preg_replace('/[ÓÒÔÕ]/', 'O', $is_input);
+        $is_input = preg_replace('/[óòôõ]/', 'o', $is_input);
+        $is_input = preg_replace('/[ÚÙÛ]/', 'U', $is_input);
+        $is_input = preg_replace('/[úùû]/', 'u', $is_input);
+        $is_input = preg_replace('/[Ç]/', 'C', $is_input);
+        $is_input = preg_replace('/[ç]/', 'c', $is_input);
+        $is_input = str_replace(' ', '-', trim(strtolower($is_input)));
+        return $is_input;
+    };
+
     function ModalCall ($is_input = [ 'title' => 'About Me', 'selector' => 'a' ]) {
+        $is_id = IDConverter($is_input['title']);
+        $is_selector = strtolower(trim($is_input['selector'])) === 'a';
+        $is_title = ucwords(trim($is_input['title']));
+        $is_target = '#' . str_replace(' ', '', $is_title);
+        $is_style = '';
+        $is_object = [
+             'bottom' => $is_selector ? 0 : '1rem',
+            'left' => '50%',
+            'margin' => 0,
+            'padding' => 0,
+            'position' => 'fixed',
+            'transform' => 'translateX(-50%)',
+            'z-index' => 9999,
+        ];
+        foreach ($is_object as $is_key => $is_value):
+            $is_style .= $is_key . ' : ' . $is_value . ';';
+            $is_style .= ' ';
+        endforeach;
         return implode(' ', [
-            '<div', IsTrue($is_input['title']) ? ' id=\'' . str_replace(' ', '-', trim($is_input['title'])) . '\'' : '', '>',
-                ...$is_input['selector'] === 'button'
-                ?
-                    [
-                        '<button',
-                            ' type=\'button\'',
-                            IsTrue(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '',
-                            ' data-bs-toggle=\'modal\'', 
-                            ' data-bs-target=\'#' . str_replace(' ', '', ucwords($is_input['title'])) . '\'',
-                        '>',
-                    ]
-                :
-                    [],
-                ...$is_input['selector'] === 'a'
-                ?
-                    [
-                        '<p>',
-                            '<a data-bs-toggle=\'modal\' data-bs-target=\'#' . str_replace(' ', '', ucwords($is_input['title'])) . '\'>'
-                    ]
-                :
-                    [],
-                ucwords($is_input['title']),
-                ...$is_input['selector'] === 'a'
-                ?
-                    [
-                            '</a>',
-                        '</p>'
-                    ]
-                :
-                    [],
-                ...$is_input['selector'] === 'button'
-                ?
-                    [
-                        '</button>'
-                    ]
-                :
-                    [],
-            '</div>',
+            ...!$is_selector ? [
+                '<button',
+                    IsTrue(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '',
+                    ' data-bs-toggle=\'modal\'',
+                    ' data-bs-target=\'' . $is_target . '\'',
+                    ' style=\'' . trim($is_style) . '\'',
+                    ' type=\'button\'',
+                '>',
+            ] : [],
+                ...$is_selector ? [
+                    '<p', ' id=\'' . $is_id . '\'', ' style=\'' . trim($is_style) . '\'', '>', '<a data-bs-toggle=\'modal\' data-bs-target=\'' . $is_target . '\'>'
+                ] : [],
+                    $is_title,
+                ...$is_selector ? [ '</a>', '</p>' ] : [],
+            ...!$is_selector ? [ '</button>' ] : [],
         ]);
     };
 

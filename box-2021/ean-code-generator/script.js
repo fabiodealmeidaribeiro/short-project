@@ -1,8 +1,4 @@
 import {
-    IsTrue,
-} from './script-main.js';
-
-import {
     SocialNetwork,
 } from './script-network.js';
 
@@ -18,8 +14,6 @@ const SetElements = () => {
     document.querySelector('table')['style']['position'] = 'absolute';
     document.querySelector('table')['style']['top'] = TableTop;
 };
-
-
 
 window.addEventListener('DOMContentLoaded', Event => {
     SocialNetwork();
