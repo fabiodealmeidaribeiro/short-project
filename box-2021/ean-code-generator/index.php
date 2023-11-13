@@ -113,7 +113,9 @@
             ],
         ]);
 
-        echo ModalCall([ 'title' => 'Fábio de Almeida Ribeiro' ]);
+        $is_title = [ 'Alberto Caeiro', 'Álvaro de Campos', 'Ricardo Reis', 'Bernardo Soares' ];
+
+        echo ContainerCall([ 'selector' => 'a', 'array' => $is_title, ]);
 
     echo FooterDisplay ();
 

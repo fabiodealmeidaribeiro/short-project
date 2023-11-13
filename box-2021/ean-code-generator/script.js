@@ -6,13 +6,18 @@ const SetElements = () => {
     document.querySelector('nav')['style']['left'] = 0;
     document.querySelector('nav')['style']['position'] = 'absolute';
     document.querySelector('nav')['style']['top'] = 0;
-    let TableTop = 0;
-    TableTop += document.querySelector('nav').getBoundingClientRect()['top'];
-    TableTop += document.querySelector('nav').getBoundingClientRect()['height'];
-    TableTop += 'px';
+    let Position = 0;
+    [ 'nav' ].map(Index => Position += document.querySelector(Index).getBoundingClientRect()['height']);
+    Position += 'px';
     document.querySelector('table')['style']['left'] = 0;
     document.querySelector('table')['style']['position'] = 'absolute';
-    document.querySelector('table')['style']['top'] = TableTop;
+    document.querySelector('table')['style']['top'] = Position;
+    Position = 0;
+    [ 'nav', 'table' ].map(Index => Position += document.querySelector(Index).getBoundingClientRect()['height']);
+    Position += 'px';
+    document.querySelector('#container-call')['style']['left'] = 0;
+    document.querySelector('#container-call')['style']['position'] = 'absolute';
+    document.querySelector('#container-call')['style']['top'] = Position;
 };
 
 window.addEventListener('DOMContentLoaded', Event => {

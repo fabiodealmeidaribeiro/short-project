@@ -74,6 +74,13 @@
                 'm-0',
                 'p-2',
             ]),
+            'p' => implode(' ', [
+                'd-inline',
+                'm-0',
+                'p-0',
+                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
+                'text-left',
+            ]),
         ];
     };
 
@@ -219,7 +226,7 @@
 
     function ValueConverter ($is_input = []) {
         $is_proper = [
-            'type' => ArrayKeyExist ($is_input, 'type') ? (IsTrue($is_input['type']) ? $is_input['type'] : 'id') : 'id',
+            'type' => ArrayKeyExist ($is_input, 'type') ? (IsTrue($is_input['type']) ? strtolower(trim($is_input['type'])) : 'id') : 'id',
             'value' => ArrayKeyExist ($is_input, 'value') ? (IsTrue($is_input['value']) ? $is_input['value'] : '') : '',
         ];
         $is_value = $is_proper['value'];
@@ -235,56 +242,65 @@
         $is_value = preg_replace('/[úùû]/', 'u', $is_value);
         $is_value = preg_replace('/[Ç]/', 'C', $is_value);
         $is_value = preg_replace('/[ç]/', 'c', $is_value);
-        $is_type = $is_proper['type'] === 'id';
-        $is_value = $is_type ? str_replace(' ', '-', strtolower(trim($is_value))) : '#' . str_replace(' ', '', ucwords(trim($is_value)));
-        return $is_value;
+        if ($is_proper['type'] === 'id'):
+            return str_replace(' ', '-', strtolower(trim($is_value)));
+        endif;
+        if ($is_proper['type'] === 'target'):
+            return '#' . str_replace(' ', '', ucwords(trim($is_value)));
+        endif;
     };
 
-    function ModalCall ($is_input = []) {
+    function ContainerCall ($is_input = []) {
         $is_proper = [
-            'title' => ArrayKeyExist ($is_input, 'title') ? (IsTrue($is_input['title']) ? $is_input['title'] : 'About Me') : 'About Me',
-            'selector' => ArrayKeyExist ($is_input, 'selector') ? (IsTrue($is_input['selector']) ? $is_input['selector'] : 'a') : 'a',
+            'array' => ArrayKeyExist ($is_input, 'array') ? (IsTrue($is_input['array']) ? $is_input['array'] : []) : [],
+            'selector' => ArrayKeyExist ($is_input, 'selector') ? (IsTrue($is_input['selector']) ? strtolower(trim($is_input['selector'])) : 'a') : 'a',
         ];
-        $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_proper['title'] ]);
         $is_selector = strtolower(trim($is_proper['selector'])) === 'a';
-        $is_title = ucwords(trim($is_proper['title']));
-        $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_proper['title'] ]);
         $is_style = '';
         $is_object = [
-            'bottom' => !$is_selector ? '1rem' : 0,
-            'left' => '50%',
-            'margin' => 0,
-            'padding' => 0,
-            'position' => 'fixed',
-            'transform' => 'translateX(-50%)',
-            'z-index' => 9999,
+            'display' => 'flex',
+            'justify-content' => 'center', 
+            'align-items' => 'center',
+            'gap' => '1rem',
+            'width' => '100%',
         ];
         foreach ($is_object as $is_key => $is_value):
             $is_style .= $is_key . ' : ' . $is_value . ';';
             $is_style .= ' ';
         endforeach;
-        return implode(' ', [
-            ...!$is_selector ? [
-                '<button',
-                    IsTrue(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '',
-                    ' data-bs-toggle=\'modal\'',
-                    ' data-bs-target=\'' . $is_target . '\'',
-                    ' style=\'' . trim($is_style) . '\'',
-                    ' type=\'button\'',
-                '>',
-            ] : [],
-                ...$is_selector ? [
-                    '<p id=\'' . $is_id . '\' style=\'' . trim($is_style) . '\'>',
-                        '<a data-bs-toggle=\'modal\' data-bs-target=\'' . $is_target . '\'>'
-                ] : [],
-                    $is_title,
-                ...$is_selector ? [ '</a>', '</p>' ] : [],
-            ...!$is_selector ? [ '</button>' ] : [],
-        ]);
+        $is_array = [];
+        if (IsTrue($is_proper['array'])):
+            $is_array = array_merge($is_array, [ '<div id=\'container-call\' style=\'' . trim($is_style) . '\'>' ]);
+                for ($i = 0; $i < sizeof($is_proper['array']); $i++):
+                    $is_index = $is_proper['array'][$i];
+                    $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
+                    $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
+                    $is_array = array_merge($is_array, [
+                        ...!$is_selector ? [
+                            '<button',
+                                IsTrue(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '',
+                                ' data-bs-toggle=\'modal\'',
+                                ' data-bs-target=\'' . $is_target . '\'',
+                                ' type=\'button\'',
+                            '>',
+                        ] : [],
+                            ...$is_selector ? [
+                                '<p class=\'' . SelectorClasses()['p'] . '\' id=\'' . $is_id . '\'>',
+                                    '<a data-bs-toggle=\'modal\' data-bs-target=\'' . $is_target . '\'>',
+                            ] : [],
+                                ucwords(trim($is_index)),
+                            ...$is_selector ? [ '</a>', '</p>' ] : [],
+                        ...!$is_selector ? [ '</button>' ] : [],
+                    ]);
+                endfor;
+            $is_array = array_merge($is_array, [ '</div>' ]);
+        endif;
+        return implode('', $is_array);
     };
 
     function BootstrapModal ($is_input = [ 'id' => 'Container', 'title' => '', 'body' => [], 'button' => [], ]) {
         $is_body = '';
+        global $is_period;
         if (IsTrue($is_input['body'])):
             for ($i = 0; $i < sizeof($is_input['body']); $i++):
                 $is_body .= '<p class=\'' . ($i < sizeof($is_input['body']) - 1 ? 'mb-3' : 'm-0') . '\'>';
@@ -316,8 +332,7 @@
             'target' => 'model-' . $is_id . '-container',
             'label' => 'model-' . $is_id . '-label',
         ];
-        global $is_period;
-        return implode(' ', [
+        return implode('', [
             '<button class=\'d-none\' data-bs-target=\'#' . $is_title['target'] . '\' data-bs-toggle=\'modal\' id=\'' . $is_title['button'] . '\' type=\'button\' ></button>',
             '<div aria-labelledby=\'' . $is_title['label'] . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_title['target'] . '\' tabindex=\'-1\'>',
                 '<div', IsTrue(ModalClasses()['dialog']) ? ' class=\'' . ModalClasses()['dialog'] . '\'' : '', ' id=\'modal-dialog\'>',
