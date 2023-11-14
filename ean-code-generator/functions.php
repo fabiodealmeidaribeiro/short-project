@@ -156,7 +156,14 @@
     };
 
     function NumberGenerator ($is_input = '') {
-        strlen($is_input) != 12 || !is_numeric($is_input) ? die('The EAN-13 number must contain exactly 12 numeric digits.') : null;
+        $is_message = implode(' ', [
+            '<div class=\'alert alert-danger m-0 p-3\' role=\'alert\'>',
+                '<p class=\'text-center m-0 p-0\'>',
+                    'The EAN-13 number must contain exactly 12 numeric digits.',
+                '</p>',
+            '</div>',
+        ]);
+        strlen($is_input) !== 12 || !is_numeric($is_input) ? die($is_message) : null;
         $is_check = 0;
         for ($i = 0; $i < 12; $i += 2):
             $is_check += (int)$is_input[$i];
