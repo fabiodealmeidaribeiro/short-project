@@ -12,7 +12,7 @@
 
     $is_time = 6;
 
-    $is_period = (date('H') > $is_time && date('H') < ($is_time + 24 / 2));
+    $is_period = !(date('H') > $is_time && date('H') < ($is_time + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
@@ -76,15 +76,7 @@
             ]),
             'p' => implode(' ', [
                 'd-inline',
-                // 'fw-bold',
-                // 'fw-bolder',
-                // 'fw-semibold',
-                // 'fw-medium',
-                // 'fw-normal',
-                // 'fw-light',
-                // 'fw-lighter',
                 'fst-italic',
-                // 'fst-normal',
                 'm-0',
                 'p-0',
                 ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
@@ -368,5 +360,16 @@
             '</div>',
         ]);
     };
-    
+
+    function SetStyle ($is_input = '') {
+        $is_input = $is_input;
+        for ($i= 1; $i <= 6; $i++) $is_input = str_replace('<h' . $i, '<h' . $i . ' class=\'p-0 m-0\'', $is_input);
+        $is_input = str_replace('<p', '<p class=\'p-0 m-0\'', $is_input);
+        $is_input = str_replace('<li', '<li class=\'p-0 m-0\'', $is_input);
+        $is_input = str_replace('<ul', '<ul class=\'ps-3 my-3 list-unstyled\'', $is_input);
+        $is_input = str_replace('<a', '<a class=\'fst-italic text-decoration-none\' ', $is_input);
+        $is_input = str_replace('<blockquote', '<blockquote class=\'m-0 p-0\' ', $is_input);
+        return $is_input;
+    };
+
 ?>

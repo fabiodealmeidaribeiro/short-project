@@ -92,19 +92,7 @@
 
         echo BootstrapModal ([
             'title' => 'container',
-            'body' => [
-                'Ad minim enim nulla nostrud consectetur mollit cupidatat duis aliqua velit velit eiusmod velit commodo.',
-                'Proident laboris nisi adipisicing veniam esse.',
-                'Occaecat et voluptate duis nulla labore eiusmod velit in ut reprehenderit ipsum aliqua nostrud velit.',
-                'Eu ea consequat ut duis nostrud fugiat. Dolor nostrud tempor et do id qui sunt. Aute ad cillum ad cupidatat occaecat adipisicing labore culpa.',
-                'Qui reprehenderit duis nostrud amet.',
-                'Velit nisi commodo dolore ut eiusmod mollit veniam officia dolore elit laborum.',
-                'Do proident sunt Lorem do.',
-                'Nulla sint esse enim duis voluptate ut id do esse qui reprehenderit exercitation tempor.',
-                'Do amet esse dolor dolor nostrud magna sunt adipisicing qui velit dolor tempor consequat non.',
-                'Aliqua eiusmod nisi officia eiusmod labore aliqua et laboris.',
-                'Ea ipsum eu ad fugiat velit quis.',
-            ],
+            'body' => SetStyle(file_get_contents('container.html')),
             'button' => [ 'Copy', 'Print', 'Send' ]
         ]);
 
@@ -116,10 +104,13 @@
         foreach ($is_indexes as $is_index):
             $is_title = str_replace('-', ' ', str_replace('.html', '', $is_archives[$is_index]));
             array_push($is_array, $is_title);
-            echo BootstrapModal ([ 'title' => $is_title, 'body' => file_get_contents('footer/' . $is_archives[$is_index]) ]);
+            echo BootstrapModal ([
+                'title' => $is_title,
+                'body' => SetStyle(file_get_contents('footer/' . $is_archives[$is_index])),
+            ]);
         endforeach;
         echo BootstrapModalCall ([ 'selector' => 'a', 'array' => $is_array ]);
-
+        
     echo FooterDisplay ();
-
+    
 ?>
