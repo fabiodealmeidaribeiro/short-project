@@ -92,7 +92,7 @@
 
         echo BootstrapModal ([
             'title' => 'container',
-            'body' => SetStyle(file_get_contents('container.html')),
+            'body' => file_exists('container.html') ? SetStyle(file_get_contents('container.html')) : '',
             'button' => [ 'Copy', 'Print', 'Send' ]
         ]);
 
@@ -104,13 +104,14 @@
         foreach ($is_indexes as $is_index):
             $is_title = str_replace('-', ' ', str_replace('.html', '', $is_archives[$is_index]));
             array_push($is_array, $is_title);
+            $is_archive = 'footer/' . $is_archives[$is_index];
             echo BootstrapModal ([
                 'title' => $is_title,
-                'body' => SetStyle(file_get_contents('footer/' . $is_archives[$is_index])),
+                'body' => file_exists($is_archive) ? SetStyle(file_get_contents($is_archive)) : '',
             ]);
         endforeach;
         echo BootstrapModalCall ([ 'selector' => 'a', 'array' => $is_array ]);
         
     echo FooterDisplay ();
-    
+
 ?>
