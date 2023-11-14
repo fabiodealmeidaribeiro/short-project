@@ -163,7 +163,7 @@
                 '</p>',
             '</div>',
         ]);
-        strlen($is_input) !== 12 || !is_numeric($is_input) ? die($is_message) : null;
+        strlen($is_input) != 12 || !is_numeric($is_input) ? die($is_message) : null;
         $is_check = 0;
         for ($i = 0; $i < 12; $i += 2):
             $is_check += (int)$is_input[$i];
@@ -324,13 +324,12 @@
     function BootstrapModal ($is_input = [ 'title' => '', 'body' => [], 'button' => [], ]) {
         global $is_period;
         $is_button = '';
-        if (IsTrue($is_input['button'])):
+        if (ArrayKeyExist($is_input, 'button')):
             for ($i = 0; $i < sizeof($is_input['button']); $i++):
                 $is_button .= implode('', [
                     '<button',
                         ' class=\'' . ModalClasses()['button'] . '\'',
-                        IsTrue($is_input['button'][$i])
-                        ? ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' : '',
+                        IsTrue($is_input['button'][$i]) ? ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' : '',
                         ' type=\'button\'',
                     '>',
                         ucwords(trim($is_input['button'][$i])),
@@ -338,34 +337,36 @@
                 ]);
             endfor;
         endif;
-        $is_index = $is_input['title'];
-        $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
-        $is_label = ValueConverter([ 'type' => 'label', 'value' => $is_index ]);
-        $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
-        return implode('', [
-            '<button class=\'d-none\' data-bs-target=\'#' . $is_target . '\' data-bs-toggle=\'modal\' id=\'' . $is_id . '\' type=\'button\' ></button>',
-            '<div aria-labelledby=\'' . $is_label . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_target . '\' tabindex=\'-1\'>',
-                '<div', IsTrue(ModalClasses()['dialog']) ? ' class=\'' . ModalClasses()['dialog'] . '\'' : '', ' id=\'dialog\'>',
-                    '<div', IsTrue(ModalClasses()['content']) ? ' class=\'' . ModalClasses()['content'] . '\'' : '', ' id=\'content\'>',
-                        ...IsTrue($is_input['title']) ? [
-                            '<div', IsTrue(ModalClasses()['header']) ? ' class=\'' . ModalClasses()['header'] . '\'' : '', !$is_period ? ' data-bs-theme=\'dark\'' : '', ' id=\'header\'', '>',
-                                '<h1', IsTrue(ModalClasses()['title']) ? ' class=\'' . ModalClasses()['title'] . '\'' : '', ' id=\'' . $is_label . '\'', '>',
-                                    ucwords(trim($is_input['title'])),
-                                '</h1>',
-                                '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
+        $is_index = ArrayKeyExist($is_input, 'title') ? $is_input['title'] : '';
+        if (IsTrue($is_index)):
+            $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
+            $is_label = ValueConverter([ 'type' => 'label', 'value' => $is_index ]);
+            $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
+            return implode('', [
+                '<button class=\'d-none\' data-bs-target=\'#' . $is_target . '\' data-bs-toggle=\'modal\' id=\'' . $is_id . '\' type=\'button\' ></button>',
+                '<div aria-labelledby=\'' . $is_label . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_target . '\' tabindex=\'-1\'>',
+                    '<div', IsTrue(ModalClasses()['dialog']) ? ' class=\'' . ModalClasses()['dialog'] . '\'' : '', ' id=\'dialog\'>',
+                        '<div', IsTrue(ModalClasses()['content']) ? ' class=\'' . ModalClasses()['content'] . '\'' : '', ' id=\'content\'>',
+                            ...IsTrue($is_input['title']) ? [
+                                '<div', IsTrue(ModalClasses()['header']) ? ' class=\'' . ModalClasses()['header'] . '\'' : '', !$is_period ? ' data-bs-theme=\'dark\'' : '', ' id=\'header\'', '>',
+                                    '<h1', IsTrue(ModalClasses()['title']) ? ' class=\'' . ModalClasses()['title'] . '\'' : '', ' id=\'' . $is_label . '\'', '>',
+                                        ucwords(trim($is_input['title'])),
+                                    '</h1>',
+                                    '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
+                                '</div>',
+                            ] : [],
+                            ...IsTrue($is_input['body']) ? [ '<div', ModalClasses()['body'] ? ' class=\'' . ModalClasses()['body'] . '\'' : '', ' id=\'body\'>' . $is_input['body'] . '</div>' ] : [],
+                            '<div class=\'' . ModalClasses()['footer'] . '\' id=\'footer\'>',
+                                ...IsTrue($is_button) ? [ $is_button ] : [],
+                                '<button', IsTrue(ModalClasses()['button']) ? ' class=\'' . ModalClasses()['button'] . '\'' : '', ' data-bs-dismiss=\'modal\' id=\'close\' type=\'button\'>',
+                                    'Close',
+                                '</button>',
                             '</div>',
-                        ] : [],
-                        ...IsTrue($is_input['body']) ? [ '<div', ModalClasses()['body'] ? ' class=\'' . ModalClasses()['body'] . '\'' : '', ' id=\'body\'>' . $is_input['body'] . '</div>' ] : [],
-                        '<div class=\'' . ModalClasses()['footer'] . '\' id=\'footer\'>',
-                            ...IsTrue($is_button) ? [ $is_button ] : [],
-                            '<button', IsTrue(ModalClasses()['button']) ? ' class=\'' . ModalClasses()['button'] . '\'' : '', ' data-bs-dismiss=\'modal\' id=\'close\' type=\'button\'>',
-                                'Close',
-                            '</button>',
                         '</div>',
                     '</div>',
                 '</div>',
-            '</div>',
-        ]);
+            ]);
+        endif;
     };
 
     function SetStyle ($is_input = '') {
