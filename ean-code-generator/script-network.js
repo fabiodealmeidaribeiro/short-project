@@ -5,12 +5,6 @@ import {
     Validator,
 } from './script-main.js';
 
-// const Scrollbar = () => {
-//     return document['documentElement']['scrollHeight'] > window['innerHeight'];
-// };
-
-// const Scrollbar = () => window['outerHeight'] < window['innerHeight'];
-
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
 };
@@ -84,16 +78,14 @@ export const SocialNetwork = async () => {
     [ '.navbar', '.table', '.footer' ].map(Element => {
         OverallHeight += document.querySelector(Element).getBoundingClientRect()['height'];
     });
-    let BodyHeight = OverallHeight;
-    let ScreenHeight = window['innerHeight'];
-    if (BodyHeight > ScreenHeight) {
+    if (OverallHeight > window['innerHeight']) {
         Attribute.push({
             function : () => {
                 if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
                     window.scrollTo(0, 0);
                 };
                 if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-                    window.scrollTo(0, BodyHeight);
+                    window.scrollTo(0, OverallHeight);
                 };
             },
             hover : [
