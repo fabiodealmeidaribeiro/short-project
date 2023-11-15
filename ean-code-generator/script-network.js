@@ -3,7 +3,6 @@ import {
     JSONFetch,
     SetAttribute,
     Validator,
-    OverallHeight,
 } from './script-main.js';
 
 // const Scrollbar = () => {
@@ -70,12 +69,6 @@ const Network = [
     },
 ];
 
-let ScreenHeight = window['innerHeight'];
-let OverallHeight = OverallHeight([ '.navbar', '.table', '.footer' ]);
-// let BodyHeight = OverallHeight.slice(0, OverallHeight['length'] - 'px'['length']);
-
-console.log(OverallHeight);
-
 export const SocialNetwork = async () => {
     const Result = await JSONFetch ('settings.json');
     const Proper = {
@@ -87,26 +80,34 @@ export const SocialNetwork = async () => {
     };
     const Element = [];
     let Attribute = [];
-    Attribute.push({
-        function : () => {
-            // if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-            //     window.scrollTo(0, 0);
-            // };
-            // if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-            //     window.scrollTo(0, OverallHeight([ '.navbar', '.table', '.footer' ]));
-            // };
-        },
-        hover : [
-            'bg-danger',
-        ],
-        ico : {
-            class : [
-                'bi',
-                'bi-arrow-down-circle-fill',
-            ],
-        },
-        id : 'btn-arrow',
+    let OverallHeight = 0;
+    [ '.navbar', '.table', '.footer' ].map(Element => {
+        OverallHeight += document.querySelector(Element).getBoundingClientRect()['height'];
     });
+    let BodyHeight = OverallHeight;
+    let ScreenHeight = window['innerHeight'];
+    if (BodyHeight > ScreenHeight) {
+        Attribute.push({
+            function : () => {
+                if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
+                    window.scrollTo(0, 0);
+                };
+                if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
+                    window.scrollTo(0, BodyHeight);
+                };
+            },
+            hover : [
+                'bg-danger',
+            ],
+            ico : {
+                class : [
+                    'bi',
+                    'bi-arrow-down-circle-fill',
+                ],
+            },
+            id : 'btn-arrow',
+        });
+    };
     if (Validator['String'](Proper['phone'])) {
         Attribute.push({
             function : () => {
