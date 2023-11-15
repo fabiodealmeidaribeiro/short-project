@@ -1,45 +1,35 @@
 <?php
 
     include_once('functions.php');
-    
+
     echo HeaderDisplay();
 
         $is_array = [];
 
-        $is_title = 'Start Number';
+        $is_title = [ 'Start', 'Amount' ];
 
-        array_push($is_array, [
-            'maxlength' => 6,
-            'minlength' => 1,
-            'title' => $is_title,
-            'type' => 'number',
-            'value' => isset($_POST[strtolower(str_replace(' ', '-', $is_title))])
-            ? $_POST[strtolower(str_replace(' ', '-', $is_title))]
-            : '',
-        ]);
-
-        $is_title = 'End Number';
-
-        array_push($is_array, [
-            'maxlength' => 6,
-            'minlength' => 1,
-            'title' => $is_title,
-            'type' => 'number',
-            'value' => isset($_POST[strtolower(str_replace(' ', '-', $is_title))])
-            ? $_POST[strtolower(str_replace(' ', '-', $is_title))]
-            : '',
-        ]);
+        for ($i = 0; $i < sizeof($is_title); $i++):
+            $is_value = $is_title[$i] . ' Number';
+            array_push($is_array, [
+                'maxlength' => 6,
+                'minlength' => 1,
+                'title' => $is_value,
+                'type' => 'number',
+                'value' => isset($_POST[strtolower(str_replace(' ', '-', $is_value))])
+                ? $_POST[strtolower(str_replace(' ', '-', $is_value))] : '',
+            ]);
+        endfor;
 
         $is_title = 'Cnpj Number';
-        
+
         array_push($is_array, [
-            'maxlength' => strlen('01.234.567/0001-89'),
-            'minlength' => strlen('01.234.567/0001-89'),
+            'maxlength' => strlen($is_cnpj),
+            'minlength' => strlen($is_cnpj),
             'title' => $is_title,
             'type' => 'text',
             'value' => isset($_POST[strtolower(str_replace(' ', '-', $is_title))])
             ? $_POST[strtolower(str_replace(' ', '-', $is_title))]
-            : 1,
+            : $is_cnpj,
         ]);
 
         echo '<nav';
@@ -65,7 +55,7 @@
                             echo ArrayKeyExist ($is_array[$i], 'minlength') ? ' minlength=\'' . $is_array[$i]['minlength'] . '\'' : '';
                             echo ' placeholder=\'' . $is_placeholder . '\'';
                             echo ' type=\'' . (ArrayKeyExist ($is_array[$i], 'type') ? $is_array[$i]['type'] : 'text') . '\'';
-                            echo ' value=\'' . (ArrayKeyExist ($is_array[$i], 'value') ? $is_array[$i]['value'] : '') . '\'';
+                            echo ' value=\'' . (ArrayKeyExist ($is_array[$i], 'value') ? $is_array[$i]['value'] : $is_cnpj) . '\'';
                         echo '>';
                     echo '</div>';
                 endfor;
@@ -111,7 +101,7 @@
             ]);
         endforeach;
         echo BootstrapModalCall ([ 'selector' => 'a', 'array' => $is_array ]);
-        
+
     echo FooterDisplay ();
 
 ?>

@@ -1,5 +1,7 @@
 <?php
 
+    $is_cnpj = '01.234.567/0001-89';
+
     function ArrayKeyExist ($is_array, $is_key) {
         return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
     };
@@ -12,7 +14,7 @@
 
     $is_time = 6;
 
-    $is_period = (date('H') > $is_time && date('H') < ($is_time + 24 / 2));
+    $is_period = !(date('H') > $is_time && date('H') < ($is_time + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
@@ -49,7 +51,7 @@
             'table' => implode(' ', [
                 'table',
                 ...$is_period ? [ 'table-light' ] : [ 'table-dark' ],
-                'table-hover',
+                // 'table-hover',
                 'table-striped',
                 'text-center',
                 'w-100',
@@ -76,15 +78,17 @@
             ]),
             'p' => implode(' ', [
                 'd-inline',
-                'fst-italic',
                 'm-0',
                 'p-0',
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
+                
             ]),
             'a' => implode(' ', [
+                'fst-italic',
+                'fw-semibold',
                 'm-0',
                 'p-0',
                 'text-decoration-none',
+                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
             ]),
         ];
     };
@@ -108,6 +112,12 @@
                 'modal-header'
             ]),
             'body' => implode(' ', [
+                // ...[
+                //     'align-items-center',
+                //     'd-flex',
+                //     'flex-column',
+                //     'justify-content-center'
+                // ],
                 ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
                 ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
                 'modal-body',
@@ -130,7 +140,7 @@
     };
 
     function HeaderDisplay ($is_input = [ 'title' => 'Ean Code Generator' ]) {
-        return implode(' ', [
+        return implode('', [
             '<!doctype html>',
             '<html lang=\'en\'>',
                 '<head>',
@@ -146,23 +156,25 @@
     };
 
     function FooterDisplay () {
-        return implode(' ', [
+        return implode('', [
                 '</body>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
+                '<script src=\'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js\'></script>',
                 file_exists('script.js') ? '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' : '',
             '</html>',
         ]);
     };
 
     function NumberGenerator ($is_input = '') {
-        $is_message = implode(' ', [
+        $is_message = implode('', [
             '<div class=\'alert alert-danger m-0 p-3\' role=\'alert\'>',
                 '<p class=\'text-center m-0 p-0\'>',
                     'The EAN-13 number must contain exactly 12 numeric digits.',
                 '</p>',
             '</div>',
         ]);
+        $is_input = preg_replace('/[^0-9]/', '', $is_input);
         strlen($is_input) != 12 || !is_numeric($is_input) ? die($is_message) : null;
         $is_check = 0;
         for ($i = 0; $i < 12; $i += 2):
@@ -173,23 +185,6 @@
         endfor;
         $is_check = (10 - ($is_check % 10)) % 10;
         return $is_input .= $is_check;
-    };
-
-    function ImageGenerator ($is_input = '') {
-        $is_image = imagecreatetruecolor(200, 100);
-        $is_color = imagecolorallocate($is_image, 0, 0, 0);
-        $is_background = imagecolorallocate($is_image, 255, 255, 255);
-        imagefill($is_image, 0, 0, $is_background);
-        $x = 10;
-        for ($i = 0; $i < 13; $i++):
-            if ($is_input[$i] == '1'):
-                imagefilledrectangle($is_image, $x, 0, $x + 2, 100, $is_color);
-            endif;
-            $x += 3;
-        endfor;
-        header('Content-Type: image/png');
-        imagepng($is_image);
-        imagedestroy($is_image);
     };
 
     function TheadDisplay ($is_input = [ 'Order', 'Ean code' ]) {
@@ -213,22 +208,36 @@
         if (IsTrue($is_input)):
             $is_proper = [
                 'start' => ArrayKeyExist ($is_input, 'start-number') ? (IsTrue($is_input['start-number']) ? $is_input['start-number'] : 0) : 0,
-                'end' => ArrayKeyExist ($is_input, 'end-number') ? (IsTrue($is_input['end-number']) ? $is_input['end-number'] : 0) : 0,
-                'cnpj' => ArrayKeyExist ($is_input, 'cnpj-number') ? (IsTrue($is_input['cnpj-number']) ? $is_input['cnpj-number'] : '') : '',
+                'amount' => ArrayKeyExist ($is_input, 'amount-number') ? (IsTrue($is_input['amount-number']) ? $is_input['amount-number'] : 0) : 0,
+                'cnpj' => ArrayKeyExist ($is_input, 'cnpj-number') ? (IsTrue($is_input['cnpj-number']) ? $is_input['cnpj-number'] : $is_cnpj) : $is_cnpj,
             ];
-            $is_condition = !$is_proper['end'] || !$is_proper['start'] || !$is_proper['cnpj'] || $is_proper['end'] - $is_proper['start'] <= 0;
-            if ($is_condition): else:
+            if (!$is_proper['amount'] || !$is_proper['start'] || !$is_proper['cnpj']): else:
                 $is_return .= '<tbody>';
-                    for ($i = 0; $i <= $is_proper['end'] - $is_proper['start']; $i++):
-                        $is_order = '';
-                        $is_order .= 789;
+                    for ($i = 0; $i < $is_proper['amount']; $i++):
                         $is_number = $is_proper['start'] + $i;
-                        $is_order .= substr(preg_replace('/[^0-9]/', '', $is_proper['cnpj']), 0, 9 - strlen($is_number));
-                        $is_order .= $is_number;
-                        $is_return .= '<tr>';
-                            $is_return .= '<td scope=\'row\'>' . '<p class=\'m-0 p-0\'>' . $is_order . '</p>' . '</td>';
-                            $is_return .= '<td>' . '<p class=\'m-0 p-0\'>' . NumberGenerator ($is_order) . '</p>' . '</td>';
-                        $is_return .= '</tr>';
+                        $is_order = implode('', [
+                            789,
+                            substr(preg_replace('/[^0-9]/', '', $is_proper['cnpj']), 0, 9 - strlen($is_number)),
+                            $is_number,
+                        ]);
+                        $is_return .= implode('', [
+                            '<tr>',
+                                '<td scope=\'row\'>',
+                                    '<p class=\'' . SelectorClasses()['p'] . '\'>',
+                                        '<a class=\'order ' . SelectorClasses()['a'] . '\' href=\'#\'>',
+                                            $is_order,
+                                        '</a>',
+                                    '</p>',
+                                '</td>',
+                                '<td>',
+                                    '<p class=\'' . SelectorClasses()['p'] . '\'>',
+                                        '<a class=\'ean-code ' . SelectorClasses()['a'] . '\' href=\'#\'>',
+                                            NumberGenerator ($is_order),
+                                        '</a>',
+                                    '</p>',
+                                '</td>',
+                            '</tr>',
+                        ]);
                     endfor;
                 $is_return .= '</tbody>';
             endif;
@@ -374,7 +383,7 @@
         for ($i= 1; $i <= 6; $i++) $is_input = str_replace('<h' . $i, '<h' . $i . ' class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<p', '<p class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<li', '<li class=\'p-0 m-0\'', $is_input);
-        $is_input = str_replace('<ul', '<ul class=\'ps-3 my-3 list-unstyled\'', $is_input);
+        $is_input = str_replace('<ul', '<ul class=\'p-0 my-3 list-unstyled\'', $is_input);
         $is_input = str_replace('<a', '<a class=\'fst-italic text-decoration-none\' ', $is_input);
         $is_input = str_replace('<blockquote', '<blockquote class=\'m-0 p-0\' ', $is_input);
         return $is_input;
