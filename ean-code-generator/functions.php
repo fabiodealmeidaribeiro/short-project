@@ -12,9 +12,7 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_time = 6;
-
-    $is_period = (date('H') > $is_time && date('H') < ($is_time + 24 / 2));
+    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
@@ -160,7 +158,6 @@
                 '</body>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
-                '<script src=\'https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js\'></script>',
                 file_exists('script.js') ? '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' : '',
             '</html>',
         ]);

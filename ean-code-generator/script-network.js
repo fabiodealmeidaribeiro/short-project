@@ -1,7 +1,8 @@
 import {
-    Validator,
     CreateElement,
+    JSONFetch,
     SetAttribute,
+    Validator,
 } from './script-main.js';
 
 const BoxShadow = {
@@ -62,18 +63,8 @@ const Network = [
     },
 ];
 
-const FetchData = async (Input = '') => {
-    if (Input) {
-        const Response = await fetch(Input);
-        const Result = await Response.json();
-        return Result;
-    };
-};
-
-const Scrollbar = Input => Input['scrollHeight'] > Input['clientHeight'];
-
 export const SocialNetwork = async () => {
-    const Result = await FetchData('settings.json');
+    const Result = await JSONFetch ('settings.json');
     const Proper = {
         title : Validator['String'](Result['title']) ? Result['title'] : '',
         subtitle : Validator['String'](Result['subtitle']) ? Result['subtitle'] : '',

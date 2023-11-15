@@ -2,9 +2,7 @@ import {
     CreateElement,
     Mask,
     SetAttribute,
-    // Period,
     Titleize,
-    // Validator,
 } from './script-main.js';
 
 import {
@@ -53,9 +51,8 @@ window.addEventListener('DOMContentLoaded', Event => {
     [ 'order', 'ean-code' ].map(Index => {
         document.querySelectorAll('.' + Index).forEach(Selector => {
             Selector.addEventListener('click', Event => {
-                if (document.querySelector('#ContainerLabel')) {
+                if (document.querySelector('#ContainerLabel'))
                     document.querySelector('#ContainerLabel')['textContent'] = Titleize(Index.replaceAll('-', ' '));
-                };
                 document.querySelector('#body')['innerHTML'] = '';
                 let Container = CreateElement({ element : 'div' });
                 SetAttribute({ element : Container, attribute : 'class', value : [ ...[ 'align-items-center', 'd-flex', 'flex-column', 'justify-content-center' ], 'h-100', 'w-100' ] });
@@ -63,7 +60,8 @@ window.addEventListener('DOMContentLoaded', Event => {
                 SetAttribute({ element : Frame, attribute : 'class', value : [ ...[ 'align-items-center', 'd-flex', 'justify-content-center' ], 'bg-white', 'mb-1' ] });
                 const Size = '17.338rem';
                 SetAttribute({ element : Frame, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px', height : Size, width : Size, }, });
-                let Picture = CreateElement({ element : 'div' });
+                let Picture = CreateElement({ element : 'svg' });
+                SetAttribute({ element : Picture, attribute : 'id', value : 'picture' });
                 SetAttribute({ element : Picture, attribute : 'class', value : [ 'bg-light' ] });
                 SetAttribute({ element : Picture, attribute : 'style', value : { height : 'calc(100% - 1rem)', width : 'calc(100% - 1rem)' } });
                 let Number = CreateElement({ element : 'p', textnode : Selector['textContent'] });
@@ -79,7 +77,6 @@ window.addEventListener('DOMContentLoaded', Event => {
                 // moduleSize - O tamanho do módulo do código de barras.
                 // color - A cor do código de barras.
                 // background - A cor do fundo do código de barras.
-                // JsBarcode(Barcode, Selector['textContent'], { format : 'EAN13' });
                 document.querySelector('#container').click();
             });
         });
