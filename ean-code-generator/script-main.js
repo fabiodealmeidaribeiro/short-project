@@ -55,6 +55,7 @@ export const SetAttribute = (Input = {}) => {
     };
 };
 
+export const Period = (new Date().getHours()) > 6 && (new Date().getHours()) < (6 + 24 / 2);
 
 export const Titleize = (Input) => Input.replace(/\b\w/g, Match => Match.toUpperCase());
 

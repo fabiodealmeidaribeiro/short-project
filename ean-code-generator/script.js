@@ -2,8 +2,9 @@ import {
     CreateElement,
     Mask,
     SetAttribute,
-    // Validator,
+    // Period,
     Titleize,
+    // Validator,
 } from './script-main.js';
 
 import {
@@ -66,7 +67,7 @@ window.addEventListener('DOMContentLoaded', Event => {
                 SetAttribute({ element : Picture, attribute : 'class', value : [ 'bg-light' ] });
                 SetAttribute({ element : Picture, attribute : 'style', value : { height : 'calc(100% - 1rem)', width : 'calc(100% - 1rem)' } });
                 let Number = CreateElement({ element : 'p', textnode : Selector['textContent'] });
-                SetAttribute({ element : Number, attribute : 'class', value : [ 'm-0', 'p-0' ] });
+                SetAttribute({ element : Number, attribute : 'class', value : [ 'fw-semibold', 'm-0', 'p-0' ] });
                 document.querySelector('#body').appendChild(Container);
                 document.querySelector('#body').appendChild(Container).appendChild(Frame);
                 document.querySelector('#body').appendChild(Container).appendChild(Frame).appendChild(Picture);

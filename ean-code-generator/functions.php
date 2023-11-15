@@ -14,7 +14,7 @@
 
     $is_time = 6;
 
-    $is_period = !(date('H') > $is_time && date('H') < ($is_time + 24 / 2));
+    $is_period = (date('H') > $is_time && date('H') < ($is_time + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
