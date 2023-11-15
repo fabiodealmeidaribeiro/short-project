@@ -2,6 +2,7 @@ import {
     CreateElement,
     Mask,
     SetAttribute,
+    ResizeElements,
     Titleize,
 } from './script-main.js';
 
@@ -9,39 +10,16 @@ import {
     SocialNetwork
 } from './script-network.js';
 
-const SetElement = () => {
-    document.querySelector('nav')['style']['left'] = 0;
-    document.querySelector('nav')['style']['position'] = 'absolute';
-    document.querySelector('nav')['style']['top'] = 0;
-    let Position = 0;
-    [ 'nav' ].map((Element, Index) => {
-        Position += document.querySelector(Element).getBoundingClientRect()['height'];
-    });
-    Position += 'px';
-    document.querySelector('table')['style']['left'] = 0;
-    document.querySelector('table')['style']['position'] = 'absolute';
-    document.querySelector('table')['style']['top'] = Position;
-    Position = 0;
-    [ 'nav', 'table' ].map((Element, Index) => {
-        Position += document.querySelector(Element).getBoundingClientRect()['height'];
-    });
-    Position += 'px';
-    document.querySelector('#container-call')['style']['left'] = 0;
-    document.querySelector('#container-call')['style']['position'] = 'absolute';
-    document.querySelector('#container-call')['style']['top'] = Position;
-    document.querySelector('html')['style']['height'] = window['outerHeight'] + 'px';
-    document.querySelector('body')['style']['height'] = window['outerHeight'] + 'px';
-};
-
 window.addEventListener('DOMContentLoaded', Event => {
-    SetElement();
     SocialNetwork();
+    ResizeElements();
     [ 'change', 'input' ].map(Index => {
         document.querySelector('#cnpj-number').addEventListener(Index, Event => {
             Mask['cnpj'](document.querySelector('#cnpj-number'));
         });
     });
-    document.querySelector('nav').querySelector('button').addEventListener('click', Event => {
+    document.querySelector('nav').querySelector('form').querySelector('button').addEventListener('click', Event => {
+        ResizeElements();
         [ 'start-number', 'amount-number' ].map(Index => {
             if (document.querySelector('#' + Index)) {
                 if (!document.querySelector('#' + Index)['value']) {
@@ -49,7 +27,7 @@ window.addEventListener('DOMContentLoaded', Event => {
                 };
             };
         });
-    });  
+    });
     [ 'order', 'ean-code' ].map(Index => {
         document.querySelectorAll('.' + Index).forEach(Selector => {
             Selector.addEventListener('click', Event => {
@@ -86,5 +64,5 @@ window.addEventListener('DOMContentLoaded', Event => {
 });
 
 window.addEventListener('resize', Event => {
-    SetElement();
+    ResizeElements();
 });

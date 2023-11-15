@@ -12,7 +12,7 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
@@ -52,6 +52,8 @@
                 // 'table-hover',
                 'table-striped',
                 'text-center',
+                'm-0',
+                'p-0',
                 'w-100',
             ]),
             'column' => implode(' ', [
@@ -291,7 +293,7 @@
         endforeach;
         $is_array = [];
         if (IsTrue($is_proper['array'])):
-            $is_array = array_merge($is_array, [ '<div id=\'container-call\' style=\'' . trim($is_style) . '\'>' ]);
+            $is_array = array_merge($is_array, [ '<footer class=\'footer\' style=\'' . trim($is_style) . '\'>' ]);
                 for ($i = 0; $i < sizeof($is_proper['array']); $i++):
                     $is_index = $is_proper['array'][$i];
                     $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
@@ -322,7 +324,7 @@
                         ...!$is_selector ? [ '</button>' ] : [],
                     ]);
                 endfor;
-            $is_array = array_merge($is_array, [ '</div>' ]);
+            $is_array = array_merge($is_array, [ '</footer>' ]);
         endif;
         return implode('', $is_array);
     };

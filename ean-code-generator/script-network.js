@@ -1,14 +1,12 @@
 import {
     CreateElement,
     JSONFetch,
-    // Scrollbar,
     SetAttribute,
     Validator,
+    OverallHeight,
 } from './script-main.js';
 
-console.log(window['innerHeight']);
-
-// const Scrollbar = () => {  
+// const Scrollbar = () => {
 //     return document['documentElement']['scrollHeight'] > window['innerHeight'];
 // };
 
@@ -72,6 +70,12 @@ const Network = [
     },
 ];
 
+let ScreenHeight = window['innerHeight'];
+let OverallHeight = OverallHeight([ '.navbar', '.table', '.footer' ]);
+// let BodyHeight = OverallHeight.slice(0, OverallHeight['length'] - 'px'['length']);
+
+console.log(OverallHeight);
+
 export const SocialNetwork = async () => {
     const Result = await JSONFetch ('settings.json');
     const Proper = {
@@ -85,12 +89,12 @@ export const SocialNetwork = async () => {
     let Attribute = [];
     Attribute.push({
         function : () => {
-            if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-                window.scrollTo(0, 0);
-            };
-            if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-                window.scrollTo(0, window['outerHeight']);
-            };
+            // if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
+            //     window.scrollTo(0, 0);
+            // };
+            // if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
+            //     window.scrollTo(0, OverallHeight([ '.navbar', '.table', '.footer' ]));
+            // };
         },
         hover : [
             'bg-danger',
