@@ -180,21 +180,15 @@ export const OverallHeight = (Input = []) => {
 };
 
 export const ResizeElements = () => {
-
     document.querySelector('nav')['style']['left'] = 0;
     document.querySelector('nav')['style']['position'] = 'absolute';
     document.querySelector('nav')['style']['top'] = 0;
-
     document.querySelector('table')['style']['left'] = 0;
     document.querySelector('table')['style']['position'] = 'absolute';
     document.querySelector('table')['style']['top'] = OverallHeight([ '.navbar' ]);
-
     document.querySelector('footer')['style']['left'] = 0;
     document.querySelector('footer')['style']['position'] = 'absolute';
     document.querySelector('footer')['style']['top'] = OverallHeight([ '.navbar', '.table' ]);
-
     document.querySelector('html')['style']['height'] = OverallHeight([ '.navbar', '.table', '.footer' ]);
-
     document.querySelector('body')['style']['height'] = OverallHeight([ '.navbar', '.table', '.footer' ]);
-    
 };
