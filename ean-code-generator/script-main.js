@@ -104,12 +104,6 @@ export const Mask = {
     },
 };
 
-export const JSONFetch = async (Input = '') => {
-    const Response = await fetch(Input);
-    const Result = await Response.json();
-    return Result;
-};
-
 export const Check = {
     email : (Input = '') => {
         return /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/.test(Input);
@@ -168,4 +162,10 @@ export const Check = {
         if (SecondDigit !== Input[13]) return false;
         return true;
     },
+};
+
+export const JSONFetch = async (Input = '') => {
+    const Response = await fetch(Input);
+    const Result = await Response.json();
+    return Result;
 };

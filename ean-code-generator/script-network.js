@@ -1,9 +1,18 @@
 import {
     CreateElement,
     JSONFetch,
+    // Scrollbar,
     SetAttribute,
     Validator,
 } from './script-main.js';
+
+console.log(window['innerHeight']);
+
+// const Scrollbar = () => {  
+//     return document['documentElement']['scrollHeight'] > window['innerHeight'];
+// };
+
+// const Scrollbar = () => window['outerHeight'] < window['innerHeight'];
 
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
@@ -74,28 +83,26 @@ export const SocialNetwork = async () => {
     };
     const Element = [];
     let Attribute = [];
-    if (Scrollbar(document.querySelector('body'))) {
-        Attribute.push({
-            function : () => {
-                if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-                    window.scrollTo(0, 0);
-                };
-                if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-                    window.scrollTo(0, document['body']['scrollHeight']);
-                };
-            },
-            hover : [
-                'bg-danger',
+    Attribute.push({
+        function : () => {
+            if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
+                window.scrollTo(0, 0);
+            };
+            if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
+                window.scrollTo(0, window['outerHeight']);
+            };
+        },
+        hover : [
+            'bg-danger',
+        ],
+        ico : {
+            class : [
+                'bi',
+                'bi-arrow-down-circle-fill',
             ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-arrow-down-circle-fill',
-                ],
-            },
-            id : 'btn-arrow',
-        });
-    };
+        },
+        id : 'btn-arrow',
+    });
     if (Validator['String'](Proper['phone'])) {
         Attribute.push({
             function : () => {

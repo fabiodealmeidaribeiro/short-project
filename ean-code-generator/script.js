@@ -29,6 +29,8 @@ const SetElement = () => {
     document.querySelector('#container-call')['style']['left'] = 0;
     document.querySelector('#container-call')['style']['position'] = 'absolute';
     document.querySelector('#container-call')['style']['top'] = Position;
+    document.querySelector('html')['style']['height'] = window['outerHeight'] + 'px';
+    document.querySelector('body')['style']['height'] = window['outerHeight'] + 'px';
 };
 
 window.addEventListener('DOMContentLoaded', Event => {
