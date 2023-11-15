@@ -160,6 +160,7 @@
                 '</body>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
+                '<script src=\'https://unpkg.com/jsbarcode@latest/dist/JsBarcode.all.min.js\' crossorigin=\'anonymous\'></script>',
                 file_exists('script.js') ? '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' : '',
             '</html>',
         ]);

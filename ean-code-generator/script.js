@@ -40,23 +40,22 @@ window.addEventListener('DOMContentLoaded', Event => {
                 SetAttribute({ element : Frame, attribute : 'class', value : [ ...[ 'align-items-center', 'd-flex', 'justify-content-center' ], 'bg-white', 'mb-1' ] });
                 const Size = '17.338rem';
                 SetAttribute({ element : Frame, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px', height : Size, width : Size, }, });
-                let Picture = CreateElement({ element : 'svg' });
-                SetAttribute({ element : Picture, attribute : 'id', value : 'picture' });
-                SetAttribute({ element : Picture, attribute : 'class', value : [ 'bg-light' ] });
-                SetAttribute({ element : Picture, attribute : 'style', value : { height : 'calc(100% - 1rem)', width : 'calc(100% - 1rem)' } });
+                let Barcode = CreateElement({ element : 'canvas' });
+                JsBarcode(Barcode, Selector['textContent'], {
+                    displayValue : true,
+                    flat : true,
+                    font : 'OCRB',
+                    fontSize : '1rem',
+                    format : 'EAN13',
+                    height : 245,
+                    textMargin : 0,
+                });
                 let Number = CreateElement({ element : 'p', textnode : Selector['textContent'] });
                 SetAttribute({ element : Number, attribute : 'class', value : [ 'fw-semibold', 'm-0', 'p-0' ] });
                 document.querySelector('#body').appendChild(Container);
                 document.querySelector('#body').appendChild(Container).appendChild(Frame);
-                document.querySelector('#body').appendChild(Container).appendChild(Frame).appendChild(Picture);
+                document.querySelector('#body').appendChild(Container).appendChild(Frame).appendChild(Barcode);
                 document.querySelector('#body').appendChild(Container).appendChild(Number);
-                // format - O formato do código de barras. Os formatos disponíveis são : CODE128, CODE39, EAN13, EAN8, QRCode, etc.
-                // value - O valor do código de barras.
-                // width - A largura do código de barras.
-                // height - A altura do código de barras.
-                // moduleSize - O tamanho do módulo do código de barras.
-                // color - A cor do código de barras.
-                // background - A cor do fundo do código de barras.
                 document.querySelector('#container').click();
             });
         });
