@@ -28,34 +28,27 @@ window.addEventListener('DOMContentLoaded', Event => {
             };
         });
     });
-    [ 'order', 'ean-code' ].map(Index => {
+    [ 'order', 'ean-code-13' ].map(Index => {
         document.querySelectorAll('.' + Index).forEach(Selector => {
             Selector.addEventListener('click', Event => {
-                if (document.querySelector('#ContainerLabel'))
-                    document.querySelector('#ContainerLabel')['textContent'] = Titleize(Index.replaceAll('-', ' '));
                 document.querySelector('#body')['innerHTML'] = '';
+                if (document.querySelector('#ContainerLabel')) document.querySelector('#ContainerLabel')['textContent'] = Titleize(Index.replaceAll('-', ' '));
                 let Container = CreateElement({ element : 'div' });
-                SetAttribute({ element : Container, attribute : 'class', value : [ ...[ 'align-items-center', 'd-flex', 'flex-column', 'justify-content-center' ], 'h-100', 'w-100' ] });
-                let Frame = CreateElement({ element : 'div' });
-                SetAttribute({ element : Frame, attribute : 'class', value : [ ...[ 'align-items-center', 'd-flex', 'justify-content-center' ], 'bg-white', 'mb-1' ] });
-                const Size = '17.338rem';
-                SetAttribute({ element : Frame, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px', height : Size, width : Size, }, });
+                SetAttribute({ element : Container, attribute : 'class', value : [ 'align-items-center', 'd-flex', 'flex-column', 'justify-content-center', 'h-100', 'w-100' ] });
                 let Barcode = CreateElement({ element : 'canvas' });
+                SetAttribute({ element : Barcode, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px' } });
                 JsBarcode(Barcode, Selector['textContent'], {
-                    displayValue : true,
-                    flat : true,
-                    font : 'OCRB',
-                    fontSize : '1rem',
-                    format : 'EAN13',
-                    height : 245,
+                    font : 'monospace',
+                    fontSize : 18,
+                    format : Index === 'ean-code-13' ? 'EAN13' : 'UPC',
+                    height : 200,
                     textMargin : 0,
+                    background : '#ffffff',
+                    lineColor : '#000000',
+                    margin : 10,
+                    fontOptions : 'bold',
                 });
-                let Number = CreateElement({ element : 'p', textnode : Selector['textContent'] });
-                SetAttribute({ element : Number, attribute : 'class', value : [ 'fw-semibold', 'm-0', 'p-0' ] });
-                document.querySelector('#body').appendChild(Container);
-                document.querySelector('#body').appendChild(Container).appendChild(Frame);
-                document.querySelector('#body').appendChild(Container).appendChild(Frame).appendChild(Barcode);
-                document.querySelector('#body').appendChild(Container).appendChild(Number);
+                document.querySelector('#body').appendChild(Container).appendChild(Barcode);
                 document.querySelector('#container').click();
             });
         });

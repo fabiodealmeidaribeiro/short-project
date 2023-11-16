@@ -231,7 +231,7 @@
                                 '</td>',
                                 '<td>',
                                     '<p class=\'' . SelectorClasses()['p'] . '\'>',
-                                        '<a class=\'ean-code ' . SelectorClasses()['a'] . '\' href=\'#\'>',
+                                        '<a class=\'ean-code-13 ' . SelectorClasses()['a'] . '\' href=\'#\'>',
                                             NumberGenerator ($is_order),
                                         '</a>',
                                     '</p>',
