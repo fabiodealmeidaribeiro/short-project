@@ -1,6 +1,7 @@
 import {
     CreateElement,
     Mask,
+    Period,
     SetAttribute,
     ResizeElements,
     Titleize,
@@ -9,6 +10,11 @@ import {
 import {
     SocialNetwork
 } from './script-network.js';
+
+const Border = [ 'border', Period ? 'border-dark' : 'border-light', 'border-opacity-25' ];
+const Color = { front : (Period ? '#212529' : '#ffffff'), back : (Period ? '#ffffff' : '#212529') };
+const Rem = parseFloat(getComputedStyle(document['documentElement'])['fontSize']);
+const Width = 234, Height = 238;
 
 window.addEventListener('DOMContentLoaded', Event => {
     SocialNetwork();
@@ -39,10 +45,9 @@ window.addEventListener('DOMContentLoaded', Event => {
             let Container = CreateElement({ element : 'div' });
             SetAttribute({ element : Container, attribute : 'class', value : [ 'align-items-center', 'd-flex', 'flex-column', 'justify-content-center', 'h-100', 'w-100' ] });
             let Content = CreateElement({ element : 'div' });
-            SetAttribute({ element : Content, attribute : 'class', value : [ 'align-items-center', 'd-flex', 'justify-content-center' ] });
-            const Width = 234, Height = 238;
-            SetAttribute({ element : Content, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px', 'width' : 'calc(' + Width + 'px + 1rem)' , 'height' : 'calc(' + Height + 'px + 1rem)' } });
-            (new QRCode(Content, { width : Width, height : Height })).makeCode(Selector['textContent']);
+            SetAttribute({ element : Content, attribute : 'class', value : [ 'align-items-center', ...Border, 'd-flex', 'justify-content-center' ] });
+            SetAttribute({ element : Content, attribute : 'style', value : { 'width' : 'calc(' + Width + 'px + 1rem)' , 'height' : 'calc(' + Height + 'px + 1rem)' } });
+            (new QRCode(Content, { colorDark : Color['front'], colorLight : Color['back'], width : Width, height : Height })).makeCode(Selector['textContent']);
             document.querySelector('#body').appendChild(Container).appendChild(Content);
             document.querySelector('#container').click();
         });
@@ -58,8 +63,8 @@ window.addEventListener('DOMContentLoaded', Event => {
             let Container = CreateElement({ element : 'div' });
             SetAttribute({ element : Container, attribute : 'class', value : [ 'align-items-center', 'd-flex', 'flex-column', 'justify-content-center', 'h-100', 'w-100' ] });
             let Content = CreateElement({ element : 'canvas' });
-            SetAttribute({ element : Content, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px' } });
-            JsBarcode(Content, Selector['textContent'], { background : '#ffffff', font : 'monospace', fontOptions : 'bold', fontSize : 18, format : 'EAN13', height : 200, lineColor : '#000000', margin : 10, textMargin : 0 });
+            SetAttribute({ element : Content, attribute : 'class', value : [ ...Border ] });
+            JsBarcode(Content, Selector['textContent'], { background : Color['back'], font : 'monospace', fontOptions : 'bold', fontSize : Rem, format : 'EAN13', height : 200, lineColor : Color['front'], margin : 10, textMargin : 0 });
             document.querySelector('#body').appendChild(Container).appendChild(Content);
             document.querySelector('#container').click();
         });
