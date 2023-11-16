@@ -331,8 +331,8 @@
     };
 
     function BootstrapModal ($is_input = [ 'title' => '', 'body' => [], 'button' => [], ]) {
-        global $is_period;
         $is_button = '';
+        global $is_period;
         if (ArrayKeyExist($is_input, 'button')):
             for ($i = 0; $i < sizeof($is_input['button']); $i++):
                 $is_button .= implode('', [
@@ -379,12 +379,12 @@
     };
 
     function SetStyle ($is_input = '') {
-        $is_input = $is_input;
+        global $is_period;
         for ($i= 1; $i <= 6; $i++) $is_input = str_replace('<h' . $i, '<h' . $i . ' class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<p', '<p class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<li', '<li class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<ul', '<ul class=\'p-0 my-3 list-unstyled\'', $is_input);
-        $is_input = str_replace('<a', '<a class=\'' . implode(' ', [ 'fst-italic', 'fw-semibold', 'm-0', 'p-0', 'text-decoration-underline', ...$is_period ? [ 'text-dark' ] : [ 'text-light' ] ]) . '\' ', $is_input);
+        $is_input = str_replace('<a', '<a class=\'' . implode(' ', [ 'fst-italic', 'fw-semibold', 'm-0', 'p-0', 'text-decoration-underline', ...$is_period ? [ 'text-dark' ] : [ 'text-light' ], ]) . '\'', $is_input);
         $is_input = str_replace('<blockquote', '<blockquote class=\'m-0 p-0\' ', $is_input);
         return $is_input;
     };

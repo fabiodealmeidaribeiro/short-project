@@ -1,7 +1,6 @@
 import {
     CreateElement,
     Mask,
-    Period,
     SetAttribute,
     ResizeElements,
     Titleize,
@@ -11,14 +10,20 @@ import {
     SocialNetwork
 } from './script-network.js';
 
+// import QRCode from "./qrcode.js";
+
 window.addEventListener('DOMContentLoaded', Event => {
+
     SocialNetwork();
+
     ResizeElements();
+
     [ 'change', 'input' ].map(Index => {
         document.querySelector('#cnpj-number').addEventListener(Index, Event => {
             Mask['cnpj'](document.querySelector('#cnpj-number'));
         });
     });
+    
     document.querySelector('nav').querySelector('form').querySelector('button').addEventListener('click', Event => {
         ResizeElements();
         [ 'start-number', 'amount-number' ].map(Index => {
@@ -38,7 +43,9 @@ window.addEventListener('DOMContentLoaded', Event => {
             if (document.querySelector('#ContainerLabel')) document.querySelector('#ContainerLabel')['textContent'] = Titleize(Index.replaceAll('-', ' '));
             let Container = CreateElement({ element : 'div' });
             SetAttribute({ element : Container, attribute : 'class', value : [ 'align-items-center', 'd-flex', 'flex-column', 'justify-content-center', 'h-100', 'w-100' ] });
-            document.querySelector('#body').appendChild(Container);
+            let Content = CreateElement({ element : 'canvas' });
+            SetAttribute({ element : Code, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px' } });
+            document.querySelector('#body').appendChild(Container).appendChild(Content);
             document.querySelector('#container').click();
         });
     });
@@ -51,9 +58,9 @@ window.addEventListener('DOMContentLoaded', Event => {
             if (document.querySelector('#ContainerLabel')) document.querySelector('#ContainerLabel')['textContent'] = Titleize(Index.replaceAll('-', ' '));
             let Container = CreateElement({ element : 'div' });
             SetAttribute({ element : Container, attribute : 'class', value : [ 'align-items-center', 'd-flex', 'flex-column', 'justify-content-center', 'h-100', 'w-100' ] });
-            let Barcode = CreateElement({ element : 'canvas' });
-            SetAttribute({ element : Barcode, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px' } });
-            JsBarcode(Barcode, Selector['textContent'], {
+            let Content = CreateElement({ element : 'canvas' });
+            SetAttribute({ element : Content, attribute : 'style', value : { 'box-shadow' : 'rgba(48, 48, 48, 0.3) 0px 1px 2px 0px, rgba(48, 48, 48, 0.15) 0px 1px 3px 1px' } });
+            JsBarcode(Content, Selector['textContent'], {
                 background : '#ffffff',
                 font : 'monospace',
                 fontOptions : 'bold',
@@ -64,7 +71,7 @@ window.addEventListener('DOMContentLoaded', Event => {
                 margin : 10,
                 textMargin : 0,
             });
-            document.querySelector('#body').appendChild(Container).appendChild(Barcode);
+            document.querySelector('#body').appendChild(Container).appendChild(Content);
             document.querySelector('#container').click();
         });
     });
