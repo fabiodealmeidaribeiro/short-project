@@ -12,7 +12,7 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function SelectorClasses ($is_input = 3) {
         global $is_period;
@@ -384,7 +384,7 @@
         $is_input = str_replace('<p', '<p class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<li', '<li class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<ul', '<ul class=\'p-0 my-3 list-unstyled\'', $is_input);
-        $is_input = str_replace('<a', '<a class=\'fst-italic text-decoration-none\' ', $is_input);
+        $is_input = str_replace('<a', '<a class=\'' . implode(' ', [ 'fst-italic', 'fw-semibold', 'm-0', 'p-0', 'text-decoration-underline', ...$is_period ? [ 'text-dark' ] : [ 'text-light' ] ]) . '\' ', $is_input);
         $is_input = str_replace('<blockquote', '<blockquote class=\'m-0 p-0\' ', $is_input);
         return $is_input;
     };
