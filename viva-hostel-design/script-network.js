@@ -115,8 +115,7 @@ const Network = [
 
 const JSONFetch = async (Input = '') => {
     const Response = await fetch(Input);
-    const Result = await Response.json();
-    return Result;
+    return await Response.json();
 };
 
 export const SocialNetwork = async () => {
@@ -130,7 +129,7 @@ export const SocialNetwork = async () => {
     };
     const Element = [];
     let Attribute = [];
-    if (Scrollbar(document.querySelector('body'))) {
+    if (window['outerHeight'] > window['innerHeight']) {
         Attribute.push({
             function : () => {
                 if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {

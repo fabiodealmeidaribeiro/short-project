@@ -139,12 +139,15 @@
         ];
     };
 
-    function HeaderDisplay ($is_input = [ 'title' => 'Ean Code Generator' ]) {
+    function HeaderDisplay () {
+        $is_title = '';
+        $is_array = explode('-', basename(__DIR__));
+        for ($i = 0; $i < sizeof($is_array); $i++) $is_title .= ucwords($is_array[$i]) . $i < sizeof($is_array) - 1 ? ' ' : '';
         return implode('', [
             '<!doctype html>',
             '<html lang=\'en\'>',
                 '<head>',
-                    ArrayKeyExist ($is_input, 'title') ? '<title>' . ucwords(trim($is_input['title'])) . '</title>' : '',
+                    '<title>' . $is_title . '</title>',
                     '<meta charset=\'utf-8\'>',
                     '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
