@@ -149,7 +149,7 @@
                     '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
-                    file_exists('style.css') ? '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' : '',
+                    ...file_exists('style.css') ? [ '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
                 '</head>',
                 '<body' . (IsTrue(SelectorClasses()['body']) ? ' class=\'' . SelectorClasses()['body'] . '\'' : '') . '>',
         ]);
@@ -160,8 +160,10 @@
                 '</body>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
+                '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://unpkg.com/jsbarcode@latest/dist/JsBarcode.all.min.js\' crossorigin=\'anonymous\'></script>',
-                file_exists('script.js') ? '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' : '',
+                ...file_exists('./js/qrcode.min.js') ? [ '<script src=\'./js/qrcode.min.js\'></script>' ] : [],
+                ...file_exists('script.js') ? [ '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' ] : [],
             '</html>',
         ]);
     };
@@ -187,7 +189,9 @@
         return $is_input .= $is_check;
     };
 
-    function TheadDisplay ($is_input = [ 'Order', 'Ean code' ]) {
+    $is_head_title = [ 'QR Code', 'Ean Code 13' ];
+
+    function TheadDisplay ($is_input = []) {
         $is_return = '';
         if (IsTrue($is_input)):
             $is_return .= '<thead>';
@@ -205,6 +209,7 @@
 
     function TbodyDisplay ($is_input = []) {
         $is_return = '';
+        global $is_head_title;
         if (IsTrue($is_input)):
             $is_proper = [
                 'start' => ArrayKeyExist ($is_input, 'start-number') ? (IsTrue($is_input['start-number']) ? $is_input['start-number'] : 0) : 0,
@@ -220,24 +225,21 @@
                             substr(preg_replace('/[^0-9]/', '', $is_proper['cnpj']), 0, 9 - strlen($is_number)),
                             $is_number,
                         ]);
-                        $is_return .= implode('', [
-                            '<tr>',
-                                '<td scope=\'row\'>',
-                                    '<p class=\'' . SelectorClasses()['p'] . '\'>',
-                                        '<a class=\'order ' . SelectorClasses()['a'] . '\' href=\'#\'>',
-                                            $is_order,
-                                        '</a>',
-                                    '</p>',
-                                '</td>',
-                                '<td>',
-                                    '<p class=\'' . SelectorClasses()['p'] . '\'>',
-                                        '<a class=\'ean-code-13 ' . SelectorClasses()['a'] . '\' href=\'#\'>',
-                                            NumberGenerator ($is_order),
-                                        '</a>',
-                                    '</p>',
-                                '</td>',
-                            '</tr>',
-                        ]);
+                        if (IsTrue($is_head_title)):
+                            $is_return .= '<tr>';
+                            for ($j = 0; $j < sizeof($is_head_title); $j++):
+                                $is_return .= implode('', [
+                                    '<td' . (!$j ? ' scope=\'row\'' : '') . '>',
+                                        '<p class=\'' . SelectorClasses()['p'] . '\'>',
+                                            '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_head_title[$j]))) . ' ' . SelectorClasses()['a'] . '\' href=\'#\'>',
+                                                strpos($is_head_title[$j], '13') ? NumberGenerator ($is_order) : $is_order,
+                                            '</a>',
+                                        '</p>',
+                                    '</td>',
+                                ]);
+                            endfor;
+                            $is_return .= '</tr>';
+                        endif;
                     endfor;
                 $is_return .= '</tbody>';
             endif;
@@ -384,7 +386,7 @@
         $is_input = str_replace('<p', '<p class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<li', '<li class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<ul', '<ul class=\'p-0 my-3 list-unstyled\'', $is_input);
-        $is_input = str_replace('<a', '<a class=\'' . implode(' ', [ 'fst-italic', 'fw-semibold', 'm-0', 'p-0', 'text-decoration-underline', ...$is_period ? [ 'text-dark' ] : [ 'text-light' ], ]) . '\'', $is_input);
+        $is_input = str_replace('<a', '<a class=\'' . implode(' ', [ 'fst-italic', 'fw-semibold', 'm-0', 'p-0', 'text-decoration-none', ...$is_period ? [ 'text-dark' ] : [ 'text-light' ], ]) . '\'', $is_input);
         $is_input = str_replace('<blockquote', '<blockquote class=\'m-0 p-0\' ', $is_input);
         return $is_input;
     };
