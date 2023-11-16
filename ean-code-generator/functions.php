@@ -162,8 +162,8 @@
                 '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://unpkg.com/jsbarcode@latest/dist/JsBarcode.all.min.js\' crossorigin=\'anonymous\'></script>',
-                ...file_exists('./js/qrcode.min.js') ? [ '<script src=\'./js/qrcode.min.js\'></script>' ] : [],
-                ...file_exists('script.js') ? [ '<script src=\'script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' ] : [],
+                ...file_exists('./qrcode.min.js') ? [ '<script src=\'./qrcode.min.js\'></script>' ] : [],
+                ...file_exists('./script.js') ? [ '<script src=\'./script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' ] : [],
             '</html>',
         ]);
     };
