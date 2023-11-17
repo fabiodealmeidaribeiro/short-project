@@ -71,7 +71,7 @@
         echo '</nav>';
 
         echo '<table' . (IsTrue(SelectorClasses()['table']) ? ' class=\'' . SelectorClasses()['table'] . '\'' : '') . '>';
-            echo TheadDisplay ($is_head_title);
+            echo TheadDisplay ($is_thead);
             $is_merge = [];
             for ($i = 0; $i < sizeof($is_array); $i++):
                 $is_title = strtolower(str_replace(' ', '-', trim($is_array[$i]['title'])));

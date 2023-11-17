@@ -142,7 +142,10 @@
     function HeaderDisplay () {
         $is_title = '';
         $is_array = explode('-', basename(__DIR__));
-        for ($i = 0; $i < sizeof($is_array); $i++) $is_title .= ucwords($is_array[$i]) . $i < sizeof($is_array) - 1 ? ' ' : '';
+        for ($i = 0; $i < sizeof($is_array); $i++):
+            $is_title .= ucwords($is_array[$i]);
+            $is_title .= $i < sizeof($is_array) - 1 ? ' ' : '';
+        endfor;
         return implode('', [
             '<!doctype html>',
             '<html lang=\'en\'>',
@@ -192,7 +195,7 @@
         return $is_input .= $is_check;
     };
 
-    $is_head_title = [ 'QR Code', 'Ean Code 13' ];
+    $is_thead = [ 'QR Code', 'Ean Code 13' ];
 
     function TheadDisplay ($is_input = []) {
         $is_return = '';
@@ -212,7 +215,7 @@
 
     function TbodyDisplay ($is_input = []) {
         $is_return = '';
-        global $is_head_title;
+        global $is_thead;
         if (IsTrue($is_input)):
             $is_proper = [
                 'start' => ArrayKeyExist ($is_input, 'start-number') ? (IsTrue($is_input['start-number']) ? $is_input['start-number'] : 0) : 0,
@@ -228,14 +231,14 @@
                             substr(preg_replace('/[^0-9]/', '', $is_proper['cnpj']), 0, 9 - strlen($is_number)),
                             $is_number,
                         ]);
-                        if (IsTrue($is_head_title)):
+                        if (IsTrue($is_thead)):
                             $is_return .= '<tr>';
-                            for ($j = 0; $j < sizeof($is_head_title); $j++):
+                            for ($j = 0; $j < sizeof($is_thead); $j++):
                                 $is_return .= implode('', [
                                     '<td' . (!$j ? ' scope=\'row\'' : '') . '>',
                                         '<p class=\'' . SelectorClasses()['p'] . '\'>',
-                                            '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_head_title[$j]))) . ' ' . SelectorClasses()['a'] . '\' href=\'#\'>',
-                                                strpos($is_head_title[$j], '13') ? NumberGenerator ($is_order) : $is_order,
+                                            '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ' . SelectorClasses()['a'] . '\' href=\'#\'>',
+                                                strpos($is_thead[$j], '13') ? NumberGenerator ($is_order) : $is_order,
                                             '</a>',
                                         '</p>',
                                     '</td>',
