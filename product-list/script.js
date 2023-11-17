@@ -1,4 +1,16 @@
 import {
+    ResizeElements,
 } from './script-main.js';
-window.addEventListener('DOMContentLoaded', () => {
+
+import {
+    SocialNetwork
+} from './script-network.js';
+
+window.addEventListener('DOMContentLoaded', Event => {
+    SocialNetwork();
+    ResizeElements();
+});
+
+window.addEventListener('resize', Event => {
+    ResizeElements();
 });

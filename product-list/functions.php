@@ -1,43 +1,5 @@
 <?php
 
-    // "Codigo" : "1101.00.10",
-    // "Descricao" : "De trigo",
-    // "Data_Inicio" : "01/04/2022",
-    // "Data_Fim" : "31/12/9999",
-    // "Tipo_Ato" : "Res Camex",
-    // "Numero_Ato" : "272",
-    // "Ano_Ato" : "2021"
-
-    $is_array = [];
-
-    $is_title = [
-        [
-            'title' => 'Data_Inicio',
-            'type' => 'date',
-        ],
-        [
-            'title' => 'Data_Fim',
-            'type' => 'date',
-        ],
-        [
-            'title' => 'Descricao',
-            'type' => 'text',
-        ],
-    ];
-
-    $is_thead = [];
-
-    for ($i = 0; $i < sizeof($is_title); $i++):
-        array_push($is_thead, str_replace('_', ' ', $is_title[$i]['title']));
-        array_push($is_array, [
-            'title' => str_replace('_', ' ', $is_title[$i]['title']),
-            'type' => strtolower($is_title[$i]['type']),
-            'value' => isset($_POST[strtolower(str_replace('_', '-', $is_title[$i]['title']))])
-            ? $_POST[strtolower(str_replace('_', '-', $is_title[$i]['title']))]
-            : '',
-        ]);
-    endfor;
-
     function ArrayKeyExist ($is_array, $is_key) {
         return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
     };
@@ -46,11 +8,38 @@
         return isset($is_var) && !empty($is_var);
     };
 
+    $is_array = [];
+
+    $is_title = [
+        // [ 'title' => 'Codigo' ],
+        [ 'title' => 'Data_Inicio', 'type' => 'date' ],
+        [ 'title' => 'Data_Fim', 'type' => 'date' ],
+        [ 'title' => 'Descricao', 'type' => 'text' ],
+        // [ 'title' => 'Tipo_Ato' ],
+        // [ 'title' => 'Numero_Ato' ],
+        // [ 'maxlength' => 4, 'minlength' => 4, 'title' => 'Ano_Ato', 'type' => 'number' ],
+    ];
+
+    $is_thead = [];
+
+    for ($i = 0; $i < sizeof($is_title); $i++):
+        if (ArrayKeyExist ($is_title[$i], 'title')):
+            array_push($is_thead, strtolower(str_replace('_', ' ', trim($is_title[$i]['title']))));
+            array_push($is_array, [
+                ...ArrayKeyExist ($is_title[$i], 'maxlength') ? [ 'maxlength' => $is_title[$i]['maxlength'] ] : [],
+                ...ArrayKeyExist ($is_title[$i], 'minlength') ? [ 'minlength' => $is_title[$i]['minlength'] ] : [],
+                'title' => strtolower(str_replace('_', ' ', trim($is_title[$i]['title']))),
+                ...ArrayKeyExist ($is_title[$i], 'type') ? [ 'type' => strtolower($is_title[$i]['type']) ] : [],
+                'value' => isset($_POST[strtolower(str_replace('_', '-', trim($is_title[$i]['title'])))]) ? $_POST[strtolower(str_replace('_', '-', trim($is_title[$i]['title'])))] : '',
+            ]);
+        endif;
+    endfor;
+
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
-    function SelectorClasses ($is_input = 3) {
+    function BootstrapClasses ($is_input = 3) {
         global $is_period;
         return [
             'body' => implode(' ', [
@@ -64,11 +53,13 @@
                 'ps-' . $is_input,
                 'pe-' . $is_input,
                 'pe-md-0',
-                'pe-lg-' . $is_input,
+                // 'pe-lg-' . $is_input,
+                'pe-lg-0',
                 'pt-' . $is_input,
                 'pb-0',
                 'pb-md-0',
-                'pb-lg-' . $is_input,
+                // 'pb-lg-' . $is_input,
+                'pb-lg-0',
                 'w-100',
             ]),
             'input' => implode(' ', [
@@ -95,14 +86,16 @@
             'column' => implode(' ', [
                 'col-12',
                 'col-md-6',
-                'col-lg-3',
+                // 'col-lg-3',
+                'col-lg-6',
                 'ps-0',
                 'pe-0',
                 'pe-md-' . $is_input,
                 'pe-lg-' . $is_input,
                 'mb-' . $is_input,
                 'mb-md-' . $is_input,
-                'mb-lg-0',
+                // 'mb-lg-0',
+                'mb-lg-' . $is_input,
             ]),
             'button' => implode(' ', [
                 'border',
@@ -131,10 +124,10 @@
 
     function HeaderDisplay () {
         $is_title = '';
-        $is_array = explode('-', basename(__DIR__));
-        for ($i = 0; $i < sizeof($is_array); $i++):
-            $is_title .= ucwords($is_array[$i]);
-            $is_title .= $i < sizeof($is_array) - 1 ? ' ' : '';
+        $is_title_array = explode('-', basename(__DIR__));
+        for ($i = 0; $i < sizeof($is_title_array); $i++):
+            $is_title .= ucwords($is_title_array[$i]);
+            $is_title .= $i < sizeof($is_title_array) - 1 ? ' ' : '';
         endfor;
         return implode('', [
             '<!doctype html>',
@@ -147,7 +140,7 @@
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
                     ...file_exists('style.css') ? [ '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
                 '</head>',
-                '<body' . (IsTrue(SelectorClasses()['body']) ? ' class=\'' . SelectorClasses()['body'] . '\'' : '') . '>',
+                '<body' . (IsTrue(BootstrapClasses()['body']) ? ' class=\'' . BootstrapClasses()['body'] . '\'' : '') . '>',
         ]);
     };
 
@@ -187,27 +180,25 @@
                 'data-fim' => ArrayKeyExist ($is_input, 'data-fim') ? (IsTrue($is_input['data-fim']) ? $is_input['data-fim'] : '') : '',
                 'descricao' => ArrayKeyExist ($is_input, 'descricao') ? (IsTrue($is_input['descricao']) ? $is_input['descricao'] : '') : '',
             ];
-            // if (!$is_proper['data-inicio'] && !$is_proper['data-fim'] && !$is_proper['descricao']): else:
-                $is_return .= '<tbody>';
-                    for ($i = 0; $i < 10; $i++):
-                        if (IsTrue($is_thead)):
-                            $is_return .= '<tr>';
-                            for ($j = 0; $j < sizeof($is_thead); $j++):
-                                $is_return .= implode('', [
-                                    '<td' . (!$j ? ' scope=\'row\'' : '') . '>',
-                                        '<p class=\'' . SelectorClasses()['p'] . '\'>',
-                                            '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ' . SelectorClasses()['a'] . '\' href=\'#\'>',
-                                                'Fábio',
-                                            '</a>',
-                                        '</p>',
-                                    '</td>',
-                                ]);
-                            endfor;
-                            $is_return .= '</tr>';
-                        endif;
-                    endfor;
-                $is_return .= '</tbody>';
-            // endif;
+            $is_return .= '<tbody>';
+                for ($i = 0; $i < 10; $i++):
+                    if (IsTrue($is_thead)):
+                        $is_return .= '<tr>';
+                        for ($j = 0; $j < sizeof($is_thead); $j++):
+                            $is_return .= implode('', [
+                                '<td' . (!$j ? ' scope=\'row\'' : '') . '>',
+                                    '<p class=\'' . BootstrapClasses()['p'] . '\'>',
+                                        '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ' . BootstrapClasses()['a'] . '\' href=\'#\'>',
+                                            'Fábio',
+                                        '</a>',
+                                    '</p>',
+                                '</td>', 
+                            ]);
+                        endfor;
+                        $is_return .= '</tr>';
+                    endif;
+                endfor;
+            $is_return .= '</tbody>';
         endif;
         return $is_return;
     };

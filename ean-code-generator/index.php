@@ -94,7 +94,7 @@
         foreach ($is_indexes as $is_index):
             $is_title = str_replace('-', ' ', str_replace('.html', '', $is_archives[$is_index]));
             array_push($is_array, $is_title);
-            $is_archive = 'footer/' . $is_archives[$is_index];
+            $is_archive = './footer/' . $is_archives[$is_index];
             echo BootstrapModal ([
                 'title' => $is_title,
                 'body' => file_exists($is_archive) ? SetStyle(file_get_contents($is_archive)) : '',

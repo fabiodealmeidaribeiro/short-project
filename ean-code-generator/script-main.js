@@ -173,22 +173,34 @@ export const JSONFetch = async (Input = '') => {
 export const OverallHeight = (Input = []) => {
     let Position = 0;
     [ ...Input ].map(Element => {
-        Position += document.querySelector(Element).getBoundingClientRect()['height'];
+        if (document.querySelector(Element)) {
+            Position += document.querySelector(Element).getBoundingClientRect()['height'];
+        };
     });
     Position += 'px';
     return Position;
 };
 
 export const ResizeElements = () => {
-    document.querySelector('nav')['style']['left'] = 0;
-    document.querySelector('nav')['style']['position'] = 'absolute';
-    document.querySelector('nav')['style']['top'] = 0;
-    document.querySelector('table')['style']['left'] = 0;
-    document.querySelector('table')['style']['position'] = 'absolute';
-    document.querySelector('table')['style']['top'] = OverallHeight([ '.navbar' ]);
-    document.querySelector('footer')['style']['left'] = 0;
-    document.querySelector('footer')['style']['position'] = 'absolute';
-    document.querySelector('footer')['style']['top'] = OverallHeight([ '.navbar', '.table' ]);
-    document.querySelector('html')['style']['height'] = OverallHeight([ '.navbar', '.table', '.footer' ]);
-    document.querySelector('body')['style']['height'] = OverallHeight([ '.navbar', '.table', '.footer' ]);
+    if (document.querySelector('html')) {
+        document.querySelector('html')['style']['height'] = OverallHeight([ '.navbar', '.table', '.footer' ]);
+    };
+    if (document.querySelector('html')) {
+        document.querySelector('body')['style']['height'] = OverallHeight([ '.navbar', '.table', '.footer' ]);
+    };
+    if (document.querySelector('nav')) {
+        document.querySelector('nav')['style']['left'] = 0;
+        document.querySelector('nav')['style']['position'] = 'absolute';
+        document.querySelector('nav')['style']['top'] = 0;
+    };
+    if (document.querySelector('table')) {
+        document.querySelector('table')['style']['left'] = 0;
+        document.querySelector('table')['style']['position'] = 'absolute';
+        document.querySelector('table')['style']['top'] = OverallHeight([ '.navbar' ]);
+    };
+    if (document.querySelector('footer')) {
+        document.querySelector('footer')['style']['left'] = 0;
+        document.querySelector('footer')['style']['position'] = 'absolute';
+        document.querySelector('footer')['style']['top'] = OverallHeight([ '.navbar', '.table' ]);
+    };    
 };
