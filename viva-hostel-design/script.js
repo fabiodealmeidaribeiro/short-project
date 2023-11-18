@@ -6,16 +6,16 @@ import {
 } from './script-container.js';
 
 import {
-    SetContent,
-} from './script-function.js';
-
-import {
     NavigationBuilder,
 } from './script-navigation.js';
 
 import {
     SocialNetwork,
 } from './script-network.js';
+
+import {
+    SetContent,
+} from './script-slave.js';
 
 import {
     Transform,
@@ -118,7 +118,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
     document.addEventListener('keydown', Event => {
-        console.log(Event['key']);
         if (Event['key'] === 'Enter') {
             LightboxTransition({ current : CurrentThumbnail });
             LightboxBlock('#background');

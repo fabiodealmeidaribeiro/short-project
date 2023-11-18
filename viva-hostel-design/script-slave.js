@@ -1,9 +1,9 @@
 import {
     SetAttribute,
-} from './script-main.js';
+} from './script-master.js';
 
 import {
-    Style,
+    SetStyle,
 } from './script-variable.js';
 
 export const SetContent = (Input = {}) => {
@@ -21,33 +21,33 @@ export const SetContent = (Input = {}) => {
                 const Title = Caption.querySelector('h1');
                 if (Title) {
                     SetAttribute({ element : Title, attribute : 'class', value : [
-                            ...Style['title']['class'],
+                            ...SetStyle['class']['title'],
                         ],
                     });
                     SetAttribute({ element : Title, attribute : 'style', value : {
-                            ...Style['title']['style'],
+                            ...SetStyle['style']['title'],
                         },
                     });
                 };
                 const Subtitle = Caption.querySelector('h2');
                 if (Subtitle) {
                     SetAttribute({ element : Subtitle, attribute : 'class', value : [
-                            ...Style['subtitle']['class'],
+                            ...SetStyle['class']['subtitle'],
                         ],
                     });
                     SetAttribute({ element : Subtitle, attribute : 'style', value : {
-                            ...Style['subtitle']['style'],
+                            ...SetStyle['style']['subtitle'],
                         },
                     });
                 };
                 const Description = Caption.querySelector('p');
                 if (Description) {
                     SetAttribute({ element : Description, attribute : 'class', value : [
-                            ...Style['description']['class'],
+                            ...SetStyle['class']['description'],
                         ],
                     });
                     SetAttribute({ element : Description, attribute : 'style', value : {
-                            ...Style['description']['style'],
+                            ...SetStyle['style']['description'],
                         },
                     });
                 };

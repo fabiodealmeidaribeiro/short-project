@@ -16,12 +16,10 @@
         return $is_array[rand(0, sizeof($is_array) - 1)];
     };
 
-    // implode(', ', array_map(function ($n) { return $n; }, [1, 2, 3, 4, 5]));
-
-    function Developed ($output = []) {
+    function Developed ($input = []) {
         $is_proper = [
-            'url' => ArrayKeyExist($output, 'url') ? trim($output['url']) : 'https://linkedin.com/in/fabiodealmeidaribeiro',
-            'title' => ArrayKeyExist($output, 'title') ? trim($output['title']) : 'Developed by Fábio de Almeida Ribeiro.',
+            'url' => ArrayKeyExist($input, 'url') ? trim($input['url']) : 'https://linkedin.com/in/fabiodealmeidaribeiro',
+            'title' => ArrayKeyExist($input, 'title') ? trim($input['title']) : 'Developed by Fábio de Almeida Ribeiro.',
         ];
         return filter_var($is_proper['url'], FILTER_VALIDATE_URL) ? implode('', [
             '<div class=\'developed\'>',
@@ -70,11 +68,11 @@
         ]);
     };
 
-    function ThumbnailBuilder ($output = []) {
+    function ThumbnailBuilder ($input = []) {
         $is_proper = [
-            'folder' => ArrayKeyExist($output, 'folder') ? trim($output['folder']) : './image',
-            'title' => ArrayKeyExist($output, 'title') ? $output['title'] : true,
-            'subtitle' => ArrayKeyExist($output, 'subtitle') ? $output['subtitle'] : true,
+            'folder' => ArrayKeyExist($input, 'folder') ? trim($input['folder']) : './image',
+            'title' => ArrayKeyExist($input, 'title') ? $input['title'] : true,
+            'subtitle' => ArrayKeyExist($input, 'subtitle') ? $input['subtitle'] : true,
         ];
         $is_settings = JSONFetch('settings.json') ? JSONFetch('settings.json') : [];
         $is_active = 0;
@@ -115,11 +113,11 @@
         return $is_return;
     };
 
-    function FooterBuilder ($output = []) {
+    function FooterBuilder ($input = []) {
         $is_array = [];
-        if (IsTrue($output)):
-            for ($i = 0; $i < sizeof($output); $i++):
-                IsTrue($output[$i]) ? array_push($is_array, $output[$i]) : [];
+        if (IsTrue($input)):
+            for ($i = 0; $i < sizeof($input); $i++):
+                IsTrue($input[$i]) ? array_push($is_array, $input[$i]) : [];
             endfor;
         endif;
         $is_return = '';

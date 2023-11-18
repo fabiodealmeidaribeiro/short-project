@@ -17,6 +17,23 @@ export const Validator = {
     String : Input => !(Input === false || Input === null || Input === undefined || Input === '') && typeof Input === 'string',
 };
 
+export const AddRemoveClass = (Input = {}) => {
+    const Proper = {
+        classes : 'classes' in Input ? (Validator['Array'](Input['classes']) ? Input['classes'] : []) : [],
+        element : 'element' in Input ? (Validator['Array'](Input['element']) ? Input['element'] : []) : [],
+        method : 'method' in Input ? (Validator['String'](Input['method']) ? Input['method'] : 'add') : 'add',
+    };
+    if (Validator['Array'](Proper['element'])) {
+        for (let x = 0; x < Proper['element']['length']; x++) {
+            for (let y = 0; y < document.querySelectorAll(Proper['element'][x])['length']; y++) {
+                for (let z = 0; z < Proper['classes']['length']; z++) {
+                    document.querySelectorAll(Proper['element'][x])[y]['classList'][Proper['method']](Proper['classes'][z]);
+                };
+            };
+        };
+    };
+};
+
 export const CreateElement = (Input = {}) => {
     const Proper = {
         element : 'element' in Input ? (Validator['String'](Input['element']) ? Input['element'] : 'div') : 'div',
@@ -55,6 +72,11 @@ export const SetAttribute = (Input = {}) => {
         };
         Proper['element'].setAttributeNode(Proper['attribute']);
     };
+};
+
+export const JSONFetch = async (Input = '') => {
+    const Response = await fetch(Input);
+    return await Response.json();
 };
 
 export const Titleize = (Input) => Input.replace(/\b\w/g, Match => Match.toUpperCase());
@@ -164,16 +186,12 @@ export const Check = {
     },
 };
 
-export const JSONFetch = async (Input = '') => {
-    const Response = await fetch(Input);
-    return await Response.json();
-};
-
 export const OverallHeight = (Input = []) => {
     let Position = 0;
     [ ...Input ].map(Element => {
-        if (document.querySelector(Element))
+        if (document.querySelector(Element)) {
             Position += document.querySelector(Element).getBoundingClientRect()['height'];
+        };
     });
     Position += 'px';
     return Position;

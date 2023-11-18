@@ -71,3 +71,8 @@ export const SetAttribute = (Input = {}) => {
         Proper['element'].setAttributeNode(Proper['attribute']);
     };
 };
+
+export const JSONFetch = async (Input = '') => {
+    const Response = await fetch(Input);
+    return await Response.json();
+};

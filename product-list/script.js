@@ -1,6 +1,6 @@
 import {
     ResizeElements,
-} from './script-main.js';
+} from './script-master.js';
 
 import {
     SocialNetwork
