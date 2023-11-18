@@ -1,59 +1,9 @@
-const Validator = {
-    Array : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && Array.isArray(Input),
-    Boolean : Input => !(Input === null || Input === undefined) && typeof Input === 'boolean',
-    Function : Input => {
-        if (!(Input === null || Input === undefined || Input === false)) {
-            if (typeof Input === 'function') {
-                const Treat = Input.toString().replace(/\s+/g, '');
-                return !(Treat === 'function(){}' || Treat === '()=>{}' || Treat === '(Input)=>{}' || Treat === 'Input=>{}');
-            };
-        };
-    },
-    Gene : Input => !(Input === false || Input === null || Input === undefined || Input === 0 || Input === ''),
-    Number : Input => !(Input === false || Input === null || Input === undefined || Input === 0) && typeof Input === 'number',
-    Object : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && !Array.isArray(Input) && Object.keys(Input)['length'] !== 0,
-    String : Input => !(Input === false || Input === null || Input === undefined || Input === '') && typeof Input === 'string',
-};
-
-const CreateElement = (Input = {}) => {
-    const Proper = {
-        element : 'element' in Input ? (Validator['String'](Input['element']) ? Input['element'] : 'div') : 'div',
-        textnode : 'textnode' in Input ? (Validator['String'](Input['textnode']) ? Input['textnode'] : '') : '',
-    };
-    let Result = document.createElement(Proper['element']);
-    if (Validator['Gene'](Proper['textnode'])) {
-        Result.appendChild(document.createTextNode(Proper['textnode']));
-    };
-    return Result;
-};
-
-const SetAttribute = (Input = {}) => {
-    let Proper = {
-        attribute : 'attribute' in Input ? (Validator['String'](Input['attribute']) ? Input['attribute'] : [ undefined ]) : [ undefined ],
-        element : 'element' in Input ? (Validator['Gene'](Input['element']) ? Input['element'] : [ undefined ]) : [ undefined ],
-        value : 'value' in Input ? (Validator['Array'](Input['value']) || Validator['Object'](Input['value']) || Validator['String'](Input['value']) ? Input['value'] : '') : '',
-    };
-    if (Validator['Gene'](Proper['element']) && Validator['String'](Proper['attribute']) && Validator['Gene'](Proper['value'])) {
-        Proper['attribute'] = document.createAttribute(Proper['attribute']);
-        Proper['attribute']['value'] = '';
-        if (Validator['String'](Proper['value'])) {
-            Proper['attribute']['value'] = Proper['value'];
-        };
-        if (Validator['Array'](Proper['value'])) {
-            for (let i = 0; i < Proper['value']['length']; i++) {
-                Proper['attribute']['value'] += Proper['value'][i];
-                Proper['attribute']['value'] += i < Proper['value']['length'] - 1 ? ' ' : '';
-            };
-        };
-        if (Validator['Object'](Proper['value'])) {
-            for (let i = 0; i < Object.keys(Proper['value'])['length']; i++) {
-                Proper['attribute']['value'] += Object.keys(Proper['value'])[i] + ': ' + Proper['value'][Object.keys(Proper['value'])[i]] + ';';
-                Proper['attribute']['value'] += i < Object.keys(Proper['value'])['length'] - 1 ? ' ' : '';
-            };
-        };
-        Proper['element'].setAttributeNode(Proper['attribute']);
-    };
-};
+import {
+    CreateElement,
+    JSONFetch,
+    SetAttribute,
+    Validator,
+} from './script-main.js';
 
 const BoxShadow = {
     'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
@@ -136,7 +86,7 @@ export const SocialNetwork = async () => {
                     window.scrollTo(0, 0);
                 };
                 if (!document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
-                    window.scrollTo(0, document['body']['scrollHeight']);
+                    window.scrollTo(0, window['outerHeight']);
                 };
             },
             hover : [
@@ -165,9 +115,7 @@ export const SocialNetwork = async () => {
                     };
                     for (let i = 0; i < Proper['description']['length']; i++) {
                         if (Proper['title']) {
-                            Message += !i
-                            ? (Proper['description'][i].slice(0, 1).toLowerCase() + Proper['description'][i].slice(1)).trim().replace(/' '/, '%20')
-                            : Proper['description'][i].trim().replace(/' '/, '%20');
+                            Message += !i ? (Proper['description'][i].slice(0, 1).toLowerCase() + Proper['description'][i].slice(1)).trim().replace(/' '/, '%20') : Proper['description'][i].trim().replace(/' '/, '%20');
                         };
                         if (!Proper['title']) {
                             Message += Proper['description'][i].trim().replace(/' '/, '%20');

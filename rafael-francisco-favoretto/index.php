@@ -2,14 +2,15 @@
     include_once('functions.php');
     echo HeaderDisplay();
     echo ThumbnailBuilder();
-    $is_JSON = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json') : [];
+    $is_footer = JSONFetch('footer.json') ? JSONFetch('footer.json') : [];
+    $is_settings = JSONFetch('settings.json') ? JSONFetch('settings.json') : [];
     echo FooterBuilder ([
         [
-            ...IsTrue($is_JSON) ? (property_exists($is_JSON, 'title') ? [ '<h1>' . trim($is_JSON->title) . '</h1>' ] : []) : [],
-            ...IsTrue($is_JSON) ? (property_exists($is_JSON, 'subtitle') ? [ '<h2>' . trim($is_JSON->subtitle) . '</h2>' ] : []) : [],
-            ...IsTrue($is_JSON) ? (property_exists($is_JSON, 'description') ? array_map(function($is_index) { return '<p>' . trim($is_index) . '</p>'; }, $is_JSON->description) : []) : [],
+            ...IsTrue($is_settings) ? (property_exists($is_settings, 'title') ? [ '<h1>' . trim($is_settings->title) . '</h1>' ] : []) : [],
+            ...IsTrue($is_settings) ? (property_exists($is_settings, 'subtitle') ? [ '<h2>' . trim($is_settings->subtitle) . '</h2>' ] : []) : [],
+            ...IsTrue($is_settings) ? (property_exists($is_settings, 'description') ? array_map(function($is_index) { return '<p>' . trim($is_index) . '</p>'; }, $is_settings->description) : []) : [],
         ],
-        ...property_exists($is_JSON, 'widget') ? $is_JSON->widget : [],
+        ...IsTrue($is_footer) ? $is_footer : [],
     ]);
     echo FooterDisplay();
 ?>

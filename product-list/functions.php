@@ -1,5 +1,9 @@
 <?php
 
+    date_default_timezone_set('America/Sao_Paulo');
+
+    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
+
     function ArrayKeyExist ($is_array, $is_key) {
         return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
     };
@@ -24,20 +28,16 @@
 
     for ($i = 0; $i < sizeof($is_title); $i++):
         if (ArrayKeyExist ($is_title[$i], 'title')):
-            array_push($is_thead, strtolower(str_replace('_', ' ', trim($is_title[$i]['title']))));
+            array_push($is_thead, str_replace('_', ' ', trim($is_title[$i]['title'])));
             array_push($is_array, [
                 ...ArrayKeyExist ($is_title[$i], 'maxlength') ? [ 'maxlength' => $is_title[$i]['maxlength'] ] : [],
                 ...ArrayKeyExist ($is_title[$i], 'minlength') ? [ 'minlength' => $is_title[$i]['minlength'] ] : [],
-                'title' => strtolower(str_replace('_', ' ', trim($is_title[$i]['title']))),
-                ...ArrayKeyExist ($is_title[$i], 'type') ? [ 'type' => strtolower($is_title[$i]['type']) ] : [],
-                'value' => isset($_POST[strtolower(str_replace('_', '-', trim($is_title[$i]['title'])))]) ? $_POST[strtolower(str_replace('_', '-', trim($is_title[$i]['title'])))] : '',
+                'title' => str_replace('_', ' ', trim($is_title[$i]['title'])),
+                ...ArrayKeyExist ($is_title[$i], 'type') ? [ 'type' => $is_title[$i]['type'] ] : [],
+                'value' => isset($_POST[strtolower(str_replace('_', ' ', trim($is_title[$i]['title'])))]) ? $_POST[strtolower(str_replace('_', ' ', trim($is_title[$i]['title'])))] : '',
             ]);
         endif;
     endfor;
-
-    date_default_timezone_set('America/Sao_Paulo');
-
-    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function BootstrapClasses ($is_input = 3) {
         global $is_period;
@@ -162,7 +162,7 @@
                 $is_return .= '<tr>';
                     for ($i = 0; $i < sizeof($is_input); $i++):
                         $is_return .= '<th' . (!$i ? ' scope=\'col\'' : '') . '>';
-                            $is_return .= strtoupper($is_input[$i]);
+                            $is_return .= ucwords($is_input[$i]);
                         $is_return .= '</th>';
                     endfor;
                 $is_return .= '</tr>';

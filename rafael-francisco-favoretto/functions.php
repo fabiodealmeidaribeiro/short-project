@@ -1,8 +1,8 @@
 <?php
 
-    function ReadJSONFile ($is_json) {
-        if (file_exists($is_json)):
-            return json_decode(file_get_contents($is_json));
+    function JSONFetch ($is_settings) {
+        if (file_exists($is_settings)):
+            return json_decode(file_get_contents($is_settings));
         endif;
     };
 
@@ -72,8 +72,7 @@
             'subtitle' => ArrayKeyExist($output, 'subtitle') ? $output['subtitle'] : true,
             'concept' => ArrayKeyExist($output, 'concept') ? $output['concept'] : true,
         ];
-        $is_JSON = ReadJSONFile('settings.json') ? ReadJSONFile('settings.json') : [];
-        $is_concept = property_exists($is_JSON, 'concept') ? (IsTrue($is_JSON->concept) ? $is_JSON->concept : []) : [];
+        $is_settings = JSONFetch('settings.json') ? JSONFetch('settings.json') : [];
         if (is_dir($is_proper['folder'])):
             $is_return .= '<div class=\'thumbnail-container container-fluid mx-auto p-0\'>';
                 $is_return .= '<div class=\'row g-0\'>';
@@ -98,14 +97,12 @@
                                 $is_return .= '</div>';
                                 $is_return .= '<div class=\'thumbnail-filter\'></div>';
                                 $is_active = 0;
-                                $is_active += $is_proper['title'] && IsTrue($is_JSON->title) ? 1 : 0;
-                                $is_active += $is_proper['subtitle'] && IsTrue($is_JSON->subtitle) ? 1 : 0;
-                                $is_active += $is_proper['concept'] && IsTrue($is_concept) ? 1 : 0;
+                                $is_active += $is_proper['title'] && IsTrue($is_settings->title) ? 1 : 0;
+                                $is_active += $is_proper['subtitle'] && IsTrue($is_settings->subtitle) ? 1 : 0;
                                 if (IsTrue($is_active)):
                                     $is_return .= '<div class=\'thumbnail-caption\'>';
-                                        $is_return .= $is_proper['title'] ? (IsTrue($is_JSON->title) ? '<h1>' . trim($is_JSON->title) . '</h1>' : '') : '';
-                                        $is_return .= $is_proper['subtitle'] ? (IsTrue($is_JSON->subtitle) ? '<h2>' . trim($is_JSON->subtitle) . '</h2>' : '') : '';
-                                        $is_return .= $is_proper['concept'] ? (IsTrue($is_concept) ? '<p>' . RandomIndex($is_concept) . '</p>' : '') : '';
+                                        $is_return .= $is_proper['title'] ? (IsTrue($is_settings->title) ? '<h1>' . trim($is_settings->title) . '</h1>' : '') : '';
+                                        $is_return .= $is_proper['subtitle'] ? (IsTrue($is_settings->subtitle) ? '<h2>' . trim($is_settings->subtitle) . '</h2>' : '') : '';
                                     $is_return .= '</div>';
                                 endif;
                             $is_return .= '</div>';
@@ -119,7 +116,7 @@
 
     function FooterBuilder ($output = []) {
         $is_array = [];
-        if (empty($output)): else:
+        if (IsTrue($output)):
             for ($i = 0; $i < sizeof($output); $i++):
                 if (IsTrue($output[$i])):
                     array_push($is_array, $output[$i]);
@@ -146,7 +143,7 @@
                 $is_return .= '</section>';
             $is_return .= '</footer>';
         endif;
-        $is_return .= Developed();
+        $is_return .= Developed ();
         return $is_return;
     };
 

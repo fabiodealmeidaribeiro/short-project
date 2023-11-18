@@ -76,9 +76,8 @@ export const SocialNetwork = async () => {
     let Attribute = [];
     let OverallHeight = 0;
     [ '.navbar', '.table', '.footer' ].map(Element => {
-        if (document.querySelector(Element)) {
+        if (document.querySelector(Element))
             OverallHeight += document.querySelector(Element).getBoundingClientRect()['height'];
-        };
     });
     if (OverallHeight > window['innerHeight']) {
         Attribute.push({
@@ -116,9 +115,7 @@ export const SocialNetwork = async () => {
                     };
                     for (let i = 0; i < Proper['description']['length']; i++) {
                         if (Proper['title']) {
-                            Message += !i
-                            ? (Proper['description'][i].slice(0, 1).toLowerCase() + Proper['description'][i].slice(1)).trim().replace(/' '/, '%20')
-                            : Proper['description'][i].trim().replace(/' '/, '%20');
+                            Message += !i ? (Proper['description'][i].slice(0, 1).toLowerCase() + Proper['description'][i].slice(1)).trim().replace(/' '/, '%20') : Proper['description'][i].trim().replace(/' '/, '%20');
                         };
                         if (!Proper['title']) {
                             Message += Proper['description'][i].trim().replace(/' '/, '%20');

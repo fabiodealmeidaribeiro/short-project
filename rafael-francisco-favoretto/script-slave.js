@@ -1,6 +1,6 @@
 import {
     SetAttribute,
-} from './script-main.js';
+} from './script-master.js';
 
 import {
     Style,
@@ -21,33 +21,33 @@ export const SetContent = (Input = {}) => {
                 const Title = Caption.querySelector('h1');
                 if (Title) {
                     SetAttribute({ element : Title, attribute : 'class', value : [
-                            ...Style['title']['class'],
+                            ...Style['class']['title'],
                         ],
                     });
                     SetAttribute({ element : Title, attribute : 'style', value : {
-                            ...Style['title']['style'],
+                            ...Style['style']['title'],
                         },
                     });
                 };
                 const Subtitle = Caption.querySelector('h2');
                 if (Subtitle) {
                     SetAttribute({ element : Subtitle, attribute : 'class', value : [
-                            ...Style['subtitle']['class'],
+                            ...Style['class']['subtitle'],
                         ],
                     });
                     SetAttribute({ element : Subtitle, attribute : 'style', value : {
-                            ...Style['subtitle']['style'],
+                            ...Style['style']['subtitle'],
                         },
                     });
                 };
                 const Description = Caption.querySelector('p');
                 if (Description) {
                     SetAttribute({ element : Description, attribute : 'class', value : [
-                            ...Style['description']['class'],
+                            ...Style['class']['description'],
                         ],
                     });
                     SetAttribute({ element : Description, attribute : 'style', value : {
-                            ...Style['description']['style'],
+                            ...Style['style']['description'],
                         },
                     });
                 };

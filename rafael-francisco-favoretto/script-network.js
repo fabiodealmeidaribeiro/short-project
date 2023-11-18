@@ -1,94 +1,13 @@
-const Validator = {
-    Array : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && Array.isArray(Input),
-    Boolean : Input => !(Input === null || Input === undefined) && typeof Input === 'boolean',
-    Function : Input => {
-        if (!(Input === null || Input === undefined || Input === false)) {
-            if (typeof Input === 'function') {
-                const Treat = Input.toString().replace(/\s+/g, '');
-                return !(Treat === 'function(){}' || Treat === '()=>{}' || Treat === '(Input)=>{}' || Treat === 'Input=>{}');
-            };
-        };
-    },
-    Gene : Input => !(Input === false || Input === null || Input === undefined || Input === 0 || Input === ''),
-    Number : Input => !(Input === false || Input === null || Input === undefined || Input === 0) && typeof Input === 'number',
-    Object : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && !Array.isArray(Input) && Object.keys(Input)['length'] !== 0,
-    String : Input => !(Input === false || Input === null || Input === undefined || Input === '') && typeof Input === 'string',
-};
+import {
+    CreateElement,
+    JSONFetch,
+    SetAttribute,
+    Validator,
+} from './script-master.js';
 
-const CreateElement = (Input = {}) => {
-    const Proper = {
-        element : 'element' in Input ? (Validator['String'](Input['element']) ? Input['element'] : 'div') : 'div',
-        textnode : 'textnode' in Input ? (Validator['String'](Input['textnode']) ? Input['textnode'] : '') : '',
-    };
-    let Result = document.createElement(Proper['element']);
-    if (Validator['Gene'](Proper['textnode'])) {
-        Result.appendChild(document.createTextNode(Proper['textnode']));
-    };
-    return Result;
-};
-
-const SetAttribute = (Input = {}) => {
-    let Proper = {
-        attribute : 'attribute' in Input ? (Validator['String'](Input['attribute']) ? Input['attribute'] : [ undefined ]) : [ undefined ],
-        element : 'element' in Input ? (Validator['Gene'](Input['element']) ? Input['element'] : [ undefined ]) : [ undefined ],
-        value : 'value' in Input ? (Validator['Array'](Input['value']) || Validator['Object'](Input['value']) || Validator['String'](Input['value']) ? Input['value'] : '') : '',
-    };
-    if (Validator['Gene'](Proper['element']) && Validator['String'](Proper['attribute']) && Validator['Gene'](Proper['value'])) {
-        Proper['attribute'] = document.createAttribute(Proper['attribute']);
-        Proper['attribute']['value'] = '';
-        if (Validator['String'](Proper['value'])) {
-            Proper['attribute']['value'] = Proper['value'];
-        };
-        if (Validator['Array'](Proper['value'])) {
-            for (let i = 0; i < Proper['value']['length']; i++) {
-                Proper['attribute']['value'] += Proper['value'][i];
-                Proper['attribute']['value'] += i < Proper['value']['length'] - 1 ? ' ' : '';
-            };
-        };
-        if (Validator['Object'](Proper['value'])) {
-            for (let i = 0; i < Object.keys(Proper['value'])['length']; i++) {
-                Proper['attribute']['value'] += Object.keys(Proper['value'])[i] + ': ' + Proper['value'][Object.keys(Proper['value'])[i]] + ';';
-                Proper['attribute']['value'] += i < Object.keys(Proper['value'])['length'] - 1 ? ' ' : '';
-            };
-        };
-        Proper['element'].setAttributeNode(Proper['attribute']);
-    };
-};
-
-const BoxShadow = {
-    'box-shadow' : '0 1px 2px 0 rgba(48, 48, 48, .3), 0 1px 3px 1px rgba(48, 48, 48, .15)',
-};
-
-const Button = 3;
-
-const Margin = 1;
-
-const Style = {
-    button : {
-        class : [
-            'align-items-center',
-            'bg-secondary',
-            'd-flex',
-            'justify-content-center',
-            'position-fixed',
-            'rounded-circle',
-        ],
-        style : {
-            height : Button + 'rem',
-            width : Button + 'rem',
-            ...BoxShadow,
-        },
-        margin : Margin + 'rem',
-    },
-    ico : {
-        class : [
-            'text-white',
-        ],
-        style : {
-            'font-size' : (Button / 2) + 'rem',
-        },
-    },
-};
+import {
+    Style,
+} from './script-variable.js';
 
 const Network = [
     {   
@@ -112,11 +31,6 @@ const Network = [
         background : 'bg-danger'
     },
 ];
-
-const JSONFetch = async (Input = '') => {
-    const Response = await fetch(Input);
-    return await Response.json();
-};
 
 export const SocialNetwork = async () => {
     const Result = await JSONFetch ('settings.json');
@@ -220,23 +134,23 @@ export const SocialNetwork = async () => {
                 Element[i] = CreateElement();
                 SetAttribute({ element : Element[i], attribute : 'id', value : Attribute[i]['id'] });
                 SetAttribute({ element : Element[i], attribute : 'class', value : [
-                        ...Style['button']['class'],
+                        ...Style['class']['button'],
                     ],
                 });
                 SetAttribute({ element : Element[i], attribute : 'style', value : {
-                        ...Style['button']['style'],
-                        bottom : 'calc(' + Style['button']['margin'] + ' + ' + '(' + i + '*' + '(' + Style['button']['margin'] +  '/' + 2 + ')' + ')' + ' + ' + i + '*' + Style['button']['style']['height'] + ')',
-                        right : Style['button']['margin'],
+                        ...Style['style']['button'],
+                        bottom : 'calc(1rem + (' + i + ' * (1rem / 2)) + ' + i + ' * 3rem)',
+                        right : '1rem',
                     },
                 });
                 const Icon = CreateElement({ element : 'i' });
                 SetAttribute({ element : Icon, attribute : 'class', value : [
                         ...Attribute[i]['ico']['class'],
-                        ...Style['ico']['class'],
+                        ...Style['class']['ico'],
                     ],
                 });
                 SetAttribute({ element : Icon, attribute : 'style', value : {
-                        ...Style['ico']['style'],
+                        ...Style['style']['ico'],
                     },
                 });
                 document.querySelector('body').appendChild(Element[i]).appendChild(Icon);

@@ -13,48 +13,5 @@
     "https://www.facebook.com/VivaHostel/",
     "https://www.instagram.com/vivahostel/",
     "https://www.linkedin.com/in/rafael-favoretto"
-  ],
-  "concept": [],
-  "widget": [
-    [
-      "<h1>Work Experience</h1>",
-      "<h2>Creative Director.</h2>",
-      "<p><a href=\"https://www.stellacom.com.br/\" target=\"_blank\">Stella Comunicação - São Paulo, Brazil.</a></p>",
-      "<p>Feb/2023 to Sep/2023.</p>",
-      "<h2>Creative Director.</h2>",
-      "<p><a href=\"https://fk.agency/\" target=\"_blank\">Fast Key Comunicação - São Paulo, Brazil.</a></p>",
-      "<p>Aug/2020 to Sep/2020.</p>",
-      "<h2>Senior Art Director.</h2>",
-      "<p><a href=\"https://www.ogilvy.com/it/eng/about\" target=\"_blank\">Ogivy Milan - Milan, Italy.</a></p>",
-      "<p>Jun/2019 to Sep/2019.</p>",
-      "<h2>Illustrator.</h2>",
-      "<p><a href=\"https://www.facebook.com/DM9ddb/\" target=\"_blank\">DM9DDB - São Paulo, Brazil.</a></p>",
-      "<p>Jan/2005 to Feb/2007.</p>",
-      "<h2>Art Assistant.</h2>",
-      "<p><a href=\"https://www.dpz.com.br/\" target=\"_blank\">DPZ&T (Publics Group) - São Paulo, Brazil.</a></p>",
-      "<p>Jul/2001 to Aug/2003.</p>"
-    ],
-    [
-      "<h1>Academic Education</h1>",
-      "<h2>Licentiate degree, Markting.</h2>",
-      "<p><a href=\"https://www.anhanguera.com/\" target=\"_blank\">Faculdade Anhanguera</a></p>",
-      "<p>2017 to 2019.</p>",
-      "<h2>Bachelor´s degree, Design.</h2>",
-      "<p><a href=\"https://www.mackenzie.br/\" target=\"_blank\">Universidade Presbiteriana Mackenzie</a></p>",
-      "<p>2001 to 2005.</p>"
-    ],
-    [
-      "<h1>Skills</h1>",
-      "<p>Adobe After Effects - VFX and Animation.</p>",
-      "<p>Adobe Illustrator - Design.</p>",
-      "<p>Adobe InDesign - Design and layout.</p>",
-      "<p>Adobe Photoshop - Photos and design.</p>",
-      "<p>Adobe Premiere Pro - Video editor.</p>",
-      "<p>Adobe XD.</p>",
-      "<p>Figma - The Collaborative Interface Design Tool.</p>",
-      "<p>Midjourney - AI.</p>",
-      "<p>Modo - 3D Modeling, Animation, and Rendering Tools.</p>",
-      "<p>WordPress.</p>"
-    ]
   ]
 }

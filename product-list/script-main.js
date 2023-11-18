@@ -166,16 +166,14 @@ export const Check = {
 
 export const JSONFetch = async (Input = '') => {
     const Response = await fetch(Input);
-    const Result = await Response.json();
-    return Result;
+    return await Response.json();
 };
 
 export const OverallHeight = (Input = []) => {
     let Position = 0;
     [ ...Input ].map(Element => {
-        if (document.querySelector(Element)) {
+        if (document.querySelector(Element))
             Position += document.querySelector(Element).getBoundingClientRect()['height'];
-        };
     });
     Position += 'px';
     return Position;

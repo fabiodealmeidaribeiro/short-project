@@ -6,16 +6,16 @@ import {
 } from './script-container.js';
 
 import {
-    SetContent,
-} from './script-function.js';
-
-import {
     NavigationBuilder,
 } from './script-navigation.js';
 
 import {
     SocialNetwork,
 } from './script-network.js';
+
+import {
+    SetContent,
+} from './script-slave.js';
 
 import {
     Transform,
