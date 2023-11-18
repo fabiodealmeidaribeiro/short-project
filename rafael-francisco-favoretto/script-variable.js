@@ -8,7 +8,7 @@ export const TextShadow = {
     'text-shadow' : 'rgba(0, 0, 0, .5) 1px 1px 1px',
 };
 
-export const Style = {
+export const SetStyle = {
     class : {
         background : [
             'align-items-center',

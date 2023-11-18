@@ -6,7 +6,7 @@ import {
 } from './script-master.js';
 
 import {
-    Style,
+    SetStyle,
 } from './script-variable.js';
 
 const Network = [
@@ -45,6 +45,15 @@ export const SocialNetwork = async () => {
     let Attribute = [];
     if (window['outerHeight'] > window['innerHeight']) {
         Attribute.push({
+            class : {
+                btn : [
+                    'bg-danger',
+                ],
+                ico : [
+                    'bi',
+                    'bi-arrow-down-circle-fill',
+                ],
+            },
             function : () => {
                 if (document.querySelector('#btn-arrow')['classList'].contains('rotate')) {
                     window.scrollTo(0, 0);
@@ -53,20 +62,20 @@ export const SocialNetwork = async () => {
                     window.scrollTo(0, document['body']['scrollHeight']);
                 };
             },
-            hover : [
-                'bg-danger',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-arrow-down-circle-fill',
-                ],
-            },
             id : 'btn-arrow',
         });
     };
     if (Validator['String'](Proper['phone'])) {
         Attribute.push({
+            class : {
+                btn : [
+                    'bg-success',
+                ],
+                ico : [
+                    'bi',
+                    'bi-whatsapp',
+                ],
+            },
             function : () => {
                 let Message = '';
                 Message += 'https://api.whatsapp.com/send?phone=';
@@ -91,15 +100,6 @@ export const SocialNetwork = async () => {
                 };
                 window.open(Message, '_blank');
             },
-            hover : [
-                'bg-success',
-            ],
-            ico : {
-                class : [
-                    'bi',
-                    'bi-whatsapp',
-                ],
-            },
             id : 'btn-whatsapp',
         });
     };
@@ -109,17 +109,17 @@ export const SocialNetwork = async () => {
                 for (let j = 0; j < Network['length']; j++) {
                     if (Proper['network'][i].includes(Network[j]['title'])) {
                         Attribute.push({
-                            function : () => {
-                                window.open(Proper['network'][i], '_blank');
-                            },
-                            hover : [
-                                Network[j]['background'],
-                            ],
-                            ico : {
-                                class : [
+                            class : {
+                                btn : [
+                                    Network[j]['background'],
+                                ],
+                                ico : [
                                     'bi',
                                     'bi-' + Network[j]['title'],
                                 ],
+                            },
+                            function : () => {
+                                window.open(Proper['network'][i], '_blank');
                             },
                             id : 'btn-' + Network[j]['title'],
                         });
@@ -134,30 +134,30 @@ export const SocialNetwork = async () => {
                 Element[i] = CreateElement();
                 SetAttribute({ element : Element[i], attribute : 'id', value : Attribute[i]['id'] });
                 SetAttribute({ element : Element[i], attribute : 'class', value : [
-                        ...Style['class']['button'],
+                        ...SetStyle['class']['button'],
                     ],
                 });
                 SetAttribute({ element : Element[i], attribute : 'style', value : {
-                        ...Style['style']['button'],
+                        ...SetStyle['style']['button'],
                         bottom : 'calc(1rem + (' + i + ' * (1rem / 2)) + ' + i + ' * 3rem)',
                         right : '1rem',
                     },
                 });
                 const Icon = CreateElement({ element : 'i' });
                 SetAttribute({ element : Icon, attribute : 'class', value : [
-                        ...Attribute[i]['ico']['class'],
-                        ...Style['class']['ico'],
+                        ...Attribute[i]['class']['ico'],
+                        ...SetStyle['class']['ico'],
                     ],
                 });
                 SetAttribute({ element : Icon, attribute : 'style', value : {
-                        ...Style['style']['ico'],
+                        ...SetStyle['style']['ico'],
                     },
                 });
                 document.querySelector('body').appendChild(Element[i]).appendChild(Icon);
                 [ 'mouseover', 'mouseenter' ].map(Index => {
                     Element[i].addEventListener(Index, Event => {
                         Element[i]['style']['cursor'] = 'pointer';
-                        Element[i]['classList'].add(...Attribute[i]['hover']);
+                        Element[i]['classList'].add(...Attribute[i]['class']['btn']);
                         Element[i]['classList'].remove('bg-secondary');
                         Event.stopPropagation();
                         Event.preventDefault();
@@ -167,7 +167,7 @@ export const SocialNetwork = async () => {
                     Element[i].addEventListener(Index, Event => {
                         Element[i]['style']['cursor'] = 'default';
                         Element[i]['classList'].add('bg-secondary');
-                        Element[i]['classList'].remove(...Attribute[i]['hover']);
+                        Element[i]['classList'].remove(...Attribute[i]['class']['btn']);
                         Event.stopPropagation();
                         Event.preventDefault();
                     });

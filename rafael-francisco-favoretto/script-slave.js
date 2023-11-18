@@ -3,7 +3,7 @@ import {
 } from './script-master.js';
 
 import {
-    Style,
+    SetStyle,
 } from './script-variable.js';
 
 export const SetContent = (Input = {}) => {
@@ -21,33 +21,33 @@ export const SetContent = (Input = {}) => {
                 const Title = Caption.querySelector('h1');
                 if (Title) {
                     SetAttribute({ element : Title, attribute : 'class', value : [
-                            ...Style['class']['title'],
+                            ...SetStyle['class']['title'],
                         ],
                     });
                     SetAttribute({ element : Title, attribute : 'style', value : {
-                            ...Style['style']['title'],
+                            ...SetStyle['style']['title'],
                         },
                     });
                 };
                 const Subtitle = Caption.querySelector('h2');
                 if (Subtitle) {
                     SetAttribute({ element : Subtitle, attribute : 'class', value : [
-                            ...Style['class']['subtitle'],
+                            ...SetStyle['class']['subtitle'],
                         ],
                     });
                     SetAttribute({ element : Subtitle, attribute : 'style', value : {
-                            ...Style['style']['subtitle'],
+                            ...SetStyle['style']['subtitle'],
                         },
                     });
                 };
                 const Description = Caption.querySelector('p');
                 if (Description) {
                     SetAttribute({ element : Description, attribute : 'class', value : [
-                            ...Style['class']['description'],
+                            ...SetStyle['class']['description'],
                         ],
                     });
                     SetAttribute({ element : Description, attribute : 'style', value : {
-                            ...Style['style']['description'],
+                            ...SetStyle['style']['description'],
                         },
                     });
                 };
