@@ -1,10 +1,10 @@
 import {
     ResizeElements,
-} from './script-master.js';
+} from './master.js';
 
 import {
     SocialNetwork
-} from './script-network.js';
+} from './network.js';
 
 window.addEventListener('DOMContentLoaded', Event => {
     SocialNetwork();

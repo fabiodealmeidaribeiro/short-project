@@ -1,15 +1,57 @@
 <?php
 
-    date_default_timezone_set('America/Sao_Paulo');
+    include_once('./variables.php');
 
-    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
+    function ArrayKeyExist ($is_array, $is_key) { return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]); };
 
-    function ArrayKeyExist ($is_array, $is_key) {
-        return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
+    function IsTrue ($is_var) { return isset($is_var) && !empty($is_var); };
+
+    function HeaderDisplay ($is_input = '') {
+        $is_title = '';
+        $is_array = empty($is_input) ? explode('-', basename(__DIR__)) : explode(' ', trim($is_input));
+        for ($i = 0; $i < sizeof($is_array); $i++) $is_title .= implode('', [ ucwords($is_array[$i]), ...$i < sizeof($is_array) - 1 ? [' '] : [], ]);
+        return implode('', [
+            '<!doctype html>',
+            '<html lang=\'en\'>',
+                '<head>',
+                    ...$is_title ? [ '<title>' . $is_title . '</title>' ] : [],
+                    '<meta charset=\'utf-8\'>',
+                    '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
+                    '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
+                    '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
+                    ...file_exists('./style.css') ? [ '<link href=\'./style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
+                '</head>',
+                '<body', ...IsTrue(BootstrapClasses()['body']) ? [ ' class=\'' . BootstrapClasses()['body'] . '\'' ] : [], '>',
+        ]);
     };
 
-    function IsTrue ($is_var) {
-        return isset($is_var) && !empty($is_var);
+    function FooterDisplay () {
+        return implode('', [
+                '</body>',
+                '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
+                '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
+                '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
+                ...file_exists('./script.js') ? [ '<script src=\'./script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' ] : [],
+            '</html>',
+        ]);
+    };
+
+    function TheadDisplay ($is_input = []) {
+        $is_return = '';
+        if (IsTrue($is_input)):
+            $is_return .= '<thead>';
+                $is_return .= '<tr>';
+                    for ($i = 0; $i < sizeof($is_input); $i++):
+                        $is_return .= implode('', [
+                            '<th', ...!$i ? [ ' scope=\'col\'' ] : [], '>',
+                                ucwords($is_input[$i]),
+                            '</th>',
+                        ]);
+                    endfor;
+                $is_return .= '</tr>';
+            $is_return .= '</thead>';
+        endif;
+        return $is_return;
     };
 
     $is_array = [];
@@ -39,138 +81,6 @@
         endif;
     endfor;
 
-    function BootstrapClasses ($is_input = 3) {
-        global $is_period;
-        return [
-            'body' => implode(' ', [
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                'w-100',
-            ]),
-            'nav' => implode(' ', [
-                'navbar',
-                'navbar-expand-lg',
-                ...$is_period ? [ 'bg-white' ] : [ 'bg-dark' ],
-                'ps-' . $is_input,
-                'pe-' . $is_input,
-                'pe-md-0',
-                // 'pe-lg-' . $is_input,
-                'pe-lg-0',
-                'pt-' . $is_input,
-                'pb-0',
-                'pb-md-0',
-                // 'pb-lg-' . $is_input,
-                'pb-lg-0',
-                'w-100',
-            ]),
-            'input' => implode(' ', [
-                'border',
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
-                'form-control',
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-                'm-0',
-                'p-2',
-                'h-100',
-                'w-100' ,
-            ]),
-            'table' => implode(' ', [
-                'table',
-                ...$is_period ? [ 'table-light' ] : [ 'table-dark' ],
-                // 'table-hover',
-                'table-striped',
-                'text-center',
-                'm-0',
-                'p-0',
-                'w-100',
-            ]),
-            'column' => implode(' ', [
-                'col-12',
-                'col-md-6',
-                // 'col-lg-3',
-                'col-lg-6',
-                'ps-0',
-                'pe-0',
-                'pe-md-' . $is_input,
-                'pe-lg-' . $is_input,
-                'mb-' . $is_input,
-                'mb-md-' . $is_input,
-                // 'mb-lg-0',
-                'mb-lg-' . $is_input,
-            ]),
-            'button' => implode(' ', [
-                'border',
-                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
-                'btn',
-                ...$is_period ? [ 'btn-light' ] : [ 'btn-dark' ],
-                'm-0',
-                'p-2',
-            ]),
-            'p' => implode(' ', [
-                'd-inline',
-                'm-0',
-                'p-0',
-                
-            ]),
-            'a' => implode(' ', [
-                'fst-italic',
-                'fw-semibold',
-                'm-0',
-                'p-0',
-                'text-decoration-none',
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-            ]),
-        ];
-    };
-
-    function HeaderDisplay () {
-        $is_title = '';
-        $is_title_array = explode('-', basename(__DIR__));
-        for ($i = 0; $i < sizeof($is_title_array); $i++):
-            $is_title .= ucwords($is_title_array[$i]);
-            $is_title .= $i < sizeof($is_title_array) - 1 ? ' ' : '';
-        endfor;
-        return implode('', [
-            '<!doctype html>',
-            '<html lang=\'en\'>',
-                '<head>',
-                    '<title>' . $is_title . '</title>',
-                    '<meta charset=\'utf-8\'>',
-                    '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
-                    '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
-                    '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
-                    ...file_exists('style.css') ? [ '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
-                '</head>',
-                '<body' . (IsTrue(BootstrapClasses()['body']) ? ' class=\'' . BootstrapClasses()['body'] . '\'' : '') . '>',
-        ]);
-    };
-
-    function FooterDisplay () {
-        return implode('', [
-                '</body>',
-                '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
-                '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
-                '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
-                ...file_exists('./script.js') ? [ '<script src=\'./script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' ] : [],
-            '</html>',
-        ]);
-    };
-
-    function TheadDisplay ($is_input = []) {
-        $is_return = '';
-        if (IsTrue($is_input)):
-            $is_return .= '<thead>';
-                $is_return .= '<tr>';
-                    for ($i = 0; $i < sizeof($is_input); $i++):
-                        $is_return .= '<th' . (!$i ? ' scope=\'col\'' : '') . '>';
-                            $is_return .= ucwords($is_input[$i]);
-                        $is_return .= '</th>';
-                    endfor;
-                $is_return .= '</tr>';
-            $is_return .= '</thead>';
-        endif;
-        return $is_return;
-    };
-
     function TbodyDisplay ($is_input = []) {
         $is_return = '';
         global $is_thead;
@@ -186,9 +96,9 @@
                         $is_return .= '<tr>';
                         for ($j = 0; $j < sizeof($is_thead); $j++):
                             $is_return .= implode('', [
-                                '<td' . (!$j ? ' scope=\'row\'' : '') . '>',
+                                '<td', ...!$j ? [ ' scope=\'row\'' ] : [] ,'>',
                                     '<p class=\'' . BootstrapClasses()['p'] . '\'>',
-                                        '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ' . BootstrapClasses()['a'] . '\' href=\'#\'>',
+                                        '<a class=\'', str_replace(' ', '-', strtolower(trim($is_thead[$j]))) ,' ', BootstrapClasses()['a'], '\' href=\'#\'>',
                                             'Fábio',
                                         '</a>',
                                     '</p>',

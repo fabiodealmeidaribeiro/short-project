@@ -1,153 +1,15 @@
 <?php
 
-    $is_cnpj = '01.234.567/0001-89';
+    include_once('./variables.php');
 
-    function ArrayKeyExist ($is_array, $is_key) {
-        return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
-    };
+    function ArrayKeyExist ($is_array, $is_key) { return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]); };
 
-    function IsTrue ($is_var) {
-        return isset($is_var) && !empty($is_var);
-    };
+    function IsTrue ($is_var) { return isset($is_var) && !empty($is_var); };
 
-    date_default_timezone_set('America/Sao_Paulo');
-
-    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
-
-    function BootstrapClasses ($is_input = 3) {
-        global $is_period;
-        return [
-            'body' => implode(' ', [
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                'w-100',
-            ]),
-            'nav' => implode(' ', [
-                'navbar',
-                'navbar-expand-lg',
-                ...$is_period ? [ 'bg-white' ] : [ 'bg-dark' ],
-                'ps-' . $is_input,
-                'pe-' . $is_input,
-                'pe-md-0',
-                'pe-lg-' . $is_input,
-                'pt-' . $is_input,
-                'pb-0',
-                'pb-md-0',
-                'pb-lg-' . $is_input,
-                'w-100',
-            ]),
-            'input' => implode(' ', [
-                'border',
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
-                'form-control',
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-                'm-0',
-                'p-2',
-                'h-100',
-                'w-100' ,
-            ]),
-            'table' => implode(' ', [
-                'table',
-                ...$is_period ? [ 'table-light' ] : [ 'table-dark' ],
-                // 'table-hover',
-                'table-striped',
-                'text-center',
-                'm-0',
-                'p-0',
-                'w-100',
-            ]),
-            'column' => implode(' ', [
-                'col-12',
-                'col-md-6',
-                'col-lg-3',
-                'ps-0',
-                'pe-0',
-                'pe-md-' . $is_input,
-                'pe-lg-' . $is_input,
-                'mb-' . $is_input,
-                'mb-md-' . $is_input,
-                'mb-lg-0',
-            ]),
-            'button' => implode(' ', [
-                'border',
-                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
-                'btn',
-                ...$is_period ? [ 'btn-light' ] : [ 'btn-dark' ],
-                'm-0',
-                'p-2',
-            ]),
-            'p' => implode(' ', [
-                'd-inline',
-                'm-0',
-                'p-0',
-                
-            ]),
-            'a' => implode(' ', [
-                'fst-italic',
-                'fw-semibold',
-                'm-0',
-                'p-0',
-                'text-decoration-none',
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-            ]),
-        ];
-    };
-
-    function ModalClasses ($is_input = 3) {
-        global $is_period;
-        return [
-            'dialog' => implode(' ', [
-                'modal-dialog',
-                'modal-lg',
-                'modal-dialog-centered',
-                'modal-dialog-scrollable',
-                'modal-fullscreen-md-down'
-            ]),
-            'content' => implode(' ', [
-                'modal-content',
-            ]),
-            'header' => implode(' ', [
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-                'modal-header'
-            ]),
-            'body' => implode(' ', [
-                // ...[
-                //     'align-items-center',
-                //     'd-flex',
-                //     'flex-column',
-                //     'justify-content-center'
-                // ],
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-                'modal-body',
-                'p-' . $is_input,
-            ]),
-            'title' => implode(' ', [
-                'modal-title',
-                'fs-5',
-                'p-0',
-            ]),
-            'footer' => implode(' ', [
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                'modal-footer'
-            ]),
-            'button' => implode(' ', [
-                BootstrapClasses()['button'],
-                'ms-' . $is_input,
-            ]),
-        ];
-    };
-
-    function HeaderDisplay () {
+    function HeaderDisplay ($is_input = '') {
         $is_title = '';
-        $is_array = explode('-', basename(__DIR__));
-        for ($i = 0; $i < sizeof($is_array); $i++):
-            $is_title .= implode('', [
-                ucwords($is_array[$i]),
-                ...$i < sizeof($is_array) - 1 ? [' '] : [],
-            ]);
-        endfor;
+        $is_array = empty($is_input) ? explode('-', basename(__DIR__)) : explode(' ', trim($is_input));
+        for ($i = 0; $i < sizeof($is_array); $i++) $is_title .= implode('', [ ucwords($is_array[$i]), ...$i < sizeof($is_array) - 1 ? [' '] : [], ]);
         return implode('', [
             '<!doctype html>',
             '<html lang=\'en\'>',
@@ -157,9 +19,9 @@
                     '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
-                    ...file_exists('style.css') ? [ '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
+                    ...file_exists('./style.css') ? [ '<link href=\'./style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
                 '</head>',
-                '<body' . (IsTrue(BootstrapClasses()['body']) ? ' class=\'' . BootstrapClasses()['body'] . '\'' : '') . '>',
+                '<body', ...IsTrue(BootstrapClasses()['body']) ? [ ' class=\'' . BootstrapClasses()['body'] . '\'' ] : [], '>',
         ]);
     };
 
