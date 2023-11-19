@@ -14,7 +14,7 @@
 
     $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
-    function SelectorClasses ($is_input = 3) {
+    function BootstrapClasses ($is_input = 3) {
         global $is_period;
         return [
             'body' => implode(' ', [
@@ -133,7 +133,7 @@
                 'modal-footer'
             ]),
             'button' => implode(' ', [
-                SelectorClasses()['button'],
+                BootstrapClasses()['button'],
                 'ms-' . $is_input,
             ]),
         ];
@@ -143,21 +143,23 @@
         $is_title = '';
         $is_array = explode('-', basename(__DIR__));
         for ($i = 0; $i < sizeof($is_array); $i++):
-            $is_title .= ucwords($is_array[$i]);
-            $is_title .= $i < sizeof($is_array) - 1 ? ' ' : '';
+            $is_title .= implode('', [
+                ucwords($is_array[$i]),
+                ...$i < sizeof($is_array) - 1 ? [' '] : [],
+            ]);
         endfor;
         return implode('', [
             '<!doctype html>',
             '<html lang=\'en\'>',
                 '<head>',
-                    '<title>' . $is_title . '</title>',
+                    ...$is_title ? [ '<title>' . $is_title . '</title>' ] : [],
                     '<meta charset=\'utf-8\'>',
                     '<meta name=\'viewport\' content=\'width=device-width, initial-scale=1, shrink-to-fit=no\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/css/bootstrap.min.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>',
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
                     ...file_exists('style.css') ? [ '<link href=\'style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
                 '</head>',
-                '<body' . (IsTrue(SelectorClasses()['body']) ? ' class=\'' . SelectorClasses()['body'] . '\'' : '') . '>',
+                '<body' . (IsTrue(BootstrapClasses()['body']) ? ' class=\'' . BootstrapClasses()['body'] . '\'' : '') . '>',
         ]);
     };
 
@@ -185,12 +187,8 @@
         $is_input = preg_replace('/[^0-9]/', '', $is_input);
         strlen($is_input) != 12 || !is_numeric($is_input) ? die($is_message) : null;
         $is_check = 0;
-        for ($i = 0; $i < 12; $i += 2):
-            $is_check += (int)$is_input[$i];
-        endfor;
-        for ($i = 1; $i < 12; $i += 2):
-            $is_check += (int)$is_input[$i] * 3;
-        endfor;
+        for ($i = 0; $i < 12; $i += 2) $is_check += (int)$is_input[$i];
+        for ($i = 1; $i < 12; $i += 2) $is_check += (int)$is_input[$i] * 3;
         $is_check = (10 - ($is_check % 10)) % 10;
         return $is_input .= $is_check;
     };
@@ -233,17 +231,17 @@
                         ]);
                         if (IsTrue($is_thead)):
                             $is_return .= '<tr>';
-                            for ($j = 0; $j < sizeof($is_thead); $j++):
-                                $is_return .= implode('', [
-                                    '<td' . (!$j ? ' scope=\'row\'' : '') . '>',
-                                        '<p class=\'' . SelectorClasses()['p'] . '\'>',
-                                            '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ' . SelectorClasses()['a'] . '\' href=\'#\'>',
-                                                strpos($is_thead[$j], '13') ? NumberGenerator ($is_order) : $is_order,
-                                            '</a>',
-                                        '</p>',
-                                    '</td>',
-                                ]);
-                            endfor;
+                                for ($j = 0; $j < sizeof($is_thead); $j++):
+                                    $is_return .= implode('', [
+                                        '<td' . (!$j ? ' scope=\'row\'' : '') . '>',
+                                            '<p class=\'' . BootstrapClasses()['p'] . '\'>',
+                                                '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ' . BootstrapClasses()['a'] . '\' href=\'#\'>',
+                                                    strpos($is_thead[$j], '13') ? NumberGenerator ($is_order) : $is_order,
+                                                '</a>',
+                                            '</p>',
+                                        '</td>',
+                                    ]);
+                                endfor;
                             $is_return .= '</tr>';
                         endif;
                     endfor;
@@ -271,12 +269,9 @@
         $is_value = preg_replace('/[úùû]/', 'u', $is_value);
         $is_value = preg_replace('/[Ç]/', 'C', $is_value);
         $is_value = preg_replace('/[ç]/', 'c', $is_value);
-        if ($is_proper['type'] === 'id')
-            return str_replace(' ', '-', strtolower(trim($is_value)));
-        if ($is_proper['type'] === 'target')
-            return str_replace(' ', '', ucwords(trim($is_value . ' ' . $is_proper['type'])));
-        if ($is_proper['type'] === 'label')
-            return str_replace(' ', '', ucwords(trim($is_value . ' ' . $is_proper['type'])));
+        if ($is_proper['type'] === 'id') return str_replace(' ', '-', strtolower(trim($is_value)));
+        if ($is_proper['type'] === 'target') return str_replace(' ', '', ucwords(trim($is_value . ' ' . $is_proper['type'])));
+        if ($is_proper['type'] === 'label') return str_replace(' ', '', ucwords(trim($is_value . ' ' . $is_proper['type'])));
     };
 
     function BootstrapModalCall ($is_input = []) {
@@ -285,7 +280,6 @@
             'selector' => ArrayKeyExist ($is_input, 'selector') ? (IsTrue($is_input['selector']) ? strtolower(trim($is_input['selector'])) : 'a') : 'a',
         ];
         $is_selector = strtolower(trim($is_proper['selector'])) === 'a';
-        $is_style = '';
         $is_object = [
             'align-content' => 'center',
             'align-items' => 'center',
@@ -296,9 +290,12 @@
             'padding' => '1rem',
             'width' => '100%',
         ];
+        $is_style = '';
         foreach ($is_object as $is_key => $is_value):
-            $is_style .= $is_key . ' : ' . $is_value . ';';
-            $is_style .= ' ';
+            $is_style .= implode('', [
+                $is_key . ' : ' . $is_value . ';',
+                ' ',
+            ]);
         endforeach;
         $is_array = [];
         if (IsTrue($is_proper['array'])):
@@ -310,26 +307,29 @@
                     $is_array = array_merge($is_array, [
                         ...!$is_selector ? [
                             '<button',
-                                IsTrue(SelectorClasses()['button']) ? ' class=\'' . SelectorClasses()['button'] . '\'' : '',
+                                IsTrue(BootstrapClasses()['button']) ? ' class=\'' . BootstrapClasses()['button'] . '\'' : '',
                                 ' data-bs-toggle=\'modal\'',
                                 ' data-bs-target=\'#' . $is_target . '\'',
                                 ' type=\'button\'',
                             '>',
-                        ] : [],
+                        ] : [
+                        ],
                             ...$is_selector ? [
-                                '<p class=\'' . SelectorClasses()['p'] . '\' id=\'' . $is_id . '\'>', 
+                                '<p class=\'' . BootstrapClasses()['p'] . '\' id=\'' . $is_id . '\'>', 
                                 '<a',
-                                    ' class=\'' . SelectorClasses()['a'] . '\'',
+                                    ' class=\'' . BootstrapClasses()['a'] . '\'',
                                     ' data-bs-toggle=\'modal\'',
                                     ' data-bs-target=\'#' . $is_target . '\'',
                                     ' href=\'#\'',
                                 '>',
-                            ] : [],
+                            ] : [
+                            ],
                                 ucwords(trim($is_index)),
                             ...$is_selector ? [ '</a>', '</p>' ] : [],
                             ...$is_selector ? [
-                                ...($i < sizeof($is_proper['array']) - 1) ? [ '<p class=\'' . SelectorClasses()['p'] . '\'>', '.', '</p>' ] : []
-                            ] : [],
+                                ...($i < sizeof($is_proper['array']) - 1) ? [ '<p class=\'' . BootstrapClasses()['p'] . '\'>', '.', '</p>' ] : []
+                            ] : [
+                            ],
                         ...!$is_selector ? [ '</button>' ] : [],
                     ]);
                 endfor;
