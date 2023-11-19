@@ -371,7 +371,8 @@
                                     '</h1>',
                                     '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
                                 '</div>',
-                            ] : [],
+                            ] : [
+                            ],
                             ...IsTrue($is_input['body']) ? [ '<div', ModalClasses()['body'] ? ' class=\'' . ModalClasses()['body'] . '\'' : '', ' id=\'body\'>' . $is_input['body'] . '</div>' ] : [],
                             '<div class=\'' . ModalClasses()['footer'] . '\' id=\'footer\'>',
                                 ...IsTrue($is_button) ? [ $is_button ] : [],
