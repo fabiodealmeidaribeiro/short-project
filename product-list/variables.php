@@ -39,7 +39,7 @@
                 'w-100' ,
             ]),
             'table' => implode(' ', [
-                // 'table',
+                'table',
                 ...$is_period ? [ 'table-light' ] : [ 'table-dark' ],
                 'table-hover',
                 'table-striped',

@@ -44,7 +44,7 @@ export const SocialNetwork = async () => {
     const Element = [];
     let Attribute = [];
     let OverallHeight = 0;
-    [ '.navbar', '.table', '.footer' ].map(Element => {
+    [ '.navbar', '.table-container', '.footer' ].map(Element => {
         if (document.querySelector(Element))
             OverallHeight += document.querySelector(Element).getBoundingClientRect()['height'];
     });
