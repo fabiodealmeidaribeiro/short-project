@@ -4,64 +4,53 @@
 
     echo HeaderDisplay ();
 
-        echo implode('', [
-            '<nav', ...!empty(BootstrapClasses()['nav']) ? [ ' class=\'' . BootstrapClasses()['nav'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
-                '<form', ' action=\'index.php\'', ' class=\'row m-0 p-0 h-100 w-100\'', ' method=\'POST\'', ' role=\'search\'', '>',
-        ]);
+        if (IsTrue($is_fields)):
 
-        if (IsTrue($is_array)):
-            for ($i = 0; $i < sizeof($is_array); $i++):
-                if (ArrayKeyExist ($is_array[$i], 'type')):
-                    $is_placeholder = '';
-                    for ($j = 0; $j < sizeof(explode(' ', trim($is_array[$i]['title']))); $j++):
-                        $is_placeholder .= implode('', [
-                            ucwords(explode(' ', trim($is_array[$i]['title']))[$j]),
-                            ...$j < sizeof(explode(' ', trim($is_array[$i]['title']))) - 1 ? [' '] : [],
-                        ]);
-                    endfor;
-                    $is_id = $is_name = strtolower(str_replace(' ', '-', $is_placeholder));
-                    echo implode('', [
-                        '<div', ...IsTrue(BootstrapClasses()['column']) ? [ ' class=\'' . BootstrapClasses()['column'] . '\'' ] : [] ,'>',
-                            '<input',
-                                ' aria-label=\'' . $is_placeholder . '\'',
-                                ...IsTrue(BootstrapClasses()['input']) ? [ ' class=\'' . BootstrapClasses()['input'] . '\'' ] : [],
-                                ' id=\'' . $is_id . '\'',
-                                ' name=\'' . $is_name . '\'',
-                                ...ArrayKeyExist ($is_array[$i], 'maxlength') ? [ ' maxlength=\'' . $is_array[$i]['maxlength'] . '\'' ] : [],
-                                ...ArrayKeyExist ($is_array[$i], 'minlength') ? [ ' minlength=\'' . $is_array[$i]['minlength'] . '\'' ] : [],
-                                ' placeholder=\'' . $is_placeholder . '\'',
-                                ' type=\'', ...ArrayKeyExist ($is_array[$i], 'type') ? [ $is_array[$i]['type'] ] : [ 'text' ] ,'\'',
-                                ' value=\'', ...ArrayKeyExist ($is_array[$i], 'value') ? [ $is_array[$i]['value'] ] : [] , '\'',
-                            '>',
-                        '</div>',
-                    ]);
-                endif;
+            echo implode('', [
+                '<nav', ...!empty(Bootstrap()['nav']) ? [ ' class=\'' . Bootstrap()['nav'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
+                    '<form', ' action=\'index.php\'', ' class=\'row m-0 p-0 h-100 w-100\'', ' method=\'POST\'', ' role=\'search\'', '>',
+            ]);
+
+            for ($i = 0; $i < sizeof($is_fields); $i++):
+                $is_placeholder = '';
+                $is_explode = explode('_', trim($is_fields[$i]['title']));
+                for ($j = 0; $j < sizeof($is_explode); $j++) $is_placeholder .= implode('', [ ucwords($is_explode[$j]), ...$j < sizeof($is_explode) - 1 ? [' '] : [], ]);
+                $is_id = $is_name = strtolower(str_replace(' ', '-', $is_placeholder));
+                echo implode('', [
+                    '<div', ...IsTrue(Bootstrap()['column']) ? [ ' class=\'' . Bootstrap()['column'] . '\'' ] : [] ,'>',
+                        '<input',
+                            ' aria-label=\'' . $is_placeholder . '\'',
+                            ...IsTrue(Bootstrap()['input']) ? [ ' class=\'' . Bootstrap()['input'] . '\'' ] : [],
+                            ' id=\'' . $is_id . '\'',
+                            ' name=\'' . $is_name . '\'',
+                            ...ArrayKeyExist ($is_fields[$i], 'maxlength') ? [ ' maxlength=\'' . $is_fields[$i]['maxlength'] . '\'' ] : [],
+                            ...ArrayKeyExist ($is_fields[$i], 'minlength') ? [ ' minlength=\'' . $is_fields[$i]['minlength'] . '\'' ] : [],
+                            ' placeholder=\'' . $is_placeholder . '\'',
+                            ' type=\'', ...ArrayKeyExist ($is_fields[$i], 'type') ? [ $is_fields[$i]['type'] ] : [ 'text' ] ,'\'',
+                            ' value=\'', ...ArrayKeyExist ($is_fields[$i], 'value') ? [ $is_fields[$i]['value'] ] : [] , '\'',
+                        '>',
+                    '</div>',
+                ]);
             endfor;
+
+            echo implode('', [
+                            '<div', ...IsTrue(Bootstrap()['column']) ? [ ' class=\'' . Bootstrap()['column'] . '\'' ] : [], '>',
+                            '<button', ...IsTrue(Bootstrap()['button']) ? [ ' class=\'' . Bootstrap()['button'] . '\'' ] : [], ' type=\'submit\'', '>',
+                                'Process',
+                            '</button>',
+                        '</div>',
+                    '</form>',
+                '</nav>',
+            ]);
+
         endif;
 
-        echo implode('', [
-                        '<div', ...IsTrue(BootstrapClasses()['column']) ? [ ' class=\'' . BootstrapClasses()['column'] . '\'' ] : [], '>',
-                        '<button', ...IsTrue(BootstrapClasses()['button']) ? [ ' class=\'' . BootstrapClasses()['button'] . '\'' ] : [], ' type=\'submit\'', '>',
-                            'Process',
-                        '</button>',
-                    '</div>',
-                '</form>',
-            '</nav>',
-        ]);
-
-        echo '<table' . (IsTrue(BootstrapClasses()['table']) ? ' class=\'' . BootstrapClasses()['table'] . '\'' : '') . '>';
-
-            echo TheadDisplay ($is_thead);
-
-            $is_merge = [];
-
-            for ($i = 0; $i < sizeof($is_array); $i++):
-                $is_merge = array_merge($is_merge, [ strtolower(str_replace(' ', '-', trim($is_array[$i]['title']))) => $is_array[$i]['value'] ]);
-            endfor;
-
-            echo TbodyDisplay ($is_merge);
-            
-        echo '</table>';
+        echo '<div class=\'table px-3 py-0\'>';
+            echo '<table' . (IsTrue(Bootstrap()['table']) ? ' class=\'' . Bootstrap()['table'] . '\'' : '') . '>';
+                echo TheadDisplay ();
+                echo TbodyDisplay ();
+            echo '</table>';
+        echo '</div>';
 
     echo FooterDisplay ();
 

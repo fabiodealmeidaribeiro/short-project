@@ -2,9 +2,9 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
 
-    function BootstrapClasses ($is_input = 3) {
+    function Bootstrap ($is_input = 3) {
         global $is_period;
         return [
             'body' => implode(' ', [
@@ -39,9 +39,9 @@
                 'w-100' ,
             ]),
             'table' => implode(' ', [
-                'table',
+                // 'table',
                 ...$is_period ? [ 'table-light' ] : [ 'table-dark' ],
-                // 'table-hover',
+                'table-hover',
                 'table-striped',
                 'text-center',
                 'm-0',
@@ -71,13 +71,13 @@
                 'p-2',
             ]),
             'p' => implode(' ', [
-                'd-inline',
+                // 'd-inline',
+                'fw-semibold',
                 'm-0',
                 'p-0',
                 
             ]),
             'a' => implode(' ', [
-                'fst-italic',
                 'fw-semibold',
                 'm-0',
                 'p-0',
@@ -86,5 +86,45 @@
             ]),
         ];
     };
+
+    $is_fields = [
+        [
+            'title' => 'Descricao',
+            'type' => 'text',
+        ],
+        [
+            'title' => 'Data_Inicio',
+            'type' => 'date',
+        ],
+        [
+            'title' => 'Data_Fim',
+            'type' => 'date',
+        ],
+        [
+            'maxlength' => 4,
+            'minlength' => 4,
+            'title' => 'Ano_Ato',
+            'type' => 'number',
+        ],
+    ];
+
+    for ($i = 0; $i < sizeof($is_fields); $i++):
+        $is_value = strtolower(str_replace('_', '-', trim($is_fields[$i]['title'])));
+        $is_fields[$i] = array_merge($is_fields[$i], [ 'value' => isset($_POST[$is_value]) ? $_POST[$is_value] : '' ]);
+    endfor;
+
+    $is_archive = JSONFetch('database.json') ? JSONFetch('database.json')->Nomenclaturas : [];
+
+    $is_database = [];
+
+    if (IsTrue($is_archive)):
+        for ($i = 0; $i < sizeof($is_archive); $i++):
+            array_push($is_database, get_object_vars($is_archive[$i]));
+        endfor;
+    endif;
+    
+    $is_filtered = array_filter($is_database, function($is_index) {
+        return strstr($is_index['Descricao'], $_POST['descricao']);
+    });
 
 ?>

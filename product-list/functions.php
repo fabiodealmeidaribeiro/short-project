@@ -6,6 +6,8 @@
 
     function IsTrue ($is_var) { return isset($is_var) && !empty($is_var); };
 
+    function JSONFetch ($is_settings) { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : []; };
+
     function HeaderDisplay ($is_input = '') {
         $is_title = '';
         $is_array = empty($is_input) ? explode('-', basename(__DIR__)) : explode(' ', trim($is_input));
@@ -21,7 +23,7 @@
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
                     ...file_exists('./style.css') ? [ '<link href=\'./style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
                 '</head>',
-                '<body', ...IsTrue(BootstrapClasses()['body']) ? [ ' class=\'' . BootstrapClasses()['body'] . '\'' ] : [], '>',
+                '<body', ...IsTrue(Bootstrap()['body']) ? [ ' class=\'' . Bootstrap()['body'] . '\'' ] : [], '>',
         ]);
     };
 
@@ -38,76 +40,49 @@
 
     function TheadDisplay ($is_input = []) {
         $is_return = '';
-        if (IsTrue($is_input)):
+        global $is_database;
+        if (IsTrue($is_database)):
             $is_return .= '<thead>';
                 $is_return .= '<tr>';
-                    for ($i = 0; $i < sizeof($is_input); $i++):
+                    $is_number = 0;
+                    foreach ($is_database[0] as $is_key => $is_value):
+                        $is_active = $is_key === 'Codigo' || $is_key === 'Descricao';
                         $is_return .= implode('', [
-                            '<th', ...!$i ? [ ' scope=\'col\'' ] : [], '>',
-                                ucwords($is_input[$i]),
-                            '</th>',
+                            '<td class=\'p-2\'', ...!$is_number ? [ ' scope=\'col\'' ] : [], ' style=\'width : calc(100% / ', sizeof($is_database[0]), ');\'>',
+                                '<p class=\'', ...$is_active ? [ 'text-start ' ] : [], Bootstrap()['p'], '\'>',
+                                    preg_replace('/[_]/', ' ', trim($is_key)),
+                                '</p>',
+                            '</td>', 
                         ]);
-                    endfor;
+                        $is_number++;
+                    endforeach;
                 $is_return .= '</tr>';
             $is_return .= '</thead>';
         endif;
         return $is_return;
     };
 
-    $is_array = [];
-
-    $is_title = [
-        // [ 'title' => 'Codigo' ],
-        [ 'title' => 'Data_Inicio', 'type' => 'date' ],
-        [ 'title' => 'Data_Fim', 'type' => 'date' ],
-        [ 'title' => 'Descricao', 'type' => 'text' ],
-        // [ 'title' => 'Tipo_Ato' ],
-        // [ 'title' => 'Numero_Ato' ],
-        // [ 'maxlength' => 4, 'minlength' => 4, 'title' => 'Ano_Ato', 'type' => 'number' ],
-    ];
-
-    $is_thead = [];
-
-    for ($i = 0; $i < sizeof($is_title); $i++):
-        if (ArrayKeyExist ($is_title[$i], 'title')):
-            array_push($is_thead, str_replace('_', ' ', trim($is_title[$i]['title'])));
-            array_push($is_array, [
-                ...ArrayKeyExist ($is_title[$i], 'maxlength') ? [ 'maxlength' => $is_title[$i]['maxlength'] ] : [],
-                ...ArrayKeyExist ($is_title[$i], 'minlength') ? [ 'minlength' => $is_title[$i]['minlength'] ] : [],
-                'title' => str_replace('_', ' ', trim($is_title[$i]['title'])),
-                ...ArrayKeyExist ($is_title[$i], 'type') ? [ 'type' => $is_title[$i]['type'] ] : [],
-                'value' => isset($_POST[strtolower(str_replace('_', ' ', trim($is_title[$i]['title'])))]) ? $_POST[strtolower(str_replace('_', ' ', trim($is_title[$i]['title'])))] : '',
-            ]);
-        endif;
-    endfor;
-
     function TbodyDisplay ($is_input = []) {
         $is_return = '';
-        global $is_thead;
-        if (IsTrue($is_input)):
-            $is_proper = [
-                'data-inicio' => ArrayKeyExist ($is_input, 'data-inicio') ? (IsTrue($is_input['data-inicio']) ? $is_input['data-inicio'] : '') : '',
-                'data-fim' => ArrayKeyExist ($is_input, 'data-fim') ? (IsTrue($is_input['data-fim']) ? $is_input['data-fim'] : '') : '',
-                'descricao' => ArrayKeyExist ($is_input, 'descricao') ? (IsTrue($is_input['descricao']) ? $is_input['descricao'] : '') : '',
-            ];
+        global $is_filtered;
+        if (IsTrue($is_filtered)):
             $is_return .= '<tbody>';
-                for ($i = 0; $i < 10; $i++):
-                    if (IsTrue($is_thead)):
-                        $is_return .= '<tr>';
-                        for ($j = 0; $j < sizeof($is_thead); $j++):
+                foreach ($is_filtered as $is_index):
+                    $is_return .= '<tr>';
+                        $is_number = 0;
+                        foreach ($is_index as $is_key => $is_value):
+                            $is_active = $is_key === 'Codigo' || $is_key === 'Descricao';
                             $is_return .= implode('', [
-                                '<td', ...!$j ? [ ' scope=\'row\'' ] : [] ,'>',
-                                    '<p class=\'' . BootstrapClasses()['p'] . '\'>',
-                                        '<a class=\'', str_replace(' ', '-', strtolower(trim($is_thead[$j]))) ,' ', BootstrapClasses()['a'], '\' href=\'#\'>',
-                                            'Fábio',
-                                        '</a>',
+                                '<td class=\'p-2\'', ...!$is_number ? [ ' scope=\'row\'' ] : [], ' style=\'height : 100%; width : calc(100% / ', sizeof($is_index), ');\'>',
+                                    '<p class=\'', ...$is_active ? [ 'text-start ' ] : [], Bootstrap()['p'], '\'>',
+                                        preg_replace('/[-.:]/', '', trim($is_value)),
                                     '</p>',
-                                '</td>', 
+                                '</td>',
                             ]);
-                        endfor;
-                        $is_return .= '</tr>';
-                    endif;
-                endfor;
+                            $is_number++;
+                        endforeach;
+                    $is_return .= '</tr>';
+                endforeach;
             $is_return .= '</tbody>';
         endif;
         return $is_return;

@@ -102,12 +102,6 @@
                 'modal-header'
             ]),
             'body' => implode(' ', [
-                // ...[
-                //     'align-items-center',
-                //     'd-flex',
-                //     'flex-column',
-                //     'justify-content-center'
-                // ],
                 ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
                 ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
                 'modal-body',

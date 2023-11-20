@@ -209,10 +209,10 @@ export const ResizeElements = () => {
         document.querySelector('nav')['style']['position'] = 'absolute';
         document.querySelector('nav')['style']['top'] = 0;
     };
-    if (document.querySelector('table')) {
-        document.querySelector('table')['style']['left'] = 0;
-        document.querySelector('table')['style']['position'] = 'absolute';
-        document.querySelector('table')['style']['top'] = OverallHeight([ '.navbar' ]);
+    if (document.querySelector('.table')) {
+        document.querySelector('.table')['style']['left'] = 0;
+        document.querySelector('.table')['style']['position'] = 'absolute';
+        document.querySelector('.table')['style']['top'] = OverallHeight([ '.navbar' ]);
     };
     if (document.querySelector('footer')) {
         document.querySelector('footer')['style']['left'] = 0;
