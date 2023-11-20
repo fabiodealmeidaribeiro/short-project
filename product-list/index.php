@@ -45,7 +45,7 @@
 
         endif;
 
-        echo '<div class=\'table-container px-3 py-0\'>';
+        echo '<div class=\'table-container bg-white px-3 py-0\'>';
             echo '<table' . (IsTrue(Bootstrap()['table']) ? ' class=\'' . Bootstrap()['table'] . '\'' : '') . '>';
                 echo TheadDisplay ();
                 echo TbodyDisplay ();

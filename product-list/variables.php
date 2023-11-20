@@ -29,6 +29,7 @@
             ]),
             'input' => implode(' ', [
                 'border',
+                'border-1',
                 ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
                 ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
                 'form-control',
@@ -39,6 +40,10 @@
                 'w-100' ,
             ]),
             'table' => implode(' ', [
+                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
+                'border',
+                'border-1',
+                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
                 'table',
                 ...$is_period ? [ 'table-light' ] : [ 'table-dark' ],
                 'table-hover',
@@ -47,6 +52,7 @@
                 'm-0',
                 'p-0',
                 'w-100',
+
             ]),
             'column' => implode(' ', [
                 'col-12',
