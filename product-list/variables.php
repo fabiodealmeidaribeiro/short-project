@@ -97,7 +97,7 @@
                 ]),
                 'table' => implode(' ', [
                     'table-container',
-                    'bg-white',
+                    ...$is_period ? [ 'bg-white' ] : [ 'bg-dark' ],
                     'px-3',
                     'py-0',
                 ]),
