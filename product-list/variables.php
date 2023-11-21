@@ -90,6 +90,20 @@
                 'text-decoration-none',
                 ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
             ]),
+            'container' => [
+                'navbar' => implode(' ', [
+                    'navbar-container',
+                    'w-100',
+                ]),
+                'table' => implode(' ', [
+                    'table-container',
+                    'bg-white',
+                    'px-3',
+                    'py-0',
+                ]),
+                'footer' => implode(' ', [
+                ]),
+            ]
         ];
     };
 

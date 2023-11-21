@@ -1,17 +1,12 @@
 <?php
-
     include_once('./functions.php');
-
     echo HeaderDisplay ();
-
         if (IsTrue($is_fields)):
-
             echo implode('', [
-                '<div class=\'navbar-container w-100\'>',
-                    '<nav', ...!empty(Bootstrap()['nav']) ? [ ' class=\'' . Bootstrap()['nav'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
-                        '<form', ' action=\'index.php\'', ' class=\'row m-0 p-0 h-100 w-100\'', ' method=\'POST\'', ' role=\'search\'', '>',
+                '<div class=\'', Bootstrap()['container']['navbar'], '\'>',
+                    '<nav class=\'', Bootstrap()['nav'], '\'', ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
+                        '<form action=\'index.php\' class=\'row m-0 p-0 h-100 w-100\' method=\'POST\' role=\'search\'>',
             ]);
-
             for ($i = 0; $i < sizeof($is_fields); $i++):
                 $is_placeholder = '';
                 $is_explode = explode('_', trim($is_fields[$i]['title']));
@@ -33,10 +28,9 @@
                     '</div>',
                 ]);
             endfor;
-
             echo implode('', [
-                                '<div', ...IsTrue(Bootstrap()['column']) ? [ ' class=\'' . Bootstrap()['column'] . '\'' ] : [], '>',
-                                '<button', ...IsTrue(Bootstrap()['button']) ? [ ' class=\'' . Bootstrap()['button'] . '\'' ] : [], ' type=\'submit\'', '>',
+                                '<div class=\'', Bootstrap()['column'], '\'>',
+                                '<button class=\'', Bootstrap()['button'], '\' type=\'submit\'>',
                                     'Process',
                                 '</button>',
                             '</div>',
@@ -44,16 +38,13 @@
                     '</nav>',
                 '</div>',
             ]);
-
         endif;
-
-        echo '<div class=\'table-container bg-white px-3 py-0\'>';
-            echo '<table' . (IsTrue(Bootstrap()['table']) ? ' class=\'' . Bootstrap()['table'] . '\'' : '') . '>';
-                echo TheadDisplay ();
-                echo TbodyDisplay ();
+        echo '<div class=\'' . Bootstrap()['container']['table'] . '\'>';
+            echo '<table class=\'' . Bootstrap()['table'] . '\'>';
+                echo TheadDisplay();
+                echo TbodyDisplay();
             echo '</table>';
         echo '</div>';
-
     echo FooterDisplay ();
 
 ?>

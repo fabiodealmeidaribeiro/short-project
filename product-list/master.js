@@ -199,10 +199,10 @@ export const OverallHeight = (Input = []) => {
 
 export const ResizeElements = () => {
     if (document.querySelector('html')) {
-        document.querySelector('html')['style']['height'] = OverallHeight([ '.navbar', '.table-container', '.footer' ]);
+        document.querySelector('html')['style']['height'] = OverallHeight([ '.navbar-container', '.table-container', '.footer-container' ]);
     };
     if (document.querySelector('html')) {
-        document.querySelector('body')['style']['height'] = OverallHeight([ '.navbar', '.table-container', '.footer' ]);
+        document.querySelector('body')['style']['height'] = OverallHeight([ '.navbar-container', '.table-container', '.footer-container' ]);
     };
     if (document.querySelector('.navbar-container')) {
         document.querySelector('.navbar-container')['style']['left'] = 0;
