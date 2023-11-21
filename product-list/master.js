@@ -204,19 +204,19 @@ export const ResizeElements = () => {
     if (document.querySelector('html')) {
         document.querySelector('body')['style']['height'] = OverallHeight([ '.navbar', '.table-container', '.footer' ]);
     };
-    if (document.querySelector('nav')) {
-        document.querySelector('nav')['style']['left'] = 0;
-        document.querySelector('nav')['style']['position'] = 'absolute';
-        document.querySelector('nav')['style']['top'] = 0;
+    if (document.querySelector('.navbar-container')) {
+        document.querySelector('.navbar-container')['style']['left'] = 0;
+        document.querySelector('.navbar-container')['style']['position'] = 'absolute';
+        document.querySelector('.navbar-container')['style']['top'] = 0;
     };
     if (document.querySelector('.table-container')) {
         document.querySelector('.table-container')['style']['left'] = 0;
         document.querySelector('.table-container')['style']['position'] = 'absolute';
-        document.querySelector('.table-container')['style']['top'] = OverallHeight([ '.navbar' ]);
+        document.querySelector('.table-container')['style']['top'] = OverallHeight([ '.navbar-container' ]);
     };
-    if (document.querySelector('footer')) {
-        document.querySelector('footer')['style']['left'] = 0;
-        document.querySelector('footer')['style']['position'] = 'absolute';
-        document.querySelector('footer')['style']['top'] = OverallHeight([ '.navbar', '.table' ]);
+    if (document.querySelector('.footer-container')) {
+        document.querySelector('.footer-container')['style']['left'] = 0;
+        document.querySelector('.footer-container')['style']['position'] = 'absolute';
+        document.querySelector('.footer-container')['style']['top'] = OverallHeight([ '.navbar-container', '.table-container' ]);
     };    
 };

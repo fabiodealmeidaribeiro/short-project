@@ -2,7 +2,7 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function Bootstrap ($is_input = 3) {
         global $is_period;

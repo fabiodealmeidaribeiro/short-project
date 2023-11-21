@@ -7,8 +7,9 @@
         if (IsTrue($is_fields)):
 
             echo implode('', [
-                '<nav', ...!empty(Bootstrap()['nav']) ? [ ' class=\'' . Bootstrap()['nav'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
-                    '<form', ' action=\'index.php\'', ' class=\'row m-0 p-0 h-100 w-100\'', ' method=\'POST\'', ' role=\'search\'', '>',
+                '<div class=\'navbar-container w-100\'>',
+                    '<nav', ...!empty(Bootstrap()['nav']) ? [ ' class=\'' . Bootstrap()['nav'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
+                        '<form', ' action=\'index.php\'', ' class=\'row m-0 p-0 h-100 w-100\'', ' method=\'POST\'', ' role=\'search\'', '>',
             ]);
 
             for ($i = 0; $i < sizeof($is_fields); $i++):
@@ -34,13 +35,14 @@
             endfor;
 
             echo implode('', [
-                            '<div', ...IsTrue(Bootstrap()['column']) ? [ ' class=\'' . Bootstrap()['column'] . '\'' ] : [], '>',
-                            '<button', ...IsTrue(Bootstrap()['button']) ? [ ' class=\'' . Bootstrap()['button'] . '\'' ] : [], ' type=\'submit\'', '>',
-                                'Process',
-                            '</button>',
-                        '</div>',
-                    '</form>',
-                '</nav>',
+                                '<div', ...IsTrue(Bootstrap()['column']) ? [ ' class=\'' . Bootstrap()['column'] . '\'' ] : [], '>',
+                                '<button', ...IsTrue(Bootstrap()['button']) ? [ ' class=\'' . Bootstrap()['button'] . '\'' ] : [], ' type=\'submit\'', '>',
+                                    'Process',
+                                '</button>',
+                            '</div>',
+                        '</form>',
+                    '</nav>',
+                '</div>',
             ]);
 
         endif;
