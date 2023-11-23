@@ -2,7 +2,7 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function Bootstrap ($is_input = 3) {
         global $is_period;
@@ -100,10 +100,11 @@
                     ...$is_period ? [ 'bg-white' ] : [ 'bg-dark' ],
                     'px-3',
                     'py-0',
+                    'w-100',
                 ]),
                 'footer' => implode(' ', [
                 ]),
-            ]
+            ],
         ];
     };
 
@@ -144,7 +145,7 @@
     endif;
     
     $is_filtered = array_filter($is_database, function($is_index) {
-        return strstr($is_index['Descricao'], $_POST['descricao']);
+        return stripos($is_index['Descricao'], $_POST['descricao']);
     });
 
 ?>
