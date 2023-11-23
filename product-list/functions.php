@@ -62,6 +62,20 @@
         return $is_return;
     };
 
+    function Replacement ($is_input = '') {
+        return implode('', [
+            '<span class=\'text-danger fw-bolder fst-italic\'>',
+                $is_input,
+            '</span>',
+        ]);
+    };
+
+    function Pattern ($is_input = '') {
+        return implode('', [
+            '/', $is_input, '/',
+        ]);
+    };
+
     function TbodyDisplay ($is_input = []) {
         $is_return = '';
         global $is_filtered;
@@ -71,44 +85,23 @@
                     $is_return .= '<tr>';
                         $is_number = 0;
                         foreach ($is_index as $is_key => $is_value):
-                            $is_active = $is_key === 'Codigo' || $is_key === 'Descricao';
                             $is_pattern = [
-                                '/' . $_POST['descricao'] . '/',
-                                '/' . strtolower($_POST['descricao']) . '/',
-                                '/' . strtoupper($_POST['descricao']) . '/',
-                                '/' . ucfirst($_POST['descricao']) . '/',
-                                '/' . ucwords($_POST['descricao']) . '/',
+                                Pattern ($_POST['descricao']),
+                                Pattern (strtolower($_POST['descricao'])),
+                                Pattern (strtoupper($_POST['descricao'])),
+                                Pattern (ucfirst($_POST['descricao'])),
+                                Pattern (ucwords($_POST['descricao'])),
                             ];
                             $is_replacement = [
-                                implode('', [
-                                    '<span class=\'text-danger fw-bolder fst-italic\'>',
-                                        $_POST['descricao'],
-                                    '</span>',
-                                ]),
-                                implode('', [
-                                    '<span class=\'text-danger fw-bolder fst-italic\'>',
-                                        strtolower($_POST['descricao']),
-                                    '</span>',
-                                ]),
-                                implode('', [
-                                    '<span class=\'text-danger fw-bolder fst-italic\'>',
-                                        strtoupper($_POST['descricao']),
-                                    '</span>',
-                                ]),
-                                implode('', [
-                                    '<span class=\'text-danger fw-bolder fst-italic\'>',
-                                        ucfirst($_POST['descricao']),
-                                    '</span>',
-                                ]),
-                                implode('', [
-                                    '<span class=\'text-danger fw-bolder fst-italic\'>',
-                                        ucwords($_POST['descricao']),
-                                    '</span>',
-                                ]),
+                                Replacement ($_POST['descricao']),
+                                Replacement (strtolower($_POST['descricao'])),
+                                Replacement (strtoupper($_POST['descricao'])),
+                                Replacement (ucfirst($_POST['descricao'])),
+                                Replacement (ucwords($_POST['descricao'])),
                             ];
                             $is_return .= implode('', [
-                                '<td class=\'p-2\'', ...!$is_number ? [ ' scope=\'row\'' ] : [], ' style=\'height : 100%; width : calc(100% / ', sizeof($is_index), ');\'>',
-                                    '<p class=\'', ...$is_active ? [ 'text-start ' ] : [], Bootstrap()['p'], '\'>',
+                                '<td class=\'p-2\'', ...!$is_number ? [ ' scope=\'row\'' ] : [], ' style=\'width : calc(100% / ', sizeof($is_index), ');\'>',
+                                    '<p class=\'', ...($is_key === 'Codigo' || $is_key === 'Descricao') ? [ 'text-start ' ] : [], Bootstrap()['p'], '\'>',
                                         preg_replace($is_pattern, $is_replacement, $is_value),
                                     '</p>',
                                 '</td>',

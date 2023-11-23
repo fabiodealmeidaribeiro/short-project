@@ -2,7 +2,7 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function Bootstrap ($is_input = 3) {
         global $is_period;
@@ -110,10 +110,6 @@
 
     $is_fields = [
         [
-            'title' => 'Descricao',
-            'type' => 'text',
-        ],
-        [
             'title' => 'Data_Inicio',
             'type' => 'date',
         ],
@@ -122,16 +118,14 @@
             'type' => 'date',
         ],
         [
-            'maxlength' => 4,
-            'minlength' => 4,
-            'title' => 'Ano_Ato',
-            'type' => 'number',
+            'title' => 'Descricao',
+            'type' => 'text',
         ],
     ];
 
     for ($i = 0; $i < sizeof($is_fields); $i++):
         $is_value = strtolower(str_replace('_', '-', trim($is_fields[$i]['title'])));
-        $is_fields[$i] = array_merge($is_fields[$i], [ 'value' => isset($_POST[$is_value]) ? $_POST[$is_value] : '' ]);
+        $is_fields[$i] = array_merge($is_fields[$i], [ 'value' => $_POST[$is_value] ?? '' ]);
     endfor;
 
     $is_archive = JSONFetch('database.json') ? JSONFetch('database.json')->Nomenclaturas : [];
@@ -143,9 +137,12 @@
             array_push($is_database, get_object_vars($is_archive[$i]));
         endfor;
     endif;
-    
-    $is_filtered = array_filter($is_database, function($is_index) {
-        return stripos($is_index['Descricao'], $_POST['descricao']);
-    });
+
+    function SearchIndex ($is_index) {
+        $is_format = DateTime::createFromFormat('d/m/Y', $is_index['Data_Inicio'])->format('Y-m-d');
+        return stripos($is_index['Descricao'], $_POST['descricao']) && $is_format >= $_POST['data-inicio'] && $is_format <= $_POST['data-fim'];
+    };
+
+    $is_filtered = array_filter($is_database, 'SearchIndex');
 
 ?>
