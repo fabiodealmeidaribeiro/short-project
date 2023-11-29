@@ -102,21 +102,11 @@
                     'py-0',
                     'w-100',
                 ]),
-                'footer' => implode(' ', [
-                ]),
             ],
         ];
     };
 
     $is_fields = [
-        [
-            'title' => 'Data_Inicio',
-            'type' => 'date',
-        ],
-        [
-            'title' => 'Data_Fim',
-            'type' => 'date',
-        ],
         [
             'title' => 'Descricao',
             'type' => 'text',
@@ -139,8 +129,7 @@
     endif;
 
     function SearchIndex ($is_index) {
-        $is_format = DateTime::createFromFormat('d/m/Y', $is_index['Data_Inicio'])->format('Y-m-d');
-        return stripos($is_index['Descricao'], $_POST['descricao']) && $is_format >= $_POST['data-inicio'] && $is_format <= $_POST['data-fim'];
+        return stripos($is_index['Descricao'], $_POST['descricao']);
     };
 
     $is_filtered = array_filter($is_database, 'SearchIndex');
