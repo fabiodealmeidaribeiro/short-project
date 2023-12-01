@@ -114,8 +114,7 @@
     ];
 
     for ($i = 0; $i < sizeof($is_fields); $i++):
-        $is_value = strtolower(str_replace('_', '-', trim($is_fields[$i]['title'])));
-        $is_fields[$i] = array_merge($is_fields[$i], [ 'value' => $_POST[$is_value] ?? '' ]);
+        $is_fields[$i] = array_merge($is_fields[$i], [ 'value' => $_POST[strtolower(str_replace('_', '-', trim($is_fields[$i]['title'])))] ?? '' ]);
     endfor;
 
     $is_archive = JSONFetch('database.json') ? JSONFetch('database.json')->Nomenclaturas : [];
@@ -129,7 +128,7 @@
     endif;
 
     function SearchIndex ($is_index) {
-        return stripos($is_index['Descricao'], $_POST['descricao']);
+        return stripos($is_index['Descricao'], $_POST['descricao'] ?? '');
     };
 
     $is_filtered = array_filter($is_database, 'SearchIndex');

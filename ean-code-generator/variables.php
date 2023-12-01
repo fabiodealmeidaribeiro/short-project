@@ -4,7 +4,7 @@
 
     $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
-    function BootstrapClasses ($is_input = 3) {
+    function BSClass ($is_input = 3) {
         global $is_period;
         return [
             'body' => implode(' ', [
@@ -39,7 +39,6 @@
             'table' => implode(' ', [
                 'table',
                 ...$is_period ? [ 'table-light' ] : [ 'table-dark' ],
-                // 'table-hover',
                 'table-striped',
                 'text-center',
                 'm-0',
@@ -83,7 +82,7 @@
         ];
     };
 
-    function ModalClasses ($is_input = 3) {
+    function BSMClass ($is_input = 3) {
         global $is_period;
         return [
             'dialog' => implode(' ', [
@@ -117,7 +116,7 @@
                 'modal-footer'
             ]),
             'button' => implode(' ', [
-                BootstrapClasses()['button'],
+                BSClass()['button'],
                 'ms-' . $is_input,
             ]),
         ];

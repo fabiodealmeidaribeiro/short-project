@@ -3,11 +3,11 @@ import {
     JSONFetch,
     SetAttribute,
     Validator,
-} from './script-master.js';
+} from './master.js';
 
 import {
     SetStyle,
-} from './script-variable.js';
+} from './variable.js';
 
 const Network = [
     {   

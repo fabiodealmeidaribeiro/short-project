@@ -32,7 +32,7 @@
         ]);
 
         echo implode('', [
-            '<nav', ...!empty(BootstrapClasses()['nav']) ? [ ' class=\'' . BootstrapClasses()['nav'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
+            '<nav', ...!empty(BSClass()['nav']) ? [ ' class=\'' . BSClass()['nav'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
                 '<form', ' action=\'index.php\'', ' class=\'row m-0 p-0 h-100 w-100\'', ' method=\'POST\'', ' role=\'search\'', '>',
         ]);
 
@@ -40,10 +40,10 @@
             $is_placeholder = trim($is_array[$i]['title']);
             $is_id = $is_name = strtolower(str_replace(' ', '-', $is_placeholder));
             echo implode('', [
-                '<div', ...IsTrue(BootstrapClasses()['column']) ? [ ' class=\'' . BootstrapClasses()['column'] . '\'' ] : [] ,'>',
+                '<div', ...IsTrue(BSClass()['column']) ? [ ' class=\'' . BSClass()['column'] . '\'' ] : [] ,'>',
                     '<input',
                         ' aria-label=\'' . $is_placeholder . '\'',
-                        ...IsTrue(BootstrapClasses()['input']) ? [ ' class=\'' . BootstrapClasses()['input'] . '\'' ] : [],
+                        ...IsTrue(BSClass()['input']) ? [ ' class=\'' . BSClass()['input'] . '\'' ] : [],
                         ' id=\'' . $is_id . '\'',
                         ' name=\'' . $is_name . '\'',
                         ...ArrayKeyExist ($is_array[$i], 'maxlength') ? [ ' maxlength=\'' . $is_array[$i]['maxlength'] . '\'' ] : [],
@@ -57,8 +57,8 @@
         endfor;
 
         echo implode('', [
-                        '<div', ...IsTrue(BootstrapClasses()['column']) ? [ ' class=\'' . BootstrapClasses()['column'] . '\'' ] : [], '>',
-                        '<button', ...IsTrue(BootstrapClasses()['button']) ? [ ' class=\'' . BootstrapClasses()['button'] . '\'' ] : [], ' type=\'submit\'', '>',
+                        '<div', ...IsTrue(BSClass()['column']) ? [ ' class=\'' . BSClass()['column'] . '\'' ] : [], '>',
+                        '<button', ...IsTrue(BSClass()['button']) ? [ ' class=\'' . BSClass()['button'] . '\'' ] : [], ' type=\'submit\'', '>',
                             'Process',
                         '</button>',
                     '</div>',
@@ -66,7 +66,7 @@
             '</nav>',
         ]);
 
-        echo '<table' . (IsTrue(BootstrapClasses()['table']) ? ' class=\'' . BootstrapClasses()['table'] . '\'' : '') . '>';
+        echo '<table' . (IsTrue(BSClass()['table']) ? ' class=\'' . BSClass()['table'] . '\'' : '') . '>';
             echo TheadDisplay ($is_thead);
             $is_merge = [];
             for ($i = 0; $i < sizeof($is_array); $i++):
@@ -75,27 +75,14 @@
             echo TbodyDisplay ($is_merge);
         echo '</table>';
 
-        echo BootstrapModal ([
+        echo BSContainer ([
             'title' => 'container',
-            'body' => file_exists('./container.html') ? SetStyle(file_get_contents('container.html')) : '',
             'button' => [ 'Copy', 'Print', 'Send' ]
         ]);
 
-        $is_modal = [];
+        echo ContainerBuilder();
 
-        $is_array = array_filter(scandir('footer'), function ($is_file) { return pathinfo($is_file, PATHINFO_EXTENSION) === 'html'; });
-
-        foreach (array_keys(array_diff($is_array, [])) as $is_index):
-            $is_title = str_replace('-', ' ', str_replace('.html', '', $is_array[$is_index]));
-            $is_archive = './footer/' . $is_array[$is_index];
-            echo BootstrapModal ([
-                'title' => $is_title,
-                'body' => file_exists($is_archive) ? SetStyle(file_get_contents($is_archive)) : '',
-            ]);
-            array_push($is_modal, $is_title);
-        endforeach;
-
-        echo BootstrapModalCall ([ 'selector' => 'a', 'array' => $is_modal ]);
+        echo CallerBuilder();
 
     echo FooterDisplay ();
 

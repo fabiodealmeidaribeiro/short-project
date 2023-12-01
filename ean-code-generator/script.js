@@ -5,11 +5,11 @@ import {
     SetAttribute,
     ResizeElements,
     Titleize,
-} from './script-master.js';
+} from './master.js';
 
 import {
     SocialNetwork
-} from './script-network.js';
+} from './network.js';
 
 const Border = [ 'border', Period ? 'border-dark' : 'border-light', 'border-opacity-25' ];
 const Color = { front : (Period ? '#212529' : '#ffffff'), back : (Period ? '#ffffff' : '#212529') };
