@@ -1,6 +1,6 @@
 import {
     BootstrapParams,
-} from './script-bootstrap.js';
+} from './bootstrap.js';
 
 import {
     CheckHTMLTermination,
@@ -11,11 +11,11 @@ import {
     SelectorOrID,
     SetAttribute,
     Validator,
-} from './script-main.js';
+} from './main.js';
 
 import {
     Classes,
-} from './script-variable.js';
+} from './variable.js';
 
 export const FrontpageStyle = (Input = '') => {
     let Result = Input;

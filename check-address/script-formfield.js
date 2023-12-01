@@ -9,12 +9,12 @@ import {
     SetTextNode,
     ThereIsKeyWithRealValue,
     Validator,
-} from './script-main.js';
+} from './main.js';
 
 import {
     Classes,
     FormatDate,
-} from './script-variable.js';
+} from './variable.js';
 
 export const FormFieldBuilder = Input => {
     const Proper = {

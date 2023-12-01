@@ -4,7 +4,7 @@
 
     $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
-    function Bootstrap ($is_input = 3) {
+    function BSClass ($is_input = 3) {
         global $is_period;
         return [
             'body' => implode(' ', [
@@ -18,12 +18,10 @@
                 'ps-' . $is_input,
                 'pe-' . $is_input,
                 'pe-md-0',
-                // 'pe-lg-' . $is_input,
                 'pe-lg-0',
                 'pt-' . $is_input,
                 'pb-0',
                 'pb-md-0',
-                // 'pb-lg-' . $is_input,
                 'pb-lg-0',
                 'w-100',
             ]),
@@ -57,7 +55,6 @@
             'column' => implode(' ', [
                 'col-12',
                 'col-md-6',
-                // 'col-lg-3',
                 'col-lg-6',
                 'ps-0',
                 'pe-0',
@@ -65,7 +62,6 @@
                 'pe-lg-' . $is_input,
                 'mb-' . $is_input,
                 'mb-md-' . $is_input,
-                // 'mb-lg-0',
                 'mb-lg-' . $is_input,
             ]),
             'button' => implode(' ', [
@@ -77,7 +73,6 @@
                 'p-2',
             ]),
             'p' => implode(' ', [
-                // 'd-inline',
                 'fw-semibold',
                 'm-0',
                 'p-0',
@@ -103,6 +98,46 @@
                     'w-100',
                 ]),
             ],
+        ];
+    };
+
+    function BSMClass ($is_input = 3) {
+        global $is_period;
+        return [
+            'dialog' => implode(' ', [
+                'modal-dialog',
+                'modal-lg',
+                'modal-dialog-centered',
+                'modal-dialog-scrollable',
+                'modal-fullscreen-md-down'
+            ]),
+            'content' => implode(' ', [
+                'modal-content',
+            ]),
+            'header' => implode(' ', [
+                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
+                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
+                'modal-header'
+            ]),
+            'body' => implode(' ', [
+                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
+                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
+                'modal-body',
+                'p-' . $is_input,
+            ]),
+            'title' => implode(' ', [
+                'modal-title',
+                'fs-5',
+                'p-0',
+            ]),
+            'footer' => implode(' ', [
+                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
+                'modal-footer'
+            ]),
+            'button' => implode(' ', [
+                BSClass()['button'],
+                'ms-' . $is_input,
+            ]),
         ];
     };
 

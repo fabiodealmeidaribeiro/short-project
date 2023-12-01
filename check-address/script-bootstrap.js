@@ -9,11 +9,11 @@ import {
     SelectorOrID,
     SetAttribute,
     Validator,
-} from './script-main.js';
+} from './main.js';
 
 import {
     Classes,
-} from './script-variable.js';
+} from './variable.js';
 
 export const BootstrapParams = {
     ModalComponent : (Input = {}) => {

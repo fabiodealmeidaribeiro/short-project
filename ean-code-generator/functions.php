@@ -39,13 +39,7 @@
     };
 
     function NumberGenerator ($is_input = '') {
-        $is_message = implode('', [
-            '<div class=\'alert alert-danger m-0 p-3\' role=\'alert\'>',
-                '<p class=\'text-center m-0 p-0\'>',
-                    'The EAN-13 number must contain exactly 12 numeric digits.',
-                '</p>',
-            '</div>',
-        ]);
+        $is_message = implode('', [ '<div class=\'alert alert-danger m-0 p-3\' role=\'alert\'>', '<p class=\'text-center m-0 p-0\'>', 'The EAN-13 number must contain exactly 12 numeric digits.', '</p>', '</div>', ]);
         $is_input = preg_replace('/[^0-9]/', '', $is_input);
         strlen($is_input) != 12 || !is_numeric($is_input) ? die($is_message) : null;
         $is_check = 0;
@@ -63,11 +57,7 @@
             $is_return .= '<thead>';
                 $is_return .= '<tr>';
                     for ($i = 0; $i < sizeof($is_input); $i++):
-                        $is_return .= implode('', [
-                            '<th', ...!$i ? [ ' scope=\'col\'' ] : [], '>',
-                                strtoupper($is_input[$i]),
-                            '</th>',
-                        ]);
+                        $is_return .= implode('', [ '<th', ...!$i ? [ ' scope=\'col\'' ] : [], '>', strtoupper($is_input[$i]), '</th>', ]);
                     endfor;
                 $is_return .= '</tr>';
             $is_return .= '</thead>';
@@ -87,23 +77,11 @@
             if (!$is_proper['amount'] || !$is_proper['start'] || !$is_proper['cnpj']): else:
                 $is_return .= '<tbody>';
                     for ($i = 0; $i < $is_proper['amount']; $i++):
-                        $is_order = implode('', [
-                            789,
-                            substr(preg_replace('/[^0-9]/', '', $is_proper['cnpj']), 0, 9 - strlen($is_proper['start'] + $i)),
-                            $is_proper['start'] + $i,
-                        ]);
+                        $is_order = implode('', [ 789, substr(preg_replace('/[^0-9]/', '', $is_proper['cnpj']), 0, 9 - strlen($is_proper['start'] + $i)), $is_proper['start'] + $i, ]);
                         if (IsTrue($is_thead)):
                             $is_return .= '<tr>';
                                 for ($j = 0; $j < sizeof($is_thead); $j++):
-                                    $is_return .= implode('', [
-                                        '<td', ...!$j ? [ ' scope=\'row\'' ] : [], '>',
-                                            '<p', ...IsTrue(BSClass()['p']) ? [ ' class=\'' . BSClass()['p'] . '\'' ] : [], '>',
-                                                '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ', ...IsTrue(BSClass()['a']) ? [ BSClass()['a'] ] : [], '\' href=\'#\'>',
-                                                    strpos($is_thead[$j], '13') ? NumberGenerator ($is_order) : $is_order,
-                                                '</a>',
-                                            '</p>',
-                                        '</td>',
-                                    ]);
+                                    $is_return .= implode('', [ '<td', ...!$j ? [ ' scope=\'row\'' ] : [], '>', '<p', ...IsTrue(BSClass()['p']) ? [ ' class=\'' . BSClass()['p'] . '\'' ] : [], '>', '<a class=\'' . str_replace(' ', '-', strtolower(trim($is_thead[$j]))) . ' ', ...IsTrue(BSClass()['a']) ? [ BSClass()['a'] ] : [], '\' href=\'#\'>', strpos($is_thead[$j], '13') ? NumberGenerator ($is_order) : $is_order, '</a>', '</p>', '</td>', ]);
                                 endfor;
                             $is_return .= '</tr>';
                         endif;
@@ -138,7 +116,7 @@
 
     function SetStyle ($is_input = '') {
         global $is_period;
-        for ($i= 1; $i <= 6; $i++) $is_input = str_replace('<h' . $i, '<h' . $i . ' class=\'p-0 m-0\'', $is_input);
+        for ($i = 1; $i <= 6; $i++) $is_input = str_replace('<h' . $i, '<h' . $i . ' class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<p', '<p class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<li', '<li class=\'p-0 m-0\'', $is_input);
         $is_input = str_replace('<ul', '<ul class=\'p-0 my-3 list-unstyled\'', $is_input);
@@ -164,29 +142,26 @@
         ];
         $is_style = '';
         foreach ($is_object as $is_key => $is_value):
-            $is_style .= implode('', [
-                $is_key . ' : ' . $is_value . ';',
-                ' ',
-            ]);
+            $is_style .= implode('', [ $is_key . ' : ' . $is_value . ';', ' ', ]);
         endforeach;
         $is_array = [];
         $is_selector = strtolower(trim($is_proper['selector'])) === 'a';
         if (IsTrue($is_proper['array'])):
-            $is_array = array_merge($is_array, [ '<footer class=\'footer\' style=\'' . trim($is_style) . '\'>' ]);
+            $is_array = array_merge($is_array, [ '<div class=\'footer-container w-100\'>', '<footer class=\'footer\' style=\'' . trim($is_style) . '\'>' ]);
                 for ($i = 0; $i < sizeof($is_proper['array']); $i++):
                     $is_index = $is_proper['array'][$i];
                     $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
                     $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
                     $is_array = array_merge($is_array, [
-                        ...!$is_selector ? [ '<button', ...IsTrue(BSClass()['button']) ? [' class=\'' . BSClass()['button'] . '\''] : [], ' data-bs-toggle=\'modal\'', ' data-bs-target=\'#' . $is_target . '\'', ' type=\'button\'', '>', ] : [],
-                        ...$is_selector ? [ '<p', ...IsTrue(BSClass()['p']) ? [ ' class=\'' . BSClass()['p'] . '\'' ] : [], ' id=\'' . $is_id . '\'>', '<a', ...IsTrue(BSClass()['a']) ? [ ' class=\'' . BSClass()['a'] . '\'' ] : [], ' data-bs-toggle=\'modal\'', ' data-bs-target=\'#' . $is_target . '\'', ' href=\'#\'', '>', ] : [],
+                        ...!$is_selector ? [ '<button', ...IsTrue(BSClass()['button']) ? [ ' class=\'' . BSClass()['button'] . '\''] : [], ' data-bs-toggle=\'modal\' data-bs-target=\'#' . $is_target . '\' type=\'button\'>' ] : [],
+                        ...$is_selector ? [ '<p', ...IsTrue(BSClass()['p']) ? [ ' class=\'' . BSClass()['p'] . '\'' ] : [], ' id=\'' . $is_id . '\'>', '<a', ...IsTrue(BSClass()['a']) ? [ ' class=\'' . BSClass()['a'] . '\'' ] : [], ' data-bs-toggle=\'modal\' data-bs-target=\'#' . $is_target . '\' href=\'#\'>' ] : [],
                         ucwords(trim($is_index)),
                         ...$is_selector ? [ '</a>', '</p>' ] : [],
                         ...$is_selector ? [ ...$i < sizeof($is_proper['array']) - 1 ? [ '<p', ...IsTrue(BSClass()['p']) ? ' class=\'' . BSClass()['p'] . '\'>' : [], '.', '</p>' ] : [] ] : [],
                         ...!$is_selector ? [ '</button>' ] : [],
                     ]);
                 endfor;
-            $is_array = array_merge($is_array, [ '</footer>' ]);
+            $is_array = array_merge($is_array, [ '</footer>', '</div>' ]);
         endif;
         return implode('', $is_array);
     };
@@ -196,50 +171,29 @@
         global $is_period;
         if (ArrayKeyExist($is_input, 'button')):
             for ($i = 0; $i < sizeof($is_input['button']); $i++):
-                $is_button .= implode('', [
-                    '<button',
-                        ' class=\'' . BSMClass()['button'] . '\'',
-                        IsTrue($is_input['button'][$i]) ? ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' : '',
-                        ' type=\'button\'',
-                    '>',
-                        ucwords(trim($is_input['button'][$i])),
-                    '</button>',
-                ]);
+                $is_button .= implode('', [ '<button', ...IsTrue(BSMClass()['button']) ? [ ' class=\'' . BSMClass()['button'] . '\'' ] : [], ...IsTrue($is_input['button'][$i]) ? [ ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' ] : [], ' type=\'button\'>', ucwords(trim($is_input['button'][$i])), '</button>', ]);
             endfor;
         endif;
+        $is_return = '';
         $is_index = ArrayKeyExist($is_input, 'title') ? $is_input['title'] : '';
         if (IsTrue($is_index)):
             $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
             $is_label = ValueConverter([ 'type' => 'label', 'value' => $is_index ]);
             $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
-            return implode('', [
+            $is_return .= implode('', [
                 '<button class=\'d-none\' data-bs-target=\'#' . $is_target . '\' data-bs-toggle=\'modal\' id=\'' . $is_id . '\' type=\'button\' ></button>',
                 '<div aria-labelledby=\'' . $is_label . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_target . '\' tabindex=\'-1\'>',
-                    '<div', ...IsTrue(BSMClass()['dialog']) ? [' class=\'' . BSMClass()['dialog'] . '\''] : [], ' id=\'dialog\'>',
-                        '<div', ...IsTrue(BSMClass()['content']) ? [' class=\'' . BSMClass()['content'] . '\''] : [], ' id=\'content\'>',
-                            ...IsTrue($is_input['title']) ? [
-                                '<div', ...IsTrue(BSMClass()['header']) ? [' class=\'' . BSMClass()['header'] . '\''] : [], !$is_period ? ' data-bs-theme=\'dark\'' : '', ' id=\'header\'', '>',
-                                    '<h1', IsTrue(BSMClass()['title']) ? [' class=\'' . BSMClass()['title'] . '\''] : [], ' id=\'' . $is_label . '\'', '>',
-                                        ucwords(trim($is_input['title'])),
-                                    '</h1>',
-                                    '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>',
-                                '</div>',
-                            ] : [
-                            ],
-                            '<div', ...IsTrue(BSMClass()['body']) ? [ ' class=\'' . BSMClass()['body'] . '\'' ] : [], ' id=\'body\'>',
-                                ...IsTrue($is_input['body']) ? [ $is_input['body'] ] : [],
-                            '</div>',
-                            '<div', ...IsTrue(BSMClass()['footer']) ? [ ' class=\'' . BSMClass()['footer'] . '\'' ] : [], 'id=\'footer\'>',
-                                ...IsTrue($is_button) ? [ $is_button ] : [],
-                                '<button', ...IsTrue(BSMClass()['button']) ? [ ' class=\'' . BSMClass()['button'] . '\'' ] : [], ' data-bs-dismiss=\'modal\' id=\'close\' type=\'button\'>',
-                                    'Close',
-                                '</button>',
-                            '</div>',
+                    '<div', ...IsTrue(BSMClass()['dialog']) ? [ ' class=\'' . BSMClass()['dialog'] . '\'' ] : [], ' id=\'dialog\'>',
+                        '<div', ...IsTrue(BSMClass()['content']) ? [ ' class=\'' . BSMClass()['content'] . '\'' ] : [], ' id=\'content\'>',
+                            ...IsTrue($is_input['title']) ? [ '<div', ...IsTrue(BSMClass()['header']) ? [ ' class=\'' . BSMClass()['header'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], ' id=\'header\'>', '<h1', ...IsTrue(BSMClass()['title']) ? [ ' class=\'' . BSMClass()['title'] . '\'' ] : [], ' id=\'' . $is_label . '\'>', ucwords(trim($is_input['title'])), '</h1>', '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>', '</div>', ] : [],
+                            '<div', ...IsTrue(BSMClass()['body']) ? [ ' class=\'' . BSMClass()['body'] . '\'' ] : [], ' id=\'body\'>', ...ArrayKeyExist ($is_input, 'body') ? [ $is_input['body'] ] : [], '</div>',
+                            '<div', ...IsTrue(BSMClass()['footer']) ? [ ' class=\'' . BSMClass()['footer'] . '\'' ] : [], 'id=\'footer\'>', ...IsTrue($is_button) ? [ $is_button ] : [], '<button', ...IsTrue(BSMClass()['button']) ? [ ' class=\'' . BSMClass()['button'] . '\'' ] : [], ' data-bs-dismiss=\'modal\' id=\'close\' type=\'button\'>', 'Close', '</button>', '</div>',
                         '</div>',
                     '</div>',
                 '</div>',
             ]);
         endif;
+        return $is_return;
     };
 
     function ContainerBuilder ($is_input = [ 'footer' ]) {

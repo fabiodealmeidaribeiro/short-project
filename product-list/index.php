@@ -3,8 +3,8 @@
     echo HeaderDisplay ();
         if (IsTrue($is_fields)):
             echo implode('', [
-                '<div class=\'', Bootstrap()['container']['navbar'], '\'>',
-                    '<nav class=\'', Bootstrap()['nav'], '\'', ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
+                '<div class=\'', BSClass()['container']['navbar'], '\'>',
+                    '<nav class=\'', BSClass()['nav'], '\'', ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], '>',
                         '<form action=\'index.php\' class=\'row m-0 p-0 h-100 w-100\' method=\'POST\' role=\'search\'>',
             ]);
             for ($i = 0; $i < sizeof($is_fields); $i++):
@@ -13,10 +13,10 @@
                 for ($j = 0; $j < sizeof($is_explode); $j++) $is_placeholder .= implode('', [ ucwords($is_explode[$j]), ...$j < sizeof($is_explode) - 1 ? [' '] : [], ]);
                 $is_id = $is_name = strtolower(str_replace(' ', '-', $is_placeholder));
                 echo implode('', [
-                    '<div', ...IsTrue(Bootstrap()['column']) ? [ ' class=\'' . Bootstrap()['column'] . '\'' ] : [] ,'>',
+                    '<div', ...IsTrue(BSClass()['column']) ? [ ' class=\'' . BSClass()['column'] . '\'' ] : [] ,'>',
                         '<input',
                             ' aria-label=\'' . $is_placeholder . '\'',
-                            ...IsTrue(Bootstrap()['input']) ? [ ' class=\'' . Bootstrap()['input'] . '\'' ] : [],
+                            ...IsTrue(BSClass()['input']) ? [ ' class=\'' . BSClass()['input'] . '\'' ] : [],
                             ' id=\'' . $is_id . '\'',
                             ' name=\'' . $is_name . '\'',
                             ...ArrayKeyExist ($is_fields[$i], 'maxlength') ? [ ' maxlength=\'' . $is_fields[$i]['maxlength'] . '\'' ] : [],
@@ -29,8 +29,8 @@
                 ]);
             endfor;
             echo implode('', [
-                                '<div class=\'', Bootstrap()['column'], '\'>',
-                                '<button class=\'', Bootstrap()['button'], '\' type=\'submit\'>',
+                                '<div class=\'', BSClass()['column'], '\'>',
+                                '<button class=\'', BSClass()['button'], '\' type=\'submit\'>',
                                     'Process',
                                 '</button>',
                             '</div>',
@@ -39,12 +39,20 @@
                 '</div>',
             ]);
         endif;
-        echo '<div class=\'' . Bootstrap()['container']['table'] . '\'>';
-            echo '<table class=\'' . Bootstrap()['table'] . '\'>';
-                echo TheadDisplay();
-                echo TbodyDisplay();
-            echo '</table>';
-        echo '</div>';
+
+        echo implode('', [
+            '<div class=\'' . BSClass()['container']['table'] . '\'>',
+                '<table class=\'' . BSClass()['table'] . '\'>',
+                    TheadDisplay(),
+                    TbodyDisplay(),
+                '</table>',
+            '</div>',
+        ]);
+
+        echo ContainerBuilder();
+
+        echo CallerBuilder();
+        
     echo FooterDisplay ();
 
 ?>

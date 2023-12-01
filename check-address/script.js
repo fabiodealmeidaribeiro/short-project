@@ -1,14 +1,14 @@
 import {
     BootstrapParams
-} from './script-bootstrap.js';
+} from './bootstrap.js';
 
 import {
     FormFieldParams
-} from './script-formfield.js';
+} from './formfield.js';
 
 import {
     FrontpageParams
-} from './script-frontpage.js';
+} from './frontpage.js';
 
 import {
     AddRemoveClass,
@@ -22,11 +22,11 @@ import {
     SelectorOrID,
     SetAttribute,
     SetTextNode,
-} from './script-main.js';
+} from './main.js';
 
 import {
     SocialNetwork,
-} from './script-network.js';
+} from './network.js';
 
 import {
     Classes,
@@ -34,7 +34,7 @@ import {
     FormFieldArray,
     FrontpageArray,
     TextTemplate,
-} from './script-variable.js';
+} from './variable.js';
 
 window.addEventListener('DOMContentLoaded', () => {
 

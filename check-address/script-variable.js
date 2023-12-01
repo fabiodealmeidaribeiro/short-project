@@ -1,7 +1,7 @@
 import {
     Mask,
     Check,
-} from './script-main.js';
+} from './main.js';
 
 export const FormatDate = (Input = {}) => {
     const Proper = {
