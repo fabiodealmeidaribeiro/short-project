@@ -1,6 +1,8 @@
 <?php
     include_once('./functions.php');
+
     echo HeaderDisplay ();
+    
         if (IsTrue($is_fields)):
             echo implode('', [
                 '<div class=\'', BSClass()['container']['navbar'], '\'>',

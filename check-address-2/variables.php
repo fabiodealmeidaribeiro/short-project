@@ -4,12 +4,48 @@
 
     $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
+    $is_archive = JSONFetch('database.json') ? JSONFetch('database.json') : [];
+
     function BSClass ($is_input = 3) {
         global $is_period;
         return [
             'body' => implode(' ', [
                 ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
                 'w-100',
+            ]),
+            'header' => implode(' ', [
+                'align-items-center',
+                'd-flex',
+                'flex-column',
+                'justify-content-center',
+                'pb-5',
+            ]),
+            'main' => implode(' ', [
+                'align-items-center',
+                'd-flex',
+                'flex-column',
+                'justify-content-center',
+                'pb-5',
+            ]),
+            'form' => implode(' ', [
+                'col-12',
+                'col-lg-8',
+                'mx-auto',
+                'bg-white',
+                'border',
+                'border-1',
+                'cursor-pointer',
+                'mb-3',
+                'rounded-3',
+                'shadow-sm',
+                'p-3',
+            ]),
+            'footer' => implode(' ', [
+                'align-items-center',
+                'd-flex',
+                'flex-column',
+                'justify-content-center',
+                'pb-5',
             ]),
             'nav' => implode(' ', [
                 'navbar',
@@ -50,6 +86,7 @@
                 'm-0',
                 'p-0',
                 'w-100',
+
             ]),
             'column' => implode(' ', [
                 'col-12',
@@ -75,6 +112,7 @@
                 'fw-semibold',
                 'm-0',
                 'p-0',
+                
             ]),
             'a' => implode(' ', [
                 'fw-semibold',
@@ -138,32 +176,5 @@
             ]),
         ];
     };
-
-    $is_fields = [
-        [
-            'title' => 'Descricao',
-            'type' => 'text',
-        ],
-    ];
-
-    for ($i = 0; $i < sizeof($is_fields); $i++):
-        $is_fields[$i] = array_merge($is_fields[$i], [ 'value' => $_POST[strtolower(str_replace('_', '-', trim($is_fields[$i]['title'])))] ?? '' ]);
-    endfor;
-
-    $is_archive = JSONFetch('database.json') ? JSONFetch('database.json')->Nomenclaturas : [];
-
-    $is_database = [];
-
-    if (IsTrue($is_archive)):
-        for ($i = 0; $i < sizeof($is_archive); $i++):
-            array_push($is_database, get_object_vars($is_archive[$i]));
-        endfor;
-    endif;
-
-    function SearchIndex ($is_index) {
-        return stripos($is_index['Descricao'], $_POST['descricao'] ?? '');
-    };
-
-    $is_filtered = array_filter($is_database, 'SearchIndex');
 
 ?>

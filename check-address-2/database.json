@@ -1,0 +1,241 @@
+[
+    [
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "Nome completo correspondente ao documento oficial.",
+            "id": "name",
+            "label": "Nome",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "text"
+        },
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "gender",
+            "label": "gênero",
+            "maxlength": "",
+            "minlength": "",
+            "option": [
+                "feminino",
+                "masculino"
+            ],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "select",
+            "type": ""
+        }
+    ],
+    [
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "birth-date",
+            "label": "data de nascimento",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "date"
+        },
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "Número de CPF. correspondente ao documento oficial.",
+            "id": "cpf",
+            "label": "cpf",
+            "maxlength": "123.456.789-10",
+            "minlength": "123.456.789-10",
+            "option": [],
+            "placeholder": "123.456.789-10",
+            "rows": 1,
+            "selector": "input",
+            "type": "text"
+        }
+    ],
+    [
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "email",
+            "label": "Email",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "email"
+        },
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "Número de telefone com DDI brasileiro.",
+            "id": "tel",
+            "label": "Tel",
+            "maxlength": "+55 (11) 9 4005-8153",
+            "minlength": "+55 (11) 9 4005-8153",
+            "option": [],
+            "placeholder": "+55 (11) 9 4005-8153",
+            "rows": 1,
+            "selector": "input",
+            "type": "tel"
+        }
+    ],
+    [
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "cep",
+            "label": "Cep",
+            "maxlength": "12345-678",
+            "minlength": "12345-678",
+            "option": [],
+            "placeholder": "12345-678",
+            "rows": 1,
+            "selector": "input",
+            "type": "text"
+        },
+        {
+            "class": [],
+            "disabled": true,
+            "feedback": "",
+            "id": "logradouro",
+            "label": "Logradouro",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "text"
+        },
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "numero",
+            "label": "Número",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "number"
+        }
+    ],
+    [
+        {
+            "class": [],
+            "disabled": true,
+            "feedback": "",
+            "id": "bairro",
+            "label": "Bairro",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "text"
+        },
+        {
+            "class": [],
+            "disabled": true,
+            "feedback": "",
+            "id": "localidade",
+            "label": "Localidade",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "text"
+        },
+        {
+            "class": [],
+            "disabled": true,
+            "feedback": "",
+            "id": "uf",
+            "label": "uf",
+            "maxlength": 2,
+            "minlength": 2,
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "input",
+            "type": "text"
+        }
+    ],
+    {
+        "class": [],
+        "disabled": true,
+        "feedback": "",
+        "id": "message",
+        "label": "mensagem",
+        "maxlength": "",
+        "minlength": "",
+        "option": [],
+        "placeholder": "",
+        "rows": 3,
+        "selector": "textarea",
+        "type": ""
+    },
+    [
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "button-cleaner",
+            "label": "Limpar",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "button",
+            "type": "button"
+        },
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "button-result",
+            "label": "Resultado",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "button",
+            "type": "button"
+        },
+        {
+            "class": [],
+            "disabled": false,
+            "feedback": "",
+            "id": "button-sender",
+            "label": "Enviar",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "rows": 1,
+            "selector": "button",
+            "type": "button"
+        }
+    ]
+]
