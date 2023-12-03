@@ -1,20 +1,12 @@
 <?php
 
-    function JSONFetch ($is_settings) {
-        return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : false;
-    };
+    function JSONFetch ($is_settings) { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : false; };
 
-    function ArrayKeyExist ($is_array, $is_key) {
-        return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]);
-    };
+    function ArrayKeyExist ($is_array, $is_key) { return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]); };
 
-    function IsTrue ($is_var) {
-        return isset($is_var) && !empty($is_var);
-    };
+    function IsTrue ($is_var) { return isset($is_var) && !empty($is_var); };
 
-    function RandomIndex ($is_array) {
-        return $is_array[rand(0, sizeof($is_array) - 1)];
-    };
+    function RandomIndex ($is_array) { return $is_array[rand(0, sizeof($is_array) - 1)]; };
 
     function Developed ($input = []) {
         $is_proper = [

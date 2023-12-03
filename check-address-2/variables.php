@@ -2,9 +2,7 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
-
-    $is_archive = JSONFetch('database.json') ? JSONFetch('database.json') : [];
+    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
 
     function BSClass ($is_input = 3) {
         global $is_period;
@@ -34,8 +32,6 @@
                 'bg-white',
                 'border',
                 'border-1',
-                'cursor-pointer',
-                'mb-3',
                 'rounded-3',
                 'shadow-sm',
                 'p-3',

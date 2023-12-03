@@ -1,5 +1,3 @@
-export const Period = (new Date().getHours()) > 6 && (new Date().getHours()) < (6 + 24 / 2);
-
 export const Validator = {
     Array : Input => !(Input === false || Input === null || Input === undefined || Input['length'] === 0) && typeof Input === 'object' && Array.isArray(Input),
     Boolean : Input => !(Input === null || Input === undefined) && typeof Input === 'boolean',
@@ -78,6 +76,8 @@ export const JSONFetch = async (Input = '') => {
     const Response = await fetch(Input);
     return await Response.json();
 };
+
+export const Period = (new Date().getHours()) > 6 && (new Date().getHours()) < (6 + 24 / 2);
 
 export const Titleize = (Input) => Input.replace(/\b\w/g, Match => Match.toUpperCase());
 

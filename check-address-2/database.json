@@ -1,7 +1,6 @@
 [
     [
         {
-            "class": [],
             "disabled": false,
             "feedback": "Nome completo correspondente ao documento oficial.",
             "id": "name",
@@ -15,7 +14,6 @@
             "type": "text"
         },
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "gender",
@@ -34,7 +32,6 @@
     ],
     [
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "birth-date",
@@ -48,7 +45,6 @@
             "type": "date"
         },
         {
-            "class": [],
             "disabled": false,
             "feedback": "Número de CPF. correspondente ao documento oficial.",
             "id": "cpf",
@@ -64,7 +60,6 @@
     ],
     [
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "email",
@@ -78,7 +73,6 @@
             "type": "email"
         },
         {
-            "class": [],
             "disabled": false,
             "feedback": "Número de telefone com DDI brasileiro.",
             "id": "tel",
@@ -94,7 +88,6 @@
     ],
     [
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "cep",
@@ -108,7 +101,6 @@
             "type": "text"
         },
         {
-            "class": [],
             "disabled": true,
             "feedback": "",
             "id": "logradouro",
@@ -122,7 +114,6 @@
             "type": "text"
         },
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "numero",
@@ -138,7 +129,6 @@
     ],
     [
         {
-            "class": [],
             "disabled": true,
             "feedback": "",
             "id": "bairro",
@@ -152,7 +142,6 @@
             "type": "text"
         },
         {
-            "class": [],
             "disabled": true,
             "feedback": "",
             "id": "localidade",
@@ -166,7 +155,6 @@
             "type": "text"
         },
         {
-            "class": [],
             "disabled": true,
             "feedback": "",
             "id": "uf",
@@ -181,8 +169,7 @@
         }
     ],
     {
-        "class": [],
-        "disabled": true,
+        "disabled": false,
         "feedback": "",
         "id": "message",
         "label": "mensagem",
@@ -196,7 +183,6 @@
     },
     [
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "button-cleaner",
@@ -210,7 +196,6 @@
             "type": "button"
         },
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "button-result",
@@ -224,7 +209,6 @@
             "type": "button"
         },
         {
-            "class": [],
             "disabled": false,
             "feedback": "",
             "id": "button-sender",

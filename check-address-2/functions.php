@@ -37,5 +37,203 @@
             '</html>',
         ]);
     };
-    
+
+    function LinkedinDisplay ($is_input = 'fabiodealmeidaribeiro') {
+        global $is_period;
+        return implode('', [
+            '<div',
+                ' class=\'badge-base LI-profile-badge mx-auto\'',
+                ' data-locale=\'pt_BR\'',
+                ' data-size=\'medium\'',
+                ' data-theme=\'', ...$is_period ? [ 'light' ] : [ 'dark' ], '\'',
+                ' data-type=\'VERTICAL\'',
+                ' data-vanity=\'', $is_input, '\'',
+                ' data-version=\'v1\'',
+                ' style=\'background: #e9ecef; height: 240.98px; width: 250px;\'',
+            '></div>',
+        ]);
+    };
+
+    function FieldBuilder () {
+        $is_return = '';
+        $is_fieldlist = JSONFetch('database.json') ? JSONFetch('database.json') : [];
+        for ($i = 0; $i < sizeof($is_fieldlist); $i++):
+            if (is_array($is_fieldlist[$i])):
+                $is_return .= '<div class=\'flex-column d-flex\'>';
+                    for ($j = 0; $j < sizeof($is_fieldlist[$i]); $j++):
+
+
+                        $is_index = get_object_vars($is_fieldlist[$i][$j]);
+
+                        $is_ID = $is_index['id'];
+
+                        $is_classes = [
+                            'form-label',
+                            'label',
+                            'label-' . $is_ID,
+                            'm-0',
+                            'p-0',
+                            'w-100',
+                            'text-secondary',
+                        ];
+
+                        $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
+                            $is_return .= '<label' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . ' for=\'' . $is_ID . '\'>';
+                                $is_return .= $is_index['label'];
+                            $is_return .=  '</label>';
+                        $is_return .= '</div>';
+
+                        $is_classes = [
+                            'content',
+                            'content-' . $is_ID,
+                            'form-control',
+                            'ps-2',
+                            'pe-5',
+                            'py-2',
+                        ];
+
+                        $is_return .= '<div class=\'input-group\'>';
+
+                            $is_return .= '<';
+
+                            if (ArrayKeyExist ($is_index, 'selector')):
+                                if ($is_index['selector'] === 'button'): $is_return .= 'button'; endif;
+                                if ($is_index['selector'] === 'input'): $is_return .= 'input'; endif;
+                                if ($is_index['selector'] === 'textarea'): $is_return .= 'textarea'; endif;
+                            else:
+                                $is_return .= 'input';
+                            endif;
+
+                                $is_return .= IsTrue ($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '';
+                                $is_return .= ArrayKeyExist ($is_index, 'disabled') ? ' disabled' : '';
+                                $is_return .= ' id=\'' . $is_index['id'] . '\'';
+                                $is_return .= ArrayKeyExist ($is_index, 'maxlength') ? ' maxlength=\'' . $is_index['maxlength'] . '\'' : '';
+                                $is_return .= ArrayKeyExist ($is_index, 'minlength') ? ' minlength=\'' . $is_index['minlength'] . '\'' : '';
+                                $is_return .= ArrayKeyExist ($is_index, 'placeholder') ? ' placeholder=\'' . $is_index['placeholder'] . '\'' : '';
+                                $is_return .= ' required';
+                                $is_return .= ArrayKeyExist ($is_index, 'rows') ? ' rows=\'' . $is_index['rows'] . '\'' : '';
+                                $is_return .= ArrayKeyExist ($is_index, 'type') ? ($is_index['type'] > 1 ? ' type=\'' . $is_index['type'] . '\'' : '') : '';
+
+                            $is_return .= '>';
+
+                            if (ArrayKeyExist ($is_index, 'selector')):
+                                if ($is_index['selector'] === 'button'): $is_return .= '</button>'; endif;
+                                if ($is_index['selector'] === 'input'): endif;
+                                if ($is_index['selector'] === 'textarea'): $is_return .= '</textarea>'; endif;
+                            endif;
+
+                        $is_return .= '</div>';
+
+                        if (ArrayKeyExist ($is_index, 'feedback')):
+
+                            $is_classes = [
+                                'feedback',
+                                'feedback-' . $is_ID,
+                                'fst-italic',
+                                'text-secondary',
+                                'm-0',
+                                'p-0',
+                                'w-100',
+                            ];
+
+                            $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
+                                $is_return .= '<p' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '>';
+                                    $is_return .= $is_index['feedback'];
+                                $is_return .= '</p>';
+                            $is_return .= '</div>';
+
+                        endif;
+                    endfor;
+                $is_return .= '</div>';
+            endif;
+            if (is_object($is_fieldlist[$i])):
+                $is_return .= '<div class=\'flex-column d-flex\'>';
+
+                    $is_index = get_object_vars($is_fieldlist[$i]);
+
+                    $is_ID = $is_index['id'];
+
+                    $is_classes = [
+                        'form-label',
+                        'label',
+                        'label-' . $is_ID,
+                        'm-0',
+                        'p-0',
+                        'w-100',
+                        'text-secondary',
+                    ];
+
+                    $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
+                        $is_return .= '<label' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . ' for=\'' . $is_ID . '\'>';
+                            $is_return .= $is_index->label;
+                        $is_return .=  '</label>';
+                    $is_return .= '</div>';
+
+                    $is_classes = [
+                        'content',
+                        'content-' . $is_ID,
+                        'form-control',
+                        'ps-2',
+                        'pe-5',
+                        'py-2',
+                    ];
+
+                    $is_return .= '<div class=\'input-group\'>';
+
+                        $is_return .= '<';
+
+                        if (ArrayKeyExist ($is_index, 'selector')):
+                            if ($is_index['selector'] === 'button'): $is_return .= 'button'; endif;
+                            if ($is_index['selector'] === 'input'): $is_return .= 'input'; endif;
+                            if ($is_index['selector'] === 'textarea'): $is_return .= 'textarea'; endif;
+                        else:
+                            $is_return .= 'input';
+                        endif;
+
+                            $is_return .= IsTrue ($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '';
+                            $is_return .= ArrayKeyExist ($is_index, 'disabled') ? ' disabled' : '';
+                            $is_return .= ' id=\'' . $is_index['id'] . '\'';
+                            $is_return .= ArrayKeyExist ($is_index, 'maxlength') ? ' maxlength=\'' . $is_index['maxlength'] . '\'' : '';
+                            $is_return .= ArrayKeyExist ($is_index, 'minlength') ? ' minlength=\'' . $is_index['minlength'] . '\'' : '';
+                            $is_return .= ArrayKeyExist ($is_index, 'placeholder') ? ' placeholder=\'' . $is_index['placeholder'] . '\'' : '';
+                            $is_return .= ' required';
+                            $is_return .= ArrayKeyExist ($is_index, 'rows') ? ' rows=\'' . $is_index['rows'] . '\'' : '';
+                            $is_return .= ArrayKeyExist ($is_index, 'type') ? ($is_index['type'] > 1 ? ' type=\'' . $is_index['type'] . '\'' : '') : '';
+
+                        $is_return .= '>';
+
+                        if (ArrayKeyExist ($is_index, 'selector')):
+                            if ($is_index['selector'] === 'button'): $is_return .= '</button>'; endif;
+                            if ($is_index['selector'] === 'input'): endif;
+                            if ($is_index['selector'] === 'textarea'): $is_return .= '</textarea>'; endif;
+                        endif;
+
+                    $is_return .= '</div>';
+
+                    if (ArrayKeyExist ($is_index, 'feedback')):
+
+                        $is_classes = [
+                            'feedback',
+                            'feedback-' . $is_ID,
+                            'fst-italic',
+                            'text-secondary',
+                            'm-0',
+                            'p-0',
+                            'w-100',
+                        ];
+
+                        $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
+                            $is_return .= '<p' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '>';
+                                $is_return .= $is_index['feedback'];
+                            $is_return .= '</p>';
+                        $is_return .= '</div>';
+
+                    endif;
+
+                $is_return .= '</div>';
+            endif;
+        endfor;
+        return $is_return;
+    };
+
 ?>
