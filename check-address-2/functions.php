@@ -60,15 +60,7 @@
             $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
                 for ($j = 0; $j < sizeof($is_input); $j++):
                     $is_index = get_object_vars($is_input[$j]);
-                    $is_classes = [
-                        'form-label',
-                        'label',
-                        'label-' . strtolower($is_index['id']),
-                        'm-0',
-                        'p-0',
-                        'w-100',
-                        'text-secondary',
-                    ];
+                    $is_classes = [ 'form-label', 'label', 'label-' . strtolower($is_index['id']), 'm-0', 'p-0', 'w-100', 'text-secondary' ];
                     $is_return .= '<label' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . ' for=\'' . strtolower($is_index['id']) . '\'>';
                         $is_return .= ucfirst($is_index['label']) . ':';
                     $is_return .=  '</label>';
@@ -77,14 +69,7 @@
             $is_return .= '<div class=\'input-group\'>';
                 for ($j = 0; $j < sizeof($is_input); $j++):
                     $is_index = get_object_vars($is_input[$j]);
-                    $is_classes = [
-                        'content',
-                        'content-' . strtolower($is_index['id']),
-                        'form-control',
-                        'ps-2',
-                        'pe-5',
-                        'py-2',
-                    ];
+                    $is_classes = [ 'content', 'content-' . strtolower($is_index['id']), 'form-control', 'ps-2', 'pe-5', 'py-2' ];
                     $is_return .= '<';
                         if (ArrayKeyExist ($is_index, 'selector')):
                             if ($is_index['selector'] === 'button'): $is_return .= 'button'; endif;
@@ -113,7 +98,7 @@
                         if ($is_index['selector'] === 'select'):
                             $is_return .= '<option value=\'' . '' . '\' selected></option>';
                             for ($k = 0; $k < sizeof($is_index['option']); $k++):
-                                $is_return .= '<option value=\'' . '' . '\'>' . ucfirst($is_index['option'][$k]) . '</option>';
+                                $is_return .= '<option value=\'' . ucfirst($is_index['option'][$k]) . '\'>' . ucfirst($is_index['option'][$k]) . '</option>';
                             endfor;
                             $is_return .= '</select>';
                         endif;
@@ -126,15 +111,7 @@
             $is_return .= '<div class=\'d-flex flex-row mb-3\' style=\'min-height: 24px;\'>';
                 for ($j = 0; $j < sizeof($is_input); $j++):
                     $is_index = get_object_vars($is_input[$j]);
-                    $is_classes = [
-                        'feedback',
-                        'feedback-' . strtolower($is_index['id']),
-                        'fst-italic',
-                        'text-secondary',
-                        'm-0',
-                        'p-0',
-                        'w-100',
-                    ];
+                    $is_classes = [ 'feedback', 'feedback-' . strtolower($is_index['id']), 'fst-italic', 'text-secondary', 'm-0', 'p-0', 'w-100' ];
                     $is_return .= '<p' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '\'>';
                         $is_return .= ucfirst($is_index['feedback']);
                     $is_return .=  '</p>';
