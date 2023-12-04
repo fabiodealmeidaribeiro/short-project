@@ -54,142 +54,46 @@
         ]);
     };
 
-    function FieldBuilder () {
+    function Constructor ($is_input = '') {
         $is_return = '';
-        $is_fieldlist = JSONFetch('database.json') ? JSONFetch('database.json') : [];
-        for ($i = 0; $i < sizeof($is_fieldlist); $i++):
-            if (is_array($is_fieldlist[$i])):
-                $is_return .= '<div class=\'flex-column d-flex\'>';
-                    for ($j = 0; $j < sizeof($is_fieldlist[$i]); $j++):
-
-
-                        $is_index = get_object_vars($is_fieldlist[$i][$j]);
-
-                        $is_ID = $is_index['id'];
-
-                        $is_classes = [
-                            'form-label',
-                            'label',
-                            'label-' . $is_ID,
-                            'm-0',
-                            'p-0',
-                            'w-100',
-                            'text-secondary',
-                        ];
-
-                        $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
-                            $is_return .= '<label' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . ' for=\'' . $is_ID . '\'>';
-                                $is_return .= $is_index['label'];
-                            $is_return .=  '</label>';
-                        $is_return .= '</div>';
-
-                        $is_classes = [
-                            'content',
-                            'content-' . $is_ID,
-                            'form-control',
-                            'ps-2',
-                            'pe-5',
-                            'py-2',
-                        ];
-
-                        $is_return .= '<div class=\'input-group\'>';
-
-                            $is_return .= '<';
-
-                            if (ArrayKeyExist ($is_index, 'selector')):
-                                if ($is_index['selector'] === 'button'): $is_return .= 'button'; endif;
-                                if ($is_index['selector'] === 'input'): $is_return .= 'input'; endif;
-                                if ($is_index['selector'] === 'textarea'): $is_return .= 'textarea'; endif;
-                            else:
-                                $is_return .= 'input';
-                            endif;
-
-                                $is_return .= IsTrue ($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '';
-                                $is_return .= ArrayKeyExist ($is_index, 'disabled') ? ' disabled' : '';
-                                $is_return .= ' id=\'' . $is_index['id'] . '\'';
-                                $is_return .= ArrayKeyExist ($is_index, 'maxlength') ? ' maxlength=\'' . $is_index['maxlength'] . '\'' : '';
-                                $is_return .= ArrayKeyExist ($is_index, 'minlength') ? ' minlength=\'' . $is_index['minlength'] . '\'' : '';
-                                $is_return .= ArrayKeyExist ($is_index, 'placeholder') ? ' placeholder=\'' . $is_index['placeholder'] . '\'' : '';
-                                $is_return .= ' required';
-                                $is_return .= ArrayKeyExist ($is_index, 'rows') ? ' rows=\'' . $is_index['rows'] . '\'' : '';
-                                $is_return .= ArrayKeyExist ($is_index, 'type') ? ($is_index['type'] > 1 ? ' type=\'' . $is_index['type'] . '\'' : '') : '';
-
-                            $is_return .= '>';
-
-                            if (ArrayKeyExist ($is_index, 'selector')):
-                                if ($is_index['selector'] === 'button'): $is_return .= '</button>'; endif;
-                                if ($is_index['selector'] === 'input'): endif;
-                                if ($is_index['selector'] === 'textarea'): $is_return .= '</textarea>'; endif;
-                            endif;
-
-                        $is_return .= '</div>';
-
-                        if (ArrayKeyExist ($is_index, 'feedback')):
-
-                            $is_classes = [
-                                'feedback',
-                                'feedback-' . $is_ID,
-                                'fst-italic',
-                                'text-secondary',
-                                'm-0',
-                                'p-0',
-                                'w-100',
-                            ];
-
-                            $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
-                                $is_return .= '<p' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '>';
-                                    $is_return .= $is_index['feedback'];
-                                $is_return .= '</p>';
-                            $is_return .= '</div>';
-
-                        endif;
-                    endfor;
-                $is_return .= '</div>';
-            endif;
-            if (is_object($is_fieldlist[$i])):
-                $is_return .= '<div class=\'flex-column d-flex\'>';
-
-                    $is_index = get_object_vars($is_fieldlist[$i]);
-
-                    $is_ID = $is_index['id'];
-
+        $is_return .= '<div class=\'flex-column d-flex\'>';
+            $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
+                for ($j = 0; $j < sizeof($is_input); $j++):
+                    $is_index = get_object_vars($is_input[$j]);
                     $is_classes = [
                         'form-label',
                         'label',
-                        'label-' . $is_ID,
+                        'label-' . strtolower($is_index['id']),
                         'm-0',
                         'p-0',
                         'w-100',
                         'text-secondary',
                     ];
-
-                    $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
-                        $is_return .= '<label' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . ' for=\'' . $is_ID . '\'>';
-                            $is_return .= $is_index->label;
-                        $is_return .=  '</label>';
-                    $is_return .= '</div>';
-
+                    $is_return .= '<label' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . ' for=\'' . strtolower($is_index['id']) . '\'>';
+                        $is_return .= ucfirst($is_index['label']) . ':';
+                    $is_return .=  '</label>';
+                endfor;
+            $is_return .= '</div>';
+            $is_return .= '<div class=\'input-group\'>';
+                for ($j = 0; $j < sizeof($is_input); $j++):
+                    $is_index = get_object_vars($is_input[$j]);
                     $is_classes = [
                         'content',
-                        'content-' . $is_ID,
+                        'content-' . strtolower($is_index['id']),
                         'form-control',
                         'ps-2',
                         'pe-5',
                         'py-2',
                     ];
-
-                    $is_return .= '<div class=\'input-group\'>';
-
-                        $is_return .= '<';
-
+                    $is_return .= '<';
                         if (ArrayKeyExist ($is_index, 'selector')):
                             if ($is_index['selector'] === 'button'): $is_return .= 'button'; endif;
                             if ($is_index['selector'] === 'input'): $is_return .= 'input'; endif;
+                            if ($is_index['selector'] === 'select'): $is_return .= 'select'; endif;
                             if ($is_index['selector'] === 'textarea'): $is_return .= 'textarea'; endif;
                         else:
                             $is_return .= 'input';
                         endif;
-
                             $is_return .= IsTrue ($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '';
                             $is_return .= ArrayKeyExist ($is_index, 'disabled') ? ' disabled' : '';
                             $is_return .= ' id=\'' . $is_index['id'] . '\'';
@@ -199,39 +103,57 @@
                             $is_return .= ' required';
                             $is_return .= ArrayKeyExist ($is_index, 'rows') ? ' rows=\'' . $is_index['rows'] . '\'' : '';
                             $is_return .= ArrayKeyExist ($is_index, 'type') ? ($is_index['type'] > 1 ? ' type=\'' . $is_index['type'] . '\'' : '') : '';
-
-                        $is_return .= '>';
-
-                        if (ArrayKeyExist ($is_index, 'selector')):
-                            if ($is_index['selector'] === 'button'): $is_return .= '</button>'; endif;
-                            if ($is_index['selector'] === 'input'): endif;
-                            if ($is_index['selector'] === 'textarea'): $is_return .= '</textarea>'; endif;
+                    $is_return .= '>';
+                    if (ArrayKeyExist ($is_index, 'selector')):
+                        if ($is_index['selector'] === 'button'):
+                            $is_return .= '</button>';
                         endif;
-
-                    $is_return .= '</div>';
-
-                    if (ArrayKeyExist ($is_index, 'feedback')):
-
-                        $is_classes = [
-                            'feedback',
-                            'feedback-' . $is_ID,
-                            'fst-italic',
-                            'text-secondary',
-                            'm-0',
-                            'p-0',
-                            'w-100',
-                        ];
-
-                        $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
-                            $is_return .= '<p' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '>';
-                                $is_return .= $is_index['feedback'];
-                            $is_return .= '</p>';
-                        $is_return .= '</div>';
-
+                        if ($is_index['selector'] === 'input'):
+                        endif;
+                        if ($is_index['selector'] === 'select'):
+                            $is_return .= '<option value=\'' . '' . '\' selected></option>';
+                            for ($k = 0; $k < sizeof($is_index['option']); $k++):
+                                $is_return .= '<option value=\'' . '' . '\'>' . ucfirst($is_index['option'][$k]) . '</option>';
+                            endfor;
+                            $is_return .= '</select>';
+                        endif;
+                        if ($is_index['selector'] === 'textarea'):
+                            $is_return .= '</textarea>';
+                        endif;
                     endif;
+                endfor;
+            $is_return .= '</div>';
+            $is_return .= '<div class=\'d-flex flex-row mb-3\' style=\'min-height: 24px;\'>';
+                for ($j = 0; $j < sizeof($is_input); $j++):
+                    $is_index = get_object_vars($is_input[$j]);
+                    $is_classes = [
+                        'feedback',
+                        'feedback-' . strtolower($is_index['id']),
+                        'fst-italic',
+                        'text-secondary',
+                        'm-0',
+                        'p-0',
+                        'w-100',
+                    ];
+                    $is_return .= '<p' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '\'>';
+                        $is_return .= ucfirst($is_index['feedback']);
+                    $is_return .=  '</p>';
+                endfor;
+            $is_return .= '</div>';
+        $is_return .= '</div>';
+        return $is_return;
+    };
 
-                $is_return .= '</div>';
+    function FieldBuilder () {
+        $is_return = '';
+        $is_fieldlist = JSONFetch('database.json') ? JSONFetch('database.json') : [];
+        for ($i = 0; $i < sizeof($is_fieldlist); $i++):
+            if (is_array($is_fieldlist[$i])):
+                $is_return .= Constructor ($is_fieldlist[$i]);
             endif;
+            // if (is_object($is_fieldlist[$i])):
+            //     $is_return .= Constructor ($is_fieldlist[$i]);
+            // endif;
         endfor;
         return $is_return;
     };
