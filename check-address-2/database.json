@@ -9,6 +9,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "text"
@@ -25,6 +26,7 @@
                 "masculino"
             ],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "select",
             "type": ""
@@ -40,6 +42,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "date"
@@ -53,6 +56,7 @@
             "minlength": "123.456.789-10",
             "option": [],
             "placeholder": "123.456.789-10",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "text"
@@ -68,6 +72,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "email"
@@ -81,6 +86,7 @@
             "minlength": "+55 (11) 9 4005-8153",
             "option": [],
             "placeholder": "+55 (11) 9 4005-8153",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "tel"
@@ -96,6 +102,7 @@
             "minlength": "12345-678",
             "option": [],
             "placeholder": "12345-678",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "text"
@@ -109,6 +116,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "text"
@@ -122,6 +130,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "number"
@@ -137,6 +146,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "text"
@@ -150,6 +160,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "text"
@@ -163,6 +174,7 @@
             "minlength": 2,
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "input",
             "type": "text"
@@ -177,6 +189,7 @@
         "minlength": "",
         "option": [],
         "placeholder": "",
+        "required": false,
         "rows": 3,
         "selector": "textarea",
         "type": ""
@@ -191,6 +204,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "button",
             "type": "button"
@@ -204,6 +218,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "button",
             "type": "button"
@@ -217,6 +232,7 @@
             "minlength": "",
             "option": [],
             "placeholder": "",
+            "required": false,
             "rows": 1,
             "selector": "button",
             "type": "button"
