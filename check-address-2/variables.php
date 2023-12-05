@@ -2,9 +2,9 @@
 
     date_default_timezone_set('America/Sao_Paulo');
 
-    $is_period = !(date('H') > 6 && date('H') < (6 + 24 / 2));
+    $is_period = (date('H') > 6 && date('H') < (6 + 24 / 2));
 
-    function BSClass ($is_input = 3) {
+    function AllClasses ($is_input = 3) {
         global $is_period;
         return [
             'body' => implode(' ', [
@@ -97,10 +97,9 @@
                 'mb-lg-' . $is_input,
             ]),
             'button' => implode(' ', [
-                'border',
-                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
+                'cursor-pointer',
                 'btn',
-                ...$is_period ? [ 'btn-light' ] : [ 'btn-dark' ],
+                ...$is_period ? [ 'btn-outline-secondary' ] : [ 'btn-outline-secondary' ],
                 'm-0',
                 'p-2',
             ]),
@@ -133,7 +132,7 @@
         ];
     };
 
-    function BSMClass ($is_input = 3) {
+    function ModalClasses ($is_input = 3) {
         global $is_period;
         return [
             'dialog' => implode(' ', [
@@ -167,7 +166,7 @@
                 'modal-footer'
             ]),
             'button' => implode(' ', [
-                BSClass()['button'],
+                AllClasses()['button'],
                 'ms-' . $is_input,
             ]),
         ];

@@ -6,6 +6,8 @@
 
     function IsTrue ($is_var) { return isset($is_var) && !empty($is_var); };
 
+    function IsArrayTrue ($is_var) { return isset($is_var) && is_array($is_var) && !empty($is_var); };
+
     function JSONFetch ($is_settings) { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : []; };
 
     function HeaderDisplay ($is_input = '') {
@@ -23,7 +25,7 @@
                     '<link href=\'https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css\' rel=\'stylesheet\'>',
                     ...file_exists('./style.css') ? [ '<link href=\'./style.css\' rel=\'stylesheet\' crossorigin=\'anonymous\'>' ] : [],
                 '</head>',
-                '<body', ...IsTrue(BSClass()['body']) ? [ ' class=\'' . BSClass()['body'] . '\'' ] : [], '>',
+                '<body', ...IsTrue(AllClasses()['body']) ? [ ' class=\'' . AllClasses()['body'] . '\'' ] : [], '>',
         ]);
     };
 
@@ -54,15 +56,6 @@
         ]);
     };
 
-    // function CheckKeyEquality ($is_array, $is_key) {
-    //     foreach ($is_array as $object):
-    //         if ($object[$is_key] !== $is_array[0][$is_key]):
-    //             return false;
-    //         endif;
-    //     endforeach;
-    //     return true;
-    // };
-
     function CheckKeyValueEquality ($is_input = []) {
         $is_proper = [
             'array' => ArrayKeyExist ($is_input, 'array') ? $is_input['array'] : [],
@@ -81,7 +74,7 @@
         $is_return = '';
         $is_button = CheckKeyValueEquality ([ 'array' => $is_input, 'key' => 'selector', 'value' => 'button' ]);
         $is_feedback = CheckKeyValueEquality ([ 'array' => $is_input, 'key' => 'feedback', 'value' => '' ]);
-        $is_classes = [ 'button' => [ 'justify-content-center', 'd-flex' ], 'content' => [ 'flex-column', 'd-flex' ] ];
+        $is_classes = [ 'button' => [ 'd-flex', 'justify-content-center' ], 'content' => [ 'd-flex', 'flex-column' ] ];
         $is_return .= '<div class=\'' . ($is_button ? implode(' ', $is_classes['button']) : implode(' ', $is_classes['content'])) . '\'>';
             if ($is_button): else:
                 $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
@@ -95,8 +88,8 @@
                 $is_return .= '</div>';
             endif;
             $is_classes = [ 'container' => [
-                    'input-group',
                     ...!$is_button ? [ ...$is_feedback ? [ 'mb-3' ] : [] ] : [],
+                    ...$is_button ? [ 'btn-group' ] : [ 'input-group' ],
                 ],
             ];
             $is_return .= '<div class=\'' . implode(' ', $is_classes['container']) . '\'>';
@@ -167,17 +160,139 @@
     function FieldBuilder () {
         $is_return = '';
         $is_database = JSONFetch('database.json') ? JSONFetch('database.json') : [];
-        if (IsTrue($is_database)):
+        if (IsArrayTrue($is_database)):
             for ($i = 0; $i < sizeof($is_database); $i++):
-                if (is_array($is_database[$i])):
+                if (IsArrayTrue($is_database[$i])):
                     $is_return .= Constructor ($is_database[$i]);
                 endif;
-                // if (is_object($is_database[$i])):
-                //     $is_return .= Constructor ($is_database[$i]);
-                // endif;
             endfor;
         endif;
         return $is_return;
+    };
+
+    function ValueConverter ($is_input = []) {
+        $is_proper = [
+            'type' => ArrayKeyExist ($is_input, 'type') ? (IsTrue($is_input['type']) ? strtolower(trim($is_input['type'])) : 'id') : 'id',
+            'value' => ArrayKeyExist ($is_input, 'value') ? (IsTrue($is_input['value']) ? $is_input['value'] : '') : '',
+        ];
+        $is_value = $is_proper['value'];
+        $is_value = preg_replace('/[ÁÀÂÃ]/', 'A', $is_value);
+        $is_value = preg_replace('/[áàâã]/', 'a', $is_value);
+        $is_value = preg_replace('/[ÉÈÊ]/', 'E', $is_value);
+        $is_value = preg_replace('/[éèê]/', 'e', $is_value);
+        $is_value = preg_replace('/[ÍÌ]/', 'I', $is_value);
+        $is_value = preg_replace('/[íì]/', 'i', $is_value);
+        $is_value = preg_replace('/[ÓÒÔÕ]/', 'O', $is_value);
+        $is_value = preg_replace('/[óòôõ]/', 'o', $is_value);
+        $is_value = preg_replace('/[ÚÙÛ]/', 'U', $is_value);
+        $is_value = preg_replace('/[úùû]/', 'u', $is_value);
+        $is_value = preg_replace('/[Ç]/', 'C', $is_value);
+        $is_value = preg_replace('/[ç]/', 'c', $is_value);
+        if ($is_proper['type'] === 'id') return str_replace(' ', '-', strtolower(trim($is_value)));
+        if ($is_proper['type'] === 'label' || $is_proper['type'] === 'target') return str_replace(' ', '', ucwords(trim($is_value . ' ' . $is_proper['type'])));
+    };
+
+    function SetStyle ($is_input = '') {
+        global $is_period;
+        for ($i = 1; $i <= 6; $i++) $is_input = str_replace('<h' . $i, '<h' . $i . ' class=\'p-0 m-0\'', $is_input);
+        $is_input = str_replace('<p', '<p class=\'p-0 m-0\'', $is_input);
+        $is_input = str_replace('<li', '<li class=\'p-0 m-0\'', $is_input);
+        $is_input = str_replace('<ul', '<ul class=\'p-0 my-3 list-unstyled\'', $is_input);
+        $is_input = str_replace('<a', '<a class=\'' . implode(' ', [ 'fst-italic', 'fw-semibold', 'm-0', 'p-0', 'text-decoration-none', ...$is_period ? [ 'text-dark' ] : [ 'text-light' ], ]) . '\'', $is_input);
+        $is_input = str_replace('<blockquote', '<blockquote class=\'m-0 p-0\' ', $is_input);
+        return $is_input;
+    };
+
+    function BSCall ($is_input = []) {
+        $is_proper = [
+            'array' => ArrayKeyExist ($is_input, 'array') ? $is_input['array'] : [],
+            'button' => ArrayKeyExist ($is_input, 'button'),
+        ];
+        $is_object = [
+            'align-content' => 'center',
+            'align-items' => 'center',
+            'display' => 'flex',
+            'flex-wrap' => 'wrap',
+            'gap' => '.5rem',
+            'justify-content' => 'center',
+            'padding' => '0 0 3rem 0',
+            'width' => '100%',
+        ];
+        $is_style = '';
+        foreach ($is_object as $is_key => $is_value):
+            $is_style .= implode('', [ $is_key . ' : ' . $is_value . ';', ' ', ]);
+        endforeach;
+        $is_array = [];
+        if (IsTrue($is_proper['array'])):
+            $is_array = array_merge($is_array, [ ...$is_proper['button'] ? [ '<div class=\'d-flex justify-content-center pb-5\'>' ] : [], '<div', ...$is_proper['button'] ? [ ' class=\'btn-group\'' ] : [], ...!$is_proper['button'] ? [ ' style=\'' . trim($is_style) . '\'' ] : [], '>' ]);
+                for ($i = 0; $i < sizeof($is_proper['array']); $i++):
+                    $is_index = $is_proper['array'][$i];
+                    $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
+                    $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
+                    $is_array = array_merge($is_array, [
+                        ...$is_proper['button'] ? [ '<button', ...IsTrue(AllClasses()['button']) ? [ ' class=\'' . AllClasses()['button'] . '\''] : [], ' data-bs-toggle=\'modal\' data-bs-target=\'#' . $is_target . '\' type=\'button\'>' ] : [],
+                        ...!$is_proper['button'] ? [ '<p', ...IsTrue(AllClasses()['p']) ? [ ' class=\'' . AllClasses()['p'] . '\'' ] : [], ' id=\'' . $is_id . '\'>', '<a', ...IsTrue(AllClasses()['a']) ? [ ' class=\'' . AllClasses()['a'] . '\'' ] : [], ' data-bs-toggle=\'modal\' data-bs-target=\'#' . $is_target . '\' href=\'#\'>' ] : [],
+                        ucwords(trim($is_index)),
+                        ...!$is_proper['button'] ? [ ...$i < sizeof($is_proper['array']) - 1 ? [ '<p', ...IsTrue(AllClasses()['p']) ? [ ' class=\'' . AllClasses()['p'] . '\'' ] : [] ,'>', '.', '</p>', ] : [], ] : [],
+                        ...$is_proper['button'] ? [ '</button>' ] : [],
+                    ]);
+                endfor;
+            $is_array = array_merge($is_array, [ '</div>', ...$is_proper['button'] ? [ '</div>' ] : [], ]);
+        endif;
+        return implode('', $is_array);
+    };
+
+    function BSContainer ($is_input = [ 'title' => '', 'body' => [], 'button' => [], ]) {
+        $is_button = '';
+        global $is_period;
+        if (ArrayKeyExist($is_input, 'button')):
+            for ($i = 0; $i < sizeof($is_input['button']); $i++):
+                $is_button .= implode('', [ '<button', ...IsTrue(ModalClasses()['button']) ? [ ' class=\'' . ModalClasses()['button'] . '\'' ] : [], ...IsTrue($is_input['button'][$i]) ? [ ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' ] : [], ' type=\'button\'>', ucwords(trim($is_input['button'][$i])), '</button>', ]);
+            endfor;
+        endif;
+        $is_return = '';
+        $is_index = ArrayKeyExist($is_input, 'title') ? $is_input['title'] : '';
+        if (IsTrue($is_index)):
+            $is_id = ValueConverter([ 'type' => 'id', 'value' => $is_index ]);
+            $is_label = ValueConverter([ 'type' => 'label', 'value' => $is_index ]);
+            $is_target = ValueConverter([ 'type' => 'target', 'value' => $is_index ]);
+            $is_return .= implode('', [
+                '<button class=\'d-none\' data-bs-target=\'#' . $is_target . '\' data-bs-toggle=\'modal\' id=\'' . $is_id . '\' type=\'button\' ></button>',
+                '<div aria-labelledby=\'' . $is_label . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_target . '\' tabindex=\'-1\'>',
+                    '<div', ...IsTrue(ModalClasses()['dialog']) ? [ ' class=\'' . ModalClasses()['dialog'] . '\'' ] : [], ' id=\'dialog\'>',
+                        '<div', ...IsTrue(ModalClasses()['content']) ? [ ' class=\'' . ModalClasses()['content'] . '\'' ] : [], ' id=\'content\'>',
+                            ...IsTrue($is_input['title']) ? [ '<div', ...IsTrue(ModalClasses()['header']) ? [ ' class=\'' . ModalClasses()['header'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], ' id=\'header\'>', '<h1', ...IsTrue(ModalClasses()['title']) ? [ ' class=\'' . ModalClasses()['title'] . '\'' ] : [], ' id=\'' . $is_label . '\'>', ucwords(trim($is_input['title'])), '</h1>', '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>', '</div>', ] : [],
+                            '<div', ...IsTrue(ModalClasses()['body']) ? [ ' class=\'' . ModalClasses()['body'] . '\'' ] : [], ' id=\'body\'>', ...ArrayKeyExist ($is_input, 'body') ? [ $is_input['body'] ] : [], '</div>',
+                            '<div', ...IsTrue(ModalClasses()['footer']) ? [ ' class=\'' . ModalClasses()['footer'] . '\'' ] : [], 'id=\'footer\'>', ...IsTrue($is_button) ? [ $is_button ] : [], '<button', ...IsTrue(ModalClasses()['button']) ? [ ' class=\'' . ModalClasses()['button'] . '\'' ] : [], ' data-bs-dismiss=\'modal\' id=\'close\' type=\'button\'>', 'Close', '</button>', '</div>',
+                        '</div>',
+                    '</div>',
+                '</div>',
+            ]);
+        endif;
+        return $is_return;
+    };
+
+    function ContainerBuilder ($is_input = [ 'footer' ]) {
+        $is_return = '';
+        $is_array = array_filter(scandir(implode('/', $is_input)), function ($is_file) { return pathinfo($is_file, PATHINFO_EXTENSION) === 'html'; });
+        foreach (array_keys(array_diff($is_array, [])) as $is_index):
+            $is_archive = implode('', [ '.', '/', implode('/', $is_input), '/', $is_array[$is_index] ]);
+            $is_return .= BSContainer ([
+                'title' => str_replace('-', ' ', str_replace('.html', '', $is_array[$is_index])),
+                'body' => file_exists($is_archive) ? SetStyle(file_get_contents($is_archive)) : '',
+            ]);
+        endforeach;
+        return $is_return;
+    };
+
+    function CallerBuilder ($is_input = [ 'footer' ]) {
+        $is_modal = [];
+        $is_array = array_filter(scandir(implode('/', $is_input)), function ($is_file) { return pathinfo($is_file, PATHINFO_EXTENSION) === 'html'; });
+        foreach (array_keys(array_diff($is_array, [])) as $is_index):
+            $is_archive = implode('', [ '.', '/', implode('/', $is_input), '/', $is_array[$is_index] ]);
+            array_push($is_modal, str_replace('-', ' ', str_replace('.html', '', $is_array[$is_index])));
+        endforeach;
+        return BSCall ([ 'array' => $is_modal ]);
     };
 
 ?>

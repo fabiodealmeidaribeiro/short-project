@@ -180,20 +180,22 @@
             "type": "text"
         }
     ],
-    {
-        "disabled": false,
-        "feedback": "",
-        "id": "message",
-        "label": "mensagem",
-        "maxlength": "",
-        "minlength": "",
-        "option": [],
-        "placeholder": "",
-        "required": false,
-        "rows": 3,
-        "selector": "textarea",
-        "type": ""
-    },
+    [
+        {
+            "disabled": false,
+            "feedback": "",
+            "id": "message",
+            "label": "mensagem",
+            "maxlength": "",
+            "minlength": "",
+            "option": [],
+            "placeholder": "",
+            "required": false,
+            "rows": 5,
+            "selector": "textarea",
+            "type": ""
+        }
+    ],
     [
         {
             "disabled": false,
