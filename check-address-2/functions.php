@@ -10,6 +10,13 @@
 
     function JSONFetch ($is_settings) { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : []; };
 
+    function ConvertToID ($is_input = '') { return strtolower(str_replace(' ', '-', trim($is_input))); };
+
+    function CheckKeyValueEquality ($is_input = []) {
+        $is_proper = [ 'array' => ArrayKeyExist ($is_input, 'array') ? $is_input['array'] : [], 'key' => ArrayKeyExist ($is_input, 'key') ? $is_input['key'] : '', 'value' => ArrayKeyExist ($is_input, 'value') ? $is_input['value'] : '' ];
+        foreach ($is_proper['array'] as $is_object): if (get_object_vars($is_object)[$is_proper['key']] !== $is_proper['value']): return false; endif; endforeach; return true;
+    };
+
     function HeaderDisplay ($is_input = '') {
         $is_title = '';
         $is_array = empty($is_input) ? explode('-', basename(__DIR__)) : explode(' ', trim($is_input));
@@ -56,105 +63,41 @@
         ]);
     };
 
-    function CheckKeyValueEquality ($is_input = []) {
-        $is_proper = [
-            'array' => ArrayKeyExist ($is_input, 'array') ? $is_input['array'] : [],
-            'key' => ArrayKeyExist ($is_input, 'key') ? $is_input['key'] : '',
-            'value' => ArrayKeyExist ($is_input, 'value') ? $is_input['value'] : '',
-        ];
-        foreach ($is_proper['array'] as $is_object):
-            if (get_object_vars($is_object)[$is_proper['key']] !== $is_proper['value']):
-                return false;
-            endif;
-        endforeach;
-        return true;
-    };
-
     function Constructor ($is_input = '') {
         $is_return = '';
         $is_button = CheckKeyValueEquality ([ 'array' => $is_input, 'key' => 'selector', 'value' => 'button' ]);
         $is_feedback = CheckKeyValueEquality ([ 'array' => $is_input, 'key' => 'feedback', 'value' => '' ]);
-        $is_classes = [ 'button' => [ 'd-flex', 'justify-content-center' ], 'content' => [ 'd-flex', 'flex-column' ] ];
-        $is_return .= '<div class=\'' . ($is_button ? implode(' ', $is_classes['button']) : implode(' ', $is_classes['content'])) . '\'>';
-            if ($is_button): else:
-                $is_return .= '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>';
-                    for ($j = 0; $j < sizeof($is_input); $j++):
-                        $is_index = get_object_vars($is_input[$j]);
-                        $is_classes = [ 'form-label', 'label', 'label-' . strtolower($is_index['id']), 'm-0', 'p-0', 'w-100', 'text-secondary' ];
-                        $is_return .= '<label' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . ' for=\'' . strtolower($is_index['id']) . '\'>';
-                            $is_return .= ucfirst($is_index['label']) . ':';
-                        $is_return .=  '</label>';
-                    endfor;
-                $is_return .= '</div>';
-            endif;
-            $is_classes = [ 'container' => [
-                    ...!$is_button ? [ ...$is_feedback ? [ 'mb-3' ] : [] ] : [],
-                    ...$is_button ? [ 'btn-group' ] : [ 'input-group' ],
-                ],
-            ];
-            $is_return .= '<div class=\'' . implode(' ', $is_classes['container']) . '\'>';
-                for ($j = 0; $j < sizeof($is_input); $j++):
-                    $is_index = get_object_vars($is_input[$j]);
-                    $is_classes = [ 'button' => [ 'btn', 'btn-outline-secondary', 'cursor-pointer', 'm-0', 'p-2' ], 'content' => [ 'content', 'content-' . strtolower($is_index['id']), 'form-control', 'ps-2', 'pe-5', 'py-2' ], ];
-                    $is_return .= '<';
-                        if (ArrayKeyExist ($is_index, 'selector')):
-                            if ($is_index['selector'] === 'button'): $is_return .= 'button'; endif;
-                            if ($is_index['selector'] === 'input'): $is_return .= 'input'; endif;
-                            if ($is_index['selector'] === 'select'): $is_return .= 'select'; endif;
-                            if ($is_index['selector'] === 'textarea'): $is_return .= 'textarea'; endif;
-                        else:
-                            $is_return .= 'input';
-                        endif;
-                            if ($is_index['selector'] === 'button'):
-                                $is_return .= ArrayKeyExist ($is_classes, 'button') ? ' class=\'' . implode(' ', $is_classes['button']) . '\'' : '';
-                            endif;
-                            if ($is_index['selector'] === 'button'): else:
-                                $is_return .= ArrayKeyExist ($is_classes, 'content') ? ' class=\'' . implode(' ', $is_classes['content']) . '\'' : '';
-                            endif;
-                            $is_return .= ArrayKeyExist ($is_index, 'disabled') ? ' disabled' : '';
-                            $is_return .= ' id=\'' . $is_index['id'] . '\'';
-                            $is_return .= ArrayKeyExist ($is_index, 'maxlength') ? ' maxlength=\'' . strlen($is_index['maxlength']) . '\'' : '';
-                            $is_return .= ArrayKeyExist ($is_index, 'minlength') ? ' minlength=\'' . strlen($is_index['minlength']) . '\'' : '';
-                            $is_return .= ArrayKeyExist ($is_index, 'placeholder') ? ' placeholder=\'' . $is_index['placeholder'] . '\'' : '';
-                            $is_return .= ArrayKeyExist ($is_index, 'required') ? ' required' : '';
-                            $is_return .= ArrayKeyExist ($is_index, 'rows') ? ($is_index['rows'] > 1 ? ' rows=\'' . $is_index['rows'] . '\'' : '') : '';
-                            $is_return .= ArrayKeyExist ($is_index, 'type') ? ' type=\'' . $is_index['type'] . '\'' : '';
-                    $is_return .= '>';
-                    if (ArrayKeyExist ($is_index, 'selector')):
-                        if ($is_index['selector'] === 'button'):
-                            $is_return .= ucfirst($is_index['label']);
-                            $is_return .= '</button>';
-                        endif;
-                        if ($is_index['selector'] === 'input'):
-                        endif;
-                        if ($is_index['selector'] === 'select'):
-                            $is_return .= '<option value=\'' . '' . '\' selected></option>';
-                            for ($k = 0; $k < sizeof($is_index['option']); $k++):
-                                $is_return .= '<option value=\'' . ucfirst($is_index['option'][$k]) . '\'>' . ucfirst($is_index['option'][$k]) . '</option>';
-                            endfor;
-                            $is_return .= '</select>';
-                        endif;
-                        if ($is_index['selector'] === 'textarea'):
-                            $is_return .= '</textarea>';
-                        endif;
-                    endif;
-                endfor;
-            $is_return .= '</div>';
-            if ($is_button): else:
-                if ($is_feedback): else:
-                    $is_return .= '<div class=\'d-flex flex-row mb-3\' style=\'min-height: 24px;\'>';
-                        for ($j = 0; $j < sizeof($is_input); $j++):
-                            $is_index = get_object_vars($is_input[$j]);
-                            $is_classes = [ 'feedback', 'feedback-' . strtolower($is_index['id']), 'fst-italic', 'text-secondary', 'm-0', 'p-0', 'w-100' ];
-                            $is_return .= '<p' . (IsTrue($is_classes) ? ' class=\'' . implode(' ', $is_classes) . '\'' : '') . '\'>';
-                                $is_return .= ucfirst($is_index['feedback']);
-                            $is_return .=  '</p>';
-                        endfor;
-                    $is_return .= '</div>';
-                endif;
-            endif;
-        $is_return .= '</div>';
-        return $is_return;
+        return implode('', [
+            '<div class=\'', implode(' ', [ 'd-flex', $is_button ? 'justify-content-center' : 'flex-column' ]), '\'>',
+                ...!$is_button ? [
+                    '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>',
+                        ...array_map(function($is_index) {
+                            global $is_period;
+                            $is_index = get_object_vars($is_index);
+                            $is_classes = [ 'form-label', 'label', 'label-' . ConvertToID ($is_index['id']), 'm-0', 'p-0', ...$is_period ? [ 'text-secondary' ] : [ 'text-dark' ], 'w-100' ];
+                            return implode('', [ '<label', ...IsTrue($is_classes) ? [ ' class=\'' . implode(' ', $is_classes) . '\'' ] : [], ' for=\'' . ConvertToID ($is_index['id']) . '\'', '>', ucfirst($is_index['label']), ':', '</label>' ]);
+                        }, $is_input),
+                    '</div>',
+                ] : [],
+                '<div class=\'' . implode(' ', [ ...$is_button ? [ 'btn-group' ] : [ 'input-group', ...$is_feedback ? [ 'mb-3' ] : [] ] ]) . '\'>',
+                    ...array_map(function($is_index) {
+                        $is_index = get_object_vars($is_index);
+                        $is_classes = [ 'button' => [ 'btn', 'btn-outline-secondary', 'cursor-pointer', 'm-0', 'p-2' ], 'content' => [ 'content', 'content-' . ConvertToID ($is_index['id']), 'form-control', 'ps-2', 'pe-5', 'py-2' ] ];
+                        return implode('', [ '<', ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ 'button' ] : [], ...$is_index['selector'] === 'input' ? [ 'input' ] : [], ...$is_index['selector'] === 'select' ? [ 'select' ] : [], ...$is_index['selector'] === 'textarea' ? [ 'textarea' ] : [] ] : [ [ 'input' ] ], ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ ...ArrayKeyExist ($is_classes, 'button') ? [ ' class=\'' . implode(' ', $is_classes['button']) . '\'' ] : [] ] : [ ...ArrayKeyExist ($is_classes, 'content') ? [ ' class=\'' . implode(' ', $is_classes['content']) . '\'' ] : [] ] ] : [], ...ArrayKeyExist ($is_index, 'disabled') ? [ ' disabled' ] : [], ' id=\'' . ConvertToID ($is_index['id']) . '\'', ...ArrayKeyExist ($is_index, 'maxlength') ? [ ' maxlength=\'' . strlen($is_index['maxlength']) . '\'' ] : [], ...ArrayKeyExist ($is_index, 'minlength') ? [ ' minlength=\'' . strlen($is_index['minlength']) . '\'' ] : [], ...ArrayKeyExist ($is_index, 'placeholder') ? [ ' placeholder=\'' . $is_index['placeholder'] . '\'' ] : [], ...ArrayKeyExist ($is_index, 'required') ? [ ' required' ] : [], ...ArrayKeyExist ($is_index, 'rows') ? [ ...$is_index['rows'] > 1 ? [ ' rows=\'' . $is_index['rows'] . '\'' ] : [] ] : [], ...ArrayKeyExist ($is_index, 'type') ? [ ' type=\'' . $is_index['type'] . '\'' ] : [], '>', ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ ucfirst($is_index['label']), '</button>' ] : [], ...$is_index['selector'] === 'select' ? [ '<option value=\'\' selected></option>', ...array_map(function($is_index) { return implode('', [ '<option value=\'' . ucfirst($is_index) . '\'>', ucfirst($is_index), '</option>' ]); }, $is_index['option']), '</select>' ] : [], ...$is_index['selector'] === 'textarea' ? [ '</textarea>' ] : [] ] : [] ]);
+                    }, $is_input),
+                '</div>',
+                ...!$is_button && !$is_feedback ? [
+                    '<div class=\'d-flex flex-row mb-3\' style=\'min-height: 24px;\'>',
+                        ...array_map(function($is_index) {
+                            global $is_period;
+                            $is_index = get_object_vars($is_index);
+                            $is_classes = [ 'feedback', 'feedback-' . ConvertToID($is_index['id']), 'fst-italic', ...$is_period ? [ 'text-secondary' ] : [ 'text-dark' ], 'm-0', 'p-0', 'w-100' ];
+                            return implode('', [ '<p', ...IsTrue($is_classes) ? [ ' class=\'' . implode(' ', $is_classes) . '\'' ] : [], '>', ucfirst($is_index['feedback']), '</p>' ]);
+                        }, $is_input),
+                    '</div>',
+                ]: [],
+            '</div>',
+        ]);
     };
 
     function FieldBuilder () {
@@ -204,24 +147,10 @@
     };
 
     function BSCall ($is_input = []) {
-        $is_proper = [
-            'array' => ArrayKeyExist ($is_input, 'array') ? $is_input['array'] : [],
-            'button' => ArrayKeyExist ($is_input, 'button'),
-        ];
-        $is_object = [
-            'align-content' => 'center',
-            'align-items' => 'center',
-            'display' => 'flex',
-            'flex-wrap' => 'wrap',
-            'gap' => '.5rem',
-            'justify-content' => 'center',
-            'padding' => '0 0 3rem 0',
-            'width' => '100%',
-        ];
+        $is_proper = [ 'array' => ArrayKeyExist ($is_input, 'array') ? $is_input['array'] : [], 'button' => ArrayKeyExist ($is_input, 'button'), ];
+        $is_object = [ 'align-content' => 'center', 'align-items' => 'center', 'display' => 'flex', 'flex-wrap' => 'wrap', 'gap' => '.5rem', 'justify-content' => 'center', 'padding' => '0 0 3rem 0', 'width' => '100%' ];
         $is_style = '';
-        foreach ($is_object as $is_key => $is_value):
-            $is_style .= implode('', [ $is_key . ' : ' . $is_value . ';', ' ', ]);
-        endforeach;
+        foreach ($is_object as $is_key => $is_value): $is_style .= implode('', [ $is_key . ' : ' . $is_value . ';', ' ', ]); endforeach;
         $is_array = [];
         if (IsTrue($is_proper['array'])):
             $is_array = array_merge($is_array, [ ...$is_proper['button'] ? [ '<div class=\'d-flex justify-content-center pb-5\'>' ] : [], '<div', ...$is_proper['button'] ? [ ' class=\'btn-group\'' ] : [], ...!$is_proper['button'] ? [ ' style=\'' . trim($is_style) . '\'' ] : [], '>' ]);
@@ -247,7 +176,7 @@
         global $is_period;
         if (ArrayKeyExist($is_input, 'button')):
             for ($i = 0; $i < sizeof($is_input['button']); $i++):
-                $is_button .= implode('', [ '<button', ...IsTrue(ModalClasses()['button']) ? [ ' class=\'' . ModalClasses()['button'] . '\'' ] : [], ...IsTrue($is_input['button'][$i]) ? [ ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' ] : [], ' type=\'button\'>', ucwords(trim($is_input['button'][$i])), '</button>', ]);
+                $is_button .= implode('', [ '<button', ...IsTrue(ModalClasses()['button']) ? [ ' class=\'' . ModalClasses()['button'] . '\'' ] : [], ...IsTrue($is_input['button'][$i]) ? [ ' id=\'' . strtolower(str_replace(' ', '-', trim($is_input['button'][$i]))) . '\'' ] : [], ' type=\'button\'>', ucwords(trim($is_input['button'][$i])), '</button>' ]);
             endfor;
         endif;
         $is_return = '';
@@ -261,7 +190,7 @@
                 '<div aria-labelledby=\'' . $is_label . '\' aria-hidden=\'true\' class=\'modal fade\' id=\'' . $is_target . '\' tabindex=\'-1\'>',
                     '<div', ...IsTrue(ModalClasses()['dialog']) ? [ ' class=\'' . ModalClasses()['dialog'] . '\'' ] : [], ' id=\'dialog\'>',
                         '<div', ...IsTrue(ModalClasses()['content']) ? [ ' class=\'' . ModalClasses()['content'] . '\'' ] : [], ' id=\'content\'>',
-                            ...IsTrue($is_input['title']) ? [ '<div', ...IsTrue(ModalClasses()['header']) ? [ ' class=\'' . ModalClasses()['header'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], ' id=\'header\'>', '<h1', ...IsTrue(ModalClasses()['title']) ? [ ' class=\'' . ModalClasses()['title'] . '\'' ] : [], ' id=\'' . $is_label . '\'>', ucwords(trim($is_input['title'])), '</h1>', '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>', '</div>', ] : [],
+                            ...IsTrue($is_input['title']) ? [ '<div', ...IsTrue(ModalClasses()['header']) ? [ ' class=\'' . ModalClasses()['header'] . '\'' ] : [], ...!$is_period ? [ ' data-bs-theme=\'dark\'' ] : [], ' id=\'header\'>', '<h1', ...IsTrue(ModalClasses()['title']) ? [ ' class=\'' . ModalClasses()['title'] . '\'' ] : [], ' id=\'' . $is_label . '\'>', ucwords(trim($is_input['title'])), '</h1>', '<button type=\'button\' class=\'btn-close\' data-bs-dismiss=\'modal\' aria-label=\'Close\'></button>', '</div>' ] : [],
                             '<div', ...IsTrue(ModalClasses()['body']) ? [ ' class=\'' . ModalClasses()['body'] . '\'' ] : [], ' id=\'body\'>', ...ArrayKeyExist ($is_input, 'body') ? [ $is_input['body'] ] : [], '</div>',
                             '<div', ...IsTrue(ModalClasses()['footer']) ? [ ' class=\'' . ModalClasses()['footer'] . '\'' ] : [], 'id=\'footer\'>', ...IsTrue($is_button) ? [ $is_button ] : [], '<button', ...IsTrue(ModalClasses()['button']) ? [ ' class=\'' . ModalClasses()['button'] . '\'' ] : [], ' data-bs-dismiss=\'modal\' id=\'close\' type=\'button\'>', 'Close', '</button>', '</div>',
                         '</div>',
