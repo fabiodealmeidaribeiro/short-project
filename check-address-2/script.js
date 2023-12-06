@@ -2,9 +2,14 @@ import {
     SocialNetwork
 } from './network.js';
 
-window.addEventListener('DOMContentLoaded', Event => {
-    SocialNetwork();
-});
+export const ReadJSONFile = async (Input = '') => {
+    const Response = await fetch(Input);
+    const Result = await Response.json();
+    return Result;
+};
 
-window.addEventListener('resize', Event => {
-});
+const Data = await ReadJSONFile('settings.json');
+
+console.log(Data.title);
+
+SocialNetwork();

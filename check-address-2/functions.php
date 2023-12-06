@@ -2,13 +2,13 @@
 
     include_once('./variables.php');
 
-    function ArrayKeyExist ($is_array, $is_key) { return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]); };
+    function ArrayKeyExist ($is_array = [], $is_key = '') { return isset($is_array) && array_key_exists($is_key, $is_array) && !empty($is_array[$is_key]); };
 
     function IsTrue ($is_var) { return isset($is_var) && !empty($is_var); };
 
-    function IsArrayTrue ($is_var) { return isset($is_var) && is_array($is_var) && !empty($is_var); };
+    function IsArrayTrue ($is_var = []) { return isset($is_var) && is_array($is_var) && !empty($is_var); };
 
-    function JSONFetch ($is_settings) { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : []; };
+    function JSONFetch ($is_settings = '') { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : []; };
 
     function ConvertToID ($is_input = '') { return strtolower(str_replace(' ', '-', trim($is_input))); };
 
@@ -41,7 +41,7 @@
                 '</body>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
-                '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
+                // '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
                 ...file_exists('./script.js') ? [ '<script src=\'./script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' ] : [],
             '</html>',
         ]);
@@ -149,7 +149,7 @@
         return $is_input;
     };
 
-    function BSCall ($is_input = []) {
+    function CallerBuilder ($is_input = []) {
         $is_proper = [ 'array' => ArrayKeyExist ($is_input, 'array') ? $is_input['array'] : [], 'button' => ArrayKeyExist ($is_input, 'button'), ];
         $is_object = [ 'align-content' => 'center', 'align-items' => 'center', 'display' => 'flex', 'flex-wrap' => 'wrap', 'gap' => '.5rem', 'justify-content' => 'center', 'padding' => '0 0 3rem 0', 'width' => '100%' ];
         $is_style = '';
@@ -174,7 +174,7 @@
         return implode('', $is_array);
     };
 
-    function BSContainer ($is_input = [ 'title' => '', 'body' => [], 'button' => [], ]) {
+    function ContainerBuilder ($is_input = [ 'title' => '', 'body' => [], 'button' => [], ]) {
         $is_button = '';
         global $is_period;
         if (ArrayKeyExist($is_input, 'button')):
@@ -204,27 +204,21 @@
         return $is_return;
     };
 
-    function ContainerBuilder ($is_input = [ 'footer' ]) {
+    function HTMLContainerBuilder ($is_input = [ 'footer' ]) {
         $is_return = '';
         $is_array = array_filter(scandir(implode('/', $is_input)), function ($is_file) { return pathinfo($is_file, PATHINFO_EXTENSION) === 'html'; });
         foreach (array_keys(array_diff($is_array, [])) as $is_index):
             $is_archive = implode('', [ '.', '/', implode('/', $is_input), '/', $is_array[$is_index] ]);
-            $is_return .= BSContainer ([
-                'title' => str_replace('-', ' ', str_replace('.html', '', $is_array[$is_index])),
-                'body' => file_exists($is_archive) ? SetStyle(file_get_contents($is_archive)) : '',
-            ]);
+            $is_return .= ContainerBuilder ([ 'body' => file_exists($is_archive) ? SetStyle(file_get_contents($is_archive)) : '', 'title' => str_replace('-', ' ', str_replace('.html', '', $is_array[$is_index])) ]);
         endforeach;
         return $is_return;
     };
 
-    function CallerBuilder ($is_input = [ 'footer' ]) {
+    function HTMLCallerBuilder ($is_input = [ 'footer' ]) {
         $is_modal = [];
         $is_array = array_filter(scandir(implode('/', $is_input)), function ($is_file) { return pathinfo($is_file, PATHINFO_EXTENSION) === 'html'; });
-        foreach (array_keys(array_diff($is_array, [])) as $is_index):
-            $is_archive = implode('', [ '.', '/', implode('/', $is_input), '/', $is_array[$is_index] ]);
-            array_push($is_modal, str_replace('-', ' ', str_replace('.html', '', $is_array[$is_index])));
-        endforeach;
-        return BSCall ([ 'array' => $is_modal ]);
+        foreach (array_keys(array_diff($is_array, [])) as $is_index): array_push($is_modal, str_replace('-', ' ', str_replace('.html', '', $is_array[$is_index]))); endforeach;
+        return CallerBuilder ([ 'array' => $is_modal ]);
     };
 
 ?>

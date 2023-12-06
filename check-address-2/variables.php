@@ -25,17 +25,6 @@
                 'justify-content-center',
                 'pb-5',
             ]),
-            'form' => implode(' ', [
-                'col-12',
-                'col-lg-8',
-                'mx-auto',
-                ...$is_period ? [ 'bg-white' ] : [ 'bg-black' ],
-                'border',
-                'border-1',
-                'rounded-3',
-                'shadow-sm',
-                'p-3',
-            ]),
             'footer' => implode(' ', [
                 'align-items-center',
                 'd-flex',
@@ -57,17 +46,16 @@
                 'pb-lg-0',
                 'w-100',
             ]),
-            'input' => implode(' ', [
+            'form' => implode(' ', [
+                'col-12',
+                'col-lg-8',
+                'mx-auto',
+                ...$is_period ? [ 'bg-white' ] : [ 'bg-black' ],
                 'border',
                 'border-1',
-                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
-                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
-                'form-control',
-                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
-                'm-0',
-                'p-2',
-                'h-100',
-                'w-100' ,
+                'rounded-3',
+                'shadow-sm',
+                'p-3',
             ]),
             'table' => implode(' ', [
                 ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
@@ -82,7 +70,6 @@
                 'm-0',
                 'p-0',
                 'w-100',
-
             ]),
             'column' => implode(' ', [
                 'col-12',
@@ -103,11 +90,22 @@
                 'm-0',
                 'p-2',
             ]),
+            'input' => implode(' ', [
+                'border',
+                'border-1',
+                ...$is_period ? [ 'bg-light' ] : [ 'bg-dark' ],
+                ...$is_period ? [ 'border-light-subtle' ] : [ 'border-secondary' ],
+                'form-control',
+                ...$is_period ? [ 'text-dark' ] : [ 'text-light' ],
+                'm-0',
+                'p-2',
+                'h-100',
+                'w-100' ,
+            ]),
             'p' => implode(' ', [
                 'fw-semibold',
                 'm-0',
                 'p-0',
-                
             ]),
             'a' => implode(' ', [
                 'fw-semibold',
@@ -137,10 +135,10 @@
         return [
             'dialog' => implode(' ', [
                 'modal-dialog',
-                'modal-lg',
+                'modal-xl',
                 'modal-dialog-centered',
                 'modal-dialog-scrollable',
-                'modal-fullscreen-md-down'
+                'modal-fullscreen-md-down',
             ]),
             'content' => implode(' ', [
                 'modal-content',

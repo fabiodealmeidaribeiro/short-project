@@ -1,6 +1,6 @@
 # Fábio de Almeida Ribeiro
 
-## _Bootstrap \| CSS3 \| HTML5 \| JavaScript \| PHP \| UX \/ UI Design \| WordPress_
+## _Bootstrap \| CSS3 \| HTML5 \| JavaScript \| PHP \| UX \/ UI \| WordPress_
 
 - Nasceu no dia 20 de março de 1982, em São Paulo, no bairro da Lapa.
 - Aos doze anos de idade trabalhou como assistente de arte no departamento de criação da `MPO Vídeo`.
