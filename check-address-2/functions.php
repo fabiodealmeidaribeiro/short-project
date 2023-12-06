@@ -8,7 +8,7 @@
 
     function IsArrayTrue ($is_var = []) { return isset($is_var) && is_array($is_var) && !empty($is_var); };
 
-    function JSONFetch ($is_settings = '') { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : []; };
+    function ReadJSONFile ($is_settings = '') { return file_exists($is_settings) ? json_decode(file_get_contents($is_settings)) : []; };
 
     function ConvertToID ($is_input = '') { return strtolower(str_replace(' ', '-', trim($is_input))); };
 
@@ -41,7 +41,7 @@
                 '</body>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js\' crossorigin=\'anonymous\'></script>',
                 '<script src=\'https://cdn.jsdelivr.net/npm/bootstrap@5.2.1/dist/js/bootstrap.min.js\' crossorigin=\'anonymous\'></script>',
-                // '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
+                '<script src=\'https://cdn.jsdelivr.net/npm/jquery@3.6.0/dist/jquery.min.js\' crossorigin=\'anonymous\'></script>',
                 ...file_exists('./script.js') ? [ '<script src=\'./script.js\' type=\'module\' crossorigin=\'anonymous\'></script>' ] : [],
             '</html>',
         ]);
@@ -68,7 +68,7 @@
             'action' => ArrayKeyExist ($is_input, 'action') ? (file_exists($is_input['action']) ? (pathinfo($is_input['action'], PATHINFO_EXTENSION) === 'php' ? $is_input['action'] : '') : '') : '',
             'database' => ArrayKeyExist ($is_input, 'database') ? (file_exists($is_input['database']) ? (pathinfo($is_input['database'], PATHINFO_EXTENSION) === 'json' ? $is_input['database'] : '') : '') : '',
         ];
-        $is_database = JSONFetch($is_proper['database']) ? JSONFetch($is_proper['database']) : [];
+        $is_database = ReadJSONFile($is_proper['database']) ? ReadJSONFile($is_proper['database']) : [];
         if (IsTrue($is_database)):
             return implode('', [
                 '<form',

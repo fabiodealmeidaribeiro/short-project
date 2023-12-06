@@ -1,15 +1,34 @@
-import {
-    SocialNetwork
-} from './network.js';
+import { SocialNetwork } from './network.js';
 
-export const ReadJSONFile = async (Input = '') => {
+SocialNetwork();
+
+const ReadJSONFile = async (Input = '') => {
     const Response = await fetch(Input);
     const Result = await Response.json();
     return Result;
 };
 
-const Data = await ReadJSONFile('settings.json');
+const Database = await ReadJSONFile('database.json');
 
-console.log(Data.title);
+if (Database) {
+    if (Database['length']) {
+        for (let i = 0; i < Database['length']; i++) {
+            if (Database[i]) {
+                if (Database[i]['length']) {
+                    for (let j = 0; j < Database[i]['length']; j++) {
+                        if (Database[i][j]['selector'] === 'button') {
+                            document.querySelector('#' + Database[i][j]['id']).addEventListener('click', Event => {
+                                document.querySelector('button#container' + Database[i][j]['id']).click();
+                                Event.stopPropagation();
+                                Event.preventDefault();
+                            });
+                        };
+                    };
+                };
+            };
+        };
+    };
+};
 
-SocialNetwork();
+// window.addEventListener('DOMContentLoaded', () => {
+// });
