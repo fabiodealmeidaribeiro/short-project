@@ -63,54 +63,57 @@
         ]);
     };
 
-    function Constructor ($is_input = '') {
-        $is_return = '';
-        $is_button = CheckKeyValueEquality ([ 'array' => $is_input, 'key' => 'selector', 'value' => 'button' ]);
-        $is_feedback = CheckKeyValueEquality ([ 'array' => $is_input, 'key' => 'feedback', 'value' => '' ]);
-        return implode('', [
-            '<div class=\'', implode(' ', [ 'd-flex', $is_button ? 'justify-content-center' : 'flex-column' ]), '\'>',
-                ...!$is_button ? [
-                    '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>',
-                        ...array_map(function($is_index) {
-                            global $is_period;
-                            $is_index = get_object_vars($is_index);
-                            $is_classes = [ 'form-label', 'label', 'label-' . ConvertToID ($is_index['id']), 'm-0', 'p-0', ...$is_period ? [ 'text-secondary' ] : [ 'text-dark' ], 'w-100' ];
-                            return implode('', [ '<label', ...IsTrue($is_classes) ? [ ' class=\'' . implode(' ', $is_classes) . '\'' ] : [], ' for=\'' . ConvertToID ($is_index['id']) . '\'', '>', ucfirst($is_index['label']), ':', '</label>' ]);
-                        }, $is_input),
-                    '</div>',
-                ] : [],
-                '<div class=\'' . implode(' ', [ ...$is_button ? [ 'btn-group' ] : [ 'input-group', ...$is_feedback ? [ 'mb-3' ] : [] ] ]) . '\'>',
-                    ...array_map(function($is_index) {
-                        $is_index = get_object_vars($is_index);
-                        $is_classes = [ 'button' => [ 'btn', 'btn-outline-secondary', 'cursor-pointer', 'm-0', 'p-2' ], 'content' => [ 'content', 'content-' . ConvertToID ($is_index['id']), 'form-control', 'ps-2', 'pe-5', 'py-2' ] ];
-                        return implode('', [ '<', ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ 'button' ] : [], ...$is_index['selector'] === 'input' ? [ 'input' ] : [], ...$is_index['selector'] === 'select' ? [ 'select' ] : [], ...$is_index['selector'] === 'textarea' ? [ 'textarea' ] : [] ] : [ [ 'input' ] ], ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ ...ArrayKeyExist ($is_classes, 'button') ? [ ' class=\'' . implode(' ', $is_classes['button']) . '\'' ] : [] ] : [ ...ArrayKeyExist ($is_classes, 'content') ? [ ' class=\'' . implode(' ', $is_classes['content']) . '\'' ] : [] ] ] : [], ...ArrayKeyExist ($is_index, 'disabled') ? [ ' disabled' ] : [], ' id=\'' . ConvertToID ($is_index['id']) . '\'', ...ArrayKeyExist ($is_index, 'maxlength') ? [ ' maxlength=\'' . strlen($is_index['maxlength']) . '\'' ] : [], ...ArrayKeyExist ($is_index, 'minlength') ? [ ' minlength=\'' . strlen($is_index['minlength']) . '\'' ] : [], ...ArrayKeyExist ($is_index, 'placeholder') ? [ ' placeholder=\'' . $is_index['placeholder'] . '\'' ] : [], ...ArrayKeyExist ($is_index, 'required') ? [ ' required' ] : [], ...ArrayKeyExist ($is_index, 'rows') ? [ ...$is_index['rows'] > 1 ? [ ' rows=\'' . $is_index['rows'] . '\'' ] : [] ] : [], ...ArrayKeyExist ($is_index, 'type') ? [ ' type=\'' . $is_index['type'] . '\'' ] : [], '>', ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ ucfirst($is_index['label']), '</button>' ] : [], ...$is_index['selector'] === 'select' ? [ '<option value=\'\' selected></option>', ...array_map(function($is_index) { return implode('', [ '<option value=\'' . ucfirst($is_index) . '\'>', ucfirst($is_index), '</option>' ]); }, $is_index['option']), '</select>' ] : [], ...$is_index['selector'] === 'textarea' ? [ '</textarea>' ] : [] ] : [] ]);
-                    }, $is_input),
-                '</div>',
-                ...!$is_button && !$is_feedback ? [
-                    '<div class=\'d-flex flex-row mb-3\' style=\'min-height: 24px;\'>',
-                        ...array_map(function($is_index) {
-                            global $is_period;
-                            $is_index = get_object_vars($is_index);
-                            $is_classes = [ 'feedback', 'feedback-' . ConvertToID($is_index['id']), 'fst-italic', ...$is_period ? [ 'text-secondary' ] : [ 'text-dark' ], 'm-0', 'p-0', 'w-100' ];
-                            return implode('', [ '<p', ...IsTrue($is_classes) ? [ ' class=\'' . implode(' ', $is_classes) . '\'' ] : [], '>', ucfirst($is_index['feedback']), '</p>' ]);
-                        }, $is_input),
-                    '</div>',
-                ]: [],
-            '</div>',
-        ]);
-    };
-
-    function FieldBuilder () {
-        $is_return = '';
-        $is_database = JSONFetch('database.json') ? JSONFetch('database.json') : [];
-        if (IsArrayTrue($is_database)):
-            for ($i = 0; $i < sizeof($is_database); $i++):
-                if (IsArrayTrue($is_database[$i])):
-                    $is_return .= Constructor ($is_database[$i]);
-                endif;
-            endfor;
+    function FormBuilder ($is_input = []) {
+        $is_proper = [
+            'action' => ArrayKeyExist ($is_input, 'action') ? (file_exists($is_input['action']) ? (pathinfo($is_input['action'], PATHINFO_EXTENSION) === 'php' ? $is_input['action'] : '') : '') : '',
+            'database' => ArrayKeyExist ($is_input, 'database') ? (file_exists($is_input['database']) ? (pathinfo($is_input['database'], PATHINFO_EXTENSION) === 'json' ? $is_input['database'] : '') : '') : '',
+        ];
+        $is_database = JSONFetch($is_proper['database']) ? JSONFetch($is_proper['database']) : [];
+        if (IsTrue($is_database)):
+            return implode('', [
+                '<form',
+                    ...IsTrue($is_proper['action']) ? [ ' action=\'' . $is_proper['action'] . '\'' ] : [],
+                    ...IsTrue(AllClasses()['form']) ? [ ' class=\'' . AllClasses()['form'] . '\'' ] : [],
+                    ' enctype=\'multipart/form-data\' method=\'POST\'',
+                '>',
+                    implode('', array_map(function($is_index) {
+                        $is_button = CheckKeyValueEquality ([ 'array' => $is_index, 'key' => 'selector', 'value' => 'button' ]);
+                        $is_feedback = CheckKeyValueEquality ([ 'array' => $is_index, 'key' => 'feedback', 'value' => '' ]);
+                        return implode('', [
+                            '<div class=\'', implode(' ', [ 'd-flex', $is_button ? 'justify-content-center' : 'flex-column' ]), '\'>',
+                                ...!$is_button ? [
+                                    '<div class=\'d-flex flex-row\' style=\'min-height: 24px;\'>',
+                                        ...array_map(function($is_index) {
+                                            global $is_period;
+                                            $is_index = get_object_vars($is_index);
+                                            $is_classes = [ 'form-label', 'label', 'label-' . ConvertToID ($is_index['id']), 'm-0', 'p-0', ...$is_period ? [ 'text-secondary' ] : [ 'text-dark' ], 'w-100' ];
+                                            return implode('', [ '<label', ...IsTrue($is_classes) ? [ ' class=\'' . implode(' ', $is_classes) . '\'' ] : [], ' for=\'' . ConvertToID ($is_index['id']) . '\'', '>', ucfirst($is_index['label']), ':', '</label>' ]);
+                                        }, $is_index),
+                                    '</div>',
+                                ] : [],
+                                '<div class=\'' . implode(' ', [ ...$is_button ? [ 'btn-group' ] : [ 'input-group', ...$is_feedback ? [ 'mb-3' ] : [] ] ]) . '\'>',
+                                    ...array_map(function($is_index) {
+                                        $is_index = get_object_vars($is_index);
+                                        $is_classes = [ 'button' => [ 'btn', 'btn-outline-secondary', 'cursor-pointer', 'm-0', 'p-2' ], 'content' => [ 'content', 'content-' . ConvertToID ($is_index['id']), 'form-control', 'ps-2', 'pe-5', 'py-2' ] ];
+                                        return implode('', [ '<', ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ 'button' ] : [], ...$is_index['selector'] === 'input' ? [ 'input' ] : [], ...$is_index['selector'] === 'select' ? [ 'select' ] : [], ...$is_index['selector'] === 'textarea' ? [ 'textarea' ] : [] ] : [ [ 'input' ] ], ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ ...ArrayKeyExist ($is_classes, 'button') ? [ ' class=\'' . implode(' ', $is_classes['button']) . '\'' ] : [] ] : [ ...ArrayKeyExist ($is_classes, 'content') ? [ ' class=\'' . implode(' ', $is_classes['content']) . '\'' ] : [] ] ] : [], ...ArrayKeyExist ($is_index, 'disabled') ? [ ' disabled' ] : [], ' id=\'' . ConvertToID ($is_index['id']) . '\'', ...ArrayKeyExist ($is_index, 'maxlength') ? [ ' maxlength=\'' . strlen($is_index['maxlength']) . '\'' ] : [], ...ArrayKeyExist ($is_index, 'minlength') ? [ ' minlength=\'' . strlen($is_index['minlength']) . '\'' ] : [], ...ArrayKeyExist ($is_index, 'placeholder') ? [ ' placeholder=\'' . $is_index['placeholder'] . '\'' ] : [], ...ArrayKeyExist ($is_index, 'required') ? [ ' required' ] : [], ...ArrayKeyExist ($is_index, 'rows') ? [ ...$is_index['rows'] > 1 ? [ ' rows=\'' . $is_index['rows'] . '\'' ] : [] ] : [], ...ArrayKeyExist ($is_index, 'type') ? [ ' type=\'' . $is_index['type'] . '\'' ] : [], '>', ...ArrayKeyExist ($is_index, 'selector') ? [ ...$is_index['selector'] === 'button' ? [ ucfirst($is_index['label']), '</button>' ] : [], ...$is_index['selector'] === 'select' ? [ '<option value=\'\' selected></option>', ...array_map(function($is_index) { return implode('', [ '<option value=\'' . ucfirst($is_index) . '\'>', ucfirst($is_index), '</option>' ]); }, $is_index['option']), '</select>' ] : [], ...$is_index['selector'] === 'textarea' ? [ '</textarea>' ] : [] ] : [] ]);
+                                    }, $is_index),
+                                '</div>',
+                                ...!$is_button && !$is_feedback ? [
+                                    '<div class=\'d-flex flex-row mb-3\' style=\'min-height: 24px;\'>',
+                                        ...array_map(function($is_index) {
+                                            global $is_period;
+                                            $is_index = get_object_vars($is_index);
+                                            $is_classes = [ 'feedback', 'feedback-' . ConvertToID($is_index['id']), 'fst-italic', ...$is_period ? [ 'text-secondary' ] : [ 'text-dark' ], 'm-0', 'p-0', 'w-100' ];
+                                            return implode('', [ '<p', ...IsTrue($is_classes) ? [ ' class=\'' . implode(' ', $is_classes) . '\'' ] : [], '>', ucfirst($is_index['feedback']), '</p>' ]);
+                                        }, $is_index),
+                                    '</div>',
+                                ]: [],
+                            '</div>',
+                        ]);
+                    }, $is_database)),
+                '</form>',
+            ]);
         endif;
-        return $is_return;
     };
 
     function ValueConverter ($is_input = []) {
