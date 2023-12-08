@@ -17,8 +17,8 @@ if (Database) {
                 if (Database[i]['length']) {
                     for (let j = 0; j < Database[i]['length']; j++) {
                         if (Database[i][j]['selector'] === 'button') {
-                            document.querySelector('#' + Database[i][j]['id']).addEventListener('click', Event => {
-                                document.querySelector('button#container' + Database[i][j]['id']).click();
+                            document.querySelector(('button#' + Database[i][j]['id']).toLowerCase()).addEventListener('click', Event => {
+                                document.querySelector(('button#container-' + Database[i][j]['id']).toLowerCase()).click();
                                 Event.stopPropagation();
                                 Event.preventDefault();
                             });

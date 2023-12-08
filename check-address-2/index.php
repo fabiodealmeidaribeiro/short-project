@@ -30,8 +30,9 @@
                             if ($is_index['selector'] === 'button'):
                                 if (function_exists ('ContainerBuilder')):
                                     echo ContainerBuilder ([
-                                        'body' => [],
-                                        'title' => ('container' . $is_index['id']),
+                                        'body' => '',
+                                        'id' => implode(' ', [ 'container', $is_index['id'], ]),
+                                        'title' => $is_index['label'],
                                     ]);
                                 endif;
                             endif;
