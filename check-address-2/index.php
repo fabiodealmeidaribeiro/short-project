@@ -2,6 +2,8 @@
 
     include_once('./functions.php');
 
+    $is_database = ReadJSONFile('database.json') ? ReadJSONFile('database.json') : [];
+
     echo function_exists ('HeaderDisplay') ? HeaderDisplay () : null;
 
         echo implode('', [
@@ -19,20 +21,18 @@
 
         echo function_exists ('HTMLContainerBuilder') ? HTMLContainerBuilder () : null;
 
-        $is_database = ReadJSONFile('database.json') ? ReadJSONFile('database.json') : [];
-
         if (IsArrayTrue($is_database)):
             for ($i = 0; $i < sizeof($is_database); $i++):
                 if (IsArrayTrue($is_database[$i])):
                     for ($j = 0; $j < sizeof($is_database[$i]); $j++):
                         $is_index = get_object_vars($is_database[$i][$j]);
-                        if (ArrayKeyExist ($is_index, 'selector')):
-                            if ($is_index['selector'] === 'button'):
-                                if (function_exists ('ContainerBuilder')):
+                        if (ArrayKeyExist ($is_index, 'container') && ArrayKeyExist ($is_index, 'selector')):
+                            if ($is_index['container'] && $is_index['selector'] === 'button'):
+                                if (function_exists('ContainerBuilder')):
                                     echo ContainerBuilder ([
                                         'body' => '',
-                                        'id' => implode(' ', [ 'container', $is_index['id'], ]),
-                                        'title' => $is_index['label'],
+                                        'id' => implode(' ', [ 'container', $is_index['id'] ]),
+                                        'title' => $is_index['label']
                                     ]);
                                 endif;
                             endif;

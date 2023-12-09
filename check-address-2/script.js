@@ -16,7 +16,7 @@ if (Database) {
             if (Database[i]) {
                 if (Database[i]['length']) {
                     for (let j = 0; j < Database[i]['length']; j++) {
-                        if (Database[i][j]['selector'] === 'button') {
+                        if (Database[i][j]['container'] && Database[i][j]['selector'] === 'button') {
                             document.querySelector(('button#' + Database[i][j]['id']).toLowerCase()).addEventListener('click', Event => {
                                 document.querySelector(('button#container-' + Database[i][j]['id']).toLowerCase()).click();
                                 Event.stopPropagation();
@@ -30,5 +30,5 @@ if (Database) {
     };
 };
 
-// window.addEventListener('DOMContentLoaded', () => {
-// });
+window.addEventListener('DOMContentLoaded', () => {
+});
